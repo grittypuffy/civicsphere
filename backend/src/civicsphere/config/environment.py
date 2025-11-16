@@ -1,6 +1,9 @@
+import os
+from typing import List
 from dotenv import load_dotenv
 from pydantic_settings import BaseSettings
 from ..helpers.singleton import singleton
+
 
 load_dotenv()
 
@@ -45,7 +48,7 @@ class EnvVarConfig(BaseSettings):
     azure_openai_deployment: str
     azure_openai_api_version: str
     azure_openai_model_name: str    
-    
+    translations_path: str = f"{os.getcwd()}/src/civicsphere/translations"
     class EnvVarConfig:
         env_file = ".env"
         env_file_encoding = "utf-8"

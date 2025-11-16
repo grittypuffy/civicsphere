@@ -9,9 +9,5 @@ class ChatData(BaseModel):
 
 
 class Chat(BaseModel):
-    chat_id: str
-    user_id: str
-    case_id: Optional[str]
     query: ChatData
     response: ChatData
-    document: Optional[str]

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Request, UploadFile, Form, File
-from fastapi.response import JSONResponse
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Optional
 import logging
@@ -7,8 +7,7 @@ from openai import AzureOpenAI
 from ..config import AppConfig
 from ..services.rag import search_documents
 from ..models.chat import Chat
-from langchain.prompts import ChatPromptTemplate
-from langchain.chains.llm import LLMChain
+from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from operator import itemgetter
 from ..services.storage import upload_user_file
@@ -35,12 +34,10 @@ Guidelines:
 - Give generic answers if needed.
 """
 
-chatbot_prompt_template = ChatPromptTemplate.from_template(chatbot_template)
-
 def chunk_text(text: str, max_chunk_size: int = 1000):
     return [text[i:i+max_chunk_size] for i in range(0, len(text), max_chunk_size)]
 
-@router.post("/chat", response_model=Chat)
+@router.post("/new", response_model=Chat)
 async def chat(
     req: Request,
     query: str = Form(...),
@@ -56,18 +53,17 @@ async def chat(
 
     try:
         client = config.langchain_llm
-        document_url = None
-
         search_results = search_documents(query)
         logging.info(f"Search results content: {search_results}")
-        chain = LLMChain(
-            llm=client,
-            prompt=chatbot_prompt_template
+        chatbot_prompt = PromptTemplate(
+            input_variables=["query"],
+            template=chatbot_template
         )
-        result = chain.invoke({"query": query})
+        chain = chatbot_prompt | client | StrOutputParser() 
+        result = chain.invoke(query)
         final_response = result.get("text", "No response generated.")
 
-        chat_history_doc = {
+        chat_data = {
             "query": {
                 "role": "user",
                 "content": query
@@ -76,13 +72,8 @@ async def chat(
                 "role": "bot",
                 "content": final_response
             },
-            "user_id": user_id
         }
-        chat_insert_result = await config.db["chat_history"].insert_one(chat_history_doc)
-        chat_history_doc["chat_id"] = str(chat_insert_result.inserted_id)
-        chat_history = Chat(**chat_history_doc)
-
-        return chat_history
+        return chat_data
 
     except Exception as e:
         logging.exception("Error occurred in /chat endpoint")

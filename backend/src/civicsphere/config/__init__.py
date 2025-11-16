@@ -1,5 +1,3 @@
-import json
-from dotenv import load_dotenv
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from .database import get_database
@@ -20,8 +18,6 @@ from langchain_openai import AzureChatOpenAI
 from azure.search.documents import SearchClient
 from openai import AzureOpenAI
 from azure.ai.textanalytics import TextAnalyticsClient
-
-load_dotenv()
 
 
 @singleton
@@ -63,6 +59,10 @@ class AppConfig:
         # Text Analytics Client
         self.text_analytics_client: TextAnalyticsClient = get_text_analysis_client(self.env.document_intelligence_endpoint, self.env.document_intelligence_key)
 
+        self.languages: List[str] = [
+            "ar", "bn", "de", "el", "en", "es", "fr", "hi", "ht", "it", 
+            "ja", "ko", "pl", "pa", "pt", "ru", "tl", "ur", "yi", "zh"
+        ]
 
 def get_config() -> AppConfig:
     return AppConfig()
