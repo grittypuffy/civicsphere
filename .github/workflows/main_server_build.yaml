@@ -21,4 +21,4 @@ jobs:
 
     - name: Build Docker image for Backend
       run: |
-        docker build -t ${{ secrets.PROJECT_NAME }}-backend:latest .
+        docker build -f ./backend/Dockerfile -t ${{ secrets.PROJECT_NAME }}-backend:latest ./backend

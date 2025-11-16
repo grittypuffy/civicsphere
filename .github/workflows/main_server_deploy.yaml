@@ -1,4 +1,4 @@
-name: Build and Deploy to Azure App Service
+name: Build and Deploy Backend to Azure App Service
 
 on:
   push:
@@ -32,4 +32,4 @@ jobs:
 
     - name: Build and push Docker image for Backend
       run: |
-        docker build --push -t ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.PROJECT_NAME }}-backend:latest .
+        docker build --push -f ./backend/Dockerfile -t ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.PROJECT_NAME }}-backend:latest ./backend

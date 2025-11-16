@@ -21,4 +21,4 @@ jobs:
 
     - name: Build Docker image for Frontend
       run: |
-        docker build -t ${{ secrets.PROJECT_NAME }}-frontend:latest .
+        docker build -f ./frontend/Dockerfile --build-arg NEXT_PUBLIC_BACKEND_URL=${{ secrets.NEXT_PUBLIC_BACKEND_URL }} -t ${{ secrets.PROJECT_NAME }}-frontend:latest ./frontend
