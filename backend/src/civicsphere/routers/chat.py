@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, Request, UploadFile, Form, File
+from fastapi.response import JSONResponse
 from pydantic import BaseModel
 from typing import Optional
 import logging
@@ -17,24 +18,14 @@ config: AppConfig = AppConfig()
 router = APIRouter(tags=["Chatbot"])
 
 
-chatbot_case_template = """\
-You are a legal assistant analyzing a legal case document to answer a user query.
-
-Context:
-{chunk}
-
-User query:
-{query}
-
-Answer in plain English with clear reasoning.
-"""
-
-chatbot_law_template = """\
-You are a helpful legal assistant that answers a query with relevant law data \
-and worldwide legal regulations, policies and laws. If no data is provided, answer \
-using publicly available knowledge, especially by trying to understand the nationality behind the query \
-to answer based on that country's laws and regulations to maintain fairness. \
-Always aim to help the user as best as you can. Keep your responses concise and relevant.
+chatbot_template = """\
+You are a helpful civilian assistant that answers a local community queries and \
+political queries and local policies and laws. If no data is provided, answer \
+using publicly available knowledge, especially by trying to understand the \
+location and nationality behind the query to answer based on that country's \
+laws, policies and regulations and don't give specific recommendation or bias \
+to maintain fairness. Always aim to help the user as best as you can. \
+Keep your responses concise and relevant and in simple language.
 
 Here's the query:
 {{ query }}
@@ -44,8 +35,7 @@ Guidelines:
 - Give generic answers if needed.
 """
 
-chatbot_case_prompt_template = ChatPromptTemplate.from_template(chatbot_case_template)
-chatbot_law_prompt_template = ChatPromptTemplate.from_template(chatbot_law_template)
+chatbot_prompt_template = ChatPromptTemplate.from_template(chatbot_template)
 
 def chunk_text(text: str, max_chunk_size: int = 1000):
     return [text[i:i+max_chunk_size] for i in range(0, len(text), max_chunk_size)]
@@ -53,65 +43,29 @@ def chunk_text(text: str, max_chunk_size: int = 1000):
 @router.post("/chat", response_model=Chat)
 async def chat(
     req: Request,
-    document: Optional[UploadFile] = File(default=None),
     query: str = Form(...),
-    case_id: Optional[str] = Form(None),
 ):
-    user_id = config.env.anonymous_user_id 
+    user_id = None
     if req.state.user:
         user_id = req.state.user.get("user_id")
+
+    if not user_id:
+        logging.exception("Error occurred in /chat. User is not authenticated.")
+        return JSONResponse(status_code=401, detail={"success": False, "message": "User is not authenticated."})
+
 
     try:
         client = config.langchain_llm
         document_url = None
 
-        # Handle uploaded document
-        if document and case_id:
-            user_document = await upload_user_file(document, user_id=user_id, case_id=case_id, chat_id=None, case=False)
-            document_url = user_document.get("url")
-
         search_results = search_documents(query)
         logging.info(f"Search results content: {search_results}")
-
-        # If case_id is present, fetch and chunk the case content
-        if case_id:
-            case_summary_collection = config.db["case_summary"]
-            case_summary_doc = await case_summary_collection.find_one(
-                {"case_id": case_id},
-                {"document_content": 1, "supporting_document_content": 1}
-            )
-
-            output_parser = StrOutputParser()
-            rag_prompt = ChatPromptTemplate.from_template(chatbot_case_template)
-
-            response_chunks = []
-            if case_summary_doc:
-                combined_doc = (case_summary_doc.get("document_content") or "") + "\n" + \
-                               (case_summary_doc.get("supporting_document_content") or "")
-                chunks = chunk_text(combined_doc)
-
-                for chunk in chunks:
-                    rag_chain = (
-                        {
-                            "chunk": itemgetter("chunk"),
-                            "query": itemgetter("query"),
-                        }
-                        | rag_prompt
-                        | client
-                        | output_parser
-                    )
-                    result = rag_chain.invoke({"chunk": chunk, "query": query})
-                    response_chunks.append(result)
-
-            final_response = "\n\n".join(response_chunks) if response_chunks else "No relevant case information found."
-
-        else:
-            chain = LLMChain(
-                llm=client,
-                prompt=chatbot_law_prompt_template
-            )
-            result = chain.invoke({"query": query})
-            final_response = result.get("text", "No response generated.")
+        chain = LLMChain(
+            llm=client,
+            prompt=chatbot_prompt_template
+        )
+        result = chain.invoke({"query": query})
+        final_response = result.get("text", "No response generated.")
 
         chat_history_doc = {
             "query": {
@@ -122,9 +76,7 @@ async def chat(
                 "role": "bot",
                 "content": final_response
             },
-            "case_id": case_id,
-            "user_id": user_id,
-            "document": document_url
+            "user_id": user_id
         }
         chat_insert_result = await config.db["chat_history"].insert_one(chat_history_doc)
         chat_history_doc["chat_id"] = str(chat_insert_result.inserted_id)
