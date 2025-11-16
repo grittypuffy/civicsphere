@@ -2,6 +2,7 @@ import asyncio
 import os
 import re
 import time
+import logging
 import datetime
 from typing import List, Annotated
 
@@ -53,14 +54,6 @@ async def check_username_availability(username: str):
 
 @router.post("/sign_up")
 async def sign_up(payload: SignUpRequest):
-    if payload.username == "anonymous":
-        return JSONResponse(
-            status_code=400,
-            content={
-                "status": "failed",
-                "message": "Username is taken"
-            }
-        )
     try:
         user = await config.db["user"].find_one({"username": payload.username})
         if user:
@@ -71,21 +64,21 @@ async def sign_up(payload: SignUpRequest):
                     "message": "User already exists"
                 }
             )
-        password = get_hashed_password(payload.password)
-
         try:
             data = SignUpRequest(
                 username=payload.username,
                 email=payload.email,
-                password=password,
+                password=payload.password,
                 full_name=payload.full_name.title()
             )
         except Exception as e:
             return JSONResponse({
                 "status": "failed",
-                "message": f"Invalid field details. Error: {e.json()}"
+                "message": f"Invalid field details. Error: {e}"
             }, status_code=422)
         user_data = data.__dict__
+        logging.info(user_data)
+        user_data["password"] = get_hashed_password(data.password)
         await config.db["user"].insert_one(user_data)
         return {
             "status": "success",
@@ -104,14 +97,6 @@ async def sign_up(payload: SignUpRequest):
 
 @router.post("/sign_in")
 async def sign_in(payload: SignInRequest, response: Response):
-    if payload.username == "anonymous":
-        return JSONResponse(
-            status_code=404,
-            content={
-                "status": "failed",
-                "message": "User does not exist on the system."
-            }
-        )
     try:
         user = await config.db["user"].find_one({"username": payload.username})
         if not user:

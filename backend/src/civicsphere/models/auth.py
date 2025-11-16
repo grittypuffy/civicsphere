@@ -25,7 +25,7 @@ class SignUpRequest(BaseModel):
 
     @field_validator('password')
     def validate_password(cls, value):
-        if len(value) < 8 and len(value) > 12:
+        if len(value) < 8 or len(value) > 12:
             raise ValueError('Password must be between 8-12 characters')
         return value
 

@@ -6,6 +6,13 @@ services:
     volumes:
       - ../certs:/certs:ro
       - ../uploads:/backend/uploads
+    develop:
+      watch:
+        - action: rebuild
+          path: ./backend/
+          target: /backend
+        - action: rebuild
+          path: ./backend/poetry.lock
     environment:
       - MONGODB_URI=mongodb://root:root@mongodb:27017/civicsphere?authSource=admin 
     env_file:

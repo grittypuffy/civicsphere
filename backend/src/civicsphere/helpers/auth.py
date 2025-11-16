@@ -3,7 +3,8 @@ from ..config import AppConfig
 import time
 from typing import Dict
 import jwt
-from passlib.hash import bcrypt
+
+import bcrypt
 from pydantic import BaseModel
 
 config: AppConfig = AppConfig()
@@ -17,12 +18,13 @@ class JwtPayload(BaseModel):
 
 
 def get_hashed_password(password: str) -> str:
-    return bcrypt.hash(password)
-
+    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
 def verify_password(password: str, hashed_pass: str) -> bool:
-    return bcrypt.verify(password, hashed_pass)
-
+    return bcrypt.checkpw(
+        password.encode("utf-8"),
+        hashed_pass.encode("utf-8"),
+    )
 
 def sign_jwt(user_id: str, username: str, role: str):
     try:
