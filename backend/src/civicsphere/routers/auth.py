@@ -18,6 +18,30 @@ router = APIRouter(tags=["Authentication"])
 
 config: AppConfig = get_config()
 
+@router.get(
+    "/session/valid",
+    response_model=AuthResponse
+)
+async def is_session_valid(
+    req: Request
+):
+    user_id = None
+    if req.state.user:
+        user_id = req.state.user.get("user_id")
+
+    if not user_id:
+        logging.exception("Error occurred in /auth/session. User is not authenticated.")
+        return JSONResponse(
+            status_code=401,
+            content=AuthResponse(
+                success=False,
+                message="User is not authenticated"
+            ).dict()
+        )
+    return AuthResponse(
+        success=True,
+        message="User session is valid."
+    ).dict()  
 
 @router.get(
     "/{username}/valid",

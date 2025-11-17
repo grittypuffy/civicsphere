@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 import logging
 from ..config import AppConfig
-from ..services.rag import search_documents
+from ..services.chatbot.rag import search_documents
 from ..models.api.chat import Chat, ChatData, ChatRequest, ChatResponse
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
