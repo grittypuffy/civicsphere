@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import List, Optional
-from ..db.user import UserDataModel
+from ..db.user import UserDataModel, UserPreferences
 
 
 class UserPreferencesRequest(BaseModel):
@@ -8,6 +8,13 @@ class UserPreferencesRequest(BaseModel):
     language: str = "en"
     interests: List[str]
     profession: str
+
+
+class UserPreferencesUpdateRequest(BaseModel):
+    location: Optional[str] = None
+    language: Optional[str] = None
+    interests: Optional[List[str]] = None
+    profession: Optional[str] = None
 
 
 class UserPreferencesResponse(BaseModel):
@@ -19,3 +26,9 @@ class UserDataResponse(BaseModel):
     success: bool
     message: str
     data: Optional[UserDataModel] = None
+
+
+class GetPreferencesResponse(BaseModel):
+    success: bool
+    message: str
+    data: Optional[UserPreferences] = None
