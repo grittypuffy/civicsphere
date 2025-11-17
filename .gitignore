@@ -1,3 +1,5 @@
 local
 certs
-.env.*
+.env
+**/*/.env
+data

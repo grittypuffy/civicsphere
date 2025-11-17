@@ -21,7 +21,7 @@ RUN touch README.md
 
 RUN poetry env use python3.13
 
-COPY src/civicsphere/ ./src/civicsphere/
+COPY src/ ./src/
 
 RUN poetry install
 
