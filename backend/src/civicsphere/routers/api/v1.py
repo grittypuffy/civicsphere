@@ -5,6 +5,7 @@ from ..chat import router as chat_router
 from ..tag import router as tag_router
 from ..user_settings import router as user_setting_router
 from ..user import router as user_router
+from ..trending import router as trending_router
 
 
 router = APIRouter()
@@ -14,3 +15,4 @@ router.include_router(chat_router, prefix="/chat")
 router.include_router(tag_router, prefix="/tag")
 router.include_router(user_setting_router, prefix="/user")
 router.include_router(user_router, prefix="/u")
+router.include_router(trending_router, prefix="/trending")
