@@ -42,8 +42,14 @@ class EnvVarConfig(BaseSettings):
     azure_ai_endpoint: str
     azure_language_api_key: str
     azure_language_endpoint: str
+    
+    # STT
     azure_stt_key: str
     azure_stt_region: str
+
+    # Azure CV
+    azure_cv_key: str
+    azure_cv_endpoint: str
 
     # Azure OpenAI configuration
     azure_openai_api_key: str
