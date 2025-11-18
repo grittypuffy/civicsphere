@@ -11,7 +11,7 @@ from ..helpers.service import get_llm
 from ..helpers.service import get_search
 from ..helpers.service import get_langchain_llm
 
-from azure.storage.blob import ContainerClient
+from azure.storage.blob.aio import ContainerClient
 from azure.ai.formrecognizer import DocumentAnalysisClient
 from azure.core.credentials import AzureKeyCredential
 from langchain_openai import AzureChatOpenAI
