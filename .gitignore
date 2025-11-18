@@ -3,3 +3,7 @@ certs
 .env
 **/*/.env
 data
+.env.*
+.envrc
+.direnv
+.devenv
