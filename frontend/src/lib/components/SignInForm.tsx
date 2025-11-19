@@ -137,10 +137,17 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
 
   return (
     <div className="flex flex-col w-full max-w-md">
-      <form onSubmit={signInHandler} className="flex flex-col gap-y-3 w-full items-center">
+      <form
+        onSubmit={signInHandler}
+        className="flex flex-col gap-y-3 w-full items-center"
+        role="form"
+        aria-label="Sign in form"
+        noValidate
+      >
         <Field
           label="Username"
           validationMessage={validMsg.username}
+          validationState={validMsg.username ? 'error' : 'none'}
           className="w-full"
         >
           <Input
@@ -153,7 +160,11 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             disabled={isLoading}
             className="w-full"
             style={{ minWidth: '200px' }}
-            aria-label='Sign In Username Field'
+            aria-label='Username'
+            aria-describedby={validMsg.username ? 'username-error' : undefined}
+            aria-invalid={validMsg.username ? 'true' : 'false'}
+            required
+            autoComplete="username"
           />
         </Field>
         <Field
@@ -173,16 +184,21 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             disabled={isLoading}
             className="w-full"
             style={{ minWidth: '200px' }}
-            aria-label='Sign In Password Field'
+            aria-label='Password'
+            aria-describedby={validMsg.password ? 'password-error' : undefined}
+            aria-invalid={validMsg.password ? 'true' : 'false'}
+            required
+            autoComplete="current-password"
           />
         </Field>
         <Button
           type="submit"
-          aria-label="Sign In Button"
+          aria-label={isLoading ? "Signing in, please wait" : "Sign in"}
           className="w-full max-w-xs hover:shadow-md"
           disabled={isLoading || !formData.username || !formData.password}
+          aria-describedby={isLoading ? "loading-spinner" : undefined}
         >
-          {isLoading ? <Spinner size="extra-small" /> : 'Submit'}
+          {isLoading ? <Spinner size="extra-small" aria-label="Loading" id="loading-spinner" /> : 'Sign In'}
         </Button>
       </form>
     </div>

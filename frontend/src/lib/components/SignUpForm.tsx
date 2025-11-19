@@ -210,6 +210,7 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
       <form
         onSubmit={checkUserName}
         className="flex flex-col gap-3 w-full max-w-xl items-center"
+        aria-label="Username validation form"
       >
         <Field
           label="Username"
@@ -226,6 +227,10 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             disabled={isValidUserName}
             className="w-full"
             style={{ minWidth: '200px' }}
+            aria-describedby={validation.username ? 'username-error' : isValidUserName ? 'username-success' : undefined}
+            aria-invalid={validation.username ? 'true' : 'false'}
+            autoComplete="username"
+            required
           />
         </Field>
         <Button
@@ -233,9 +238,10 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
           className="w-full max-w-xs hover:shadow-md"
           onClick={checkUserName}
           disabled={!formData.username.length || isCheckingUserName || prevUserName === formData.username ? true : isLoading}
+          aria-label={isValidUserName ? 'Change username' : 'Check username availability'}
         >
           {isCheckingUserName ? (
-            <Spinner size="extra-small" />
+            <Spinner size="extra-small" aria-label="Checking username availability" />
           ) : isValidUserName ? (
             'Change Username'
           ) : (
@@ -244,7 +250,11 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
         </Button>
       </form>
       {isValidUserName && (
-        <form onSubmit={signUpHandler} className="flex flex-col gap-3 w-full max-w-md">
+        <form
+          onSubmit={signUpHandler}
+          className="flex flex-col gap-3 w-full max-w-md"
+          aria-label="Sign up form"
+        >
           <Field
             label="Full Name"
             validationState={validation.full_name ? 'error' : 'none'}
@@ -260,6 +270,10 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
               disabled={isLoading}
               className="w-full"
               style={{ minWidth: '200px' }}
+              aria-describedby={validation.full_name ? 'fullname-error' : undefined}
+              aria-invalid={validation.full_name ? 'true' : 'false'}
+              autoComplete="name"
+              required
             />
           </Field>
           <Field
@@ -278,6 +292,10 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
               disabled={isLoading}
               className="w-full"
               style={{ minWidth: '200px' }}
+              aria-describedby={validation.email ? 'email-error' : undefined}
+              aria-invalid={validation.email ? 'true' : 'false'}
+              autoComplete="email"
+              required
             />
           </Field>
           <Field
@@ -297,6 +315,10 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
               disabled={isLoading}
               className="w-full"
               style={{ minWidth: '200px' }}
+              aria-describedby={validation.password ? 'password-error' : undefined}
+              aria-invalid={validation.password ? 'true' : 'false'}
+              autoComplete="new-password"
+              required
             />
           </Field>
           <Checkbox
@@ -309,13 +331,19 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
                 setIsPolicyAccepted(false);
               }
             }}
+            required
+            aria-describedby="cookie-policy-description"
           />
+          <div id="cookie-policy-description" className="sr-only">
+            You must accept the cookie policy to create an account
+          </div>
           <Button
             type="submit"
             className="w-full mx-auto hover:shadow-md"
             disabled={!isPolicyAccepted || isLoading}
+            aria-label="Submit sign up form"
           >
-            {isLoading ? <Spinner size="extra-small" /> : 'Submit'}
+            {isLoading ? <Spinner size="extra-small" aria-label="Creating account" /> : 'Submit'}
           </Button>
         </form>
       )}

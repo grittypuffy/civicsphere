@@ -9,6 +9,8 @@ const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Di
     <>
       <NavDrawer
         open={isNavOpen}
+        aria-label="Main navigation"
+        role="navigation"
       >
         <NavDrawerHeader className="border-b border-b-gray-400 bg-gray-300">
           <div className="py-3">
@@ -17,7 +19,10 @@ const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Di
               relationship="label"
               positioning="after"
             >
-              <Hamburger onClick={() => setNavOpen(false)} />
+              <Hamburger
+                onClick={() => setNavOpen(false)}
+                aria-label="Close navigation menu"
+              />
             </Tooltip>
 
           </div>
@@ -26,14 +31,13 @@ const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Di
           <div className="py-3">
             <NavItem
               icon={
-                <span className="text-2xl" >
+                <span className="text-2xl" aria-hidden="true">
                   <HomeRegular />
                 </span>
               }
               href="/home"
               value="1"
-              aria-label="Home button"
-              className="border"
+              aria-label="Navigate to Home page"
             >
               <span className="py-1 font-semibold text-lg">
                 Home
@@ -41,14 +45,13 @@ const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Di
             </NavItem>
             <NavItem
               icon={
-                <span className="text-2xl" >
+                <span className="text-2xl" aria-hidden="true">
                   <ArrowTrendingLinesFilled />
                 </span>
               }
               href="/trending"
               value="2"
-              aria-label="Trending button"
-              className="border"
+              aria-label="Navigate to Trending page"
             >
               <span className="py-1 font-semibold text-lg">
                 Trending
@@ -56,14 +59,13 @@ const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Di
             </NavItem>
             <NavItem
               icon={
-                <span className="text-2xl" >
+                <span className="text-2xl" aria-hidden="true">
                   <ChatSparkleRegular />
                 </span>
               }
               href="/chat"
               value="3"
-              aria-label="Chat button"
-              className="border"
+              aria-label="Navigate to Chat page"
             >
               <span className="py-1 font-semibold text-lg">
                 Chat
@@ -71,14 +73,13 @@ const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Di
             </NavItem>
             <NavItem
               icon={
-                <span className="text-2xl" >
+                <span className="text-2xl" aria-hidden="true">
                   <PeopleCommunityRegular />
                 </span>
               }
               href="/home"
               value="4"
-              aria-label="Community button"
-              className="border"
+              aria-label="Navigate to Community page"
             >
               <span className="py-1 font-semibold text-lg">
                 Community
@@ -86,14 +87,13 @@ const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Di
             </NavItem>
             <NavItem
               icon={
-                <span className="text-2xl" >
+                <span className="text-2xl" aria-hidden="true">
                   <SettingsRegular />
                 </span>
               }
               href="/home"
               value="5"
-              aria-label="Settings button"
-              className="border"
+              aria-label="Navigate to Settings page"
             >
               <span className="py-1 font-semibold text-lg">
                 Settings
@@ -102,7 +102,7 @@ const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Di
           </div>
         </NavDrawerBody>
         <NavDrawerFooter className="border-t border-t-gray-400 bg-gray-300">
-          <div className="text-sm italic p-3">
+          <div className="text-sm italic p-3" role="contentinfo">
             © 2025 CivicSphere
           </div>
         </NavDrawerFooter>
