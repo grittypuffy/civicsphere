@@ -11,12 +11,12 @@ import {
   Spinner
 } from '@fluentui/react-components';
 import { EyeOffRegular, EyeRegular } from '@fluentui/react-icons';
-import { useRouter } from 'next/navigation';
 import { useState } from "react";
+import * as v from 'valibot';
+import { SignUpFormSchema } from '../schema';
 import { SignUpFormData, ToastFunc } from "../types";
 
 const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
-  const router = useRouter();
   const [formData, setFormData] = useState<SignUpFormData>({
     username: '',
     email: '',
@@ -24,15 +24,16 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
     full_name: '',
   });
 
-  const [validMsg, setValidMsg] = useState<{ [key: string]: string }>({
+  const [validation, setMessage] = useState<{ [key: string]: string }>({
     name: '',
     email: '',
     password: '',
   });
 
+  const [prevUserName, setPrevUserName] = useState<string>('');
   const [isValidUserName, setIsValidUserName] = useState(false);
   const [isPolicyAccepted, setIsPolicyAccepted] = useState(false);
-  const [isChecking, setIsChecking] = useState(false);
+  const [isCheckingUserName, setCheckingUserName] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const EyeToggleButton = (showPassword: boolean) => {
@@ -51,68 +52,40 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
     );
   };
 
-  const resetFormData = () => {
-    setFormData({
+  const validateFormData = () => {
+    const res = v.safeParse(SignUpFormSchema, formData);
+    const newValidMsg: { [key: string]: string } = {
       username: '',
       email: '',
       password: '',
       full_name: '',
-    });
-    setValidMsg({
-      username: '',
-      email: '',
-      password: '',
-      full_name: '',
-    });
+    };
+
+    if (!res.success) {
+      res.issues.forEach((issue) => {
+        if (issue.path) {
+          issue.path.forEach((path) => {
+            const key = path.key as string;
+            if (newValidMsg.hasOwnProperty(key)) {
+              newValidMsg[key] = issue.message;
+            }
+          });
+        }
+      });
+    }
+    setMessage((prev) => ({
+      ...prev,
+      ...newValidMsg,
+      username: !isValidUserName ? newValidMsg.username : prev.username,
+    }));
+    return res.success;
   };
-
-  const resetValidMsg = () => {
-    setValidMsg({
-      username: '',
-      email: '',
-      password: '',
-      full_name: '',
-    });
-  };
-
-
-  const validateFormData = (): boolean => {
-    return true
-  }
 
   const signUpHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(async () => {
-      if (validateFormData()) {
-        ToastMessage({ message: 'Signing Up..', description: '' }, 'info');
-        const res: Response = await fetch('/api/v1/auth/sign_up', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
 
-        if (!res.ok) {
-          ToastMessage(
-            { message: 'Sign Up Failed', description: 'Incorrect credentials! Try again.' },
-            'error'
-          );
-        } else {
-          ToastMessage({ message: 'Sign Up Successful', description: 'Redirecting...' }, 'success');
-          const res: Response = await fetch('/api/v1/auth/sign_in', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username: formData.username, password: formData.password }),
-            credentials: 'include'
-          });
-        }
-        setIsLoading(false);
-        return;
-      }
+    if (!validateFormData()) {
       setIsLoading(false);
       ToastMessage(
         {
@@ -121,75 +94,154 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
         },
         'error'
       );
+      return;
+    }
+
+    setTimeout(async () => {
+      ToastMessage({ message: 'Signing Up..', description: '' }, 'info');
+      try {
+        const res: Response = await fetch('/api/v1/auth/sign_up', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        switch (res.status) {
+          case 200:
+            ToastMessage(
+              { message: 'Sign Up Successful', description: 'You can now sign in.' },
+              'success'
+            );
+            break;
+          case 422:
+            ToastMessage(
+              { message: 'Invalid Data', description: 'Please check your input and try again.' },
+              'error'
+            );
+            break;
+          default:
+            if (!res.ok) {
+              throw new Error('Network response was not ok');
+            }
+        }
+      } catch (error) {
+        console.error('Error during sign up:', error);
+        ToastMessage(
+          { message: 'Sign Up Failed', description: 'Please try again later.' },
+          'error'
+        );
+      }
+      setIsLoading(false);
     }, 500);
   };
 
-  const validateUserName = () => {
-    setIsChecking(true);
+  const checkUserName = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setCheckingUserName(true);
+
     if (isValidUserName) {
       setTimeout(() => {
         setIsValidUserName(false);
-        setIsChecking(false);
+        setCheckingUserName(false);
+        setPrevUserName(formData.username);
+        setMessage((prev) => ({ ...prev, username: '' }));
       }, 300);
-    } else {
-      setTimeout(async () => {
-        const res: Response = await fetch(`/api/auth/validate?username=${formData.username}`, {
+      return;
+    }
+
+    setTimeout(async () => {
+      ToastMessage({ message: 'Validating Username..', description: '' }, 'info');
+      try {
+        const res: Response = await fetch(`/api/v1/auth/${formData.username}/valid`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
         });
 
-        if (!res.ok) {
-          ToastMessage(
-            { message: 'Username is already taken', description: 'Please choose another one.' },
-            'error'
-          );
-          setValidMsg((prev) => ({ ...prev, username: 'Username is already taken' }));
-          setIsChecking(false);
-          return;
+        switch (res.status) {
+          case 200:
+            ToastMessage(
+              {
+                message: `Username "${formData.username}" is available`,
+                description: 'You can proceed with this username.',
+              },
+              'success'
+            );
+            setMessage((prev) => ({
+              ...prev,
+              username: `Username "${formData.username}" is available`,
+            }));
+            setIsValidUserName(true);
+            break;
+          case 422:
+            ToastMessage(
+              {
+                message: 'Invalid Username',
+                description: 'Please follow the username format.'
+              },
+              'error'
+            );
+            setMessage((prev) => ({
+              ...prev,
+              username: 'Invalid Username'
+            }));
+            break;
+          default:
+            if (!res.ok) {
+              throw new Error('Network response was not ok');
+            }
         }
-        setValidMsg((prev) => ({
-          ...prev,
-          username: `Username "${formData.username}" is available`,
-        }));
-        setIsValidUserName(true);
-        setIsChecking(false);
-      }, 500);
-    }
+      } catch (error) {
+        console.error('Error validating username:', error);
+        ToastMessage(
+          { message: 'Error validating username', description: 'Please try again later.' },
+          'error'
+        );
+      }
+      setCheckingUserName(false);
+    }, 500);
   };
 
   return (
     <>
       <form
-        onSubmit={validateUserName}
+        onSubmit={checkUserName}
         className="flex flex-col gap-3 w-full max-w-xl items-center"
+        aria-label="Username validation form"
       >
         <Field
           label="Username"
-          validationState={isValidUserName ? 'success' : validMsg.username ? 'error' : 'none'}
-          validationMessage={validMsg.username}
+          validationState={isValidUserName ? 'success' : validation.username ? 'error' : 'none'}
+          validationMessage={validation.username}
           className="w-full"
         >
           <Input
             value={formData.username}
             appearance="underline"
             onChange={(_: React.ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => {
-              setFormData((prev) => ({ ...prev, username: data.value }));
+              setFormData((prev) => ({ ...prev, username: data.value.trim() }));
             }}
             disabled={isValidUserName}
             className="w-full"
             style={{ minWidth: '200px' }}
+            aria-describedby={validation.username ? 'username-error' : isValidUserName ? 'username-success' : undefined}
+            aria-invalid={validation.username ? 'true' : 'false'}
+            autoComplete="username"
+            required
           />
         </Field>
         <Button
           type="submit"
           className="w-full max-w-xs hover:shadow-md"
-          onClick={validateUserName}
-          disabled={!formData.username.length || isChecking}
+          onClick={checkUserName}
+          disabled={!formData.username.length || isCheckingUserName || prevUserName === formData.username ? true : isLoading}
+          aria-label={isValidUserName ? 'Change username' : 'Check username availability'}
         >
-          {isChecking ? (
-            <Spinner size="extra-small" />
+          {isCheckingUserName ? (
+            <Spinner size="extra-small" aria-label="Checking username availability" />
           ) : isValidUserName ? (
             'Change Username'
           ) : (
@@ -198,11 +250,15 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
         </Button>
       </form>
       {isValidUserName && (
-        <form onSubmit={signUpHandler} className="flex flex-col gap-3 w-full max-w-md">
+        <form
+          onSubmit={signUpHandler}
+          className="flex flex-col gap-3 w-full max-w-md"
+          aria-label="Sign up form"
+        >
           <Field
             label="Full Name"
-            validationState={validMsg.full_name ? 'error' : 'none'}
-            validationMessage={validMsg.full_name}
+            validationState={validation.full_name ? 'error' : 'none'}
+            validationMessage={validation.full_name}
             className="w-full"
           >
             <Input
@@ -214,12 +270,16 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
               disabled={isLoading}
               className="w-full"
               style={{ minWidth: '200px' }}
+              aria-describedby={validation.full_name ? 'fullname-error' : undefined}
+              aria-invalid={validation.full_name ? 'true' : 'false'}
+              autoComplete="name"
+              required
             />
           </Field>
           <Field
             label="Email"
-            validationState={validMsg.email ? 'error' : 'none'}
-            validationMessage={validMsg.email}
+            validationState={validation.email ? 'error' : 'none'}
+            validationMessage={validation.email}
             className="w-full"
           >
             <Input
@@ -232,12 +292,16 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
               disabled={isLoading}
               className="w-full"
               style={{ minWidth: '200px' }}
+              aria-describedby={validation.email ? 'email-error' : undefined}
+              aria-invalid={validation.email ? 'true' : 'false'}
+              autoComplete="email"
+              required
             />
           </Field>
           <Field
             label="Password"
-            validationState={validMsg.password ? 'error' : 'none'}
-            validationMessage={validMsg.password}
+            validationState={validation.password ? 'error' : 'none'}
+            validationMessage={validation.password}
             className="w-full"
           >
             <Input
@@ -251,6 +315,10 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
               disabled={isLoading}
               className="w-full"
               style={{ minWidth: '200px' }}
+              aria-describedby={validation.password ? 'password-error' : undefined}
+              aria-invalid={validation.password ? 'true' : 'false'}
+              autoComplete="new-password"
+              required
             />
           </Field>
           <Checkbox
@@ -263,13 +331,19 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
                 setIsPolicyAccepted(false);
               }
             }}
+            required
+            aria-describedby="cookie-policy-description"
           />
+          <div id="cookie-policy-description" className="sr-only">
+            You must accept the cookie policy to create an account
+          </div>
           <Button
             type="submit"
             className="w-full mx-auto hover:shadow-md"
             disabled={!isPolicyAccepted || isLoading}
+            aria-label="Submit sign up form"
           >
-            {isLoading ? <Spinner size="extra-small" /> : 'Submit'}
+            {isLoading ? <Spinner size="extra-small" aria-label="Creating account" /> : 'Submit'}
           </Button>
         </form>
       )}
