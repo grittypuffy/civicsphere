@@ -84,30 +84,8 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
   const signUpHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(async () => {
-      if (validateFormData()) {
-        ToastMessage({ message: 'Signing Up..', description: '' }, 'info');
-        try {
-          const res: Response = await fetch('/api/v1/auth/sign_up', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-          });
 
-          if (!res.ok) {
-            ToastMessage(
-              { message: 'Sign Up Failed', description: 'Incorrect credentials! Try again.' },
-              'error'
-            );
-          }
-          setIsLoading(false);
-          return;
-        } catch (error) {
-          console.log(error)
-        }
-      }
+    if (!validateFormData()) {
       setIsLoading(false);
       ToastMessage(
         {
@@ -116,71 +94,115 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
         },
         'error'
       );
+      return;
+    }
+
+    setTimeout(async () => {
+      ToastMessage({ message: 'Signing Up..', description: '' }, 'info');
+      try {
+        const res: Response = await fetch('/api/v1/auth/sign_up', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        switch (res.status) {
+          case 200:
+            ToastMessage(
+              { message: 'Sign Up Successful', description: 'You can now sign in.' },
+              'success'
+            );
+            break;
+          case 422:
+            ToastMessage(
+              { message: 'Invalid Data', description: 'Please check your input and try again.' },
+              'error'
+            );
+            break;
+          default:
+            if (!res.ok) {
+              throw new Error('Network response was not ok');
+            }
+        }
+      } catch (error) {
+        console.error('Error during sign up:', error);
+        ToastMessage(
+          { message: 'Sign Up Failed', description: 'Please try again later.' },
+          'error'
+        );
+      }
+      setIsLoading(false);
     }, 500);
   };
 
-  const checkUserName = () => {
+  const checkUserName = async (e: React.FormEvent) => {
+    e.preventDefault();
     setCheckingUserName(true);
+
     if (isValidUserName) {
       setTimeout(() => {
         setIsValidUserName(false);
         setCheckingUserName(false);
-        setPrevUserName(formData.username)
+        setPrevUserName(formData.username);
         setMessage((prev) => ({ ...prev, username: '' }));
       }, 300);
-    } else {
-      setTimeout(async () => {
-        try {
-          const res: Response = await fetch(`/api/v1/auth/${formData.username}/valid`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-
-          switch (res.status) {
-            case 200:
-              ToastMessage(
-                {
-                  message: `Username "${formData.username}" is available`,
-                  description: 'You can proceed with this username.',
-                },
-                'success'
-              );
-              setMessage((prev) => ({
-                ...prev,
-                username: `Username "${formData.username}" is available`,
-              }));
-              setIsValidUserName(true);
-              break;
-            case 422:
-              ToastMessage(
-                {
-                  message: 'Invalid Username',
-                  description: 'Please follow the username format.'
-                },
-                'error'
-              );
-              setMessage((prev) => ({
-                ...prev,
-                username: 'Invalid Username'
-              }));
-              break;
-            default:
-              if (!res.ok) {
-                throw new Error('Network response was not ok');
-              }
-          }
-        } catch (error) {
-          console.error('Error validating username:', error);
-          ToastMessage(
-            { message: 'Error validating username', description: 'Please try again later.' },
-            'error'
-          );
-        }
-        setCheckingUserName(false);
-      }, 500);
+      return;
     }
+
+    setTimeout(async () => {
+      ToastMessage({ message: 'Validating Username..', description: '' }, 'info');
+      try {
+        const res: Response = await fetch(`/api/v1/auth/${formData.username}/valid`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        switch (res.status) {
+          case 200:
+            ToastMessage(
+              {
+                message: `Username "${formData.username}" is available`,
+                description: 'You can proceed with this username.',
+              },
+              'success'
+            );
+            setMessage((prev) => ({
+              ...prev,
+              username: `Username "${formData.username}" is available`,
+            }));
+            setIsValidUserName(true);
+            break;
+          case 422:
+            ToastMessage(
+              {
+                message: 'Invalid Username',
+                description: 'Please follow the username format.'
+              },
+              'error'
+            );
+            setMessage((prev) => ({
+              ...prev,
+              username: 'Invalid Username'
+            }));
+            break;
+          default:
+            if (!res.ok) {
+              throw new Error('Network response was not ok');
+            }
+        }
+      } catch (error) {
+        console.error('Error validating username:', error);
+        ToastMessage(
+          { message: 'Error validating username', description: 'Please try again later.' },
+          'error'
+        );
+      }
+      setCheckingUserName(false);
+    }, 500);
   };
 
   return (

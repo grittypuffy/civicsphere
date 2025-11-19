@@ -1,11 +1,9 @@
 'use client'
 import type {
-  CheckboxOnChangeData,
   InputOnChangeData
 } from '@fluentui/react-components';
 import {
   Button,
-  Checkbox,
   Field,
   Input,
   Spinner
@@ -13,15 +11,15 @@ import {
 import { EyeOffRegular, EyeRegular } from '@fluentui/react-icons';
 import { useRouter } from 'next/navigation';
 import { useState } from "react";
-import { SignUpFormData, ToastFunc } from "../types";
+import * as v from 'valibot';
+import { SignInFormSchema } from '../schema';
+import { SignInFormData, ToastFunc } from "../types";
 
 const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
   const router = useRouter();
-  const [formData, setFormData] = useState<SignUpFormData>({
+  const [formData, setFormData] = useState<SignInFormData>({
     username: '',
-    email: '',
     password: '',
-    full_name: '',
   });
 
   const [validMsg, setValidMsg] = useState<{ [key: string]: string }>({
@@ -30,9 +28,6 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
     password: '',
   });
 
-  const [isValidUserName, setIsValidUserName] = useState(false);
-  const [isPolicyAccepted, setIsPolicyAccepted] = useState(false);
-  const [isChecking, setIsChecking] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const EyeToggleButton = (showPassword: boolean) => {
@@ -51,40 +46,51 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
     );
   };
 
-  const resetFormData = () => {
-    setFormData({
+  const validateFormData = () => {
+    const res = v.safeParse(SignInFormSchema, formData);
+    const newValidMsg: { [key: string]: string } = {
       username: '',
-      email: '',
       password: '',
-      full_name: '',
-    });
-    setValidMsg({
-      username: '',
-      email: '',
-      password: '',
-      full_name: '',
-    });
+    };
+
+    if (!res.success) {
+      res.issues.forEach((issue) => {
+        if (issue.path) {
+          issue.path.forEach((path) => {
+            const key = path.key as string;
+            if (newValidMsg.hasOwnProperty(key)) {
+              newValidMsg[key] = issue.message;
+            }
+          });
+        }
+      });
+    }
+    setValidMsg((prev) => ({
+      ...prev,
+      ...newValidMsg,
+    }));
+    return res.success;
   };
 
-  const resetValidMsg = () => {
-    setValidMsg({
-      username: '',
-      email: '',
-      password: '',
-      full_name: '',
-    });
-  };
-
-
-  const validateFormData = (): boolean => {
-    return false
-  }
   const signInHandler = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+
+    if (!validateFormData()) {
+      setIsLoading(false);
+      ToastMessage(
+        {
+          message: 'Sign In Failed',
+          description: 'Invalid data! Please check your input and try again.',
+        },
+        'error'
+      );
+      return;
+    }
+
     setTimeout(async () => {
-      if (validateFormData()) {
-        ToastMessage({ message: 'Signing In..' }, 'info');
+      ToastMessage({ message: 'Signing In..', description: '' }, 'info');
+      try {
         const res: Response = await fetch('/api/v1/auth/sign_in', {
           method: 'POST',
           headers: {
@@ -97,57 +103,36 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
           credentials: 'include',
         });
 
-        if (!res.ok) {
-          ToastMessage(
-            { message: 'Sign In Failed', description: 'Incorrect credentials! Try again.' },
-            'error'
-          );
-        } else {
-          ToastMessage({ message: 'Sign In Successful', description: 'Redirecting...' }, 'success');
-          setTimeout(() => {
-            router.push('/home');
-          }, 400);
+        switch (res.status) {
+          case 200:
+            ToastMessage(
+              { message: 'Sign In Successful', description: 'Redirecting...' },
+              'success'
+            );
+            setTimeout(() => {
+              router.push('/home');
+            }, 400);
+            break;
+          case 422:
+            ToastMessage(
+              { message: 'Invalid Credentials', description: 'Please check your username and password.' },
+              'error'
+            );
+            break;
+          default:
+            if (!res.ok) {
+              throw new Error('Network response was not ok');
+            }
         }
-        setIsLoading(false);
-        return;
+      } catch (error) {
+        console.error('Error during sign in:', error);
+        ToastMessage(
+          { message: 'Sign In Failed', description: 'Please try again later.' },
+          'error'
+        );
       }
       setIsLoading(false);
-      ToastMessage(
-        { message: 'Sign In Failed', description: 'Incorrect credentials! Try again.' },
-        'error'
-      );
     }, 500);
-  };
-
-  const validateUserName = () => {
-    setIsChecking(true);
-    if (isValidUserName) {
-      setTimeout(() => {
-        setIsValidUserName(false);
-        setIsChecking(false);
-      }, 300);
-    } else {
-      setTimeout(async () => {
-        const res: Response = await fetch(`/api/auth/validate?username=${formData.username}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (!res.ok) {
-          setValidMsg((prev) => ({ ...prev, username: 'Username is already taken' }));
-          setIsChecking(false);
-          return;
-        }
-        setValidMsg((prev) => ({
-          ...prev,
-          username: `Username "${formData.username}" is available`,
-        }));
-        setIsValidUserName(true);
-        setIsChecking(false);
-      }, 500);
-    }
   };
 
   return (
@@ -155,7 +140,6 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
       <form onSubmit={signInHandler} className="flex flex-col gap-y-3 w-full items-center">
         <Field
           label="Username"
-          validationState={isValidUserName ? 'success' : validMsg.username ? 'error' : 'none'}
           validationMessage={validMsg.username}
           className="w-full"
         >
@@ -169,6 +153,7 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             disabled={isLoading}
             className="w-full"
             style={{ minWidth: '200px' }}
+            aria-label='Sign In Username Field'
           />
         </Field>
         <Field
@@ -188,23 +173,14 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             disabled={isLoading}
             className="w-full"
             style={{ minWidth: '200px' }}
+            aria-label='Sign In Password Field'
           />
         </Field>
-        <Checkbox
-          label="This website requires cookies to function properly. I accept third-party cookies."
-          labelPosition="after"
-          onChange={(_: React.ChangeEvent<HTMLInputElement>, data: CheckboxOnChangeData) => {
-            if (data.checked) {
-              setIsPolicyAccepted(true);
-            } else {
-              setIsPolicyAccepted(false);
-            }
-          }}
-        />
         <Button
           type="submit"
+          aria-label="Sign In Button"
           className="w-full max-w-xs hover:shadow-md"
-          disabled={!isPolicyAccepted || isLoading}
+          disabled={isLoading || !formData.username || !formData.password}
         >
           {isLoading ? <Spinner size="extra-small" /> : 'Submit'}
         </Button>
