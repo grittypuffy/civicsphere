@@ -60,7 +60,7 @@ async def get_trending_posts(
                 )
         posts = []
         async for post in posts_cursor:
-            post.pop("_id", None)
+            post["post_id" ] = post.pop("_id", None)
             posts.append(PostResponse(**post))
         return TrendingResponse(
             success=True,
