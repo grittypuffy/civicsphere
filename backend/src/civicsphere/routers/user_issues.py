@@ -4,17 +4,18 @@ from fastapi.responses import JSONResponse
 from ..config import AppConfig, get_config
 from ..models.api.user import UserReactionsResponse
 from ..models.api.post import PostResponse,UserPostsResponse
+from ..models.api.issue import IssueResponse, UserIssuesResponse
 
 
-router = APIRouter(tags=["User-Post"])
+router = APIRouter(tags=["User-Issue"])
 
 config: AppConfig = get_config()
 
 @router.get(
     "/",
-    response_model=UserPostsResponse
+    response_model=UserIssuesResponse
 )
-async def get_user_posts(
+async def get_user_issue(
     req: Request
 ):
     try:
@@ -30,25 +31,25 @@ async def get_user_posts(
         if not user_id:
             return JSONResponse(
                 status_code=401,
-                content=UserPostsResponse(
+                content=UserIssuesResponse(
                     success=False,
                     message="User ID not found"
                 ).dict()
             )
-        posts_cursor = config.db["posts"].find({"user_id": user_id}).sort("created_at", -1)
-        posts = []
-        async for post in posts_cursor:
-            post["post_id"] = post.pop("_id", None)
-            posts.append(PostResponse(**post))
-        return UserPostsResponse(
+        issues_cursor = config.db["issues"].find({"user_id": user_id}).sort("created_at", -1)
+        issues = []
+        async for issue in issues_cursor:
+            issue["issue_id"] = issue.pop("_id", None)
+            issues.append(PostResponse(**issue))
+        return UserIssuesResponse(
             success=True,
-            message="Successfully fetched user posts",
-            data=posts
+            message="Successfully fetched user issues",
+            data=issues
         )
     except Exception as e:
         return JSONResponse(
             status_code=500,
-            content=UserPostsResponse(
+            content=UserIssuesResponse(
                 success=False,
                 message=f"An internal error occurred: {e}"
             ).dict()
@@ -80,14 +81,14 @@ async def get_user_upvotes(
                     message="User ID not found"
                 ).dict()
             )
-        reactions_cursor = config.db["post_reactions"].find({"user_id": user_id, "upvote": True})
-        post_ids = []
+        reactions_cursor = config.db["issue_reactions"].find({"user_id": user_id})
+        issue_ids = []
         async for reaction in reactions_cursor:
-            post_ids.append(reaction["post_id"])
+            issue_ids.append(reaction[" issue_id"])
         return UserReactionsResponse(
             success=True,
-            message="Successfully fetched user upvotes",
-            data=post_ids
+            message="Successfully fetched user issue  upvotes",
+            data= issue_ids
         )
     except Exception as e:
         return JSONResponse(
@@ -99,45 +100,3 @@ async def get_user_upvotes(
         )
 
 
-@router.get(
-    "/downvotes",
-    response_model=UserReactionsResponse
-)
-async def get_user_downvotes(
-    req: Request
-):
-    try:
-        if not hasattr(req.state, 'user') or not req.state.user:
-            return JSONResponse(
-                status_code=401,
-                content=UserReactionsResponse(
-                    success=False,
-                    message="User not authenticated"
-                ).dict()
-            )
-        user_id = req.state.user.get("user_id")
-        if not user_id:
-            return JSONResponse(
-                status_code=401,
-                content=UserReactionsResponse(
-                    success=False,
-                    message="User ID not found"
-                ).dict()
-            )
-        reactions_cursor = config.db["post_reactions"].find({"user_id": user_id, "upvote": False})
-        post_ids = []
-        async for reaction in reactions_cursor:
-            post_ids.append(reaction["post_id"])
-        return UserReactionsResponse(
-            success=True,
-            message="Successfully fetched user downvotes",
-            data=post_ids
-        )
-    except Exception as e:
-        return JSONResponse(
-            status_code=500,
-            content=UserReactionsResponse(
-                success=False,
-                message=f"An internal error occurred: {e}"
-            ).dict()
-        )

@@ -6,12 +6,14 @@ from ..config import AppConfig, get_config
 from ..models.db.user import User, UserDataModel,UserPreferences
 from ..models.api.user import  UserPreferencesResponse, UserDataResponse
 from .user_post import router as post_router
+from .user_issues import router as issues_router
 
 router = APIRouter(tags=["User"])
 
 config: AppConfig = get_config()
 
 router.include_router(post_router,prefix="/posts")
+router.include_router(issues_router,prefix="/issues")
 
 @router.get(
     "/{username}",
