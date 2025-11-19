@@ -33,18 +33,12 @@ async def get_feed_posts(
                             "tag_id": {"$in": interests},
                             "location": location
                         }).sort("created_at", -1).limit(20)
-                    elif location:
-                        # If no interests, just by location
-                        posts_cursor = config.db["posts"].find({"location": location}).sort("created_at", -1).limit(20)
-                    elif interests:
-                        # If no location, just by interests
-                        posts_cursor = config.db["posts"].find({"tag_id": {"$in": interests}}).sort("created_at", -1).limit(20)
                     else:
                         return JSONResponse(
                             status_code=400,
                             content=TrendingResponse(
                                 success=False,
-                                message="User interests and location not set"
+                                message="User interests or location not set"
                             ).dict()
                         )
                 else:
@@ -73,7 +67,7 @@ async def get_feed_posts(
             )
         posts = []
         async for post in posts_cursor:
-            post.pop("_id", None)
+            post["post_id"] = post.pop("_id", None)
             posts.append(PostResponse(**post))
         return TrendingResponse(
             success=True,
