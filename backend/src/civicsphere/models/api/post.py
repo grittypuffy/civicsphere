@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, Literal
 from pydantic import BaseModel
 
 
@@ -15,7 +15,7 @@ class PostResponse(BaseModel):
     url: List[str]
     lang: str
     location: str
-    verified: str  # "True", "False", "Not Sure"
+    verified: Literal["True", "False", "Not Sure"]
     flagged: bool
     created_at: datetime
 
