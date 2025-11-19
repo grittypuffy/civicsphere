@@ -7,7 +7,6 @@ class SignUpRequest(BaseModel):
     full_name: str
     email: EmailStr
     password: str
-    avatar: str
     role: Literal["User", "Admin", "Moderator"] = "User"
 
     @field_validator('username')

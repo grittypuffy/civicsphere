@@ -94,7 +94,6 @@ async def sign_up(payload: SignUpRequest):
                 email=payload.email,
                 password=payload.password,
                 full_name=payload.full_name.title(),
-                avatar=payload.avatar
             )
         except Exception as e:
             return JSONResponse(

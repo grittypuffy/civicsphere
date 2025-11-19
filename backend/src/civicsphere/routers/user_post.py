@@ -2,9 +2,8 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 from ..config import AppConfig, get_config
-from ..models.db.user import UserPreferencesModel, User, UserDataModel,UserPreferences
-from ..models.api.user import UserPreferencesRequest, UserPreferencesResponse, UserDataResponse, GetPreferencesResponse, UserPostsResponse, UserReactionsResponse
-from ..models.api.post import PostResponse
+from ..models.api.user import UserReactionsResponse
+from ..models.api.post import PostResponse,UserPostsResponse
 
 
 router = APIRouter(tags=["Post"])
