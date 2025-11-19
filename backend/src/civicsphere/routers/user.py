@@ -1,17 +1,18 @@
-import aiofiles
-import os
-import json
 import logging
 from typing import List
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 from ..config import AppConfig, get_config
 from ..models.db.user import UserPreferencesModel, User, UserDataModel,UserPreferences
-from ..models.api.user import UserPreferencesRequest, UserPreferencesResponse, UserDataResponse, GetPreferencesResponse
+from ..models.api.user import UserPreferencesRequest, UserPreferencesResponse, UserDataResponse, GetPreferencesResponse, UserPostsResponse, UserReactionsResponse
+from ..models.api.post import PostResponse
+from .user_post import router as post_router
 
 router = APIRouter(tags=["User"])
 
 config: AppConfig = get_config()
+
+router.include_router(post_router,prefix="/posts")
 
 @router.get(
     "/{username}",
@@ -71,3 +72,6 @@ async def get_user_details(
                 message=f"An internal error occured: {e}"
             ).dict()
         )
+
+
+
