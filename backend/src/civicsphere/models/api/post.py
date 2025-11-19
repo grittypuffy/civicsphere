@@ -40,3 +40,8 @@ class CreatePostRequest(BaseModel):
     lang: str
     location: str
     verified: str
+
+class UserPostsResponse(BaseModel):
+    success: bool
+    message: str
+    data: Optional[List[PostResponse]] = None

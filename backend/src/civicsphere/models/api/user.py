@@ -32,3 +32,8 @@ class GetPreferencesResponse(BaseModel):
     success: bool
     message: str
     data: Optional[UserPreferences] = None
+
+class UserReactionsResponse(BaseModel):
+    success: bool
+    message: str
+    data: Optional[List[str]] = None
