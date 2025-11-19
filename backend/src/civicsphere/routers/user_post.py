@@ -39,7 +39,7 @@ async def get_user_posts(
         posts_cursor = config.db["posts"].find({"user_id": user_id}).sort("created_at", -1)
         posts = []
         async for post in posts_cursor:
-            post.pop("_id", None)
+            post["post_id"] = post.pop("_id", None)
             posts.append(PostResponse(**post))
         return UserPostsResponse(
             success=True,
