@@ -26,6 +26,7 @@ export const SignUpFormSchema = v.object({
   ),
   username: v.pipe(
     nameValidator,
+    v.excludes(' ', 'The username should not contain whitespaces'),
     v.regex(/^\w+$/, "Username must contain only alphanumeric characters"),
   ),
   email: emailValidator,
@@ -35,9 +36,29 @@ export const SignUpFormSchema = v.object({
 export const SignInFormSchema = v.object({
   username: v.pipe(
     nameValidator,
+    v.excludes(' ', 'The username should not contain whitespaces'),
     v.regex(/^\w+$/, "Username must contain only alphanumeric characters"),
   ),
   password: v.pipe(
     passwordValidator
+  ),
+});
+
+export const OnboardFormSchema = v.object({
+  location: v.pipe(
+    v.string(),
+    v.nonEmpty('Location is required'),
+  ),
+  language: v.pipe(
+    v.string(),
+    v.nonEmpty('Language is required'),
+  ),
+  interests: v.pipe(
+    v.array(v.string()),
+    v.minLength(1, 'At least one interest is required'),
+  ),
+  profession: v.pipe(
+    v.string(),
+    v.nonEmpty('Profession is required'),
   ),
 });

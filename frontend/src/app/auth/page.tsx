@@ -1,4 +1,5 @@
 'use client';
+import OnboardForm from '@/lib/components/OnboardForm';
 import SignInForm from '@/lib/components/SignInForm';
 import SignUpForm from '@/lib/components/SignUpForm';
 import type {
@@ -18,10 +19,13 @@ import {
   useId,
   useToastController
 } from '@fluentui/react-components';
-import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Suspense, useState } from 'react';
 
-export default function AuthForm() {
-  const [formType, setFormType] = useState<TabValue>('signup');
+const AuthForm = () => {
+  const searchParams = useSearchParams();
+  const initialFormType = searchParams.get('action') === 'signin' ? 'signin' : searchParams.get('action') === 'onboard' ? 'onboard' : 'signup';
+  const [formType, setFormType] = useState<TabValue | 'onboard'>(initialFormType);
 
   const onTabHandler = (_: SelectTabEvent, data: SelectTabData) => {
     setFormType(data.value);
@@ -49,25 +53,45 @@ export default function AuthForm() {
   };
 
   return (
-    <div className='mx-auto max-w-5xl p-4 border min-h-screen flex flex-col justify-center items-center gap-3 md:gap-5 lg:gap-8'>
-      <div className="flex flex-col gap-5 items-center lg:justify-center surround w-full lg:w-3/8">
-        <Toaster toasterId={toasterId} />
-        <div>
-          <TabList selectedValue={formType} onTabSelect={onTabHandler}>
-            <Tab value={`signup`}>Sign Up</Tab>
-            <Tab value={`signin`}>Sign In</Tab>
-          </TabList>
-        </div>
-        <div
-          className="flex flex-col w-full p-6 items-center gap-y-5"
-        >
-          {formType === 'signup' ? (
-            <SignUpForm ToastMessage={ToastMessage} />
-          ) : (
-            <SignInForm ToastMessage={ToastMessage} />
-          )}
-        </div>
-      </div>
-    </div>
+    <Suspense>
+      <div className='mx-auto max-w-5xl p-4 border min-h-screen flex flex-col justify-center items-center gap-3 md:gap-5 lg:gap-8'>
+        <div className="flex flex-col gap-5 items-center lg:justify-center surround w-full lg:w-3/8">
+          <Toaster toasterId={toasterId} />
+          {formType === 'onboard' ? (
+            <>
+              <OnboardForm ToastMessage={ToastMessage} />
+            </>
+          ) :
+            (
+              <>
+                <div>
+                  <TabList selectedValue={formType} onTabSelect={onTabHandler}>
+                    <Tab value={`signup`}>Sign Up</Tab>
+                    <Tab value={`signin`}>Sign In</Tab>
+                  </TabList>
+                </div >
+                <div
+                  className="flex flex-col w-full p-6 items-center gap-y-5"
+                >
+                  {formType === 'signup' ? (
+                    <SignUpForm ToastMessage={ToastMessage} />
+                  ) : (
+                    <SignInForm ToastMessage={ToastMessage} />
+                  )}
+                </div>
+              </>
+            )
+          }
+        </div >
+      </div >
+    </Suspense>
   );
+}
+
+export default function Page() {
+  return (
+    <Suspense>
+      <AuthForm />
+    </Suspense>
+  )
 }
