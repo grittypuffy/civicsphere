@@ -15,7 +15,7 @@ class PostResponse(BaseModel):
     url: List[str]
     lang: str
     location: str
-    verified: Literal["True", "False", "Not Sure"]
+    verified: str
     flagged: bool
     created_at: datetime
 
