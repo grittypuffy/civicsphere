@@ -13,7 +13,7 @@ class JWTMiddleware(BaseHTTPMiddleware):
         self, request: Request, call_next: Callable[[Request], Response]
     ) -> Response:
 
-        if request.url.path.startswith(("/docs", "/openapi.json", "/api/v1/auth")):
+        if request.url.path.startswith(("/docs", "/openapi.json",  "/api/v1/auth/sign_up", "/api/v1/auth/sign_in", "/api/v1/auth/*/valid")):
             return await call_next(request)
 
         token: Optional[str] = request.cookies.get("token")
