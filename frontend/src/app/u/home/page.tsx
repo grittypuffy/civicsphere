@@ -1,5 +1,6 @@
 'use client'
 import SideBar from '@/lib/components/SideBar';
+import Link from 'next/link';
 import CreatePost from '@/lib/components/CreatePost';
 import { Avatar, Hamburger, Tooltip } from '@fluentui/react-components';
 import { useState } from 'react';
@@ -245,13 +246,16 @@ export default function Page() {
             aria-label="Open Navigation bar"
           />
         </Tooltip>
-        <Avatar
-          name={userName}
-          activeAppearance='ring-shadow'
-          active='active'
-          color='platinum'
-          aria-label={`User avatar for ${userName}`}
-        />
+        <Link href='/u/settings'>
+          <Avatar
+            name={userName}
+            activeAppearance='ring-shadow'
+            active='active'
+            color='platinum'
+            aria-label={`User avatar for ${userName}`}
+            className='cursor-pointer'
+          />
+        </Link>
       </header>
 
       <main className='mx-auto w-full lg:w-3/4 p-4'>
