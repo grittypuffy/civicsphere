@@ -110,7 +110,7 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
               'success'
             );
             setTimeout(() => {
-              router.push('/home');
+              router.push('/u/home');
             }, 400);
             break;
           case 422:

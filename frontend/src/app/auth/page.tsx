@@ -20,8 +20,10 @@ import {
 } from '@fluentui/react-components';
 import { useState } from 'react';
 
-export default function AuthForm() {
-  const [formType, setFormType] = useState<TabValue>('signup');
+function AuthForm() {
+  const searchParams = useSearchParams();
+  const initialFormType = searchParams.get('action') === 'signin' ? 'signin' : searchParams.get('action') === 'onboard' ? 'onboard' : 'signup';
+  const [formType, setFormType] = useState<TabValue | 'onboard'>(initialFormType);
 
   const onTabHandler = (_: SelectTabEvent, data: SelectTabData) => {
     setFormType(data.value);
