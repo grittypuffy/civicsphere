@@ -1,10 +1,13 @@
-'use client'
+ 'use client'
 import Link from 'next/link'
 import { useState } from 'react'
+import SideBar from '@/lib/components/SideBar'
+import { Hamburger, Tooltip, Avatar } from '@fluentui/react-components'
 
 type Trend = { id: number; tag: string; score: number }
 
 export default function TrendingPage() {
+  const [isNavOpen, setNavOpen] = useState(false)
   // sample static list; backend will replace this later
   const initial: Trend[] = [
     { id: 1, tag: '#sports', score: 1245 },
@@ -25,32 +28,58 @@ export default function TrendingPage() {
   const sorted = [...trends].sort((a, b) => sortBy === 'rank' ? a.id - b.id : b.score - a.score)
 
   return (
-    <main className='max-w-2xl mx-auto p-6'>
-      <div className='flex items-center justify-between mb-4'>
-        <h1 className='text-2xl font-semibold'>Trending Topics</h1>
-        <div className='flex items-center gap-3'>
-          <label className='text-sm text-gray-600'>Sort</label>
-          <select value={sortBy} onChange={e => setSortBy(e.target.value as any)} className='p-2 border rounded'>
-            <option value='rank'>Top by Rank</option>
-            <option value='score'>Top by Activity</option>
-          </select>
-        </div>
-      </div>
+    <div className='bg-gray-200 min-h-screen flex flex-col'>
+      <SideBar isNavOpen={isNavOpen} setNavOpen={setNavOpen} />
+      <header className='flex justify-between p-3 lg:p-5 xl:p-8 border'>
+        <Tooltip
+          content="Open Navigation bar"
+          relationship="label"
+          positioning="after"
+        >
+          <Hamburger
+            onClick={() => setNavOpen(true)}
+            aria-label="Open Navigation bar"
+          />
+        </Tooltip>
+        <Link href='/u/settings'>
+          <Avatar
+            name={'You'}
+            activeAppearance='ring-shadow'
+            active='active'
+            color='platinum'
+            aria-label={`User avatar for You`}
+            className='cursor-pointer'
+          />
+        </Link>
+      </header>
 
-      <section className='bg-white rounded shadow-sm divide-y'>
-        {sorted.map((t, idx) => (
-          <div key={t.id} className='flex items-center justify-between p-4'>
-            <div className='flex items-center gap-4'>
-              <div className='w-8 text-center font-semibold text-gray-700'>{idx + 1}</div>
-              <div>
-                <Link href={`/tag/${encodeURIComponent(t.tag.replace('#',''))}`} className='text-lg font-medium text-sky-600'>{t.tag}</Link>
-                <div className='text-xs text-gray-500'>Trending topic</div>
-              </div>
-            </div>
-            <div className='text-sm text-gray-600'>{t.score} mentions</div>
+      <main className='mx-auto w-full lg:w-3/4 p-4 flex-1'>
+        <div className='flex items-center justify-between mb-4'>
+          <h1 className='text-2xl font-semibold'>Trending Topics</h1>
+          <div className='flex items-center gap-3'>
+            <label className='text-sm text-gray-600'>Sort</label>
+            <select value={sortBy} onChange={e => setSortBy(e.target.value as any)} className='p-2 border rounded'>
+              <option value='rank'>Top by Rank</option>
+              <option value='score'>Top by Activity</option>
+            </select>
           </div>
-        ))}
-      </section>
-    </main>
+        </div>
+
+        <section className='bg-white rounded shadow-sm divide-y'>
+          {sorted.map((t, idx) => (
+            <div key={t.id} className='flex items-center justify-between p-4'>
+              <div className='flex items-center gap-4'>
+                <div className='w-8 text-center font-semibold text-gray-700'>{idx + 1}</div>
+                <div>
+                  <Link href={`/tag/${encodeURIComponent(t.tag.replace('#',''))}`} className='text-lg font-medium text-sky-600'>{t.tag}</Link>
+                  <div className='text-xs text-gray-500'>Trending topic</div>
+                </div>
+              </div>
+              <div className='text-sm text-gray-600'>{t.score} mentions</div>
+            </div>
+          ))}
+        </section>
+      </main>
+    </div>
   )
 }

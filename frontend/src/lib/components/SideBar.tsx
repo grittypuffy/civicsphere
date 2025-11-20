@@ -35,7 +35,7 @@ const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Di
                   <HomeRegular />
                 </span>
               }
-              href="/home"
+              href="/u/home"
               value="1"
               aria-label="Navigate to Home page"
             >
@@ -63,7 +63,7 @@ const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Di
                   <ChatSparkleRegular />
                 </span>
               }
-              href="/chat"
+              href="/u/chat"
               value="3"
               aria-label="Navigate to Chat page"
             >
@@ -91,7 +91,7 @@ const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Di
                   <SettingsRegular />
                 </span>
               }
-              href="/home"
+              href="/u/settings"
               value="5"
               aria-label="Navigate to Settings page"
             >

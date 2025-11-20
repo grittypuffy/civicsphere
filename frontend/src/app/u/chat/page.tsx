@@ -1,0 +1,128 @@
+ 'use client'
+import { useEffect, useRef, useState } from 'react'
+import { Avatar, Button, Hamburger, Tooltip } from '@fluentui/react-components'
+import SideBar from '@/lib/components/SideBar'
+import Link from 'next/link'
+
+type Message = {
+  id: number
+  author: string
+  text: string
+  self?: boolean
+}
+
+export default function ChatPage() {
+  const [messages, setMessages] = useState<Message[]>([
+    { id: 1, author: 'Bot', text: 'Hello — ask me about local civic issues.', self: false },
+    { id: 2, author: 'You', text: 'Hi — how do I report a pothole?', self: true }
+  ])
+
+  const [isNavOpen, setNavOpen] = useState(false)
+
+  const [input, setInput] = useState('')
+  const [isRecording, setIsRecording] = useState(false)
+  const [isSending, setIsSending] = useState(false)
+  const listRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    // scroll to bottom when messages change
+    if (listRef.current) {
+      listRef.current.scrollTop = listRef.current.scrollHeight
+    }
+  }, [messages])
+
+  function handleSend() {
+    const text = input.trim()
+    if (!text) return
+    setIsSending(true)
+    const next: Message = { id: Date.now(), author: 'You', text, self: true }
+    setMessages(m => [...m, next])
+    setInput('')
+    // simulate bot reply delay
+    setTimeout(() => {
+      setMessages(m => [...m, { id: Date.now() + 1, author: 'Bot', text: 'Thanks — that looks interesting. (This is a simulated reply.)' }])
+      setIsSending(false)
+    }, 700)
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      handleSend()
+    }
+  }
+
+  // simple mic toggle (simulated) — in future wire to Web Speech or audio capture
+  function toggleMic() {
+    if (isRecording) {
+      // stop recording and simulate a captured phrase
+      setIsRecording(false)
+      const captured = 'This is a simulated voice message transcribed.'
+      setInput(prev => (prev ? prev + ' ' + captured : captured))
+    } else {
+      setIsRecording(true)
+    }
+  }
+
+  return (
+    <div className='bg-gray-200 min-h-screen flex flex-col'>
+      <SideBar isNavOpen={isNavOpen} setNavOpen={setNavOpen} />
+      <header className='flex justify-between p-3 lg:p-5 xl:p-8 border'>
+        <Tooltip
+          content="Open Navigation bar"
+          relationship="label"
+          positioning="after"
+        >
+          <Hamburger
+            onClick={() => setNavOpen(true)}
+            aria-label="Open Navigation bar"
+          />
+        </Tooltip>
+        <Link href='/u/settings'>
+          <Avatar
+            name={'You'}
+            activeAppearance='ring-shadow'
+            active='active'
+            color='platinum'
+            aria-label={`User avatar for You`}
+            className='cursor-pointer'
+          />
+        </Link>
+      </header>
+
+      <main className='mx-auto w-full lg:w-3/4 p-4 flex-1 flex flex-col'>
+        <div ref={listRef} style={{ flex: 1, overflowY: 'auto', paddingRight: 8 }}>
+          {messages.map(m => (
+            <div key={m.id} style={{ display: 'flex', marginBottom: 12, justifyContent: m.self ? 'flex-end' : 'flex-start' }}>
+              {!m.self && (
+                <div style={{ marginRight: 8 }}>
+                  <Avatar name={m.author} />
+                </div>
+              )}
+              <div style={{ maxWidth: '70%', background: m.self ? '#0369a1' : '#ffffff', color: m.self ? 'white' : 'black', padding: 12, borderRadius: 8, boxShadow: '0 1px 2px rgba(0,0,0,0.06)' }}>
+                <div style={{ fontSize: 13, marginBottom: 6, opacity: 0.9 }}>{m.author}</div>
+                <div style={{ whiteSpace: 'pre-wrap' }}>{m.text}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{ marginTop: 12 }}>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <textarea
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder='Enter text to chat with AI'
+              style={{ flex: 1, padding: 10, borderRadius: 8, border: '1px solid #e5e7eb', minHeight: 48, resize: 'vertical' }}
+            />
+
+            <div style={{ display: 'flex', gap: 8 }}>
+              <Button appearance={isRecording ? 'primary' : 'outline'} onClick={toggleMic}>{isRecording ? 'Recording…' : '🎤'}</Button>
+              <Button appearance='primary' onClick={handleSend} disabled={isSending || !input.trim()}>{isSending ? 'Sending…' : 'Send'}</Button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  )
+}
