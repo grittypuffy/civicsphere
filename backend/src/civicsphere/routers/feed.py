@@ -1,5 +1,3 @@
-import logging
-from typing import List
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 from ..config import AppConfig, get_config

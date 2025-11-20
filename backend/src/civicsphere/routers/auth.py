@@ -19,16 +19,17 @@ router = APIRouter(tags=["Authentication"])
 config: AppConfig = get_config()
 
 @router.get(
-    "/session/valid",
+    "/session/isvalid",
     response_model=AuthResponse
 )
 async def is_session_valid(
     req: Request
 ):
     user_id = None
-    if req.state.user:
-        user_id = req.state.user.get("user_id")
-
+    user = getattr(req.state, "user", None)
+    if user:
+        user_id = user.get("user_id")
+    
     if not user_id:
         logging.exception("Error occurred in /auth/session. User is not authenticated.")
         return JSONResponse(
@@ -158,6 +159,20 @@ async def sign_in(payload: SignInRequest, response: Response):
             httponly=True,
             secure=True,
         )
+        user_id = str(user.get("_id"))
+        prefs = await config.db["userPreferences"].find_one(
+            {"user_id": user_id},
+            {"location": 1, "_id": 0}
+        )
+        
+        if prefs and "location" in prefs:
+            response.set_cookie(
+                key="location",
+                value=prefs["location"],
+                httponly=False,
+                secure=True,
+                samesite="lax",
+            )
         return AuthResponse(
             success=True,
             message="Signed in successfully"
@@ -181,6 +196,13 @@ async def sign_out(response: Response):
     try:
         response.delete_cookie(
             "token",
+            # domain=config.env.cookie_domain,
+            secure=True,
+            httponly=True,
+            samesite="none"
+        )
+        response.delete_cookie(
+            "location",
             # domain=config.env.cookie_domain,
             secure=True,
             httponly=True,
