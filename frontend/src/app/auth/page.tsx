@@ -1,7 +1,7 @@
 'use client';
-import OnboardForm from '@/lib/components/OnboardForm';
-import SignInForm from '@/lib/components/SignInForm';
-import SignUpForm from '@/lib/components/SignUpForm';
+import OnboardForm from '@/components/OnboardForm';
+import SignInForm from '@/components/SignInForm';
+import SignUpForm from '@/components/SignUpForm';
 import type {
   SelectTabData,
   SelectTabEvent,
