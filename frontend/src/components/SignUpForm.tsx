@@ -1,4 +1,6 @@
 'use client'
+import { SignUpFormSchema } from '@/lib/schema';
+import { SignUpFormData, ToastFunc, ValidationState } from "@/lib/types";
 import type {
   CheckboxOnChangeData,
   InputOnChangeData
@@ -14,8 +16,6 @@ import { EyeOffRegular, EyeRegular } from '@fluentui/react-icons';
 import Router from 'next/router';
 import { useState } from "react";
 import * as v from 'valibot';
-import { SignUpFormSchema } from '../schema';
-import { SignUpFormData, ToastFunc, ValidationState } from "../types";
 
 const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
   const [formData, setFormData] = useState<SignUpFormData>({
