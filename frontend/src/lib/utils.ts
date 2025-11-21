@@ -24,6 +24,8 @@ export const langs: Language[] = [
   { code: "zh", name: "Chinese" }
 ]
 
+export const locales = langs.map(lang => lang.code);
+
 export const isAuthenticated = async (req: NextRequest): Promise<boolean> => {
   const token = req.cookies.get('token');
   if (!token) {

@@ -1,64 +1,201 @@
 import * as v from 'valibot';
+import {
+  emailValidator,
+  langCodeValidator,
+  nameValidator,
+  passwordValidator,
+  requiredStringValidator,
+  roleValidator,
+  statusValidator,
+  usernameValidator,
+  verifiedValidator,
+} from './validators';
 
-const emailValidator = v.pipe(
-  v.string(),
-  v.nonEmpty('Email is required'),
-  v.email('Invalid email format'),
-);
-
-const passwordValidator = v.pipe(
-  v.string(),
-  v.nonEmpty('Password is required'),
-  v.minLength(8, 'Password must be at least 8 characters'),
-  v.maxLength(20, 'Password must be less than 20 characters'),
-);
-
-const nameValidator = v.pipe(
-  v.string(),
-  v.nonEmpty('Name shouldn\'t be empty'),
-  v.maxLength(20, 'Name must be less than 20 characters'),
-);
-
+// Form schemas
 export const SignUpFormSchema = v.object({
   full_name: v.pipe(
     nameValidator,
     v.regex(/^[A-Za-z ]+$/, "Full name must contain only alphanumeric characters"),
   ),
-  username: v.pipe(
-    nameValidator,
-    v.excludes(' ', 'The username should not contain whitespaces'),
-    v.regex(/^\w+$/, "Username must contain only alphanumeric characters"),
-  ),
+  username: usernameValidator,
   email: emailValidator,
   password: passwordValidator,
 });
 
 export const SignInFormSchema = v.object({
-  username: v.pipe(
-    nameValidator,
-    v.excludes(' ', 'The username should not contain whitespaces'),
-    v.regex(/^\w+$/, "Username must contain only alphanumeric characters"),
-  ),
-  password: v.pipe(
-    passwordValidator
-  ),
+  username: usernameValidator,
+  password: passwordValidator,
 });
 
 export const OnboardFormSchema = v.object({
-  location: v.pipe(
-    v.string(),
-    v.nonEmpty('Location is required'),
-  ),
-  language: v.pipe(
-    v.string(),
-    v.nonEmpty('Language is required'),
-  ),
+  location: requiredStringValidator,
+  language: v.optional(langCodeValidator),
   interests: v.pipe(
     v.array(v.string()),
     v.minLength(1, 'At least one interest is required'),
   ),
-  profession: v.pipe(
-    v.string(),
-    v.nonEmpty('Profession is required'),
+  profession: requiredStringValidator,
+});
+
+// API request schemas
+export const SignUpRequestSchema = v.object({
+  username: usernameValidator,
+  full_name: v.pipe(
+    nameValidator,
+    v.regex(/^[A-Za-z ]+$/, "Full name must contain only alphanumeric characters"),
   ),
+  email: emailValidator,
+  password: passwordValidator,
+  role: v.optional(roleValidator),
+});
+
+export const SignInRequestSchema = v.object({
+  username: usernameValidator,
+  password: passwordValidator,
+});
+
+export const ChatRequestSchema = v.object({
+  prompt: requiredStringValidator,
+});
+
+export const UserPreferencesRequestSchema = v.object({
+  location: requiredStringValidator,
+  language: v.optional(v.string()),
+  interests: v.array(v.string()),
+  profession: requiredStringValidator,
+});
+
+export const UserPreferencesUpdateRequestSchema = v.object({
+  location: v.optional(v.nullable(v.string())),
+  language: v.optional(v.nullable(v.string())),
+  interests: v.optional(v.nullable(v.array(v.string()))),
+  profession: v.optional(v.nullable(v.string())),
+});
+
+// Response schemas
+export const AuthResponseSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
+});
+
+export const ChatDataSchema = v.object({
+  role: v.picklist(['user', 'bot', 'system']),
+  content: v.string(),
+});
+
+export const ChatResponseSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
+  data: v.optional(v.nullable(ChatDataSchema)),
+});
+
+export const ValidationErrorSchema = v.object({
+  loc: v.array(v.union([v.string(), v.number()])),
+  msg: v.string(),
+  type: v.string(),
+});
+
+export const HTTPValidationErrorSchema = v.object({
+  detail: v.optional(v.array(ValidationErrorSchema)),
+});
+
+export const IssueResponseSchema = v.object({
+  community_id: v.string(),
+  issue_id: v.string(),
+  user_id: v.string(),
+  title: v.string(),
+  description: v.string(),
+  upvote: v.number(),
+  status: statusValidator,
+  created_at: v.string(),
+});
+
+export const PostResponseSchema = v.object({
+  community_id: v.string(),
+  post_id: v.string(),
+  user_id: v.string(),
+  tag_id: v.array(v.string()),
+  upvote: v.number(),
+  downvote: v.number(),
+  title: v.string(),
+  description: v.string(),
+  url: v.array(v.string()),
+  lang: v.string(),
+  location: v.string(),
+  verified: verifiedValidator,
+  flagged: v.boolean(),
+  created_at: v.string(),
+});
+
+export const TagResponseSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
+  tags: v.optional(v.nullable(v.record(v.string(), v.string()))),
+});
+
+export const TrendingResponseSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
+  data: v.optional(v.nullable(v.array(PostResponseSchema))),
+});
+
+export const UserSchema = v.object({
+  user_id: v.string(),
+  username: v.string(),
+  email: v.string(),
+  full_name: v.string(),
+  avatar: v.string(),
+  role: v.optional(roleValidator),
+});
+
+export const UserPreferencesSchema = v.object({
+  location: v.string(),
+  language: v.optional(v.string()),
+  interests: v.array(v.string()),
+  profession: v.string(),
+});
+
+export const UserDataModelSchema = v.object({
+  user: UserSchema,
+  preferences: UserPreferencesSchema,
+});
+
+export const UserDataResponseSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
+  data: v.optional(v.nullable(UserDataModelSchema)),
+});
+
+export const UserIssuesResponseSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
+  data: v.optional(v.nullable(v.array(IssueResponseSchema))),
+});
+
+export const UserPostsResponseSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
+  data: v.optional(v.nullable(v.array(PostResponseSchema))),
+});
+
+export const UserPreferencesResponseSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
+});
+
+export const GetPreferencesResponseSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
+  data: v.optional(v.nullable(UserPreferencesSchema)),
+});
+
+export const UserReactionsResponseSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
+  data: v.optional(v.nullable(v.array(v.string()))),
+});
+
+export const LanguageSchema = v.object({
+  code: langCodeValidator,
+  name: v.string(),
 });

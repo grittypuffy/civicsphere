@@ -1,15 +1,15 @@
 'use client'
+import { OnboardFormSchema } from '@/lib/schema';
+import { LangCode, ToastFunc, UserPreferencesRequest } from "@/lib/types";
+import { langs } from "@/lib/utils";
 import { Button, Dropdown, Field, Input, InputOnChangeData, Option, Spinner, Textarea } from "@fluentui/react-components";
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
 import * as v from 'valibot';
-import { OnboardFormSchema } from '../schema';
-import { LangCode, ToastFunc, UserPreferencesReq } from "../types";
-import { langs } from "../utils";
 
 const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
   const router = useRouter();
-  const [formData, setFormData] = useState<UserPreferencesReq>({
+  const [formData, setFormData] = useState<UserPreferencesRequest>({
     location: '',
     language: 'en',
     interests: [],

@@ -23,7 +23,6 @@ const features: Feature[] = [
 ]
 
 export default function Home() {
-
   return (
     <>
       <div className="mx-auto min-h-screen flex flex-col justify-center items-center gap-3 md:gap-5 lg:gap-8">

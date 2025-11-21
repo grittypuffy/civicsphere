@@ -12,9 +12,11 @@
     "@fluentui/react-components": "^9.72.7",
     "@fluentui/react-icons": "^2.0.315",
     "next": "16.0.3",
+    "next-intl": "^4.5.5",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "valibot": "^1.1.0"
+    "valibot": "^1.1.0",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
