@@ -63,6 +63,9 @@ class EnvVarConfig(BaseSettings):
     # Bing Search
     bing_search_api_key: str
     bing_search_endpoint: str
+    
+    #Function App
+    azure_function_app_url: str
 
     class EnvVarConfig:
         env_file = ".env"
