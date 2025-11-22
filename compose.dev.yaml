@@ -2,17 +2,29 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: ./Dockerfile
+      dockerfile: ./Dockerfile.dev
     volumes:
       - ../certs:/certs:ro
       - ../uploads:/backend/uploads
     develop:
       watch:
-        - action: rebuild
+        - action: sync
           path: ./backend/
           target: /backend
+          ignore:
+            - __pycache__/
+            - "*.pyc"
+            - "*.pyo"
+            - "*.pyd"
+            - .git/
+            - .pytest_cache/
+            - .coverage
         - action: rebuild
           path: ./backend/poetry.lock
+        - action: rebuild
+          path: ./backend/requirements.txt
+        - action: rebuild
+          path: ./backend/pyproject.toml
     environment:
       - MONGODB_URI=mongodb://root:root@mongodb:27017/civicsphere?authSource=admin
       - TMP_UPLOADS_DIR=/backend/uploads
@@ -34,6 +46,21 @@ services:
         - action: sync
           path: ./frontend/
           target: /app
+          ignore:
+            - node_modules/
+            - .next/
+            - .git/
+            - "*.log"
+            - .env.local
+            - .env.*.local
+        - action: rebuild
+          path: ./frontend/package.json
+        - action: rebuild
+          path: ./frontend/package-lock.json
+        - action: rebuild
+          path: ./frontend/yarn.lock
+        - action: rebuild
+          path: ./frontend/next.config.js
     env_file:
       - ./frontend/.env
     depends_on:
