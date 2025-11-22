@@ -1,4 +1,5 @@
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from typing import List
 
 from .database import get_database
 from .environment import EnvVarConfig
@@ -14,7 +15,7 @@ from ..helpers.service import get_langchain_llm
 from azure.storage.blob.aio import ContainerClient
 from azure.ai.formrecognizer import DocumentAnalysisClient
 from azure.core.credentials import AzureKeyCredential
-from langchain_openai import AzureChatOpenAI
+from langchain_openai.chat_models import AzureChatOpenAI
 from azure.search.documents import SearchClient
 from openai import AzureOpenAI
 from azure.ai.textanalytics import TextAnalyticsClient
@@ -42,7 +43,7 @@ class AppConfig:
             self.env.azure_openai_api_key,
             self.env.azure_openai_endpoint,
             self.env.azure_openai_deployment,
-            self.env.azure_openai_api_version
+            self.env.azure_openai_api_version,
         )
 
         # Normal LLM for working
@@ -58,6 +59,10 @@ class AppConfig:
 
         # Text Analytics Client
         self.text_analytics_client: TextAnalyticsClient = get_text_analysis_client(self.env.document_intelligence_endpoint, self.env.document_intelligence_key)
+
+        # Bing Search
+        self.bing_search_api_key = self.env.bing_search_api_key
+        self.bing_search_endpoint = self.env.bing_search_endpoint
 
         self.languages: List[str] = [
             "ar", "bn", "de", "el", "en", "es", "fr", "hi", "ht", "it", 

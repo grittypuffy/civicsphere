@@ -60,6 +60,10 @@ class EnvVarConfig(BaseSettings):
     translations_path: str = f"{os.getcwd()}/src/civicsphere/translations"
     tmp_upload_dir: str = "/backend/uploads"
 
+    # Bing Search
+    bing_search_api_key: str
+    bing_search_endpoint: str
+
     class EnvVarConfig:
         env_file = ".env"
         env_file_encoding = "utf-8"

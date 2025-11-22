@@ -1,4 +1,6 @@
 'use client'
+import { SignUpFormSchema } from '@/lib/schema';
+import { SignUpFormData, ToastFunc, ValidationState } from "@/lib/types";
 import type {
   CheckboxOnChangeData,
   InputOnChangeData
@@ -11,12 +13,12 @@ import {
   Spinner
 } from '@fluentui/react-components';
 import { EyeOffRegular, EyeRegular } from '@fluentui/react-icons';
+import { useRouter } from 'next/navigation';
 import { useState } from "react";
 import * as v from 'valibot';
-import { SignUpFormSchema } from '../schema';
-import { SignUpFormData, ToastFunc } from "../types";
 
 const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
+  const router = useRouter();
   const [formData, setFormData] = useState<SignUpFormData>({
     username: '',
     email: '',
@@ -24,10 +26,11 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
     full_name: '',
   });
 
-  const [validation, setMessage] = useState<{ [key: string]: string }>({
+  const [validation, setMessage] = useState<{ [key: string]: string, state: ValidationState }>({
     name: '',
     email: '',
     password: '',
+    state: 'none',
   });
 
   const [prevUserName, setPrevUserName] = useState<string>('');
@@ -98,7 +101,6 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
     }
 
     setTimeout(async () => {
-      ToastMessage({ message: 'Signing Up..', description: '' }, 'info');
       try {
         const res: Response = await fetch('/api/v1/auth/sign_up', {
           method: 'POST',
@@ -114,10 +116,17 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
               { message: 'Sign Up Successful', description: 'You can now sign in.' },
               'success'
             );
+            router.push('/auth?action=onboard');
+            break;
+          case 409:
+            ToastMessage(
+              { message: 'Sign Up Failed', description: 'Username or Email already exists.' },
+              'error'
+            );
             break;
           case 422:
             ToastMessage(
-              { message: 'Invalid Data', description: 'Please check your input and try again.' },
+              { message: 'Sign Up Failed', description: 'Invalid data! Please check your input and try again.', },
               'error'
             );
             break;
@@ -151,8 +160,17 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
       return;
     }
 
+    const res = v.safeParse(SignUpFormSchema.entries.username, formData.username);
+    if (res.issues) {
+      setCheckingUserName(false);
+      setMessage((prev) => ({
+        ...prev,
+        username: res.issues[0]?.message || 'Invalid Username',
+      }));
+      return;
+    }
+
     setTimeout(async () => {
-      ToastMessage({ message: 'Validating Username..', description: '' }, 'info');
       try {
         const res: Response = await fetch(`/api/v1/auth/${formData.username}/valid`, {
           method: 'GET',
@@ -175,6 +193,12 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
               username: `Username "${formData.username}" is available`,
             }));
             setIsValidUserName(true);
+            break;
+          case 409:
+            ToastMessage(
+              { message: 'Username Unavailable', description: 'Please choose a different username.' },
+              'error'
+            );
             break;
           case 422:
             ToastMessage(
@@ -257,7 +281,7 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
         >
           <Field
             label="Full Name"
-            validationState={validation.full_name ? 'error' : 'none'}
+            validationState={validation.state}
             validationMessage={validation.full_name}
             className="w-full"
           >
@@ -278,7 +302,7 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
           </Field>
           <Field
             label="Email"
-            validationState={validation.email ? 'error' : 'none'}
+            validationState={validation.state}
             validationMessage={validation.email}
             className="w-full"
           >
@@ -300,7 +324,7 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
           </Field>
           <Field
             label="Password"
-            validationState={validation.password ? 'error' : 'none'}
+            validationState={validation.state}
             validationMessage={validation.password}
             className="w-full"
           >
