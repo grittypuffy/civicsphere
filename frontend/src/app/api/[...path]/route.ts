@@ -20,13 +20,8 @@ async function proxyRequest(req: NextRequest) {
   console.log('Proxying request to:', newUrl);
 
   try {
-    const newReq = new Request(newUrl, req.clone());
-
-    const res = await fetch(newReq, {
-      signal: AbortSignal.timeout(30000),
-    });
-
-    const resHeaders = new Headers(res.headers);
+    // Create headers for the backend request, filtering out hop-by-hop headers
+    const requestHeaders = new Headers();
     const hopByHopHeaders = [
       'connection',
       'keep-alive',
@@ -35,14 +30,42 @@ async function proxyRequest(req: NextRequest) {
       'te',
       'trailers',
       'transfer-encoding',
-      'upgrade'
+      'upgrade',
+      'host' // Remove host header as it should be set to the backend host
     ];
+
+    // Copy headers from original request, excluding hop-by-hop headers
+    req.headers.forEach((value, key) => {
+      if (!hopByHopHeaders.includes(key.toLowerCase())) {
+        requestHeaders.set(key, value);
+      }
+    });
+
+    // Get the request body if it exists
+    let body: ArrayBuffer | null = null;
+    if (req.method !== 'GET' && req.method !== 'HEAD') {
+      body = await req.arrayBuffer();
+    }
+
+    // Create the backend request
+    const backendRequest = new Request(newUrl, {
+      method: req.method,
+      headers: requestHeaders,
+      body: body,
+    });
+
+    const res = await fetch(backendRequest, {
+      signal: AbortSignal.timeout(30000),
+    });
+
+    // Filter out hop-by-hop headers from the response
+    const resHeaders = new Headers(res.headers);
     hopByHopHeaders.forEach(header => {
       resHeaders.delete(header);
     });
 
-    const body = await res.arrayBuffer();
-    return new Response(body, {
+    const responseBody = await res.arrayBuffer();
+    return new Response(responseBody, {
       status: res.status,
       statusText: res.statusText,
       headers: resHeaders,
