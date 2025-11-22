@@ -1,8 +1,8 @@
- 'use client'
+'use client'
+import SideBar from '@/components/SideBar'
+import { Avatar, Hamburger, Tooltip } from '@fluentui/react-components'
 import Link from 'next/link'
-import { useState } from 'react'
-import SideBar from '@/lib/components/SideBar'
-import { Hamburger, Tooltip, Avatar } from '@fluentui/react-components'
+import { SetStateAction, useState } from 'react'
 
 type Trend = { id: number; tag: string; score: number }
 
@@ -58,7 +58,7 @@ export default function TrendingPage() {
           <h1 className='text-2xl font-semibold'>Trending Topics</h1>
           <div className='flex items-center gap-3'>
             <label className='text-sm text-gray-600'>Sort</label>
-            <select value={sortBy} onChange={e => setSortBy(e.target.value as any)} className='p-2 border rounded'>
+            <select value={sortBy} onChange={e => setSortBy(e.target.value as SetStateAction<'rank' | 'score'>)} className='p-2 border rounded'>
               <option value='rank'>Top by Rank</option>
               <option value='score'>Top by Activity</option>
             </select>
@@ -71,7 +71,7 @@ export default function TrendingPage() {
               <div className='flex items-center gap-4'>
                 <div className='w-8 text-center font-semibold text-gray-700'>{idx + 1}</div>
                 <div>
-                  <Link href={`/tag/${encodeURIComponent(t.tag.replace('#',''))}`} className='text-lg font-medium text-sky-600'>{t.tag}</Link>
+                  <Link href={`/tag/${encodeURIComponent(t.tag.replace('#', ''))}`} className='text-lg font-medium text-sky-600'>{t.tag}</Link>
                   <div className='text-xs text-gray-500'>Trending topic</div>
                 </div>
               </div>

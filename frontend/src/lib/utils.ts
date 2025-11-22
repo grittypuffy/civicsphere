@@ -33,7 +33,7 @@ export const isAuthenticated = async (req: NextRequest): Promise<boolean> => {
   }
 
   try {
-    const backendApi = process.env.NEXT_PUBLIC_BACKEND_API;
+    const backendApi = process.env.NEXT_PUBLIC_BACKEND_URL;
     const newUrl = `${backendApi}/api/v1/auth/session/valid`;
     const newReq = new Request(newUrl, req.clone());
 

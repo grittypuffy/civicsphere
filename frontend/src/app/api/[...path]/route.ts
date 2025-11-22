@@ -10,9 +10,9 @@ export async function POST(req: NextRequest) {
 
 async function proxyRequest(req: NextRequest) {
   const url = req.nextUrl;
-  const backendApi = process.env.NEXT_PUBLIC_BACKEND_API;
+  const backendApi = process.env.NEXT_PUBLIC_BACKEND_URL;
   if (!backendApi) {
-    console.error('NEXT_PUBLIC_BACKEND_API environment variable not set');
+    console.error('NEXT_PUBLIC_BACKEND_URL environment variable not set');
     return new Response('Backend API configuration error', { status: 500 });
   }
 
