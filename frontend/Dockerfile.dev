@@ -1,0 +1,24 @@
+# Use the official Node.js image as a base image
+FROM node:24-alpine
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy package.json and yarn.lock
+COPY package.json yarn.lock ./
+
+# Install dependencies (including production and dev dependencies)
+RUN yarn install --frozen-lockfile
+
+# Copy the entire project into the container
+COPY . .
+
+# Set environment variable
+ARG NEXT_PUBLIC_BACKEND_URL
+ENV NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
+
+# Expose the port that the app will run on
+EXPOSE 3000
+
+# Start the application in development mode for hot reloading
+ENTRYPOINT ["yarn", "dev"]
