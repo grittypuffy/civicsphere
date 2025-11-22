@@ -1,9 +1,34 @@
-@import "tailwindcss";
+@import "tailwindcss/index.css";
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-.surround {
-    @apply p-5 md:p-8 lg:p-10;
+:root {
+  --brand: #0ea5e9; /* sky-500 */
+  --brand-dark: #0369a1; /* blue-800 */
+  --light-brand: #e0f2fe; /* sky-100 */
+  --card: #ffffff;
+}
+
+.bg-brand { background-color: var(--brand); }
+.text-brand { color: var(--brand); }
+.bg-light-brand { background-color: var(--light-brand); }
+
+@layer components {
+  .surround {
+    padding: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .surround {
+      padding: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .surround {
+      padding: 2.5rem;
+    }
+  }
 }

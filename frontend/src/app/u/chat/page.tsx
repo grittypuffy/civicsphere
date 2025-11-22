@@ -1,8 +1,6 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
-import { Avatar, Button, Hamburger, Tooltip } from '@fluentui/react-components'
-import SideBar from '@/components/SideBar'
-import Link from 'next/link'
+import { Button } from '@fluentui/react-components'
 
 type Message = {
   id: number
@@ -17,7 +15,7 @@ export default function ChatPage() {
     { id: 2, author: 'You', text: 'Hi — how do I report a pothole?', self: true }
   ])
 
-  const [isNavOpen, setNavOpen] = useState(false)
+  
 
   const [input, setInput] = useState('')
   const [isRecording, setIsRecording] = useState(false)
@@ -122,68 +120,42 @@ export default function ChatPage() {
   }
 
   return (
-    <div className='bg-gray-200 min-h-screen flex flex-col'>
-      <SideBar isNavOpen={isNavOpen} setNavOpen={setNavOpen} />
-      <header className='flex justify-between p-3 lg:p-5 xl:p-8 border'>
-        <Tooltip
-          content="Open Navigation bar"
-          relationship="label"
-          positioning="after"
-        >
-          <Hamburger
-            onClick={() => setNavOpen(true)}
-            aria-label="Open Navigation bar"
-          />
-        </Tooltip>
-        <Link href='/u/settings'>
-          <Avatar
-            name={'You'}
-            activeAppearance='ring-shadow'
-            active='active'
-            color='platinum'
-            aria-label={`User avatar for You`}
-            className='cursor-pointer'
-          />
-        </Link>
-      </header>
-
-      <main className='mx-auto w-full lg:w-3/4 p-4 flex-1 flex flex-col'>
-        <div ref={listRef} style={{ flex: 1, overflowY: 'auto', paddingRight: 8 }}>
-          {messages.map(m => (
-            <div key={m.id} style={{ display: 'flex', marginBottom: 12, justifyContent: m.self ? 'flex-end' : 'flex-start' }}>
-              {!m.self && (
-                <div style={{ marginRight: 8 }}>
-                  <Avatar name={m.author} />
-                </div>
-              )}
-              <div style={{ maxWidth: '70%', background: m.self ? '#0369a1' : '#ffffff', color: m.self ? 'white' : 'black', padding: 12, borderRadius: 8, boxShadow: '0 1px 2px rgba(0,0,0,0.06)' }}>
-                <div style={{ fontSize: 13, marginBottom: 6, opacity: 0.9 }}>{m.author}</div>
-                <div style={{ whiteSpace: 'pre-wrap' }}>
-                  {m.text || (!m.self && isSending ? (
-                    <span style={{ opacity: 0.6, fontStyle: 'italic' }}>Typing...</span>
-                  ) : m.text)}
-                </div>
+    <div className='flex-1 flex flex-col'>
+      <div ref={listRef} style={{ flex: 1, overflowY: 'auto', paddingRight: 8 }}>
+        {messages.map(m => (
+          <div key={m.id} style={{ display: 'flex', marginBottom: 12, justifyContent: m.self ? 'flex-end' : 'flex-start' }}>
+            {!m.self && (
+              <div style={{ marginRight: 8 }}>
+                <div style={{ width: 32, height: 32, borderRadius: 16, background: '#ddd', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{m.author[0]}</div>
+              </div>
+            )}
+            <div style={{ maxWidth: '70%', background: m.self ? '#0369a1' : '#ffffff', color: m.self ? 'white' : 'black', padding: 12, borderRadius: 8, boxShadow: '0 1px 2px rgba(0,0,0,0.06)' }}>
+              <div style={{ fontSize: 13, marginBottom: 6, opacity: 0.9 }}>{m.author}</div>
+              <div style={{ whiteSpace: 'pre-wrap' }}>
+                {m.text || (!m.self && isSending ? (
+                  <span style={{ opacity: 0.6, fontStyle: 'italic' }}>Typing...</span>
+                ) : m.text)}
               </div>
             </div>
-          ))}
-        </div>
-        <div style={{ marginTop: 12 }}>
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-            <textarea
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder='Enter text to chat with AI'
-              style={{ flex: 1, padding: 10, borderRadius: 8, border: '1px solid #e5e7eb', minHeight: 48, resize: 'vertical' }}
-            />
+          </div>
+        ))}
+      </div>
+      <div style={{ marginTop: 12 }}>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <textarea
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder='Enter text to chat with AI'
+            style={{ flex: 1, padding: 10, borderRadius: 8, border: '1px solid #e5e7eb', minHeight: 48, resize: 'vertical' }}
+          />
 
-            <div style={{ display: 'flex', gap: 8 }}>
-              <Button appearance={isRecording ? 'primary' : 'outline'} onClick={toggleMic}>{isRecording ? 'Recording…' : '🎤'}</Button>
-              <Button appearance='primary' onClick={handleSend} disabled={isSending || !input.trim()}>{isSending ? 'Sending…' : 'Send'}</Button>
-            </div>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <Button appearance={isRecording ? 'primary' : 'outline'} onClick={toggleMic}>{isRecording ? 'Recording…' : '🎤'}</Button>
+            <Button appearance='primary' onClick={handleSend} disabled={isSending || !input.trim()}>{isSending ? 'Sending…' : 'Send'}</Button>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   )
 }

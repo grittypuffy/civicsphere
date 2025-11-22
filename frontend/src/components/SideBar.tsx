@@ -49,7 +49,7 @@ const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Di
                   <ArrowTrendingLinesFilled />
                 </span>
               }
-              href="/trending"
+              href="/u/trending"
               value="2"
               aria-label="Navigate to Trending page"
             >
