@@ -1,7 +1,7 @@
 from azure.storage.blob.aio import BlobServiceClient, ContainerClient
 from azure.ai.formrecognizer import DocumentAnalysisClient
 from azure.core.credentials import AzureKeyCredential
-from langchain_openai import AzureChatOpenAI
+from langchain_openai.chat_models import AzureChatOpenAI
 from azure.search.documents import SearchClient
 from openai import AzureOpenAI
 from azure.ai.textanalytics import TextAnalyticsClient
@@ -31,7 +31,6 @@ def get_langchain_llm(openai_api_key: str, endpoint: str, deployment: str, api_v
         azure_endpoint=endpoint,
         azure_deployment=deployment,
         api_version=api_version,
-        temperature=0.7,
         max_tokens=5000,
         timeout=None,
         max_retries=2,

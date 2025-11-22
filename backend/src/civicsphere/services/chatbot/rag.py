@@ -6,6 +6,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 from langchain_community.callbacks import get_openai_callback
 from ...config import get_config, AppConfig
+import asyncio
 
 config: AppConfig = get_config()
 
@@ -95,24 +96,26 @@ async def process_document(file_path: str):
         return None
 
 
-def ingest_document(file_path: str):
+async def ingest_document(file_path: str):
     """
     Ingest the document from the given file path by processing and uploading it to the RAG container.
 
     :param file_path: Path to the file (local or URL to the Blob).
     :return: The status of the ingestion process.
     """
-    processed_content = process_document(file_path)
+    processed_content = await process_document(file_path)
     if processed_content:
-        index_result = config.search.upload_documents([processed_content])
+        index_result = await asyncio.to_thread(config.search.upload_documents, [processed_content])
         return {"status": "error", "message": "Failed to process the document."}
 
     else:
         return {"status": "error", "message": "Failed to process the document."}
 
 
-def search_documents(query: str):
-    results = config.search.search(
+
+async def search_documents(query: str):
+    results = await asyncio.to_thread(
+        config.search.search,
         search_text=query,
         # query_type="semantic",
         top=3
@@ -144,14 +147,14 @@ def generate_response(query, documents):
     return ret
 
 
-def process_query(query: str):
+async def process_query(query: str):
     """
     Process the user query by searching for relevant documents and generating a response.
 
     :param query: The user query.
     :return: The response generated based on the query and documents.
     """
-    documents = search_documents(query)
+    documents = await search_documents(query)
     if documents:
         response = generate_response(query, documents)
         return {"response": response}

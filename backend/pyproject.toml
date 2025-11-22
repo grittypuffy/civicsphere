@@ -33,7 +33,7 @@ dependencies = [
     "azure-ai-generative (>=1.0.0b11,<2.0.0)",
     "bcrypt (>=5.0.0,<6.0.0)",
     "usaddress (>=0.5.16,<0.6.0)",
-    "azure-cognitiveservices-vision-computervision (>=0.9.1,<0.10.0)"
+    "aiohttp (>=3.9.0,<4.0.0)"
 ]
 
 [tool.poetry]
