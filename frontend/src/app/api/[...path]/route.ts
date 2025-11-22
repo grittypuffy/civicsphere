@@ -64,12 +64,26 @@ async function proxyRequest(req: NextRequest) {
       resHeaders.delete(header);
     });
 
-    const responseBody = await res.arrayBuffer();
-    return new Response(responseBody, {
-      status: res.status,
-      statusText: res.statusText,
-      headers: resHeaders,
-    });
+    // Check if this is a streaming response
+    const contentType = res.headers.get('content-type') || '';
+    const isStreaming = contentType.includes('text/event-stream') || contentType.includes('application/stream');
+
+    if (isStreaming && res.body) {
+      // For streaming responses, pass through the body directly
+      return new Response(res.body, {
+        status: res.status,
+        statusText: res.statusText,
+        headers: resHeaders,
+      });
+    } else {
+      // For non-streaming responses, buffer the entire response
+      const responseBody = await res.arrayBuffer();
+      return new Response(responseBody, {
+        status: res.status,
+        statusText: res.statusText,
+        headers: resHeaders,
+      });
+    }
   } catch (error) {
     if (error instanceof Error && error.name === 'TimeoutError') {
       console.error('Request timeout:', newUrl);

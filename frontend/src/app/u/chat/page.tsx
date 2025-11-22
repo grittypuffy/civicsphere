@@ -1,7 +1,7 @@
- 'use client'
+'use client'
 import { useEffect, useRef, useState } from 'react'
 import { Avatar, Button, Hamburger, Tooltip } from '@fluentui/react-components'
-import SideBar from '@/lib/components/SideBar'
+import SideBar from '@/components/SideBar'
 import Link from 'next/link'
 
 type Message = {
@@ -31,18 +31,75 @@ export default function ChatPage() {
     }
   }, [messages])
 
-  function handleSend() {
+  async function handleSend() {
     const text = input.trim()
     if (!text) return
     setIsSending(true)
-    const next: Message = { id: Date.now(), author: 'You', text, self: true }
-    setMessages(m => [...m, next])
+    const userMessage: Message = { id: Date.now(), author: 'You', text, self: true }
+    setMessages(m => [...m, userMessage])
     setInput('')
-    // simulate bot reply delay
-    setTimeout(() => {
-      setMessages(m => [...m, { id: Date.now() + 1, author: 'Bot', text: 'Thanks — that looks interesting. (This is a simulated reply.)' }])
+
+    // Create a placeholder bot message that will be updated as chunks arrive
+    const botMessageId = Date.now() + 1
+    const botMessage: Message = { id: botMessageId, author: 'Bot', text: '', self: false }
+    setMessages(m => [...m, botMessage])
+
+    try {
+      // Make API call to streaming endpoint
+      const response = await fetch('/api/v1/chat/new', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt: text }),
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      // Read the streaming response
+      const reader = response.body?.getReader()
+      const decoder = new TextDecoder()
+
+      if (!reader) {
+        throw new Error('Response body is not readable')
+      }
+
+      let accumulatedText = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+
+        if (done) break
+
+        // Decode the chunk and append to accumulated text
+        const chunk = decoder.decode(value, { stream: true })
+        accumulatedText += chunk
+
+        // Update the bot message with accumulated text
+        setMessages(m =>
+          m.map(msg =>
+            msg.id === botMessageId
+              ? { ...msg, text: accumulatedText }
+              : msg
+          )
+        )
+      }
+
       setIsSending(false)
-    }, 700)
+    } catch (error) {
+      console.error('Error sending message:', error)
+      // Update bot message with error
+      setMessages(m =>
+        m.map(msg =>
+          msg.id === botMessageId
+            ? { ...msg, text: 'Sorry, there was an error processing your request. Please try again.' }
+            : msg
+        )
+      )
+      setIsSending(false)
+    }
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
@@ -101,7 +158,11 @@ export default function ChatPage() {
               )}
               <div style={{ maxWidth: '70%', background: m.self ? '#0369a1' : '#ffffff', color: m.self ? 'white' : 'black', padding: 12, borderRadius: 8, boxShadow: '0 1px 2px rgba(0,0,0,0.06)' }}>
                 <div style={{ fontSize: 13, marginBottom: 6, opacity: 0.9 }}>{m.author}</div>
-                <div style={{ whiteSpace: 'pre-wrap' }}>{m.text}</div>
+                <div style={{ whiteSpace: 'pre-wrap' }}>
+                  {m.text || (!m.self && isSending ? (
+                    <span style={{ opacity: 0.6, fontStyle: 'italic' }}>Typing...</span>
+                  ) : m.text)}
+                </div>
               </div>
             </div>
           ))}
