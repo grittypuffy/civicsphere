@@ -24,6 +24,8 @@ export const langs: Language[] = [
   { code: "zh", name: "Chinese" }
 ]
 
+export const locales = langs.map(lang => lang.code);
+
 export const isAuthenticated = async (req: NextRequest): Promise<boolean> => {
   const token = req.cookies.get('token');
   if (!token) {
@@ -31,7 +33,7 @@ export const isAuthenticated = async (req: NextRequest): Promise<boolean> => {
   }
 
   try {
-    const backendApi = process.env.NEXT_PUBLIC_BACKEND_API;
+    const backendApi = process.env.NEXT_PUBLIC_BACKEND_URL;
     const newUrl = `${backendApi}/api/v1/auth/session/valid`;
     const newReq = new Request(newUrl, req.clone());
 

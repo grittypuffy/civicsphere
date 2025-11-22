@@ -1,8 +1,8 @@
 'use client'
-import SideBar from '@/lib/components/SideBar';
-import Link from 'next/link';
-import CreatePost from '@/lib/components/CreatePost';
+import CreatePost from '@/components/CreatePost';
+import SideBar from '@/components/SideBar';
 import { Avatar, Hamburger, Tooltip } from '@fluentui/react-components';
+import Link from 'next/link';
 import { useState } from 'react';
 
 export default function Page() {
@@ -32,7 +32,7 @@ export default function Page() {
     const base: PostItem = {
       id: i + 1,
       author: `User ${i + 1}`,
-      avatarColor: ['emerald','violet','amber','sky','rose'][i % 5],
+      avatarColor: ['emerald', 'violet', 'amber', 'sky', 'rose'][i % 5],
       contentText: i % 3 === 0 ? `This is a short post text number ${i + 1}. Discussing local politics and community issues.` : `Here is a longer piece of text for post ${i + 1}. It demonstrates how text-only or text+media posts will appear in the feed.`,
       image: i % 4 === 1 ? `https://picsum.photos/seed/${i + 1}/800/450` : undefined,
       video: i % 4 === 2 ? `https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4` : undefined,

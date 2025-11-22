@@ -3,6 +3,7 @@ certs
 .env
 **/*/.env
 data
+!frontend/src/lib/i18n/data
 .env.*
 .envrc
 .direnv

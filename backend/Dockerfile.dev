@@ -1,0 +1,30 @@
+FROM python:3.13-slim-bookworm
+
+RUN pip install poetry
+
+ENV POETRY_NO_INTERACTION=1 \
+    POETRY_VIRTUALENVS_IN_PROJECT=1 \
+    POETRY_VIRTUALENVS_CREATE=1 \
+    POETRY_CACHE_DIR=/tmp/poetry_cache
+
+WORKDIR /backend
+
+RUN mkdir uploads
+
+RUN apt-get update
+
+RUN apt-get install -y build-essential ca-certificates libasound2-dev libssl-dev wget ffmpeg
+
+COPY pyproject.toml poetry.lock ./
+
+RUN touch README.md
+
+RUN poetry env use python3.13
+
+COPY . .
+
+RUN poetry install
+
+EXPOSE 8000
+
+ENTRYPOINT ["poetry", "run", "python", "-m", "uvicorn", "src.civicsphere.server:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
