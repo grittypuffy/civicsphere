@@ -38,7 +38,7 @@ const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Di
             },{
               href: '/u/chat', label: 'Chat', icon: <ChatSparkleRegular />
             },{
-              href: '/home', label: 'Community', icon: <PeopleCommunityRegular />
+              href: '/u/communities', label: 'Community', icon: <PeopleCommunityRegular />
             },{
               href: '/u/settings', label: 'Settings', icon: <SettingsRegular />
             }].map((item, idx) => (
