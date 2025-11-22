@@ -13,11 +13,12 @@ import {
   Spinner
 } from '@fluentui/react-components';
 import { EyeOffRegular, EyeRegular } from '@fluentui/react-icons';
-import Router from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useState } from "react";
 import * as v from 'valibot';
 
 const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
+  const router = useRouter();
   const [formData, setFormData] = useState<SignUpFormData>({
     username: '',
     email: '',
@@ -115,7 +116,7 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
               { message: 'Sign Up Successful', description: 'You can now sign in.' },
               'success'
             );
-            Router.push('/auth?action=onboard');
+            router.push('/auth?action=onboard');
             break;
           case 409:
             ToastMessage(
