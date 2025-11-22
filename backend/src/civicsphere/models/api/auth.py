@@ -7,7 +7,7 @@ class SignUpRequest(BaseModel):
     full_name: str
     email: EmailStr
     password: str
-    role: Literal["User", "Admin", "Guest", "Moderator"] = "User"
+    role: Literal["User", "Admin", "Moderator"] = "User"
 
     @field_validator('username')
     def validate_username(cls, value):
@@ -38,5 +38,6 @@ class SignInRequest(BaseModel):
     password: str
 
 
-class Token(BaseModel):
-    token: str | None
+class AuthResponse(BaseModel):
+    success: bool
+    message: str

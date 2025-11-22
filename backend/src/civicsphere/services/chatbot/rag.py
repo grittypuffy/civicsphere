@@ -3,19 +3,14 @@ import logging
 import mimetypes
 import json
 from datetime import datetime
-from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
-from azure.ai.formrecognizer import DocumentAnalysisClient
-from azure.search.documents import SearchClient
-from azure.core.credentials import AzureKeyCredential
 from dotenv import load_dotenv
-from langchain_openai import AzureChatOpenAI
 from langchain_community.callbacks import get_openai_callback
-from ..config import get_config, AppConfig
+from ...config import get_config, AppConfig
 
 config: AppConfig = get_config()
 
 
-def process_upload_document(file_path: str):
+async def process_upload_document(file_path: str):
     """
     Process the document from the given file path using Azure Form Recognizer (Document Intelligence).
 
@@ -25,7 +20,7 @@ def process_upload_document(file_path: str):
 
     file_name = file_path.split("/")[-1]
     blob_client = config.uploads.get_blob_client(file_name)
-    properties = blob_client.get_blob_properties()
+    properties = await blob_client.get_blob_properties()
     content_type, _ = mimetypes.guess_type(file_path)
 
     metadata = properties.metadata
@@ -48,7 +43,7 @@ def process_upload_document(file_path: str):
             # Return the extracted content as a list of lines
             return "\n".join(extracted_text)
         elif content_type == "text/plain":
-            blob_data = blob_client.download_blob().readall().decode("utf-8")
+            blob_data = await blob_client.download_blob().readall().decode("utf-8")
             return  blob_data
         else:
             return None
@@ -58,7 +53,7 @@ def process_upload_document(file_path: str):
 
 
 
-def process_document(file_path: str):
+async def process_document(file_path: str):
     """
     Process the document from the given file path using Azure Form Recognizer (Document Intelligence).
 
@@ -68,7 +63,7 @@ def process_document(file_path: str):
 
     file_name = file_path.split("/")[-1]
     blob_client = config.knowledge_base.get_blob_client(file_name)
-    properties = blob_client.get_blob_properties()
+    properties = await blob_client.get_blob_properties()
     content_type, _ = mimetypes.guess_type(file_path)
 
     metadata = properties.metadata
@@ -91,7 +86,7 @@ def process_document(file_path: str):
             # Return the extracted content as a list of lines
             return {"id": blob_id, "updated": str(datetime.now()), "content": "\n".join(extracted_text), "metadata_file_path": file_path, "metadata_filename": filename}
         elif content_type == "text/plain":
-            blob_data = blob_client.download_blob().readall().decode("utf-8")
+            blob_data = await blob_client.download_blob().readall().decode("utf-8")
             return {"id": blob_id, "content": blob_data, "username": username, "metadata_file_path": file_path, "metadata_filename": filename}
         else:
             return None

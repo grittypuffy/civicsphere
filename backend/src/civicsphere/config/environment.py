@@ -30,17 +30,26 @@ class EnvVarConfig(BaseSettings):
     document_intelligence_endpoint: str
     document_intelligence_key: str
 
-
+    # Azure subscription details
     azure_subscription_id: str
     azure_client_id: str
     azure_tenant_id: str
     azure_client_secret: str
 
+    # Azure AI Service configuration
     azure_ai_project_name: str
     azure_rg_name: str
     azure_ai_endpoint: str
     azure_language_api_key: str
     azure_language_endpoint: str
+    
+    # STT
+    azure_stt_key: str
+    azure_stt_region: str
+
+    # Azure CV
+    azure_cv_key: str
+    azure_cv_endpoint: str
 
     # Azure OpenAI configuration
     azure_openai_api_key: str
@@ -49,6 +58,8 @@ class EnvVarConfig(BaseSettings):
     azure_openai_api_version: str
     azure_openai_model_name: str    
     translations_path: str = f"{os.getcwd()}/src/civicsphere/translations"
+    tmp_upload_dir: str = "/backend/uploads"
+
     class EnvVarConfig:
         env_file = ".env"
         env_file_encoding = "utf-8"
