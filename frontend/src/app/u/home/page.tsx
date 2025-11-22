@@ -143,8 +143,8 @@ export default function Page() {
     const [showTranslate, setShowTranslate] = useState(false)
     const [showExplain, setShowExplain] = useState(false)
     const [commentText, setCommentText] = useState('')
-    return (
-      <article className='bg-white rounded-lg shadow-sm p-4 mb-4'>
+      return (
+        <article className='card p-4 mb-4'>
         <header className='flex items-start justify-between'>
           <div className='flex items-center gap-3'>
             <div className={`w-12 h-12 rounded-full bg-${post.avatarColor}-400 flex items-center justify-center text-white`}>{post.author.split(' ')[0][0]}</div>
@@ -172,7 +172,7 @@ export default function Page() {
         </header>
 
         <div className='mt-4'>
-          {post.contentText && <p className='mb-3 text-gray-800'>{post.contentText}</p>}
+          {post.contentText && <p className='mb-3 text-ui-heading'>{post.contentText}</p>}
           {post.image && <img src={post.image} alt='post image' className='w-full max-h-96 object-cover rounded' />}
           {post.video && (
             <video controls className='w-full rounded'>
@@ -222,7 +222,7 @@ export default function Page() {
           </div>
           <div className='flex gap-2'>
             <input value={commentText} onChange={e => setCommentText(e.target.value)} placeholder='Write a comment...' className='flex-1 p-2 border rounded' />
-            <button onClick={() => { addComment(post.id, commentText); setCommentText('') }} className='px-3 py-2 bg-blue-600 text-white rounded'>Comment</button>
+            <button onClick={() => { addComment(post.id, commentText); setCommentText('') }} className='px-3 py-2 rounded btn-primary'>Comment</button>
           </div>
         </div>
       </article>
@@ -232,11 +232,11 @@ export default function Page() {
   return (
     <div className='flex flex-col gap-4'>
       {/* Create Post Box */}
-      <section className='bg-white rounded-lg p-4 shadow-sm'>
+      <section className='card p-4 shadow-sm'>
         <div className='flex items-start gap-3'>
-          <div className='w-12 h-12 rounded-full bg-sky-400 flex items-center justify-center text-white'>Y</div>
+          <div className='w-12 h-12 rounded-full bg-brand flex items-center justify-center text-white'>Y</div>
           <div className='flex-1'>
-            <div onClick={() => setCreateOpen(true)} role='button' tabIndex={0} className='w-full p-3 border rounded h-20 text-gray-600 flex items-center'>
+            <div onClick={() => setCreateOpen(true)} role='button' tabIndex={0} className='w-full p-3 border rounded h-20 text-ui-muted flex items-center'>
               Start a post, ask a doubt related to your local politics
             </div>
             <div className='mt-3 flex items-center justify-between'>
@@ -247,7 +247,7 @@ export default function Page() {
                 <button onClick={() => setCreateOpen(true)} className='px-3 py-1 rounded bg-yellow-50'>😊 Emoji</button>
               </div>
               <div className='flex gap-2'>
-                <button onClick={() => setCreateOpen(true)} className='bg-blue-600 text-white px-4 py-2 rounded'>Post</button>
+                <button onClick={() => setCreateOpen(true)} className='btn-primary'>Post</button>
               </div>
             </div>
           </div>

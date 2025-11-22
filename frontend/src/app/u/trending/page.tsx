@@ -27,7 +27,7 @@ export default function TrendingPage() {
   return (
     <div>
       <div className='flex items-center justify-between mb-4'>
-        <h1 className='text-2xl font-semibold'>Trending Topics</h1>
+        <h1 className='text-2xl font-semibold text-ui-heading'>Trending Topics</h1>
         <div className='flex items-center gap-3'>
           <label className='text-sm text-gray-600'>Sort</label>
           <select value={sortBy} onChange={e => setSortBy(e.target.value as SetStateAction<'rank' | 'score'>)} className='p-2 border rounded'>
@@ -43,7 +43,7 @@ export default function TrendingPage() {
             <div className='flex items-center gap-4'>
               <div className='w-8 text-center font-semibold text-gray-700'>{idx + 1}</div>
               <div>
-                <a href={`/tag/${encodeURIComponent(t.tag.replace('#', ''))}`} className='text-lg font-medium text-sky-600'>{t.tag}</a>
+                <a href={`/tag/${encodeURIComponent(t.tag.replace('#', ''))}`} className='text-lg font-medium text-brand'>{t.tag}</a>
                 <div className='text-xs text-gray-500'>Trending topic</div>
               </div>
             </div>

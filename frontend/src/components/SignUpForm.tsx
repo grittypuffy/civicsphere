@@ -259,7 +259,7 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
         </Field>
         <Button
           type="submit"
-          className="w-full max-w-xs hover:shadow-md"
+          className="w-full max-w-xs hover:shadow-md btn-primary"
           onClick={checkUserName}
           disabled={!formData.username.length || isCheckingUserName || prevUserName === formData.username ? true : isLoading}
           aria-label={isValidUserName ? 'Change username' : 'Check username availability'}
@@ -363,7 +363,7 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
           </div>
           <Button
             type="submit"
-            className="w-full mx-auto hover:shadow-md"
+            className="w-full mx-auto hover:shadow-md btn-primary"
             disabled={!isPolicyAccepted || isLoading}
             aria-label="Submit sign up form"
           >

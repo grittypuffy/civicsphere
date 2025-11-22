@@ -12,10 +12,10 @@ const AppContainer = (
 
   return (
     <FluentProvider theme={webLightTheme}>
-      <div className="bg-gray-200 min-h-screen flex flex-col w-full mx-auto overflow-x-hidden">
+      <div className="page-bg min-h-screen flex flex-col w-full mx-auto overflow-x-hidden">
         <SideBar isNavOpen={isNavOpen} setNavOpen={setNavOpen} />
 
-        <header className='flex justify-between p-3 lg:p-5 xl:p-8 border bg-white'>
+        <header className='flex justify-between items-center p-3 lg:p-5 xl:p-8 border-b bg-white/80 backdrop-blur-sm'>
           <Tooltip
             content="Open Navigation bar"
             relationship="label"
@@ -26,6 +26,10 @@ const AppContainer = (
               aria-label="Open Navigation bar"
             />
           </Tooltip>
+
+          <div className='flex items-center gap-4'>
+            <h1 className='text-ui-heading font-semibold text-lg ml-2'>CivicSphere</h1>
+          </div>
 
           <Link href='/u/settings'>
             <Avatar

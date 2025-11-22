@@ -121,36 +121,38 @@ export default function ChatPage() {
 
   return (
     <div className='flex-1 flex flex-col'>
-      <div ref={listRef} style={{ flex: 1, overflowY: 'auto', paddingRight: 8 }}>
+      <div ref={listRef} className='flex-1 overflow-y-auto pr-2 space-y-3'>
         {messages.map(m => (
-          <div key={m.id} style={{ display: 'flex', marginBottom: 12, justifyContent: m.self ? 'flex-end' : 'flex-start' }}>
+          <div key={m.id} className={`flex items-start ${m.self ? 'justify-end' : 'justify-start'}`}>
             {!m.self && (
-              <div style={{ marginRight: 8 }}>
-                <div style={{ width: 32, height: 32, borderRadius: 16, background: '#ddd', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{m.author[0]}</div>
+              <div className='mr-3'>
+                <div className='w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-sm text-ui-muted'>{m.author[0]}</div>
               </div>
             )}
-            <div style={{ maxWidth: '70%', background: m.self ? '#0369a1' : '#ffffff', color: m.self ? 'white' : 'black', padding: 12, borderRadius: 8, boxShadow: '0 1px 2px rgba(0,0,0,0.06)' }}>
-              <div style={{ fontSize: 13, marginBottom: 6, opacity: 0.9 }}>{m.author}</div>
-              <div style={{ whiteSpace: 'pre-wrap' }}>
+
+            <div className={`${m.self ? 'bg-brand text-white self-end' : 'bg-white text-ui-heading'} max-w-[70%] p-3 rounded-lg shadow-sm`}>
+              <div className='text-xs mb-1 opacity-90'>{m.author}</div>
+              <div className='whitespace-pre-wrap'>
                 {m.text || (!m.self && isSending ? (
-                  <span style={{ opacity: 0.6, fontStyle: 'italic' }}>Typing...</span>
+                  <span className='opacity-60 italic'>Typing...</span>
                 ) : m.text)}
               </div>
             </div>
           </div>
         ))}
       </div>
-      <div style={{ marginTop: 12 }}>
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+
+      <div className='mt-4'>
+        <div className='flex gap-3 items-start'>
           <textarea
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder='Enter text to chat with AI'
-            style={{ flex: 1, padding: 10, borderRadius: 8, border: '1px solid #e5e7eb', minHeight: 48, resize: 'vertical' }}
+            className='flex-1 p-3 rounded-lg border border-slate-200 min-h-12 resize-vertical'
           />
 
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div className='flex gap-2 items-center'>
             <Button appearance={isRecording ? 'primary' : 'outline'} onClick={toggleMic}>{isRecording ? 'Recording…' : '🎤'}</Button>
             <Button appearance='primary' onClick={handleSend} disabled={isSending || !input.trim()}>{isSending ? 'Sending…' : 'Send'}</Button>
           </div>
