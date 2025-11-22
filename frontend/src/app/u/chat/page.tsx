@@ -21,6 +21,13 @@ export default function ChatPage() {
   const [isRecording, setIsRecording] = useState(false)
   const [isSending, setIsSending] = useState(false)
   const listRef = useRef<HTMLDivElement | null>(null)
+  
+  // Default suggestion prompts to help users start conversations quickly
+  const suggestions: string[] = [
+    "What's the current situation with housing prices and trends in New York City neighborhoods (e.g., Manhattan) and nearby suburbs?",
+    'When are my local elections, how do I cast a ballot, and who is contesting in my area?',
+    'What is the role of a federal judge and how does it differ from other political or judicial positions?'
+  ]
 
   useEffect(() => {
     // scroll to bottom when messages change
@@ -29,8 +36,8 @@ export default function ChatPage() {
     }
   }, [messages])
 
-  async function handleSend() {
-    const text = input.trim()
+  async function handleSend(textOverride?: string) {
+    const text = (textOverride ?? input).trim()
     if (!text) return
     setIsSending(true)
     const userMessage: Message = { id: Date.now(), author: 'You', text, self: true }
@@ -144,17 +151,34 @@ export default function ChatPage() {
 
       <div className='mt-4'>
         <div className='flex gap-3 items-start'>
-          <textarea
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder='Enter text to chat with AI'
-            className='flex-1 p-3 rounded-lg border border-slate-200 min-h-12 resize-vertical'
-          />
+          {/* Input column: suggestions sit directly above the textarea so they feel part of the input area */}
+          <div className='flex-1 flex flex-col'>
+            <div className='mb-2 flex flex-col gap-2'>
+              {suggestions.map((s, i) => (
+                <button
+                  key={i}
+                  onClick={() => handleSend(s)}
+                  disabled={isSending}
+                  className='w-full text-left text-sm px-3 py-2 rounded-md bg-slate-100 hover:bg-slate-200 disabled:opacity-50 whitespace-normal wrap-break-word'
+                  title={s}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+
+            <textarea
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder='Enter text to chat with AI'
+              className='flex-1 p-3 rounded-lg border border-slate-200 min-h-12 resize-vertical'
+            />
+          </div>
 
           <div className='flex gap-2 items-center'>
             <Button appearance={isRecording ? 'primary' : 'outline'} onClick={toggleMic}>{isRecording ? 'Recording…' : '🎤'}</Button>
-            <Button appearance='primary' onClick={handleSend} disabled={isSending || !input.trim()}>{isSending ? 'Sending…' : 'Send'}</Button>
+            <Button appearance='primary' onClick={() => handleSend()} disabled={isSending || !input.trim()}>{isSending ? 'Sending…' : 'Send'}</Button>
           </div>
         </div>
       </div>
