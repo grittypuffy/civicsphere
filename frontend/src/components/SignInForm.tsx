@@ -194,7 +194,7 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
         <Button
           type="submit"
           aria-label={isLoading ? "Signing in, please wait" : "Sign in"}
-          className="w-full max-w-xs hover:shadow-md"
+          className="w-full max-w-xs hover:shadow-md btn-primary"
           disabled={isLoading || !formData.username || !formData.password}
           aria-describedby={isLoading ? "loading-spinner" : undefined}
         >
