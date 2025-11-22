@@ -59,7 +59,7 @@ export default function CreatePost({ isOpen, onClose, onSubmit, userName = 'You'
 
   return (
     <div className='fixed inset-0 z-50 bg-black bg-opacity-50 flex items-start justify-center p-4 overflow-auto'>
-      <div className='bg-white w-full max-w-3xl rounded-lg shadow-lg p-6 mt-8 mb-8'>
+      <div className='card w-full max-w-3xl shadow-lg p-6 mt-8 mb-8'>
         <header className='flex items-center gap-4'>
           <Avatar name={userName} />
           <div>
@@ -67,7 +67,7 @@ export default function CreatePost({ isOpen, onClose, onSubmit, userName = 'You'
             <div className='text-sm text-gray-500'>Create a post</div>
           </div>
           <div className='ml-auto'>
-            <button onClick={onClose} className='text-sm text-gray-600 px-3 py-1 rounded hover:bg-gray-100'>Close</button>
+            <button onClick={onClose} className='text-sm text-ui-muted px-3 py-1 rounded hover:bg-slate-50'>Close</button>
           </div>
         </header>
 
@@ -111,8 +111,8 @@ export default function CreatePost({ isOpen, onClose, onSubmit, userName = 'You'
         </main>
 
         <footer className='mt-4 flex items-center justify-end gap-3'>
-          <button onClick={onClose} className='px-4 py-2 rounded border'>Cancel</button>
-          <button onClick={doSubmit} className='px-4 py-2 rounded bg-blue-600 text-white'>Post</button>
+          <button onClick={onClose} className='px-4 py-2 rounded border text-ui-muted hover:bg-slate-50'>Cancel</button>
+          <button onClick={doSubmit} className='btn-primary'>Post</button>
         </footer>
       </div>
     </div>

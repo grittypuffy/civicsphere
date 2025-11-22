@@ -1,13 +1,10 @@
 'use client'
 import CreatePost from '@/components/CreatePost';
-import SideBar from '@/components/SideBar';
-import { Avatar, Hamburger, Tooltip } from '@fluentui/react-components';
-import Link from 'next/link';
 import { useState } from 'react';
 
 export default function Page() {
   const userName = 'Dummy Name'
-  const [isNavOpen, setNavOpen] = useState(false)
+  
 
   // language variable (frontend only) - will be used by translate UI
   const [language] = useState('en')
@@ -146,8 +143,8 @@ export default function Page() {
     const [showTranslate, setShowTranslate] = useState(false)
     const [showExplain, setShowExplain] = useState(false)
     const [commentText, setCommentText] = useState('')
-    return (
-      <article className='bg-white rounded-lg shadow-sm p-4 mb-4'>
+      return (
+        <article className='card p-4 mb-4'>
         <header className='flex items-start justify-between'>
           <div className='flex items-center gap-3'>
             <div className={`w-12 h-12 rounded-full bg-${post.avatarColor}-400 flex items-center justify-center text-white`}>{post.author.split(' ')[0][0]}</div>
@@ -175,7 +172,7 @@ export default function Page() {
         </header>
 
         <div className='mt-4'>
-          {post.contentText && <p className='mb-3 text-gray-800'>{post.contentText}</p>}
+          {post.contentText && <p className='mb-3 text-ui-heading'>{post.contentText}</p>}
           {post.image && <img src={post.image} alt='post image' className='w-full max-h-96 object-cover rounded' />}
           {post.video && (
             <video controls className='w-full rounded'>
@@ -225,7 +222,7 @@ export default function Page() {
           </div>
           <div className='flex gap-2'>
             <input value={commentText} onChange={e => setCommentText(e.target.value)} placeholder='Write a comment...' className='flex-1 p-2 border rounded' />
-            <button onClick={() => { addComment(post.id, commentText); setCommentText('') }} className='px-3 py-2 bg-blue-600 text-white rounded'>Comment</button>
+            <button onClick={() => { addComment(post.id, commentText); setCommentText('') }} className='px-3 py-2 rounded btn-primary'>Comment</button>
           </div>
         </div>
       </article>
@@ -233,63 +230,35 @@ export default function Page() {
   }
 
   return (
-    <div className='bg-gray-200 min-h-screen flex flex-col'>
-      <SideBar isNavOpen={isNavOpen} setNavOpen={setNavOpen} />
-      <header className='flex justify-between p-3 lg:p-5 xl:p-8 border'>
-        <Tooltip
-          content="Open Navigation bar"
-          relationship="label"
-          positioning="after"
-        >
-          <Hamburger
-            onClick={() => setNavOpen(true)}
-            aria-label="Open Navigation bar"
-          />
-        </Tooltip>
-        <Link href='/u/settings'>
-          <Avatar
-            name={userName}
-            activeAppearance='ring-shadow'
-            active='active'
-            color='platinum'
-            aria-label={`User avatar for ${userName}`}
-            className='cursor-pointer'
-          />
-        </Link>
-      </header>
-
-      <main className='mx-auto w-full lg:w-3/4 p-4'>
-        <div className='flex flex-col gap-4'>
-          {/* Create Post Box */}
-          <section className='bg-white rounded-lg p-4 shadow-sm'>
-            <div className='flex items-start gap-3'>
-              <Avatar name={userName} color='brand' />
-              <div className='flex-1'>
-                <div onClick={() => setCreateOpen(true)} role='button' tabIndex={0} className='w-full p-3 border rounded h-20 text-gray-600 flex items-center'>
-                  Start a post, ask a doubt related to your local politics
-                </div>
-                <div className='mt-3 flex items-center justify-between'>
-                  <div className='flex gap-2 text-sm text-gray-600'>
-                    <button onClick={() => setCreateOpen(true)} className='px-3 py-1 rounded bg-green-50'>🎥 Video</button>
-                    <button onClick={() => setCreateOpen(true)} className='px-3 py-1 rounded bg-sky-50'>🖼️ Photo</button>
-                    <button onClick={() => setCreateOpen(true)} className='px-3 py-1 rounded bg-rose-50'>✍️ Write</button>
-                    <button onClick={() => setCreateOpen(true)} className='px-3 py-1 rounded bg-yellow-50'>😊 Emoji</button>
-                  </div>
-                  <div className='flex gap-2'>
-                    <button onClick={() => setCreateOpen(true)} className='bg-blue-600 text-white px-4 py-2 rounded'>Post</button>
-                  </div>
-                </div>
+    <div className='flex flex-col gap-4'>
+      {/* Create Post Box */}
+      <section className='card p-4 shadow-sm'>
+        <div className='flex items-start gap-3'>
+          <div className='w-12 h-12 rounded-full bg-brand flex items-center justify-center text-white'>Y</div>
+          <div className='flex-1'>
+            <div onClick={() => setCreateOpen(true)} role='button' tabIndex={0} className='w-full p-3 border rounded h-20 text-ui-muted flex items-center'>
+              Start a post, ask a doubt related to your local politics
+            </div>
+            <div className='mt-3 flex items-center justify-between'>
+              <div className='flex gap-2 text-sm text-gray-600'>
+                <button onClick={() => setCreateOpen(true)} className='px-3 py-1 rounded bg-green-50'>🎥 Video</button>
+                <button onClick={() => setCreateOpen(true)} className='px-3 py-1 rounded bg-sky-50'>🖼️ Photo</button>
+                <button onClick={() => setCreateOpen(true)} className='px-3 py-1 rounded bg-rose-50'>✍️ Write</button>
+                <button onClick={() => setCreateOpen(true)} className='px-3 py-1 rounded bg-yellow-50'>😊 Emoji</button>
+              </div>
+              <div className='flex gap-2'>
+                <button onClick={() => setCreateOpen(true)} className='btn-primary'>Post</button>
               </div>
             </div>
-          </section>
-          <CreatePost isOpen={isCreateOpen} onClose={() => setCreateOpen(false)} onSubmit={({ text, tags, files }) => handleCreatePost(text, tags, files)} userName={userName} />
-
-          {/* Feed (no internal scroll) */}
-          <section>
-            {posts.map(p => <PostCard key={p.id} post={p} />)}
-          </section>
+          </div>
         </div>
-      </main>
+      </section>
+      <CreatePost isOpen={isCreateOpen} onClose={() => setCreateOpen(false)} onSubmit={({ text, tags, files }) => handleCreatePost(text, tags, files)} userName={userName} />
+
+      {/* Feed (no internal scroll) */}
+      <section>
+        {posts.map(p => <PostCard key={p.id} post={p} />)}
+      </section>
     </div>
   )
 }
