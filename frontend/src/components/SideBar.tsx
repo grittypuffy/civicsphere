@@ -12,7 +12,7 @@ const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Di
         aria-label="Main navigation"
         role="navigation"
       >
-        <NavDrawerHeader className="border-b border-b-sky-100 bg-brand text-white">
+        <NavDrawerHeader className="border-b border-b-sky-100 bg-navbar text-white">
           <div className="py-3 flex items-center gap-3 px-2">
             <Tooltip
               content="Close Navigation bar"
@@ -29,7 +29,7 @@ const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Di
           </div>
 
         </NavDrawerHeader>
-        <NavDrawerBody className="flex flex-col justify-start bg-white">
+        <NavDrawerBody className="flex flex-col justify-start bg-page">
           <div className="py-3 px-2">
             {[{
               href: '/u/home', label: 'Home', icon: <HomeRegular />

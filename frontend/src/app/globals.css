@@ -7,6 +7,8 @@
 :root {
   --brand: #0ea5e9; /* sky-500 */
   --brand-dark: #0369a1; /* blue-800 */
+  --navbar: #035c8c; /* slightly darker blue for header */
+  --page-bg: #f0fbff; /* very light blue page background */
   --light-brand: #e0f2fe; /* sky-100 */
   --card: #ffffff;
 }
@@ -29,8 +31,10 @@
 .btn-primary:hover {
   background-color: #0284c7;
 }
-.card { background: var(--card); border: 1px solid rgba(2,6,23,0.04); border-radius: 0.5rem }
-.page-bg { background: linear-gradient(180deg, #f8fdff 0%, #ffffff 100%); }
+.card { background: var(--card); border: 1px solid rgba(3,105,161,0.06); border-radius: 0.5rem; box-shadow: 0 6px 12px rgba(3,105,161,0.04); }
+.page-bg { background-color: var(--page-bg); }
+.bg-navbar { background-color: var(--navbar); }
+.bg-page { background-color: var(--page-bg); }
 
 @layer components {
   .surround {
