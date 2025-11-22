@@ -17,6 +17,7 @@ type IssueItem = {
   id: number
   title: string
   description?: string
+  assignees?: string
   status: 'open' | 'in-progress' | 'resolved'
   votes: number
 }
@@ -25,6 +26,9 @@ export default function CommunitiesPage() {
   const [selectedCommunity, setSelectedCommunity] = useState('NewYork - Agri')
   const [tab, setTab] = useState<'posts' | 'issues'>('posts')
   const [isCreateOpen, setCreateOpen] = useState(false)
+  const [newIssueTitle, setNewIssueTitle] = useState('')
+  const [newIssueDescription, setNewIssueDescription] = useState('')
+  const [newIssueAssignees, setNewIssueAssignees] = useState('')
 
   const communities = [
     'NewYork',
@@ -78,8 +82,9 @@ export default function CommunitiesPage() {
     setIssues(issues.map(i => i.id === id ? { ...i, votes: i.votes + 1 } : i))
   }
 
-  function raiseIssue(title: string, description = '') {
-    const next: IssueItem = { id: issues.length + 1, title, description, status: 'open', votes: 0 }
+  // raise issue with optional assignees (who should take action)
+  function raiseIssue(title: string, description = '', assignees = '') {
+    const next: IssueItem = { id: issues.length + 1, title, description, assignees: assignees || undefined, status: 'open', votes: 0 }
     setIssues([next, ...issues])
   }
 
@@ -166,11 +171,21 @@ export default function CommunitiesPage() {
           {tab === 'issues' && (
             <section>
               <div className='mb-4'>
-                <div className='flex items-center justify-between'>
-                  <h3 className='text-lg font-semibold'>Raise an issue</h3>
-                  <button onClick={() => raiseIssue('New issue from UI', 'Raised from communities UI')} className='px-3 py-2 rounded btn-primary'>Raise</button>
+                <h3 className='text-lg font-semibold mb-2'>Raise an issue</h3>
+                <div className='text-sm text-gray-600 mb-3'>People and authorities can respond; community members can upvote if they have the same problem.</div>
+
+                {/* Inline raise form: title, description, assignees */}
+                <div className='card p-3 mb-4'>
+                  <div className='grid gap-2'>
+                    <input aria-label='Issue title' value={newIssueTitle} onChange={e => setNewIssueTitle(e.target.value)} placeholder='Short title (e.g. Broken street light on 5th Ave)' className='p-2 border rounded' />
+                    <textarea aria-label='Issue description' value={newIssueDescription} onChange={e => setNewIssueDescription(e.target.value)} placeholder='Describe the issue and any details (where, when, impact)...' className='p-2 border rounded min-h-20'></textarea>
+                    <input aria-label='Assigned to' value={newIssueAssignees} onChange={e => setNewIssueAssignees(e.target.value)} placeholder='Who should take action? (e.g. Sanitation Dept, Local Councilor)' className='p-2 border rounded' />
+                    <div className='flex items-center justify-end gap-2'>
+                      <button onClick={() => { setNewIssueTitle(''); setNewIssueDescription(''); setNewIssueAssignees('') }} className='px-3 py-2 rounded border text-ui-muted hover:bg-slate-50'>Clear</button>
+                      <button disabled={!newIssueTitle.trim()} onClick={() => { raiseIssue(newIssueTitle.trim(), newIssueDescription.trim(), newIssueAssignees.trim()); setNewIssueTitle(''); setNewIssueDescription(''); setNewIssueAssignees('') }} className='px-3 py-2 rounded btn-primary disabled:opacity-50'>Raise</button>
+                    </div>
+                  </div>
                 </div>
-                <div className='text-sm text-gray-600 mt-2'>People and authorities can respond; community members can upvote if they have the same problem.</div>
               </div>
 
               <div className='grid gap-4'>
@@ -182,6 +197,7 @@ export default function CommunitiesPage() {
                         <div>
                           <div className='font-semibold'>{issue.title}</div>
                           <div className='text-sm text-gray-600'>{issue.description}</div>
+                          {issue.assignees && <div className='text-sm text-gray-700 mt-1'><strong>Assigned to:</strong> {issue.assignees}</div>}
                         </div>
                       </div>
                       <div className='mt-2'>
