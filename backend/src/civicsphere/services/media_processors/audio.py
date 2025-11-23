@@ -24,17 +24,17 @@ class AudioProcessor:
             config.env.uploads_container
         )
 
-    async def write_voice(self, file: UploadFile = File(...), language_code: str = "en-US") -> (str, str) | None:
+    async def write_voice(self, file: UploadFile = File(...)) -> (str, str, str) | None:
         file_content: bytes = await file.read()
         date_now = str(datetime.datetime.now())
         hashed_filename, digest = get_filename_hash(date_now, file_extension=".webm")
-        file_path = os.path.join(config.env.tmp_upload_dir, f"{hashed_filename}.webm")
+        file_path = os.path.join(config.env.tmp_upload_dir, hashed_filename)
 
         async with aiofiles.open(file_path, mode='wb') as input_file:
             await input_file.write(file_content)
 
         if os.path.exists(file_path):
-            return file_path, hashed_filename
+            return file_path, hashed_filename, digest
         return None, None
 
     def convert_to_wav(self, file_path: str, hashed_filename: str):
@@ -79,13 +79,13 @@ class AudioProcessor:
             return {"status": "failed", "data": None, "error": cancellation_details.reason}
 
     async def process_voice(self, language_code: str, file: UploadFile = File(...)):
-        file_path, hashed_filename = await self.write_voice(file, language_code)
+        file_path, hashed_filename, digest = await self.write_voice(file)
         if not file_path:
             raise Exception("Audio file is not written in .webm format")
         try:
-            wav_file_path = self.convert_to_wav(file_path, hashed_filename)
+            wav_file_path = self.convert_to_wav(file_path, digest)
         except Exception as e:
             raise e
-        blob_url = await self.upload_voice(wav_file_path, hashed_filename)
+        blob_url = await self.upload_voice(wav_file_path, digest)
         transcription = await self.get_transcription(wav_file_path, language_code)
         return transcription
