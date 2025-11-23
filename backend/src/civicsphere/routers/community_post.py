@@ -9,6 +9,7 @@ from bson import ObjectId
 from ..services.storage import upload_user_file
 import httpx
 import logging
+from ..services.post_analyser import analyze_post_for_user
 
 
 router = APIRouter(tags=["Community_Post"])
@@ -334,8 +335,194 @@ async def explain_post(
                 status_code=404,
                 content={"success": False, "message": "Post not found"}
             )
+        user = await config.db["userPreferences"].find_one({"user_id": req.state.user.get("user_id")})
+        analysis = await analyze_post_for_user( user.get("profession"),
+            user.get("location"),
+            post["title"],
+            post["description"])
+        return JSONResponse(
+            status_code=200,
+            content={
+                "success": True,
+                "message": "Post analysis fetched successfully",
+                "data": analysis
+            }
+        )
 
         
+
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "message": f"Internal error: {e}"}
+        )
+
+@router.put("/{post_id}/upvote")
+async def upvote_post(
+    post_id: str,
+    req: Request
+):
+    try:
+        # Auth check
+        if not hasattr(req.state, 'user') or not req.state.user:
+            return JSONResponse(
+                status_code=401,
+                content={"success": False, "message": "User not authenticated"}
+            )
+
+        post =await config.db["posts"].find_one({"_id": ObjectId(post_id)})
+        if not post:
+            return JSONResponse(
+                status_code=404,
+                content={"success": False, "message": "Post not found"}
+            )
+        
+        updated_vote = post.get("upvote", 0) + 1
+        await config.db["posts"].update_one(
+            {"_id": ObjectId(post_id)},
+            {"$set": {"upvote": updated_vote}}
+        )
+        
+        await config.db["post_reaction"].insert_one({
+            "post_id": post_id,
+            "user_id": req.state.user["user_id"],
+            "upvote": True
+        })
+
+        return JSONResponse(
+            status_code=200,
+            content={"success": True, "message": "Post upvoted successfully"}
+        )
+
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "message": f"Internal error: {e}"}
+        )
+
+@router.put("/{post_id}/downvote")
+async def downvote_post(
+    post_id: str,
+    req: Request
+):
+    try:
+        # Auth check
+        if not hasattr(req.state, 'user') or not req.state.user:
+            return JSONResponse(
+                status_code=401,
+                content={"success": False, "message": "User not authenticated"}
+            )
+
+        post =await config.db["posts"].find_one({"_id": ObjectId(post_id)})
+        if not post:
+            return JSONResponse(
+                status_code=404,
+                content={"success": False, "message": "Post not found"}
+            )
+        
+        updated_vote = post.get("downvote", 0) + 1
+        await config.db["posts"].update_one(
+            {"_id": ObjectId(post_id)},
+            {"$set": {"downvote": updated_vote}}
+        )
+        
+        await config.db["post_reaction"].insert_one({
+            "post_id": post_id,
+            "user_id": req.state.user["user_id"],
+            "upvote": False
+        })
+
+        return JSONResponse(
+            status_code=200,
+            content={"success": True, "message": "Post downvoted successfully"}
+        )
+
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "message": f"Internal error: {e}"}
+        )
+
+@router.delete("/{post_id}/remove_upvote")
+async def remove_upvote_post(
+    post_id: str,
+    req: Request
+):
+    try:
+        # Auth check
+        if not hasattr(req.state, 'user') or not req.state.user:
+            return JSONResponse(
+                status_code=401,
+                content={"success": False, "message": "User not authenticated"}
+            )
+
+        post =await config.db["posts"].find_one({"_id": ObjectId(post_id)})
+        if not post:
+            return JSONResponse(
+                status_code=404,
+                content={"success": False, "message": "Post not found"}
+            )
+        
+        updated_vote = post.get("upvote", 1) - 1
+        await config.db["posts"].update_one(
+            {"_id": ObjectId(post_id)},
+            {"$set": {"upvote": updated_vote}}
+        )
+        
+        await config.db["post_reaction"].delete_one({
+            "post_id": post_id,
+            "user_id": req.state.user["user_id"],
+            "upvote": True
+        })
+
+        return JSONResponse(
+            status_code=200,
+            content={"success": True, "message": "Post upvote removed successfully"}
+        )
+
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "message": f"Internal error: {e}"}
+        )
+
+
+@router.delete("/{post_id}/remove_downvote")
+async def remove_downvote_post(
+    post_id: str,
+    req: Request
+):
+    try:
+        # Auth check
+        if not hasattr(req.state, 'user') or not req.state.user:
+            return JSONResponse(
+                status_code=401,
+                content={"success": False, "message": "User not authenticated"}
+            )
+
+        post =await config.db["posts"].find_one({"_id": ObjectId(post_id)})
+        if not post:
+            return JSONResponse(
+                status_code=404,
+                content={"success": False, "message": "Post not found"}
+            )
+        
+        updated_vote = post.get("downvote", 1) - 1
+        await config.db["posts"].update_one(
+            {"_id": ObjectId(post_id)},
+            {"$set": {"downvote": updated_vote}}
+        )
+        
+        await config.db["post_reaction"].delete_one({
+            "post_id": post_id,
+            "user_id": req.state.user["user_id"],
+            "upvote": False
+        })
+
+        return JSONResponse(
+            status_code=200,
+            content={"success": True, "message": "Post downvote removed successfully"}
+        )
 
     except Exception as e:
         return JSONResponse(
