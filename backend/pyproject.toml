@@ -33,7 +33,11 @@ dependencies = [
     "azure-ai-generative (>=1.0.0b11,<2.0.0)",
     "bcrypt (>=5.0.0,<6.0.0)",
     "usaddress (>=0.5.16,<0.6.0)",
-    "azure-cognitiveservices-vision-computervision (>=0.9.1,<0.10.0)"
+    "aiohttp (>=3.9.0,<4.0.0)",
+    "azure-functions (>=1.24.0,<2.0.0)",
+    "openai (>=2.8.1,<3.0.0)",
+    "azure-ai-vision-imageanalysis (>=1.0.0,<2.0.0)",
+    "pillow (>=12.0.0,<13.0.0)"
 ]
 
 [tool.poetry]

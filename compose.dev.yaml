@@ -38,7 +38,7 @@ services:
       context: ./frontend
       dockerfile: ./Dockerfile.dev
       args:
-        NEXT_PUBLIC_BACKEND_URL: https://localhost:8000/api/v1
+        NEXT_PUBLIC_BACKEND_URL: http://backend:8000
     volumes:
       - ../certs:/certs:ro
     develop:

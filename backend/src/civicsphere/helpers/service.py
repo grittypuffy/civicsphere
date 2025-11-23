@@ -1,10 +1,11 @@
 from azure.storage.blob.aio import BlobServiceClient, ContainerClient
+from azure.ai.textanalytics.aio import TextAnalyticsClient
+from azure.ai.vision.imageanalysis.aio import ImageAnalysisClient
 from azure.ai.formrecognizer import DocumentAnalysisClient
-from azure.core.credentials import AzureKeyCredential
-from langchain_openai import AzureChatOpenAI
 from azure.search.documents import SearchClient
+from azure.core.credentials import AzureKeyCredential
+from langchain_openai.chat_models import AzureChatOpenAI
 from openai import AzureOpenAI
-from azure.ai.textanalytics import TextAnalyticsClient
 
 
 def get_document_analysis_client(form_recognizer_endpoint: str, form_recognizer_key: str) -> DocumentAnalysisClient:
@@ -31,7 +32,6 @@ def get_langchain_llm(openai_api_key: str, endpoint: str, deployment: str, api_v
         azure_endpoint=endpoint,
         azure_deployment=deployment,
         api_version=api_version,
-        temperature=0.7,
         max_tokens=5000,
         timeout=None,
         max_retries=2,
@@ -49,15 +49,23 @@ def get_llm(openai_api_key: str, endpoint: str, api_version: str) -> AzureOpenAI
 
 
 
-def get_search(index_name: str, api_key: str, ai_search_endpoint: str) -> SearchClient:
-    search_client = SearchClient(
-        endpoint=ai_search_endpoint, index_name=index_name, credential=AzureKeyCredential(api_key))
-    return search_client
+def get_search(index_name: str, key: str, endpoint: str) -> SearchClient:
+    client = SearchClient(
+        endpoint=endpoint, index_name=index_name, credential=AzureKeyCredential(key))
+    return client
 
 
-def get_text_analysis_client(text_analysis_endpoint: str, text_analysis_key: str) -> TextAnalyticsClient:
-    text_analysis_client = TextAnalyticsClient(
-        endpoint=text_analysis_endpoint,
-        credential=AzureKeyCredential(text_analysis_key)
+def get_text_analysis_client(endpoint: str, key: str) -> TextAnalyticsClient:
+    client = TextAnalyticsClient(
+        endpoint=endpoint,
+        credential=AzureKeyCredential(key)
     )
-    return text_analysis_client
+    return client
+
+
+def get_image_analysis_client(endpoint: str, key: str) -> ImageAnalysisClient:
+    client = ImageAnalysisClient(
+        endpoint=endpoint,
+        credential=AzureKeyCredential(key)
+    )
+    return client

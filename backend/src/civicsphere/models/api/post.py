@@ -2,7 +2,6 @@ from datetime import datetime
 from typing import List, Optional, Literal
 from pydantic import BaseModel
 
-
 class PostResponse(BaseModel):
     community_id: str
     post_id: str
@@ -15,7 +14,7 @@ class PostResponse(BaseModel):
     url: List[str]
     lang: str
     location: str
-    verified: Literal["True", "False", "Not Sure"]
+    verified: Literal["True", "False", "Uncertain"]
     flagged: bool
     created_at: datetime
 
@@ -32,14 +31,9 @@ class AnalyticsResponse(BaseModel):
     data: Optional[dict] = None  # e.g., {"interest": "tech", "count": 10}
 
 class CreatePostRequest(BaseModel):
-    community_id: str
     tag_id: List[str]
     title: str
     description: str
-    url: List[str]
-    lang: str
-    location: str
-    verified: str
 
 class UserPostsResponse(BaseModel):
     success: bool

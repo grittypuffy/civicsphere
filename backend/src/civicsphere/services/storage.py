@@ -6,7 +6,7 @@ from azure.storage.blob.aio import BlobClient
 config: AppConfig = get_config()
 
 
-async def upload_user_file(file: UploadFile, user_id: str, post_id: str | None):
+async def upload_user_file(file: UploadFile, user_id: str):
     """
     Accept File uploaded from FastAPI endpoint
     """
@@ -23,7 +23,6 @@ async def upload_user_file(file: UploadFile, user_id: str, post_id: str | None):
         metadata={
             "user_id": user_id,
             "filename": file_name,
-            "post_id": post_id,
             "id": digest,
         })
     return {"status": "success", "url": f"{config.env.uploads_endpoint}{hashed_filename}"}

@@ -54,8 +54,8 @@ export default function SettingsPage() {
       <div className='flex items-center gap-4 mb-6'>
         <Avatar name={settings.username} />
         <div>
-          <div className='font-semibold text-lg'>{settings.username}</div>
-          <div className='text-sm text-gray-500'>{settings.email}</div>
+          <div className='font-semibold text-lg text-ui-heading'>{settings.username}</div>
+          <div className='text-sm text-ui-muted'>{settings.email}</div>
         </div>
       </div>
 
@@ -118,7 +118,7 @@ export default function SettingsPage() {
         </div>
 
         <div className='flex justify-end gap-3'>
-          <button onClick={save} className='px-4 py-2 bg-blue-600 text-white rounded'>Save Settings</button>
+          <button onClick={save} className='btn-primary'>Save Settings</button>
         </div>
       </div>
     </div>

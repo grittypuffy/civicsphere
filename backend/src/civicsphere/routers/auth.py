@@ -19,7 +19,7 @@ router = APIRouter(tags=["Authentication"])
 config: AppConfig = get_config()
 
 @router.get(
-    "/session/isvalid",
+    "/session/is_valid",
     response_model=AuthResponse
 )
 async def is_session_valid(

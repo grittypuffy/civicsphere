@@ -35,11 +35,13 @@ async def get_user_posts(
                     message="User ID not found"
                 ).dict()
             )
-        posts_cursor = config.db["posts"].find({"user_id": user_id}).sort("created_at", -1)
+        posts_cursor = config.db["posts"].find({"user_id": user_id})
+        
         posts = []
         async for post in posts_cursor:
-            post["post_id"] = post.pop("_id", None)
+            post["post_id"] = str(post.pop("_id"))
             posts.append(PostResponse(**post))
+        posts.sort(key=lambda x: x.created_at, reverse=True)
         return UserPostsResponse(
             success=True,
             message="Successfully fetched user posts",
