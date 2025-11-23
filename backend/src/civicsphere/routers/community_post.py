@@ -313,3 +313,32 @@ async def get_post(
             status_code=500,
             content={"success": False, "message": f"Internal error: {e}"}
         )
+
+@router.get("/{post_id}/explain")
+async def explain_post(
+    post_id: str,
+    req: Request
+):
+    try:
+        # Auth check
+        if not hasattr(req.state, 'user') or not req.state.user:
+            return JSONResponse(
+                status_code=401,
+                content={"success": False, "message": "User not authenticated"}
+            )
+
+        post = await config.db["posts"].find_one({"_id": ObjectId(post_id)})
+
+        if not post:
+            return JSONResponse(
+                status_code=404,
+                content={"success": False, "message": "Post not found"}
+            )
+
+        
+
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "message": f"Internal error: {e}"}
+        )

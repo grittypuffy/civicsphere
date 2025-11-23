@@ -11,7 +11,7 @@ router = APIRouter(tags=["User-Post"])
 config: AppConfig = get_config()
 
 @router.get(
-    "/",
+    "",
     response_model=UserPostsResponse
 )
 async def get_user_posts(

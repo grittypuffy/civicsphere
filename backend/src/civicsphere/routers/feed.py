@@ -8,7 +8,7 @@ router = APIRouter(tags=["Feed"])
 config: AppConfig = get_config()
 
 @router.get(
-    "/",
+    "",
     response_model=TrendingResponse
 )
 async def get_feed_posts(

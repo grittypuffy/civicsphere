@@ -12,7 +12,7 @@ router = APIRouter(tags=["User-Issue"])
 config: AppConfig = get_config()
 
 @router.get(
-    "/",
+    "",
     response_model=UserIssuesResponse
 )
 async def get_user_issue(

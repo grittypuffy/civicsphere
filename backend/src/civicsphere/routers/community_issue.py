@@ -12,7 +12,7 @@ router = APIRouter(tags=["Community_Issue"])
 
 config: AppConfig = get_config()
 
-@router.get("/")
+@router.get("")
 async def get_community_issue(
     community_id: str,
     req: Request
