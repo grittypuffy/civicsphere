@@ -144,7 +144,6 @@ export const UserSchema = v.object({
   username: v.string(),
   email: v.string(),
   full_name: v.string(),
-  avatar: v.string(),
   role: v.optional(roleValidator),
 });
 
