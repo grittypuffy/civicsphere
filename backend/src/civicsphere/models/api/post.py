@@ -39,3 +39,11 @@ class UserPostsResponse(BaseModel):
     success: bool
     message: str
     data: Optional[List[PostResponse]] = None
+
+class TagCount(BaseModel):
+    tag: str
+    count: int
+class TagAnalytics(BaseModel):
+    success: bool
+    message: str
+    data: Optional[List[TagCount]] = None
