@@ -1,14 +1,16 @@
 'use client'
+import { navStateAtom } from "@/lib/store"
 import { Hamburger, NavDrawer, NavDrawerBody, NavDrawerFooter, NavDrawerHeader, NavItem, Tooltip } from "@fluentui/react-components"
 import { ArrowTrendingLinesFilled, HomeRegular, PeopleCommunityRegular, SettingsRegular } from "@fluentui/react-icons"
 import { ChatSparkleRegular } from "@fluentui/react-icons/svg/chat-sparkle"
-import { Dispatch, SetStateAction } from "react"
+import { useAtom } from "jotai"
 
-const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Dispatch<SetStateAction<boolean>> }) => {
+const SideBar = () => {
+  const [navState, setNavOpen] = useAtom(navStateAtom)
   return (
     <>
       <NavDrawer
-        open={isNavOpen}
+        open={navState}
         aria-label="Main navigation"
         role="navigation"
       >
@@ -33,13 +35,13 @@ const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Di
           <div className="py-3 px-2">
             {[{
               href: '/u/home', label: 'Home', icon: <HomeRegular />
-            },{
+            }, {
               href: '/u/trending', label: 'Trending', icon: <ArrowTrendingLinesFilled />
-            },{
+            }, {
               href: '/u/chat', label: 'Chat', icon: <ChatSparkleRegular />
-            },{
+            }, {
               href: '/home', label: 'Community', icon: <PeopleCommunityRegular />
-            },{
+            }, {
               href: '/u/settings', label: 'Settings', icon: <SettingsRegular />
             }].map((item, idx) => (
               <NavItem
