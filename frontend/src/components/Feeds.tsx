@@ -3,12 +3,14 @@ import { Badge, Button, Card, CardFooter, CardHeader, Text } from "@fluentui/rea
 import { CheckmarkCircleColor, CheckmarkRegular, ClockRegular, FlagFilled, LocalLanguageFilled, Location16Filled, ThumbDislikeRegular } from "@fluentui/react-icons"
 import { ThumbLikeRegular } from "@fluentui/react-icons/svg/thumb-like"
 
+// Sample local data for demonstration
+// [TODO] Remove this after API integration
 const localPostData: PostData[] = [
   {
     community_id: "comm_001",
     post_id: "post_001",
     user_id: "user_001",
-    tag_id: ["tech", "programming"],
+    tags: ["tech", "programming"],
     upvote: 42,
     downvote: 3,
     title: "Getting Started with React Development",
@@ -24,7 +26,7 @@ const localPostData: PostData[] = [
     community_id: "comm_002",
     post_id: "post_002",
     user_id: "user_002",
-    tag_id: ["design", "ui/ux"],
+    tags: ["design", "ui/ux"],
     upvote: 28,
     downvote: 1,
     title: "Modern UI Design Principles",
@@ -40,7 +42,7 @@ const localPostData: PostData[] = [
     community_id: "comm_003",
     post_id: "post_003",
     user_id: "user_003",
-    tag_id: ["javascript", "performance"],
+    tags: ["javascript", "performance"],
     upvote: 35,
     downvote: 2,
     title: "Optimizing JavaScript Performance",
@@ -56,7 +58,7 @@ const localPostData: PostData[] = [
     community_id: "comm_004",
     post_id: "post_004",
     user_id: "user_004",
-    tag_id: ["data", "analytics"],
+    tags: ["data", "analytics"],
     upvote: 19,
     downvote: 5,
     title: "Data Visualization Best Practices",
@@ -72,7 +74,7 @@ const localPostData: PostData[] = [
     community_id: "comm_005",
     post_id: "post_005",
     user_id: "user_005",
-    tag_id: ["mobile", "development", "ios"],
+    tags: ["mobile", "development", "ios"],
     upvote: 24,
     downvote: 0,
     title: "Building Native iOS Apps with Swift",
@@ -140,7 +142,7 @@ export const Feeds = ({ posts }: { posts?: PostData[] }) => {
                   </div>
 
                   <div className="flex flex-wrap gap-2">
-                    {post.tag_id.map((tag, index) => (
+                    {post.tags.map((tag, index) => (
                       <Badge key={index} appearance="tint" size="medium">
                         {tag}
                       </Badge>
