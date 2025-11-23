@@ -7,7 +7,7 @@ class Post(BaseModel):
     community_id: str
     post_id: str
     user_id: str
-    tag_id: List[str]
+    tags: List[str]
     upvote: int = 0
     downvote: int = 0
     title: str

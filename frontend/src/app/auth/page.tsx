@@ -1,7 +1,8 @@
-'use client';
+"use client";
 import OnboardForm from '@/components/OnboardForm';
 import SignInForm from '@/components/SignInForm';
 import SignUpForm from '@/components/SignUpForm';
+import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import type {
   SelectTabData,
   SelectTabEvent,
@@ -54,36 +55,38 @@ const AuthForm = () => {
 
   return (
     <Suspense>
-      <div className='mx-auto max-w-5xl p-4 border min-h-screen flex flex-col justify-center items-center gap-3 md:gap-5 lg:gap-8'>
-        <div className="flex flex-col gap-5 items-center lg:justify-center surround w-full lg:w-3/8">
-          <Toaster toasterId={toasterId} />
-          {formType === 'onboard' ? (
-            <>
-              <OnboardForm ToastMessage={ToastMessage} />
-            </>
-          ) :
-            (
-              <>
-                <div>
-                  <TabList selectedValue={formType} onTabSelect={onTabHandler}>
-                    <Tab value={`signup`}>Sign Up</Tab>
-                    <Tab value={`signin`}>Sign In</Tab>
+      <FluentProvider theme={webLightTheme}>
+        <div className="min-h-screen flex items-center justify-center bg-page">
+          <div className="mx-auto w-full max-w-3xl p-6 surround card">
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              <div className="w-full md:w-1/2 px-4 py-6">
+                <h2 className="text-2xl font-semibold text-ui-heading">Welcome to CivicSphere</h2>
+                <p className="mt-2 text-ui-muted">Join your community — discover, discuss and act.</p>
+                <div className="mt-6">
+                  <Toaster toasterId={toasterId} />
+                </div>
+              </div>
+
+              <div className="w-full md:w-1/2 px-4 py-6 bg-light-brand rounded-md">
+                <div className="mb-4">
+                  <TabList selectedValue={formType} onTabSelect={onTabHandler} className="w-full">
+                    <Tab value={`signup`} className="text-ui-heading">Sign Up</Tab>
+                    <Tab value={`signin`} className="text-ui-heading">Sign In</Tab>
                   </TabList>
-                </div >
-                <div
-                  className="flex flex-col w-full p-6 items-center gap-y-5"
-                >
+                </div>
+
+                <div className="flex flex-col w-full p-2 items-center gap-y-4">
                   {formType === 'signup' ? (
                     <SignUpForm ToastMessage={ToastMessage} />
                   ) : (
                     <SignInForm ToastMessage={ToastMessage} />
                   )}
                 </div>
-              </>
-            )
-          }
-        </div >
-      </div >
+              </div>
+            </div>
+          </div>
+        </div>
+      </FluentProvider>
     </Suspense>
   );
 }

@@ -23,9 +23,7 @@ async def create_post(
     files: Optional[List[UploadFile]] = File(None)
 ):
     try:
-       
-        # 1. USER AUTH
-
+        # User authentication
         if not hasattr(req.state, 'user') or not req.state.user:
             return JSONResponse(
                 status_code=401,
@@ -42,8 +40,8 @@ async def create_post(
         
         if not files or isinstance(files, str):
             files = []
-        # 2. USER PREFERENCES
 
+        # User preferences
         user_prefs = await config.db["userPreferences"].find_one({"user_id": user_id})
         if not user_prefs or "language" not in user_prefs:
             return JSONResponse(
@@ -52,8 +50,7 @@ async def create_post(
             )
         lang = user_prefs["language"]
 
-        # 3. COMMUNITY INFO
-
+        # Community information
         community = await config.db["communities"].find_one({"_id": ObjectId(community_id)})
         if not community or "community_name" not in community:
             return JSONResponse(
@@ -62,15 +59,13 @@ async def create_post(
             )
         location = community["community_name"]
 
-        # 4. FILE UPLOADS
-
+        # Upload files
         uploaded_urls = []
         for file in files:
             upload_result = await upload_user_file(file, user_id=user_id)
             uploaded_urls.append(upload_result["url"])
 
-        # 5. MODERATION SERVICE CALL
-
+        # Response moderation
         try:
             func_payload = {
                 "title": form.title,
@@ -104,11 +99,11 @@ async def create_post(
                 content={"success": False, "message": "Failed to validate content with moderation engine"}
             )
 
-        # 6. CREATE POST DOCUMENT
+        # Insert post
         post_doc = {
             "community_id": community_id,
             "user_id": user_id,
-            "tag_id": form.tag_id,
+            "tags": form.tags,
             "upvote": 0,
             "downvote": 0,
             "title": form.title,
@@ -120,13 +115,10 @@ async def create_post(
             "flagged": flagged,
             "created_at": datetime.utcnow()
         }
-
-        # 7. SAVE IN DATABASE
-
         result = await config.db["posts"].insert_one(post_doc)
 
         return JSONResponse(
-            status_code=201,
+            status_code=200,
             content={
                 "success": True,
                 "message": "Post created successfully",
@@ -140,7 +132,115 @@ async def create_post(
             status_code=500,
             content={"success": False, "message": f"An internal error occurred: {str(e)}"}
         )
-        
+
+@router.post("/post/voice")
+async def create_voice_post(
+    community_id: str,
+    req: Request,
+    form: CreateVoicePostRequest = Depends(),
+):
+    try:
+        # User authentication
+        if not hasattr(req.state, 'user') or not req.state.user:
+            return JSONResponse(
+                status_code=401,
+                content={"success": False, "message": "User not authenticated"}
+            )
+
+        user_id = req.state.user.get("user_id")
+        if not user_id:
+            return JSONResponse(
+                status_code=401,
+                content={"success": False, "message": "User ID not found"}
+            )
+
+        # User preferences
+        user_prefs = await config.db["userPreferences"].find_one({"user_id": user_id})
+        if not user_prefs or "language" not in user_prefs:
+            return JSONResponse(
+                status_code=400,
+                content={"success": False, "message": "User preferences not found"}
+            )
+        lang = user_prefs["language"]
+
+        # Community information
+        community = await config.db["communities"].find_one({"_id": ObjectId(community_id)})
+        if not community or "community_name" not in community:
+            return JSONResponse(
+                status_code=404,
+                content={"success": False, "message": "Community not found"}
+            )
+        location = community["community_name"]
+
+        # Response moderation
+        try:
+            func_payload = {
+                "title": form.title,
+                "description": form.description
+            }
+
+            async with httpx.AsyncClient(timeout=20) as client:
+                func_response = await client.post(
+                    config.env.azure_function_app_url,
+                    json=func_payload
+                )
+
+            if func_response.status_code != 200:
+                return JSONResponse(
+                    status_code=500,
+                    content={
+                        "success": False,
+                        "message": "Moderation service error",
+                        "details": func_response.text
+                    }
+                )
+
+            func_result = func_response.json()
+            # Extract results safely
+            validation = func_result.get("validation", "Uncertain")
+            flagged = func_result.get("flagged", False)
+
+        except Exception as e:
+            return JSONResponse(
+                status_code=500,
+                content={"success": False, "message": "Failed to validate content with moderation engine"}
+            )
+
+        # Insert post
+        post_doc = {
+            "community_id": community_id,
+            "user_id": user_id,
+            "tags": form.tags,
+            "upvote": 0,
+            "downvote": 0,
+            "title": form.title,
+            "description": form.description,
+            "url": [],
+            "lang": lang,
+            "location": location,
+            "verified": validation,  # FIXED
+            "flagged": flagged,
+            "created_at": datetime.utcnow().isoformat()
+        }
+        result = await config.db["posts"].insert_one(post_doc)
+
+        return JSONResponse(
+            status_code=200,
+            content={
+                "success": True,
+                "message": "Post created successfully",
+                "post_id": str(result.inserted_id)
+            }
+        )
+
+    except Exception as e:
+        logging.error(f"Internal server error: {e}")
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "message": f"An internal error occurred: {str(e)}"}
+        )
+
+
 @router.get("/posts")
 async def get_community_posts(
     community_id: str,

@@ -1,4 +1,5 @@
 import AppContainer from "@/components/AppContainer";
+import { Provider } from "jotai";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import "./globals.css";
@@ -18,9 +19,11 @@ export default function RootLayout({
     <html>
       <body>
         <NextIntlClientProvider>
-          <AppContainer>
-            {children}
-          </AppContainer>
+          <Provider>
+            <AppContainer>
+              {children}
+            </AppContainer>
+          </Provider>
         </NextIntlClientProvider>
       </body>
     </html>

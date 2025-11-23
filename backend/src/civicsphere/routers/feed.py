@@ -28,7 +28,7 @@ async def get_feed_posts(
                     if interests and location:
                         # Find posts matching interests and location, sorted by created_at descending (recent first)
                         posts_cursor = config.db["posts"].find({
-                            "tag_id": {"$in": interests},
+                            "tags": {"$in": interests},
                             "location": location
                         })
                     else:

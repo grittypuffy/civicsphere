@@ -13,7 +13,7 @@ def get_filename_hash(file_name: str, hash_algorithm='sha256', file_extension=""
     hash_func = hashlib.new(hash_algorithm)
 
     hash_func.update(file_name.encode('utf-8'))
-    file_extension = os.path.splitext(file_name)[1]
+    file_extension = os.path.splitext(file_name)[1] or file_extension
 
     hex_digest = hash_func.hexdigest()
     return (f"{hex_digest}{file_extension}", hex_digest)

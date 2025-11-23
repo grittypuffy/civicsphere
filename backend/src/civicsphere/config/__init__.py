@@ -7,6 +7,7 @@ from .environment import EnvVarConfig
 from ..helpers.singleton import singleton
 from ..helpers.service import get_document_analysis_client
 from ..helpers.service import get_text_analysis_client
+from ..helpers.service import get_image_analysis_client
 from ..helpers.service import get_storage_client
 from ..helpers.service import get_llm
 from ..helpers.service import get_search
@@ -18,7 +19,8 @@ from azure.core.credentials import AzureKeyCredential
 from langchain_openai.chat_models import AzureChatOpenAI
 from azure.search.documents import SearchClient
 from openai import AzureOpenAI
-from azure.ai.textanalytics import TextAnalyticsClient
+from azure.ai.textanalytics.aio import TextAnalyticsClient
+from azure.ai.vision.imageanalysis.aio import ImageAnalysisClient
 
 
 @singleton
@@ -59,6 +61,9 @@ class AppConfig:
 
         # Text Analytics Client
         self.text_analytics_client: TextAnalyticsClient = get_text_analysis_client(self.env.document_intelligence_endpoint, self.env.document_intelligence_key)
+
+        # Image Analysis Client
+        self.image_analysis_client: ImageAnalysisClient = get_image_analysis_client(self.env.azure_cv_endpoint, self.env.azure_cv_key)
 
         # Bing Search
         self.bing_search_api_key = self.env.bing_search_api_key

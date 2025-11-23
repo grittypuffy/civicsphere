@@ -232,7 +232,7 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
         <Button
           type="submit"
           aria-label={isLoading ? "Completing onboarding, please wait" : "Complete onboarding"}
-          className="w-full max-w-xs hover:shadow-md"
+          className="w-full max-w-xs hover:shadow-md btn-primary"
           disabled={isLoading || !formData.location || !formData.profession}
           aria-describedby={isLoading ? "loading-spinner" : undefined}
         >
