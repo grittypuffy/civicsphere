@@ -114,7 +114,7 @@ export const PostResponseSchema = v.object({
   community_id: v.string(),
   post_id: v.string(),
   user_id: v.string(),
-  tag_id: v.array(v.string()),
+  tags: v.array(v.string()),
   upvote: v.number(),
   downvote: v.number(),
   title: v.string(),
