@@ -69,6 +69,13 @@ export default function ChatPage() {
   const [chatState, setChatState] = useAtom(chatStateAtom)
   const { input, isRecording, isWaiting } = chatState
   const listRef = useRef<HTMLDivElement | null>(null)
+  
+  // Default suggestion prompts to help users start conversations quickly
+  const suggestions: string[] = [
+    "What's the current situation with housing prices and trends in New York City neighborhoods (e.g., Manhattan) and nearby suburbs?",
+    'When are my local elections, how do I cast a ballot, and who is contesting in my area?',
+    'What is the role of a federal judge and how does it differ from other political or judicial positions?'
+  ]
 
   useEffect(() => {
     // scroll to bottom when messages change

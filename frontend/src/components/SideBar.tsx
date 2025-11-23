@@ -39,9 +39,9 @@ const SideBar = () => {
               href: '/u/trending', label: 'Trending', icon: <ArrowTrendingLinesFilled />
             }, {
               href: '/u/chat', label: 'Chat', icon: <ChatSparkleRegular />
-            }, {
-              href: '/home', label: 'Community', icon: <PeopleCommunityRegular />
-            }, {
+            },{
+              href: '/u/communities', label: 'Community', icon: <PeopleCommunityRegular />
+            },{
               href: '/u/settings', label: 'Settings', icon: <SettingsRegular />
             }].map((item, idx) => (
               <NavItem
