@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from ..config import AppConfig, get_config
 from typing import Optional, List
 from ..models.api.post import TrendingResponse, PostResponse
-from ..models.api.post import CreatePostRequest
+from ..models.api.post import CreatePostRequest,CreateVoicePostRequest
 from datetime import datetime
 from bson import ObjectId
 from ..services.storage import upload_user_file
