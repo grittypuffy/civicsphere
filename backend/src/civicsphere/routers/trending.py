@@ -126,9 +126,9 @@ async def get_topic_analytics(req: Request):
                 "location": location,
                 "created_at": {"$gte": week_ago}
             }},
-            {"$unwind": "$tag_id"},
+            {"$unwind": "$tags"},
             {"$group": {
-                "_id": "$tag_id",
+                "_id": "$tags",
                 "count": {"$sum": 1}
             }},
             {"$sort": {"count": -1}},

@@ -61,7 +61,8 @@ export type ValidationError = v.InferOutput<typeof ValidationErrorSchema>;
 export type HTTPValidationError = v.InferOutput<typeof HTTPValidationErrorSchema>;
 
 // User Types
-export type User = v.InferOutput<typeof UserSchema>;
+export type User = UserData & UserPreferences;
+export type UserData = v.InferOutput<typeof UserSchema>;
 export type UserDataModel = v.InferOutput<typeof UserDataModelSchema>;
 export type UserDataResponse = v.InferOutput<typeof UserDataResponseSchema>;
 export type UserPreferences = v.InferOutput<typeof UserPreferencesSchema>;
@@ -78,3 +79,4 @@ export type IssueResponse = v.InferOutput<typeof IssueResponseSchema>;
 export type PostResponse = v.InferOutput<typeof PostResponseSchema>;
 export type TagResponse = v.InferOutput<typeof TagResponseSchema>;
 export type TrendingResponse = v.InferOutput<typeof TrendingResponseSchema>;
+export type PostData = NonNullable<TrendingResponse["data"]>[number];

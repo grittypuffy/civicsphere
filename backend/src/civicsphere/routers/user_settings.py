@@ -19,7 +19,8 @@ config: AppConfig = get_config()
 )
 async def onboarding(
     req: Request,
-    payload: UserPreferencesRequest
+    payload: UserPreferencesRequest,
+    response: JSONResponse
 ):
     user_id = None
     if req.state.user:
@@ -58,6 +59,13 @@ async def onboarding(
         )
         
         prefs_insert_result = await config.db["userPreferences"].insert_one(prefs_doc.__dict__)
+        response.set_cookie(
+            key="location",
+            value=payload.location,
+            httponly=False,
+            secure=True,
+            samesite="lax",
+        )
         return UserPreferencesResponse(
             success=True,
             message="Successfully onboarded"
@@ -131,7 +139,8 @@ async def get_preferences(
 )
 async def update_preferences(
     req: Request,
-    payload: UserPreferencesUpdateRequest
+    payload: UserPreferencesUpdateRequest,
+    response: JSONResponse
 ):
     user_id = None
     if req.state.user:
@@ -182,6 +191,13 @@ async def update_preferences(
         update_data = {}
         if payload.location is not None:
             update_data["location"] = payload.location
+            response.set_cookie(
+                key="location",
+                value=payload.location,
+                httponly=False,
+                secure=True,
+                samesite="lax",
+            )
         if payload.profession is not None:
             update_data["profession"] = payload.profession
         update_data["interests"] = final_interests
