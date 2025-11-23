@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from ..config import AppConfig, get_config
 from typing import Optional, List
 from ..models.api.post import TrendingResponse, PostResponse
-from ..models.api.post import CreatePostRequest
+from ..models.api.post import CreatePostRequest,CreateVoicePostRequest
 from datetime import datetime
 from bson import ObjectId
 from ..services.storage import upload_user_file
@@ -113,7 +113,7 @@ async def create_post(
             "location": location,
             "verified": validation,  # FIXED
             "flagged": flagged,
-            "created_at": datetime.utcnow().isoformat()
+            "created_at": datetime.utcnow()
         }
         result = await config.db["posts"].insert_one(post_doc)
 
@@ -283,47 +283,6 @@ async def get_community_posts(
             content={"success": False, "message": f"Internal error: {e}"}
         )
 
-@router.get("/issues")
-async def get_community_issue(
-    community_id: str,
-    req: Request
-):
-    try:
-        # Auth check
-        if not hasattr(req.state, 'user') or not req.state.user:
-            return JSONResponse(
-                status_code=401,
-                content={"success": False, "message": "User not authenticated"}
-            )
-
-        # Validate community
-        community = await config.db["communities"].find_one({"_id": ObjectId(community_id)})
-        if not community:
-            return JSONResponse(
-                status_code=404,
-                content={"success": False, "message": "Community not found"}
-            )
-
-        issues_cursor = config.db["issue"].find(
-            {"community_id": community_id}
-        )
-
-        issues = []
-        async for issue in issues_cursor:
-            issue["issue_id"] = str(issue.pop("_id"))
-            issues.append(PostResponse(**issue))
-        issues.sort(key=lambda x: x.created_at, reverse=True)
-        return TrendingResponse(
-            success=True,
-            message="Community posts fetched successfully",
-            data=issues
-        )
-
-    except Exception as e:
-        return JSONResponse(
-            status_code=500,
-            content={"success": False, "message": f"Internal error: {e}"}
-        )
 
 @router.get("/{post_id}", response_model=PostResponse)
 async def get_post(
