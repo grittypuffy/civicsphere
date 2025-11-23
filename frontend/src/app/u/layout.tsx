@@ -11,7 +11,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className='flex flex-col h-full flex-1'>
       <div>
         <SideBar />
-        <header className='flex justify-between items-center p-3 lg:p-5 border-b bg-navbar text-white'>
+        <header className='sticky top-0 z-10 flex justify-between items-center p-3 lg:p-5 border-b bg-navbar text-white'>
           <Tooltip
             content="Open Navigation bar"
             relationship="label"
@@ -40,7 +40,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </Link>
         </header>
       </div>
-      <div className='flex flex-col w-full flex-1 overflow-hidden'>
+      <div className='flex flex-col w-full flex-1 overflow-hidden h-full'>
         {children}
       </div>
     </div>
