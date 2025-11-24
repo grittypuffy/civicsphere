@@ -1,216 +1,392 @@
 'use client'
-import { useState } from 'react'
 import CreatePost from '@/components/CreatePost'
+import { CreateIssueRequest, Issue, PostData } from '@/lib/types'
+import {
+  createIssue,
+  createPost,
+  downvotePost,
+  getCommunityIssues,
+  getCommunityPosts,
+  upvoteIssue,
+  upvotePost
+} from '@/lib/utils'
+import {
+  Avatar,
+  Badge,
+  Button,
+  Card,
+  CardHeader,
+  Input,
+  SelectTabData,
+  SelectTabEvent,
+  Tab,
+  TabList,
+  Text,
+  Textarea
+} from '@fluentui/react-components'
+import {
+  ArrowUpRegular,
+  EditRegular,
+  ImageRegular,
+  ThumbDislikeRegular,
+  ThumbLikeRegular
+} from '@fluentui/react-icons'
+import { atom, useAtomValue, useSetAtom } from 'jotai'
+import { loadable } from 'jotai/utils'
+import { useEffect, useState } from 'react'
 
-type PostItem = {
-  id: number
-  author: string
-  avatarColor?: string
-  contentText?: string
-  image?: string
-  votesUp: number
-  votesDown: number
-  userVote: 'none' | 'up' | 'down'
-}
+// Local constants
+const COMMUNITIES = ['NewYork', 'LosAngeles', 'Chicago', 'Houston', 'Phoenix']
 
-type IssueItem = {
-  id: number
-  title: string
-  description?: string
-  assignees?: string
-  status: 'open' | 'in-progress' | 'resolved'
-  votes: number
-}
+// Atoms for state management
+const selectedCommunityAtom = atom('NewYork')
+const communityPostsAtom = atom<Promise<PostData[]>>(Promise.resolve([]))
+const communityIssuesAtom = atom<Promise<Issue[]>>(Promise.resolve([]))
+const loadablePostsAtom = loadable(communityPostsAtom)
+const loadableIssuesAtom = loadable(communityIssuesAtom)
 
 export default function CommunitiesPage() {
-  const [selectedCommunity, setSelectedCommunity] = useState('NewYork - Agri')
+  const selectedCommunity = useAtomValue(selectedCommunityAtom)
+  const setSelectedCommunity = useSetAtom(selectedCommunityAtom)
+  const posts = useAtomValue(loadablePostsAtom)
+  const issues = useAtomValue(loadableIssuesAtom)
+  const setPosts = useSetAtom(communityPostsAtom)
+  const setIssues = useSetAtom(communityIssuesAtom)
+
   const [tab, setTab] = useState<'posts' | 'issues'>('posts')
   const [isCreateOpen, setCreateOpen] = useState(false)
   const [newIssueTitle, setNewIssueTitle] = useState('')
   const [newIssueDescription, setNewIssueDescription] = useState('')
   const [newIssueAssignees, setNewIssueAssignees] = useState('')
 
-  const communities = [
-    'NewYork',
-    'Agri',
-    'Pharma',
-    'LGBTQ',
-    'Sustainability',
-    'Local Business',
-    'Housing',
-  ]
+  // Load initial data
+  useEffect(() => {
+    if (selectedCommunity) {
+      setPosts(getCommunityPosts(selectedCommunity.toLowerCase()))
+      setIssues(getCommunityIssues(selectedCommunity.toLowerCase()))
+    }
+  }, [selectedCommunity, setPosts, setIssues])
 
-  const samplePosts: PostItem[] = Array.from({ length: 6 }).map((_, i) => ({
-    id: i + 1,
-    author: `User ${i + 1}`,
-    avatarColor: ['emerald', 'violet', 'amber', 'sky'][i % 4],
-    contentText: `Sample community post ${i + 1} for ${selectedCommunity}. This demonstrates the posts view in the community.`,
-    votesUp: (i * 7 + 3) % 30,
-    votesDown: (i * 2 + 1) % 8,
-    userVote: 'none'
-  }))
+  const handleTabSelect = (event: SelectTabEvent, data: SelectTabData) => {
+    setTab(data.value as 'posts' | 'issues')
+  }
 
-  const [posts, setPosts] = useState<PostItem[]>(samplePosts)
-
-  const sampleIssues: IssueItem[] = [
-    { id: 1, title: 'Street light broken at 5th Ave', description: 'The light has been out for 3 weeks.', status: 'open', votes: 12 },
-    { id: 2, title: 'Garbage pickup missed', description: 'No pickup last Tuesday', status: 'in-progress', votes: 7 },
-    { id: 3, title: 'Pothole near school', description: 'Large pothole by the crosswalk', status: 'open', votes: 21 }
-  ]
-  const [issues, setIssues] = useState<IssueItem[]>(sampleIssues)
-
-  function votePost(id: number, type: 'up' | 'down') {
-    setPosts(posts.map(p => {
-      if (p.id !== id) return p
-      let votesUp = p.votesUp
-      let votesDown = p.votesDown
-      let userVote = p.userVote
+  async function handleVotePost(postId: string, communityId: string, type: 'up' | 'down') {
+    try {
       if (type === 'up') {
-        if (userVote === 'up') { votesUp = Math.max(0, votesUp - 1); userVote = 'none' }
-        else if (userVote === 'down') { votesDown = Math.max(0, votesDown - 1); votesUp = votesUp + 1; userVote = 'up' }
-        else { votesUp = votesUp + 1; userVote = 'up' }
+        await upvotePost(communityId, postId)
       } else {
-        if (userVote === 'down') { votesDown = Math.max(0, votesDown - 1); userVote = 'none' }
-        else if (userVote === 'up') { votesUp = Math.max(0, votesUp - 1); votesDown = votesDown + 1; userVote = 'down' }
-        else { votesDown = votesDown + 1; userVote = 'down' }
+        await downvotePost(communityId, postId)
       }
-      return { ...p, votesUp, votesDown, userVote }
-    }))
+      // Refresh posts data
+      setPosts(getCommunityPosts(communityId))
+    } catch (error) {
+      console.error('Failed to vote on post:', error)
+    }
   }
 
-  function upvoteIssue(id: number) {
-    setIssues(issues.map(i => i.id === id ? { ...i, votes: i.votes + 1 } : i))
+  async function handleUpvoteIssue(issueId: string, communityId: string) {
+    try {
+      await upvoteIssue(communityId, issueId)
+      // Refresh issues data
+      setIssues(getCommunityIssues(communityId))
+    } catch (error) {
+      console.error('Failed to vote on issue:', error)
+    }
   }
 
-  // raise issue with optional assignees (who should take action)
-  function raiseIssue(title: string, description = '', assignees = '') {
-    const next: IssueItem = { id: issues.length + 1, title, description, assignees: assignees || undefined, status: 'open', votes: 0 }
-    setIssues([next, ...issues])
+  async function handleRaiseIssue(title: string, description = '') {
+    try {
+      const communityId = selectedCommunity.toLowerCase()
+      const payload: CreateIssueRequest = {
+        title,
+        description,
+        status: 'Open',
+      }
+      await createIssue(communityId, payload)
+      // Refresh issues data
+      setIssues(getCommunityIssues(communityId))
+      // Clear form
+      setNewIssueTitle('')
+      setNewIssueDescription('')
+      setNewIssueAssignees('')
+    } catch (error) {
+      console.error('Failed to create issue:', error)
+    }
   }
 
-  function handleCreatePost(content: string) {
+  async function handleCreatePost(content: string) {
     if (!content.trim()) return
-    const newPost: PostItem = { id: posts.length + 1, author: 'You', avatarColor: 'sky', contentText: content, votesUp: 0, votesDown: 0, userVote: 'none' }
-    setPosts([newPost, ...posts])
-    setCreateOpen(false)
+    try {
+      const communityId = selectedCommunity.toLowerCase()
+      const formData = new FormData()
+      await createPost(communityId, 'Post Title', content, formData)
+      // Refresh posts data
+      setPosts(getCommunityPosts(communityId))
+      setCreateOpen(false)
+    } catch (error) {
+      console.error('Failed to create post:', error)
+    }
+  }
+
+  const getStatusBadgeColor = (status: string) => {
+    switch (status) {
+      case 'Open': return 'warning'
+      case 'Closed': return 'brand'
+      case 'Resolved': return 'success'
+      default: return 'subtle'
+    }
+  }
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    })
   }
 
   return (
     <div className='flex gap-4'>
       {/* Left topics list */}
       <aside className='w-56 bg-pink-50 p-3 rounded-md h-[calc(100vh-40px)] overflow-auto'>
-        <div className='font-semibold mb-3'>List of Topics</div>
+        <Text size={500} weight="semibold" className='mb-3 block'>List of Topics</Text>
         <ul className='space-y-2'>
-          {communities.map(c => (
-            <li key={c}>
-              <button onClick={() => setSelectedCommunity(`${c} - ${c === 'NewYork' ? 'Agri' : 'General'}`)} className={`w-full text-left p-2 rounded ${selectedCommunity.includes(c) ? 'bg-sky-100' : 'hover:bg-slate-50'}`}>
-                {c}
-              </button>
+          {COMMUNITIES.map((community: string) => (
+            <li key={community}>
+              <Button
+                appearance={selectedCommunity === community ? 'primary' : 'subtle'}
+                onClick={() => setSelectedCommunity(community)}
+                className='w-full justify-start'
+              >
+                {community}
+              </Button>
             </li>
           ))}
         </ul>
       </aside>
 
       {/* Center column */}
-      <main className='flex-1'>
+      <main className='flex-1 max-w-5xl mx-auto p-3 lg:p-5 flex flex-col'>
         <div className='flex items-center justify-between mb-3'>
-          <h2 className='text-xl font-semibold text-ui-heading'>Community: {selectedCommunity}</h2>
-          <div className='flex gap-2'>
-            <button className={`px-4 py-2 rounded ${tab === 'posts' ? 'bg-sky-100' : 'bg-white'}`} onClick={() => setTab('posts')}>Posts</button>
-            <button className={`px-4 py-2 rounded ${tab === 'issues' ? 'bg-sky-100' : 'bg-white'}`} onClick={() => setTab('issues')}>Issues</button>
-          </div>
+          <Text size={600} weight="semibold">Community: {selectedCommunity}</Text>
+          <TabList selectedValue={tab} onTabSelect={handleTabSelect}>
+            <Tab value="posts">Posts</Tab>
+            <Tab value="issues">Issues</Tab>
+          </TabList>
         </div>
 
         {/* make center scrollable independently */}
         <div className='max-h-[calc(100vh-140px)] overflow-auto pr-2'>
           {tab === 'posts' && (
             <section>
-              <div className='card p-4 mb-4'>
-                <div className='flex items-start gap-3'>
-                  <div className='w-12 h-12 rounded-full bg-brand flex items-center justify-center text-white'>Y</div>
-                  <div className='flex-1'>
-                    <div onClick={() => setCreateOpen(true)} role='button' tabIndex={0} className='w-full p-3 border rounded h-20 text-ui-muted flex items-center'>
-                      Start a post in {selectedCommunity}
-                    </div>
-                    <div className='mt-3 flex items-center justify-between'>
-                      <div className='flex gap-2 text-sm text-gray-600'>
-                        <button onClick={() => setCreateOpen(true)} className='px-3 py-1 rounded bg-green-50'>🖼️ Photo</button>
-                        <button onClick={() => setCreateOpen(true)} className='px-3 py-1 rounded bg-sky-50'>✍️ Write</button>
+              <Card className='mb-4'>
+                <CardHeader
+                  header={
+                    <div className='flex items-start gap-3 w-full'>
+                      <Avatar name="You" color="brand" />
+                      <div className='flex-1'>
+                        <Button
+                          appearance='outline'
+                          onClick={() => setCreateOpen(true)}
+                          className='w-full h-20 justify-start'
+                        >
+                          Start a post in {selectedCommunity}
+                        </Button>
+                        <div className='mt-3 flex items-center justify-between'>
+                          <div className='flex gap-2'>
+                            <Button
+                              appearance='subtle'
+                              size='small'
+                              icon={<ImageRegular />}
+                              onClick={() => setCreateOpen(true)}
+                            >
+                              Photo
+                            </Button>
+                            <Button
+                              appearance='subtle'
+                              size='small'
+                              icon={<EditRegular />}
+                              onClick={() => setCreateOpen(true)}
+                            >
+                              Write
+                            </Button>
+                          </div>
+                          <Button
+                            appearance='primary'
+                            onClick={() => setCreateOpen(true)}
+                          >
+                            Post
+                          </Button>
+                        </div>
                       </div>
-                      <div className='flex gap-2'>
-                        <button onClick={() => setCreateOpen(true)} className='btn-primary'>Post</button>
-                      </div>
                     </div>
-                  </div>
-                </div>
-              </div>
+                  }
+                />
+              </Card>
 
-              {posts.map(p => (
-                <article key={p.id} className='card p-4 mb-4'>
-                  <header className='flex items-start justify-between'>
-                    <div className='flex items-center gap-3'>
-                      <div className={`w-12 h-12 rounded-full bg-${p.avatarColor}-400 flex items-center justify-center text-white`}>{p.author[0]}</div>
-                      <div>
-                        <div className='font-semibold'>{p.author}</div>
-                        <div className='text-xs text-gray-500'>Posted just now</div>
-                      </div>
-                    </div>
-                    <div className='ml-auto flex items-center gap-2'>
-                      <button onClick={() => votePost(p.id, 'up')} className={`px-2 py-1 rounded ${p.userVote === 'up' ? 'bg-green-200' : 'bg-green-50'}`}>▲ {p.votesUp}</button>
-                      <button onClick={() => votePost(p.id, 'down')} className={`px-2 py-1 rounded ${p.userVote === 'down' ? 'bg-red-200' : 'bg-red-50'}`}>▼ {p.votesDown}</button>
-                    </div>
-                  </header>
-                  <div className='mt-3'>
-                    <p className='text-ui-heading'>{p.contentText}</p>
-                  </div>
-                </article>
-              ))}
+              {(() => {
+                switch (posts.state) {
+                  case 'loading':
+                    return <Text>Loading posts...</Text>
+                  case 'hasError':
+                    return <Text>Error loading posts: {String(posts.error)}</Text>
+                  case 'hasData':
+                    return posts.data.map((post: PostData) => (
+                      <Card key={post.post_id} className='mb-4'>
+                        <CardHeader
+                          header={
+                            <div className='flex items-start justify-between w-full'>
+                              <div className='flex items-center gap-3'>
+                                <Avatar name={post.user_id} />
+                                <div>
+                                  <Text weight="semibold">{post.title}</Text>
+                                  <Text size={200} className='text-gray-500 block'>
+                                    {formatDate(post.created_at)}
+                                  </Text>
+                                </div>
+                              </div>
+                              <div className='flex items-center gap-2'>
+                                <Button
+                                  appearance='subtle'
+                                  icon={<ThumbLikeRegular />}
+                                  onClick={() => handleVotePost(post.post_id, selectedCommunity.toLowerCase(), 'up')}
+                                >
+                                  {post.upvote}
+                                </Button>
+                                <Button
+                                  appearance='subtle'
+                                  icon={<ThumbDislikeRegular />}
+                                  onClick={() => handleVotePost(post.post_id, selectedCommunity.toLowerCase(), 'down')}
+                                >
+                                  {post.downvote}
+                                </Button>
+                              </div>
+                            </div>
+                          }
+                          description={
+                            <div className='space-y-2'>
+                              <Text>{post.description}</Text>
+                              <div className='flex flex-wrap gap-1'>
+                                {post.tags.map((tag, index) => (
+                                  <Badge key={index} appearance="tint" size="small">
+                                    {tag}
+                                  </Badge>
+                                ))}
+                              </div>
+                            </div>
+                          }
+                        />
+                      </Card>
+                    ))
+                }
+              })()}
             </section>
           )}
 
           {tab === 'issues' && (
             <section>
               <div className='mb-4'>
-                <h3 className='text-lg font-semibold mb-2'>Raise an issue</h3>
-                <div className='text-sm text-gray-600 mb-3'>People and authorities can respond; community members can upvote if they have the same problem.</div>
+                <Text size={500} weight="semibold" className='mb-2 block'>Raise an issue</Text>
+                <Text size={300} className='text-gray-600 mb-3 block'>
+                  People and authorities can respond; community members can upvote if they have the same problem.
+                </Text>
 
-                {/* Inline raise form: title, description, assignees */}
-                <div className='card p-3 mb-4'>
-                  <div className='grid gap-2'>
-                    <input aria-label='Issue title' value={newIssueTitle} onChange={e => setNewIssueTitle(e.target.value)} placeholder='Short title (e.g. Broken street light on 5th Ave)' className='p-2 border rounded' />
-                    <textarea aria-label='Issue description' value={newIssueDescription} onChange={e => setNewIssueDescription(e.target.value)} placeholder='Describe the issue and any details (where, when, impact)...' className='p-2 border rounded min-h-20'></textarea>
-                    <input aria-label='Assigned to' value={newIssueAssignees} onChange={e => setNewIssueAssignees(e.target.value)} placeholder='Who should take action? (e.g. Sanitation Dept, Local Councilor)' className='p-2 border rounded' />
+                {/* Inline raise form */}
+                <Card className='p-3 mb-4'>
+                  <div className='grid gap-3'>
+                    <Input
+                      placeholder='Short title (e.g. Broken street light on 5th Ave)'
+                      value={newIssueTitle}
+                      onChange={(e) => setNewIssueTitle(e.target.value)}
+                    />
+                    <Textarea
+                      placeholder='Describe the issue and any details (where, when, impact)...'
+                      value={newIssueDescription}
+                      onChange={(e) => setNewIssueDescription(e.target.value)}
+                      rows={3}
+                    />
+                    <Input
+                      placeholder='Who should take action? (e.g. Sanitation Dept, Local Councilor)'
+                      value={newIssueAssignees}
+                      onChange={(e) => setNewIssueAssignees(e.target.value)}
+                    />
                     <div className='flex items-center justify-end gap-2'>
-                      <button onClick={() => { setNewIssueTitle(''); setNewIssueDescription(''); setNewIssueAssignees('') }} className='px-3 py-2 rounded border text-ui-muted hover:bg-slate-50'>Clear</button>
-                      <button disabled={!newIssueTitle.trim()} onClick={() => { raiseIssue(newIssueTitle.trim(), newIssueDescription.trim(), newIssueAssignees.trim()); setNewIssueTitle(''); setNewIssueDescription(''); setNewIssueAssignees('') }} className='px-3 py-2 rounded btn-primary disabled:opacity-50'>Raise</button>
+                      <Button
+                        appearance='secondary'
+                        onClick={() => {
+                          setNewIssueTitle('')
+                          setNewIssueDescription('')
+                          setNewIssueAssignees('')
+                        }}
+                      >
+                        Clear
+                      </Button>
+                      <Button
+                        appearance='primary'
+                        disabled={!newIssueTitle.trim()}
+                        onClick={() => handleRaiseIssue(
+                          newIssueTitle.trim(),
+                          newIssueDescription.trim(),
+                        )}
+                      >
+                        Raise
+                      </Button>
                     </div>
                   </div>
-                </div>
+                </Card>
               </div>
 
-              <div className='grid gap-4'>
-                {issues.map(issue => (
-                  <div key={issue.id} className='card p-4 flex items-start justify-between'>
-                    <div>
-                      <div className='flex items-center gap-2'>
-                        <div className='w-10 h-10 rounded-full bg-sky-200' />
-                        <div>
-                          <div className='font-semibold'>{issue.title}</div>
-                          <div className='text-sm text-gray-600'>{issue.description}</div>
-                          {issue.assignees && <div className='text-sm text-gray-700 mt-1'><strong>Assigned to:</strong> {issue.assignees}</div>}
-                        </div>
+              {(() => {
+                switch (issues.state) {
+                  case 'loading':
+                    return <Text>Loading issues...</Text>
+                  case 'hasError':
+                    return <Text>Error loading issues: {String(issues.error)}</Text>
+                  case 'hasData':
+                    return (
+                      <div className='grid gap-4'>
+                        {issues.data.map((issue: Issue) => (
+                          <Card key={issue.issue_id} className='p-4'>
+                            <div className='flex items-start justify-between'>
+                              <div className='flex-1'>
+                                <div className='flex items-start gap-3'>
+                                  <Avatar name={issue.user_id} />
+                                  <div className='flex-1'>
+                                    <Text weight="semibold" className='block'>{issue.title}</Text>
+                                    <Text size={300} className='text-gray-600 block mt-1'>
+                                      {issue.description}
+                                    </Text>
+                                    <div className='mt-2'>
+                                      <Badge
+                                        appearance="filled"
+                                        color={getStatusBadgeColor(issue.status)}
+                                        size="small"
+                                      >
+                                        {issue.status}
+                                      </Badge>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className='flex flex-col items-center gap-2 ml-4'>
+                                <Button
+                                  appearance='subtle'
+                                  shape='circular'
+                                  icon={<ArrowUpRegular />}
+                                  onClick={() => handleUpvoteIssue(issue.issue_id, selectedCommunity.toLowerCase())}
+                                />
+                                <Text size={200}>{issue.upvote}</Text>
+                              </div>
+                            </div>
+                          </Card>
+                        ))}
                       </div>
-                      <div className='mt-2'>
-                        <span className={`px-2 py-1 rounded text-sm ${issue.status === 'open' ? 'bg-yellow-50 text-yellow-800' : issue.status === 'in-progress' ? 'bg-sky-50 text-sky-800' : 'bg-green-50 text-green-800'}`}>{issue.status}</span>
-                      </div>
-                    </div>
-                    <div className='flex flex-col items-center gap-2'>
-                      <button onClick={() => upvoteIssue(issue.id)} className='w-10 h-10 rounded-full bg-yellow-50 flex items-center justify-center text-lg'>▲</button>
-                      <div className='text-sm text-gray-700'>{issue.votes}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                    )
+                }
+              })()}
             </section>
           )}
         </div>
@@ -219,7 +395,12 @@ export default function CommunitiesPage() {
       {/* Right spacer / info column */}
       <aside className='w-6 bg-emerald-50 rounded-md' />
 
-      <CreatePost isOpen={isCreateOpen} onClose={() => setCreateOpen(false)} onSubmit={({ text, tags, files }) => handleCreatePost(text)} userName={'You'} />
+      <CreatePost
+        isOpen={isCreateOpen}
+        onClose={() => setCreateOpen(false)}
+        onSubmit={({ text }) => handleCreatePost(text)}
+        userName={'You'}
+      />
     </div>
   )
 }
