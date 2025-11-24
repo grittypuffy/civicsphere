@@ -87,7 +87,7 @@ async def get_issue(
             content={"success": False, "message": f"Internal error: {e}"}
         )
 
-@router.post("/")
+@router.post("")
 async def create_issue(
     community_id: str,
     issue_request: CreateIssueRequest,
@@ -239,7 +239,7 @@ async def resolve_issue(
         if issue.get("status") == "Open":
             await config.db["issue"].update_one(
                 {"_id": ObjectId(issue_id)},
-                {"$set": {"statu": "Resolved"}}
+                {"$set": {"status": "Resolved"}}
             )
 
             return JSONResponse(

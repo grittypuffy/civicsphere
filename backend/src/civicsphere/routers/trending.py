@@ -12,7 +12,7 @@ router = APIRouter(tags=["Trending"])
 config: AppConfig = get_config()
 
 @router.get(
-    "/",
+    "",
     response_model=TrendingResponse
 )
 async def get_trending_posts(
