@@ -7,6 +7,7 @@ from ..models.db.user import User, UserDataModel,UserPreferences
 from ..models.api.user import  UserPreferencesResponse, UserDataResponse
 from .user_post import router as post_router
 from .user_issues import router as issues_router
+from bson import ObjectId
 
 router = APIRouter(tags=["User"])
 
@@ -16,20 +17,32 @@ router.include_router(post_router,prefix="/posts")
 router.include_router(issues_router,prefix="/issues")
 
 @router.get(
-    "/{username}",
+    "/user",
     response_model=UserDataResponse
 )
 async def get_user_details(
-    username: str
+    req: Request
 ):
     try:
-        user = await config.db["user"].find_one({"username": username})
+        if not hasattr(req.state, 'user') or not req.state.user:
+            return JSONResponse(
+                status_code=401,
+                content={"success": False, "message": "User not authenticated"}
+            )
+
+        user_id = req.state.user.get("user_id")
+        if not user_id:
+            return JSONResponse(
+                status_code=401,
+                content={"success": False, "message": "User ID not found"}
+            )
+        user = await config.db["user"].find_one({"_id": ObjectId(user_id)})
         if not user:
             return JSONResponse(
                 status_code=404,
                 content=UserDataResponse(
                     success=False,
-                    message=f"The user {username} does not exist"
+                    message=f"The {user_id} does not exist"
                 ).dict()
             )
         user.pop("password", None)
@@ -50,7 +63,7 @@ async def get_user_details(
                 status_code=500,
                 content=UserDataResponse(
                     success=False,
-                    message=f"An unknown error occurred while fetching {username}'s data"
+                    message=f"An unknown error occurred while fetching {user_id}'s data"
                 ).dict()
             )
         prefs.pop("user_id", None)
@@ -61,7 +74,7 @@ async def get_user_details(
         )
         return UserDataResponse(
             success=True,
-            message=f"Successfully fetched data for {username}",
+            message=f"Successfully fetched data for {user_id}",
             data=user_details
         )
 
