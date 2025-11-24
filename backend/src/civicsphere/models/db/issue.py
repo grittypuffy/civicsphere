@@ -1,22 +1,16 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional,Literal
 from pydantic import BaseModel
 
 
-class Post(BaseModel):
+class Issue(BaseModel):
     community_id: str
-    post_id: str
+    issue_id: str
     user_id: str
-    tags: List[str]
     upvote: int = 0
-    downvote: int = 0
     title: str
     description: str
-    url: List[str]
-    lang: str
-    location: str
-    verified: str  # "True", "False", "Not Sure"
-    flagged: bool = False
+    status: Literal["Open", "Resolved", "Closed"] = "Open"
     created_at: datetime
 
     model_config = dict(

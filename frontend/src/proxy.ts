@@ -1,23 +1,25 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { isAuthenticated } from './lib/utils';
+import { clearSessionCache, isAuthenticated } from './lib/utils';
 
 export async function proxy(req: NextRequest) {
   /* Using the following logic temporarily */
-  return NextResponse.next();
+  // return NextResponse.next();
 
   const auth = await isAuthenticated(req);
   if (!auth) {
-    const redirectUrl = new URL('/auth', req.url);
-    return NextResponse.redirect(redirectUrl);
-  } else {
-    if (req.nextUrl.pathname === '/auth') {
-      const redirectUrl = new URL('/home', req.url);
-      return NextResponse.redirect(redirectUrl);
+    // If authentication failed, clear any cached entry for this token
+    const token = req.cookies.get('token');
+    if (token) {
+      clearSessionCache(token.value);
     }
-    return NextResponse.next();
+
+    const redirectUrl = new URL('/auth?action=signin', req.url);
+    return NextResponse.redirect(redirectUrl);
   }
+
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/u/:path*', '/((?!api|_next/static|_next/image|assets|favicon.ico|sw.js|site.webmanifest).*)']
+  matcher: ['/u/:path*'],
 };

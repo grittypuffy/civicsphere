@@ -66,8 +66,8 @@ class AppConfig:
         self.image_analysis_client: ImageAnalysisClient = get_image_analysis_client(self.env.azure_cv_endpoint, self.env.azure_cv_key)
 
         # Bing Search
-        # self.bing_search_api_key = self.env.bing_search_api_key
-        # self.bing_search_endpoint = self.env.bing_search_endpoint
+        self.bing_search_api_key = self.env.bing_search_api_key
+        self.bing_search_endpoint = self.env.bing_search_endpoint
 
         self.languages: List[str] = [
             "ar", "bn", "de", "el", "en", "es", "fr", "hi", "ht", "it", 

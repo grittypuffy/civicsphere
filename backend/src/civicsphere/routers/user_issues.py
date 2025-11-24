@@ -3,8 +3,8 @@ from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 from ..config import AppConfig, get_config
 from ..models.api.user import UserReactionsResponse
-from ..models.api.post import PostResponse,UserPostsResponse
-from ..models.api.issue import IssueResponse, UserIssuesResponse
+from ..models.api.post import UserPostsResponse
+from ..models.api.issue import Issue, UserIssuesResponse
 
 
 router = APIRouter(tags=["User-Issue"])
@@ -12,7 +12,7 @@ router = APIRouter(tags=["User-Issue"])
 config: AppConfig = get_config()
 
 @router.get(
-    "/",
+    "",
     response_model=UserIssuesResponse
 )
 async def get_user_issue(
@@ -22,7 +22,7 @@ async def get_user_issue(
         if not hasattr(req.state, 'user') or not req.state.user:
             return JSONResponse(
                 status_code=401,
-                content=UserPostsResponse(
+                content=UserIssuesResponse(
                     success=False,
                     message="User not authenticated"
                 ).dict()
@@ -36,11 +36,12 @@ async def get_user_issue(
                     message="User ID not found"
                 ).dict()
             )
-        issues_cursor = config.db["issues"].find({"user_id": user_id}).sort("created_at", -1)
+        issues_cursor = config.db["issue"].find({"user_id": user_id})
         issues = []
         async for issue in issues_cursor:
-            issue["issue_id"] = issue.pop("_id", None)
-            issues.append(PostResponse(**issue))
+            issue["issue_id"] = str(issue.pop("_id"))
+            issues.append(Issue(**issue))
+        issues.sort(key=lambda x: x.created_at, reverse=True)
         return UserIssuesResponse(
             success=True,
             message="Successfully fetched user issues",
@@ -81,10 +82,10 @@ async def get_user_upvotes(
                     message="User ID not found"
                 ).dict()
             )
-        reactions_cursor = config.db["issue_reactions"].find({"user_id": user_id})
+        reactions_cursor = config.db["issue_reaction"].find({"user_id": user_id})
         issue_ids = []
         async for reaction in reactions_cursor:
-            issue_ids.append(reaction[" issue_id"])
+            issue_ids.append(str(reaction["issue_id"]))
         return UserReactionsResponse(
             success=True,
             message="Successfully fetched user issue  upvotes",

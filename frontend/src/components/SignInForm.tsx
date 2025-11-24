@@ -1,5 +1,6 @@
 'use client'
 import { SignInFormSchema } from '@/lib/schema';
+import { userNameAtom } from '@/lib/store';
 import { SignInFormData, ToastFunc } from "@/lib/types";
 import type {
   InputOnChangeData
@@ -11,6 +12,7 @@ import {
   Spinner
 } from '@fluentui/react-components';
 import { EyeOffRegular, EyeRegular } from '@fluentui/react-icons';
+import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { useState } from "react";
 import * as v from 'valibot';
@@ -27,6 +29,8 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
     email: '',
     password: '',
   });
+
+  const setUserName = useSetAtom(userNameAtom)
 
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -109,6 +113,7 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
               { message: 'Sign In Successful', description: 'Redirecting...' },
               'success'
             );
+            setUserName(formData.username)
             setTimeout(() => {
               router.push('/u/home');
             }, 400);

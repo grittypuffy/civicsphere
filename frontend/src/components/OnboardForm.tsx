@@ -1,7 +1,7 @@
 'use client'
+import { LANGS } from "@/lib/consts";
 import { OnboardFormSchema } from '@/lib/schema';
 import { LangCode, ToastFunc, UserPreferencesRequest } from "@/lib/types";
-import { langs } from "@/lib/utils";
 import { Button, Dropdown, Field, Input, InputOnChangeData, Option, Spinner, Textarea } from "@fluentui/react-components";
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
@@ -89,7 +89,7 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
               'success'
             );
             setTimeout(() => {
-              router.push('/u/home');
+              router.push('/auth?action=signin');
             }, 400);
             break;
           case 422:
@@ -174,7 +174,7 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             aria-describedby={validMsg.language ? 'language-error' : undefined}
             aria-invalid={validMsg.language ? 'true' : 'false'}
           >
-            {langs.map((lang, i) => (
+            {LANGS.map((lang, i) => (
               <Option key={i} text={lang.name} value={lang.code}>
                 {lang.name}
               </Option>
@@ -194,6 +194,7 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             onChange={(_: React.ChangeEvent<HTMLTextAreaElement>, data) => {
               handleInterestsChange(data.value);
             }}
+            resize='none'
             disabled={isLoading}
             className="w-full"
             style={{ minWidth: '200px' }}
@@ -232,7 +233,7 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
         <Button
           type="submit"
           aria-label={isLoading ? "Completing onboarding, please wait" : "Complete onboarding"}
-          className="w-full max-w-xs hover:shadow-md"
+          className="w-full max-w-xs hover:shadow-md btn-primary"
           disabled={isLoading || !formData.location || !formData.profession}
           aria-describedby={isLoading ? "loading-spinner" : undefined}
         >

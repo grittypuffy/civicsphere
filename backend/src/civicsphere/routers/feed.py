@@ -8,7 +8,7 @@ router = APIRouter(tags=["Feed"])
 config: AppConfig = get_config()
 
 @router.get(
-    "/",
+    "",
     response_model=TrendingResponse
 )
 async def get_feed_posts(
@@ -28,9 +28,9 @@ async def get_feed_posts(
                     if interests and location:
                         # Find posts matching interests and location, sorted by created_at descending (recent first)
                         posts_cursor = config.db["posts"].find({
-                            "tag_id": {"$in": interests},
+                            "tags": {"$in": interests},
                             "location": location
-                        }).sort("created_at", -1).limit(20)
+                        })
                     else:
                         return JSONResponse(
                             status_code=400,
@@ -65,8 +65,10 @@ async def get_feed_posts(
             )
         posts = []
         async for post in posts_cursor:
-            post["post_id"] = post.pop("_id", None)
+            post["post_id"] = str(post.pop("_id"))
             posts.append(PostResponse(**post))
+        posts.sort(key=lambda x: x.created_at, reverse=True)
+        posts = posts[:50]
         return TrendingResponse(
             success=True,
             message="Successfully fetched feed posts",

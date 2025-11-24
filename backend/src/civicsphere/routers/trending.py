@@ -5,14 +5,14 @@ from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 from ..config import AppConfig, get_config
 from ..models.db.post import Post
-from ..models.api.post import TrendingResponse, PostResponse
+from ..models.api.post import TrendingResponse, PostResponse,TagAnalytics
 
 router = APIRouter(tags=["Trending"])
 
 config: AppConfig = get_config()
 
 @router.get(
-    "/",
+    "",
     response_model=TrendingResponse
 )
 async def get_trending_posts(
@@ -21,7 +21,7 @@ async def get_trending_posts(
     try:
         location = req.cookies.get("location")
         if location:
-            posts_cursor = config.db["posts"].find({"location": location}).sort("upvote", -1).limit(10)
+            posts_cursor = config.db["posts"].find({"location": location})
         else:
             # If no location cookie, get user_id from request.state.user and fetch location from db
             if hasattr(req.state, 'user') and req.state.user:
@@ -33,7 +33,7 @@ async def get_trending_posts(
                     )
                     if prefs and "location" in prefs:
                         location = prefs["location"]
-                        posts_cursor = config.db["posts"].find({"location": location}).sort("upvote", -1).limit(10)
+                        posts_cursor = config.db["posts"].find({"location": location})
                     else:
                         return JSONResponse(
                             status_code=400,
@@ -60,8 +60,10 @@ async def get_trending_posts(
                 )
         posts = []
         async for post in posts_cursor:
-            post["post_id" ] = post.pop("_id", None)
+            post["post_id" ] = str(post.pop("_id"))
             posts.append(PostResponse(**post))
+        posts.sort(key=lambda x: x.created_at, reverse=True)
+        posts = posts[:50]
         return TrendingResponse(
             success=True,
             message="Successfully fetched trending posts",
@@ -79,7 +81,7 @@ async def get_trending_posts(
 
 @router.get(
     "/analytics",
-    response_model=TrendingResponse
+    response_model=TagAnalytics
 )
 async def get_topic_analytics(req: Request):
     try:
@@ -98,7 +100,7 @@ async def get_topic_analytics(req: Request):
                     else:
                         return JSONResponse(
                             status_code=400,
-                            content=TrendingResponse(
+                            content=TagAnalytics(
                                 success=False,
                                 message="User location not set"
                             ).dict()
@@ -106,7 +108,7 @@ async def get_topic_analytics(req: Request):
                 else:
                     return JSONResponse(
                         status_code=401,
-                        content=TrendingResponse(
+                        content=TagAnalytics(
                             success=False,
                             message="User not authenticated"
                         ).dict()
@@ -114,7 +116,7 @@ async def get_topic_analytics(req: Request):
             else:
                 return JSONResponse(
                     status_code=401,
-                    content=TrendingResponse(
+                    content=TagAnalytics(
                         success=False,
                         message="User not authenticated"
                     ).dict()
@@ -126,23 +128,26 @@ async def get_topic_analytics(req: Request):
                 "location": location,
                 "created_at": {"$gte": week_ago}
             }},
-            {"$unwind": "$tag_id"},
+            {"$unwind": "$tags"},
             {"$group": {
-                "_id": "$tag_id",
+                "_id": "$tags",
                 "count": {"$sum": 1}
             }},
             {"$sort": {"count": -1}},
             {"$limit": 10}
         ]
 
-        results = await config.db["posts"].aggregate(pipeline).to_list(length=10)
+        cursor = config.db["posts"].aggregate(pipeline)
+        logging.info(f"Analytics results: {cursor}")
 
-        analytics = [
-            {"tag": item["_id"], "count": item["count"]}
-            for item in results
-        ]
+        analytics = []
+        async for item in cursor:
+            analytics.append({
+                "tag": item["_id"],
+                "count": item["count"]
+            })
 
-        return TrendingResponse(
+        return TagAnalytics(
             success=True,
             message="Successfully fetched trending analytics",
             data=analytics
@@ -151,7 +156,7 @@ async def get_topic_analytics(req: Request):
     except Exception as e:
         return JSONResponse(
             status_code=500,
-            content=TrendingResponse(
+            content=TagAnalytics(
                 success=False,
                 message=f"An internal error occurred: {e}"
             ).dict()

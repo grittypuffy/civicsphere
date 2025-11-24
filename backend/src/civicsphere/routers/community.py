@@ -2,11 +2,13 @@ from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 from ..config import AppConfig, get_config
 from .community_post import router as community_post_router
+from .community_issue import router as community_issue_router
 
 
 router = APIRouter(tags=["Community"])
 
 router.include_router(community_post_router, prefix="/{community_id}")
+router.include_router(community_issue_router, prefix="/{community_id}/issues")
 
 config: AppConfig = get_config()
 

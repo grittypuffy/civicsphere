@@ -16,7 +16,6 @@ class User(BaseModel):
     username: str
     email: EmailStr
     full_name: str
-    avatar: str
     role: Literal["User", "Admin", "Moderator"] = "User"
 
 

@@ -58,6 +58,12 @@ export const ChatRequestSchema = v.object({
   prompt: requiredStringValidator,
 });
 
+export const CreateIssueRequestSchema = v.object({
+  title: v.string(),
+  description: v.string(),
+  status: v.optional(statusValidator),
+});
+
 export const UserPreferencesRequestSchema = v.object({
   location: requiredStringValidator,
   language: v.optional(v.string()),
@@ -70,6 +76,11 @@ export const UserPreferencesUpdateRequestSchema = v.object({
   language: v.optional(v.nullable(v.string())),
   interests: v.optional(v.nullable(v.array(v.string()))),
   profession: v.optional(v.nullable(v.string())),
+});
+
+export const CreatePostRequestSchema = v.object({
+  files: v.optional(v.nullable(v.array(v.string()))),
+  tags: v.array(v.string()),
 });
 
 // Response schemas
@@ -99,6 +110,17 @@ export const HTTPValidationErrorSchema = v.object({
   detail: v.optional(v.array(ValidationErrorSchema)),
 });
 
+export const IssueSchema = v.object({
+  community_id: v.string(),
+  issue_id: v.string(),
+  user_id: v.string(),
+  title: v.string(),
+  description: v.string(),
+  upvote: v.number(),
+  status: statusValidator,
+  created_at: v.string(),
+});
+
 export const IssueResponseSchema = v.object({
   community_id: v.string(),
   issue_id: v.string(),
@@ -110,11 +132,17 @@ export const IssueResponseSchema = v.object({
   created_at: v.string(),
 });
 
+export const IssueResponseSingleSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
+  data: v.optional(v.nullable(IssueSchema)),
+});
+
 export const PostResponseSchema = v.object({
   community_id: v.string(),
   post_id: v.string(),
   user_id: v.string(),
-  tag_id: v.array(v.string()),
+  tags: v.array(v.string()),
   upvote: v.number(),
   downvote: v.number(),
   title: v.string(),
@@ -125,6 +153,17 @@ export const PostResponseSchema = v.object({
   verified: verifiedValidator,
   flagged: v.boolean(),
   created_at: v.string(),
+});
+
+export const TagCountSchema = v.object({
+  tag: v.string(),
+  count: v.number(),
+});
+
+export const TagAnalyticsSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
+  data: v.optional(v.nullable(v.array(TagCountSchema))),
 });
 
 export const TagResponseSchema = v.object({
@@ -144,7 +183,6 @@ export const UserSchema = v.object({
   username: v.string(),
   email: v.string(),
   full_name: v.string(),
-  avatar: v.string(),
   role: v.optional(roleValidator),
 });
 
@@ -169,7 +207,7 @@ export const UserDataResponseSchema = v.object({
 export const UserIssuesResponseSchema = v.object({
   success: v.boolean(),
   message: v.string(),
-  data: v.optional(v.nullable(v.array(IssueResponseSchema))),
+  data: v.optional(v.nullable(v.array(IssueSchema))),
 });
 
 export const UserPostsResponseSchema = v.object({

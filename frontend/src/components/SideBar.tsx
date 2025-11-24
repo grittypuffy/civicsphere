@@ -1,14 +1,54 @@
 'use client'
+import { navStateAtom } from "@/lib/store"
 import { Hamburger, NavDrawer, NavDrawerBody, NavDrawerFooter, NavDrawerHeader, NavItem, Tooltip } from "@fluentui/react-components"
-import { ArrowTrendingLinesFilled, HomeRegular, PeopleCommunityRegular, SettingsRegular } from "@fluentui/react-icons"
+import { ArrowTrendingLinesFilled, HomeRegular, PeopleCommunityRegular, SettingsRegular, SignOutRegular } from "@fluentui/react-icons"
 import { ChatSparkleRegular } from "@fluentui/react-icons/svg/chat-sparkle"
-import { Dispatch, SetStateAction } from "react"
+import { useAtom } from "jotai"
+import { useRouter } from "next/navigation"
 
-const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Dispatch<SetStateAction<boolean>> }) => {
+const PAGES = [{
+  href: '/u/home', label: 'Home', icon: <HomeRegular />
+}, {
+  href: '/u/trending', label: 'Trending', icon: <ArrowTrendingLinesFilled />
+}, {
+  href: '/u/chat', label: 'Chat', icon: <ChatSparkleRegular />
+}, {
+  href: '/u/communities', label: 'Community', icon: <PeopleCommunityRegular />
+}, {
+  href: '/u/settings', label: 'Settings', icon: <SettingsRegular />
+}]
+
+const SideBar = () => {
+  const [navState, setNavOpen] = useAtom(navStateAtom)
+  const router = useRouter()
+  const handleSignout = async () => {
+    try {
+      const res = await fetch('/api/v1/auth/sign_out', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      })
+      if (res.ok) {
+        router.push('/auth?action=signin')
+      }
+    } catch (error) {
+      console.log("Error signing out: ", error)
+    }
+  }
+
+  const changeRouter = (path: string) => {
+    return () => {
+      router.push(path)
+      setNavOpen(false)
+    }
+  }
+
   return (
     <>
       <NavDrawer
-        open={isNavOpen}
+        open={navState}
         aria-label="Main navigation"
         role="navigation"
       >
@@ -29,19 +69,9 @@ const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Di
           </div>
 
         </NavDrawerHeader>
-        <NavDrawerBody className="flex flex-col justify-start bg-page">
+        <NavDrawerBody className="flex flex-col justify-start">
           <div className="py-3 px-2">
-            {[{
-              href: '/u/home', label: 'Home', icon: <HomeRegular />
-            },{
-              href: '/u/trending', label: 'Trending', icon: <ArrowTrendingLinesFilled />
-            },{
-              href: '/u/chat', label: 'Chat', icon: <ChatSparkleRegular />
-            },{
-              href: '/home', label: 'Community', icon: <PeopleCommunityRegular />
-            },{
-              href: '/u/settings', label: 'Settings', icon: <SettingsRegular />
-            }].map((item, idx) => (
+            {PAGES.map((item, idx) => (
               <NavItem
                 key={idx}
                 icon={
@@ -49,7 +79,7 @@ const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Di
                     {item.icon}
                   </span>
                 }
-                href={item.href}
+                onClick={changeRouter(item.href)}
                 value={`${idx + 1}`}
                 aria-label={`Navigate to ${item.label} page`}
                 className="hover:bg-light-brand rounded-md"
@@ -59,6 +89,21 @@ const SideBar = ({ isNavOpen, setNavOpen }: { isNavOpen: boolean, setNavOpen: Di
                 </span>
               </NavItem>
             ))}
+            <NavItem
+              icon={
+                <span className="text-2xl text-sky-600" aria-hidden="true">
+                  {<SignOutRegular />}
+                </span>
+              }
+              value={`6`}
+              onClick={handleSignout}
+              aria-label="Sign out button"
+              className="hover:bg-light-brand rounded-md"
+            >
+              <span className="py-1 font-semibold text-lg text-ui-heading text-red-500">
+                Logout
+              </span>
+            </NavItem>
           </div>
         </NavDrawerBody>
         <NavDrawerFooter className="border-t border-t-sky-100 bg-brand/5">

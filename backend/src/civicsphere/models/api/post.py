@@ -6,7 +6,7 @@ class PostResponse(BaseModel):
     community_id: str
     post_id: str
     user_id: str
-    tag_id: List[str]
+    tags: List[str]
     upvote: int
     downvote: int
     title: str
@@ -31,11 +31,23 @@ class AnalyticsResponse(BaseModel):
     data: Optional[dict] = None  # e.g., {"interest": "tech", "count": 10}
 
 class CreatePostRequest(BaseModel):
-    tag_id: List[str]
+    tags: List[str]
     title: str
     description: str
+
+class CreateVoicePostRequest(BaseModel):
+    tags: List[str]
+
 
 class UserPostsResponse(BaseModel):
     success: bool
     message: str
     data: Optional[List[PostResponse]] = None
+
+class TagCount(BaseModel):
+    tag: str
+    count: int
+class TagAnalytics(BaseModel):
+    success: bool
+    message: str
+    data: Optional[List[TagCount]] = None
