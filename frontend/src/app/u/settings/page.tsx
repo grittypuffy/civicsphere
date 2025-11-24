@@ -1,126 +1,203 @@
 'use client'
-import { useEffect, useState } from 'react'
-import { Avatar } from '@fluentui/react-components'
-
-type Settings = {
-  username: string
-  email: string
-  location?: string
-  language?: string
-  interests?: string[]
-}
-
-const ALL_TAGS = [
-  'local-politics','government-policy','elections-and-voting','ballot-questions','civic-participation','public-services','local-governance','community-initiatives','public-policy','lgbtqia-rights','womens-rights','mens-rights','minority-rights','civil-rights','disability-rights','environmental-rights','human-rights','indigenous-rights','immigrant-rights','colored-voices','asian-voices','hispanic-voices','indigenous-voices','black-voices','bipoc-voices','lgbtqia-voices','women-voices','religious-voices','muslim-voices','hindu-voices','baptist-voices','catholic-voices','protestant-voices','jewish-voices','buddhist-voices','sikh-voices','jain-voices','atheist-voices','sustainability','climate-action','economic-justice','education-for-all','social-justice','healthcare-for-all','affordable-housing','racial-justice','gender-equality','mental-health-awareness','gender-justice','economics','technology-policy','future-of-work','artificial-intelligence','digital-access','tech-for-good','financial-literacy','job-creation','income-inequality','tech-regulation','public-health','medical-ethics','pandemic-response','health-equity','disease-prevention','public-safety','emergency-preparedness','community-development','local-events','volunteer-opportunities','public-transportation','local-business-support','food-security','healthcare-access','education-access','job-opportunities','education','history-and-heritage','arts-and-culture','public-libraries','civic-education','cultural-diversity','history-and-museums','cultural-representation','media-and-pharma','music-and-bands','clothing-and-fashion','sports-and-fitness','physical-health','mental-health','wellness-programs'
-]
+import { LANGS, TAGS } from '@/lib/consts'
+import { userNameAtom, userPrefsAtom, userPrefsAtom_loadable } from '@/lib/store'
+import { LangCode, UserPreferencesUpdateRequest } from '@/lib/types'
+import { getUserPreferences, updateUserPreferences } from '@/lib/utils'
+import {
+  Avatar,
+  Body1,
+  Button,
+  Caption1,
+  Checkbox,
+  Dropdown,
+  Input,
+  Option,
+  Subtitle1,
+  Text,
+  Title3
+} from '@fluentui/react-components'
+import { CheckmarkRegular, EditRegular, SearchRegular } from '@fluentui/react-icons'
+import { useAtomValue, useSetAtom } from 'jotai'
+import { useState } from 'react'
 
 export default function SettingsPage() {
-  const [settings, setSettings] = useState<Settings>({ username: 'Dummy Name', email: 'user@example.com' })
+  const username = useAtomValue(userNameAtom)
+  const userPrefs = useAtomValue(userPrefsAtom_loadable)
+  const setUserPrefs = useSetAtom(userPrefsAtom)
   const [editing, setEditing] = useState({ location: false, language: false, interests: false })
   const [filter, setFilter] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
-  // load saved settings from localStorage as a placeholder for backend
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem('userSettings')
-      if (raw) setSettings(JSON.parse(raw))
-    } catch (e) {
-      // ignore
+  // Get current preferences data
+  const currentPrefs = userPrefs.state === 'hasData' ? userPrefs.data : null
+  const location = currentPrefs?.location || ''
+  const language = currentPrefs?.language || 'en'
+  const interests = currentPrefs?.interests || []
+
+  // Local state for editable fields
+  const [localLocation, setLocalLocation] = useState('')
+  const [localLanguage, setLocalLanguage] = useState<LangCode>('en')
+  const [localInterests, setLocalInterests] = useState<string[]>([])
+
+  // Initialize local state when editing starts
+  const startEditing = (field: keyof typeof editing) => {
+    if (field === 'location') {
+      setLocalLocation(location)
+    } else if (field === 'language') {
+      setLocalLanguage(language as LangCode)
+    } else if (field === 'interests') {
+      setLocalInterests([...interests])
     }
-  }, [])
-
-  function onChange<K extends keyof Settings>(key: K, value: Settings[K]) {
-    setSettings(prev => ({ ...prev, [key]: value }))
+    setEditing(prev => ({ ...prev, [field]: true }))
   }
 
-  function save() {
-    // placeholder for backend call; for now persist to localStorage
+  // Save changes to backend and update atom
+  const saveChanges = async (field: keyof typeof editing) => {
+    setIsLoading(true)
     try {
-      localStorage.setItem('userSettings', JSON.stringify(settings))
-      alert('Settings saved (local only). Backend integration coming later.')
-    } catch (e) {
-      alert('Could not save settings locally')
+      const updateData: UserPreferencesUpdateRequest = {}
+
+      if (field === 'location') {
+        updateData.location = localLocation || null
+      } else if (field === 'language') {
+        updateData.language = localLanguage || null
+      } else if (field === 'interests') {
+        updateData.interests = localInterests.length > 0 ? localInterests : null
+      }
+
+      await updateUserPreferences(updateData)
+
+      // Refresh the preferences atom
+      setUserPrefs(getUserPreferences())
+
+      setEditing(prev => ({ ...prev, [field]: false }))
+    } catch (error) {
+      console.error('Failed to save preferences:', error)
+      alert('Failed to save preferences. Please try again.')
+    } finally {
+      setIsLoading(false)
     }
   }
 
-  function toggleInterest(tag: string) {
-    const existing = settings.interests || []
-    const next = existing.includes(tag) ? existing.filter(t => t !== tag) : [...existing, tag]
-    onChange('interests', next)
+  const toggleInterest = (tag: string) => {
+    const updated = localInterests.includes(tag)
+      ? localInterests.filter(t => t !== tag)
+      : [...localInterests, tag]
+    setLocalInterests(updated)
   }
 
   return (
-    <div className='p-6 max-w-3xl mx-auto'>
-      <div className='flex items-center gap-4 mb-6'>
-        <Avatar name={settings.username} />
-        <div>
-          <div className='font-semibold text-lg text-ui-heading'>{settings.username}</div>
-          <div className='text-sm text-ui-muted'>{settings.email}</div>
-        </div>
-      </div>
+    <main className="flex items-center justify-center px-4 py-8">
+      <div className="w-full max-w-5xl bg-white rounded-xl shadow-[0_12px_40px_rgba(3,52,94,0.08)] p-8 flex flex-col gap-3">
+        <Title3>Settings</Title3>
 
-      <div className='space-y-4'>
-        <div className='bg-white p-4 rounded shadow-sm'>
-          <div className='font-semibold mb-2'>Location</div>
-          {!editing.location ? (
-            <div className='flex items-center justify-between'>
-              <div>{settings.location || 'Not set'}</div>
-              <button onClick={() => setEditing(e => ({ ...e, location: true }))} className='text-sm text-blue-600'>Edit</button>
-            </div>
-          ) : (
-            <div className='flex gap-2'>
-              <input value={settings.location || ''} onChange={e => onChange('location', e.target.value)} className='flex-1 p-2 border rounded' />
-              <button onClick={() => setEditing(e => ({ ...e, location: false }))} className='px-3 py-2 bg-slate-100 rounded'>Done</button>
-            </div>
-          )}
+        <div className='flex items-center gap-4'>
+          <Avatar name={username || 'Dummy Name'} size={64} />
+          <div>
+            <Subtitle1>{username || 'Dummy Name'}</Subtitle1>
+          </div>
         </div>
 
-        <div className='bg-white p-4 rounded shadow-sm'>
-          <div className='font-semibold mb-2'>Language Preference</div>
-          {!editing.language ? (
-            <div className='flex items-center justify-between'>
-              <div>{settings.language || 'en'}</div>
-              <button onClick={() => setEditing(e => ({ ...e, language: true }))} className='text-sm text-blue-600'>Edit</button>
+        <div className='grid grid-cols-1 gap-6'>
+          <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
+            <div className='flex items-center justify-between mb-4'>
+              <Body1 className="text-[#0369a1] font-semibold">Location</Body1>
+              <Button
+                appearance="subtle"
+                size="small"
+                disabled={isLoading}
+                icon={editing.location ? <CheckmarkRegular /> : <EditRegular />}
+                onClick={() => editing.location ? saveChanges('location') : startEditing('location')}
+                className="text-[#0369a1]"
+              >
+                {editing.location ? 'Done' : 'Edit'}
+              </Button>
             </div>
-          ) : (
-            <div className='flex gap-2 items-center'>
-              <select value={settings.language || 'en'} onChange={e => onChange('language', e.target.value)} className='p-2 border rounded'>
-                <option value='en'>en</option>
-                <option value='hi'>hi</option>
-                <option value='es'>es</option>
-                <option value='fr'>fr</option>
-              </select>
-              <button onClick={() => setEditing(e => ({ ...e, language: false }))} className='px-3 py-2 bg-slate-100 rounded'>Done</button>
-            </div>
-          )}
-        </div>
-
-        <div className='bg-white p-4 rounded shadow-sm'>
-          <div className='flex items-center justify-between'>
-            <div className='font-semibold'>Interests</div>
-            <div className='flex items-center gap-2'>
-              <input value={filter} onChange={e => setFilter(e.target.value)} placeholder='Filter tags' className='text-sm p-1 border rounded' />
-              <button onClick={() => setEditing(e => ({ ...e, interests: !e.interests }))} className='text-sm text-blue-600'>{editing.interests ? 'Done' : 'Edit'}</button>
-            </div>
+            {!editing.location ? (
+              <Text className="text-[#274c6f]">{location || 'Not set'}</Text>
+            ) : (
+              <Input
+                value={localLocation}
+                onChange={(_, data) => setLocalLocation(data.value)}
+                placeholder="Enter your location"
+                disabled={isLoading}
+              />
+            )}
           </div>
 
-          <div className='mt-3'>
-            <div className='text-sm text-gray-600 mb-2'>Select the topics you are interested in — these will be suggested when posting.</div>
+          <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-gradient-to-b from-[#f7fbff] to-white">
+            <div className='flex items-center justify-between mb-4'>
+              <Body1 className="text-[#0369a1] font-semibold">Language Preference</Body1>
+              <Button
+                appearance="subtle"
+                size="small"
+                disabled={isLoading}
+                icon={editing.language ? <CheckmarkRegular /> : <EditRegular />}
+                onClick={() => editing.language ? saveChanges('language') : startEditing('language')}
+                className="text-[#0369a1]"
+              >
+                {editing.language ? 'Done' : 'Edit'}
+              </Button>
+            </div>
+            {!editing.language ? (
+              <Text className="text-[#274c6f]">{LANGS.find(lang => lang.code === language)?.name || 'English'} ({language})</Text>
+            ) : (
+              <Dropdown
+                value={localLanguage}
+                onOptionSelect={(_, data) => setLocalLanguage(data.optionValue as LangCode)}
+                disabled={isLoading}
+              >
+                {LANGS.map((lang, i) => (
+                  <Option key={i} text={lang.name} value={lang.code}>
+                    {lang.name}
+                  </Option>
+                ))}
+              </Dropdown>
+            )}
+          </div>
+
+          <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-gradient-to-b from-[#f7fbff] to-white">
+            <div className='flex items-center justify-between mb-4'>
+              <Body1 className="text-[#0369a1] font-semibold">Interests</Body1>
+              <div className='flex items-center gap-2'>
+                <Input
+                  size="small"
+                  value={filter}
+                  onChange={(_, data) => setFilter(data.value)}
+                  placeholder='Filter tags'
+                  contentBefore={<SearchRegular />}
+                  disabled={isLoading}
+                />
+                <Button
+                  appearance="subtle"
+                  size="small"
+                  disabled={isLoading}
+                  icon={editing.interests ? <CheckmarkRegular /> : <EditRegular />}
+                  onClick={() => editing.interests ? saveChanges('interests') : startEditing('interests')}
+                  className="text-[#0369a1]"
+                >
+                  {editing.interests ? 'Done' : 'Edit'}
+                </Button>
+              </div>
+            </div>
+            <Caption1 className='mb-2 text-[#274c6f]'>
+              Select the topics you are interested in — these will be suggested when posting.
+            </Caption1>
             <div className='grid grid-cols-2 gap-2 max-h-64 overflow-auto border rounded p-2'>
-              {ALL_TAGS.filter(t => t.includes(filter)).map(tag => (
-                <label key={tag} className='flex items-center gap-2 text-sm'>
-                  <input type='checkbox' checked={(settings.interests || []).includes(tag)} disabled={!editing.interests} onChange={() => toggleInterest(tag)} />
+              {TAGS.filter(t => t.includes(filter)).map(tag => (
+                <label key={tag} className='flex items-center gap-2 text-sm text-[#274c6f]'>
+                  <Checkbox
+                    checked={editing.interests ? localInterests.includes(tag) : interests.includes(tag)}
+                    disabled={!editing.interests || isLoading}
+                    onChange={() => editing.interests && toggleInterest(tag)}
+                  />
                   <span className='truncate'>{tag}</span>
                 </label>
               ))}
             </div>
           </div>
         </div>
-
-        <div className='flex justify-end gap-3'>
-          <button onClick={save} className='btn-primary'>Save Settings</button>
-        </div>
       </div>
-    </div>
+    </main>
   )
 }

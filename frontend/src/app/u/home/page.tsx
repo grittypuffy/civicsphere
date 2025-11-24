@@ -1,21 +1,29 @@
 'use client'
 import { Feeds } from '@/components/Feeds';
-import { feedAtom, loadableFeedAtom, userAtom } from '@/lib/store';
+import { userNameAtom } from '@/lib/store';
 import { getFeeds } from '@/lib/utils';
 import { Button } from '@fluentui/react-components';
 import { ArrowClockwiseFilled } from '@fluentui/react-icons';
-import { useAtomValue, useSetAtom } from 'jotai';
+import { atom, useAtomValue, useSetAtom } from 'jotai';
+import { loadable } from 'jotai/utils';
+import { useEffect } from 'react';
+
+const feedAtom = atom(getFeeds());
+const loadableFeedAtom = loadable(feedAtom);
 
 export default function Page() {
-  const { username } = useAtomValue(userAtom)
+  const username = useAtomValue(userNameAtom)
   const feeds = useAtomValue(loadableFeedAtom)
   const setFeeds = useSetAtom(feedAtom)
 
+  useEffect(() => {
+    setFeeds(getFeeds())
+  }, [])
   return (
     <>
       <div className='flex flex-col items-center justify-between'>
-        <div className='min-w-dvw lg:min-w-5xl border'>
-          <div className='mx-auto border p-3 md:p-5 lg:p-8 flex flex-col'>
+        <div className='min-w-dvw lg:min-w-5xl'>
+          <div className='mx-auto  p-3 md:p-5 lg:p-8 flex flex-col'>
             <p className='text-lg lg:text-xl'>Welcome back!</p>
             <h1 className='text-4xl lg:text-5xl font-bold'>
               Hello, {username ? username : "Dummy Name"}!
@@ -37,7 +45,7 @@ export default function Page() {
           </div>
           <div
             id='feeds-container'
-            className='min-h-[70vh] max-h-[90dvh] border overflow-auto'
+            className='min-h-[70vh] max-h-[90dvh] overflow-auto'
           >
             {(() => {
               switch (feeds.state) {
@@ -45,10 +53,15 @@ export default function Page() {
                   return <div>Loading feeds...</div>
                 case 'hasError':
                   return (
-                    <>
-                      <div>Error loading feeds: {String(feeds.error)}</div>
+                    <div className='p-4'>
+                      <div className='mb-4 text-red-600 px-5'>
+                        <span>
+                          Error loading trending posts: {String(feeds.error)}
+                        </span>
+                        <span> Showing dummy data as fallback instead.</span>
+                      </div>
                       <Feeds />
-                    </>
+                    </div>
                   )
                 case 'hasData':
                   return (

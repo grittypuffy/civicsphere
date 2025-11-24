@@ -40,7 +40,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </Link>
         </header>
       </div>
-      <div className='flex flex-col w-full flex-1 overflow-hidden h-full'>
+      <div className='flex flex-col w-full flex-1 overflow-hidden h-full min-w-dvw lg:max-w-5xl mx-auto'>
         {children}
       </div>
     </div>
