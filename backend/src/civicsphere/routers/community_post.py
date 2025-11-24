@@ -10,11 +10,14 @@ from ..services.storage import upload_user_file
 import httpx
 import logging
 from ..services.post_analyser import analyze_post_for_user
+from .post_comments import router as post_comments_router
 
 
 router = APIRouter(tags=["Community_Post"])
 
 config: AppConfig = get_config()
+
+router.include_router(post_comments_router, prefix="/posts/{post_id}/comments")
 
 @router.post("/post")
 async def create_post(
@@ -383,7 +386,7 @@ async def upvote_post(
             {"$set": {"upvote": updated_vote}}
         )
         
-        await config.db["post_reaction"].insert_one({
+        await config.db["posReaction"].insert_one({
             "post_id": post_id,
             "user_id": req.state.user["user_id"],
             "upvote": True
@@ -426,7 +429,7 @@ async def downvote_post(
             {"$set": {"downvote": updated_vote}}
         )
         
-        await config.db["post_reaction"].insert_one({
+        await config.db["postReaction"].insert_one({
             "post_id": post_id,
             "user_id": req.state.user["user_id"],
             "upvote": False
@@ -469,7 +472,7 @@ async def remove_upvote_post(
             {"$set": {"upvote": updated_vote}}
         )
         
-        await config.db["post_reaction"].delete_one({
+        await config.db["postReaction"].delete_one({
             "post_id": post_id,
             "user_id": req.state.user["user_id"],
             "upvote": True
@@ -513,7 +516,7 @@ async def remove_downvote_post(
             {"$set": {"downvote": updated_vote}}
         )
         
-        await config.db["post_reaction"].delete_one({
+        await config.db["postReaction"].delete_one({
             "post_id": post_id,
             "user_id": req.state.user["user_id"],
             "upvote": False
