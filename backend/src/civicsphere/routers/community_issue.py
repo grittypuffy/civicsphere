@@ -157,7 +157,7 @@ async def upvote_issue(
             {"$set": {"upvote": updated_upvote}}
         )
         
-        await config.db["issue_reaction"].insert_one({
+        await config.db["issueReaction"].insert_one({
             "issue_id": issue_id,
             "user_id": req.state.user["user_id"]
         })
@@ -200,7 +200,7 @@ async def remove_upvote_issue(
             {"$set": {"upvote": updated_upvote}}
         )
         
-        await config.db["issue_reaction"].delete_one({
+        await config.db["issueReaction"].delete_one({
             "issue_id": issue_id,
             "user_id": req.state.user["user_id"]
         })
