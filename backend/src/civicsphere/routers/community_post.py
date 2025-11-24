@@ -1,19 +1,19 @@
+from bson import ObjectId
+from datetime import datetime
+import httpx
+import logging
+from typing import Optional, List
 from fastapi import APIRouter, Request, Form, File, UploadFile, Depends
 from fastapi.responses import JSONResponse
 from ..config import AppConfig, get_config
-from typing import Optional, List
 from ..models.api.post import TrendingResponse, PostResponse
 from ..models.api.post import CreatePostRequest,CreateVoicePostRequest
-from datetime import datetime
-from bson import ObjectId
 from ..services.storage import upload_user_file
-import httpx
-import logging
 from ..services.post_analyser import analyze_post_for_user
 from .post_comments import router as post_comments_router
 
 
-router = APIRouter(tags=["Community_Post"])
+router = APIRouter(tags=["Community Post"])
 
 config: AppConfig = get_config()
 
@@ -142,6 +142,7 @@ async def create_voice_post(
     community_id: str,
     req: Request,
     form: CreateVoicePostRequest = Depends(),
+    voice: UploadFile = File(None)
 ):
     try:
         # User authentication
@@ -176,6 +177,8 @@ async def create_voice_post(
             )
         location = community["community_name"]
 
+        audio_processor = AudioProcessor()
+        transcript = await audio_processor.process_voice(lang, voice)
         # Response moderation
         try:
             func_payload = {
