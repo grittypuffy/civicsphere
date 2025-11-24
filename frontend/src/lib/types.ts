@@ -5,9 +5,12 @@ import {
   ChatDataSchema,
   ChatRequestSchema,
   ChatResponseSchema,
+  CreateIssueRequestSchema,
+  CreatePostRequestSchema,
   GetPreferencesResponseSchema,
   HTTPValidationErrorSchema,
-  IssueResponseSchema,
+  IssueResponseSingleSchema,
+  IssueSchema,
   LanguageSchema,
   OnboardFormSchema,
   PostResponseSchema,
@@ -15,6 +18,8 @@ import {
   SignInRequestSchema,
   SignUpFormSchema,
   SignUpRequestSchema,
+  TagAnalyticsSchema,
+  TagCountSchema,
   TagResponseSchema,
   TrendingResponseSchema,
   UserDataModelSchema,
@@ -61,7 +66,10 @@ export type ValidationError = v.InferOutput<typeof ValidationErrorSchema>;
 export type HTTPValidationError = v.InferOutput<typeof HTTPValidationErrorSchema>;
 
 // User Types
-export type User = UserData & UserPreferences;
+export type User = {
+  user: UserData,
+  preferences: UserPreferences;
+}
 export type UserData = v.InferOutput<typeof UserSchema>;
 export type UserDataModel = v.InferOutput<typeof UserDataModelSchema>;
 export type UserDataResponse = v.InferOutput<typeof UserDataResponseSchema>;
@@ -75,8 +83,13 @@ export type UserPostsResponse = v.InferOutput<typeof UserPostsResponseSchema>;
 export type UserReactionsResponse = v.InferOutput<typeof UserReactionsResponseSchema>;
 
 // Content Types
-export type IssueResponse = v.InferOutput<typeof IssueResponseSchema>;
+export type Issue = v.InferOutput<typeof IssueSchema>;
+export type IssueResponseSingle = v.InferOutput<typeof IssueResponseSingleSchema>;
+export type CreateIssueRequest = v.InferInput<typeof CreateIssueRequestSchema>;
+export type CreatePostRequest = v.InferInput<typeof CreatePostRequestSchema>;
 export type PostResponse = v.InferOutput<typeof PostResponseSchema>;
+export type TagCount = v.InferOutput<typeof TagCountSchema>;
+export type TagAnalytics = v.InferOutput<typeof TagAnalyticsSchema>;
 export type TagResponse = v.InferOutput<typeof TagResponseSchema>;
 export type TrendingResponse = v.InferOutput<typeof TrendingResponseSchema>;
 export type PostData = NonNullable<TrendingResponse["data"]>[number];

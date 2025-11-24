@@ -1,23 +1,12 @@
 import { atom } from 'jotai';
-import { loadable } from 'jotai/utils';
+import { atomWithStorage, loadable } from 'jotai/utils';
 import {
-  ChatData,
-  User
+  ChatData
 } from './types';
-import { getFeeds } from './utils';
+import { getUserPreferences } from './utils';
 
 export const chats = atom<ChatData[]>([]);
 export const navStateAtom = atom<boolean>(false);
-export const feedAtom = atom(getFeeds());
-export const loadableFeedAtom = loadable(feedAtom);
-export const userAtom = atom<User>({
-  user_id: '',
-  username: '',
-  email: '',
-  full_name: '',
-  role: undefined,
-  location: '',
-  language: undefined,
-  interests: [],
-  profession: ''
-});
+export const userNameAtom = atomWithStorage<string>('civicsphere_username', '');
+export const userPrefsAtom = atom(getUserPreferences());
+export const userPrefsAtom_loadable = loadable(userPrefsAtom);
