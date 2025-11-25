@@ -36,4 +36,4 @@ export const roleValidator = v.picklist(['User', 'Admin', 'Moderator']);
 
 export const statusValidator = v.picklist(['Open', 'Closed', 'Resolved']);
 
-export const verifiedValidator = v.picklist(['True', 'False', 'Not Sure']);
+export const verifiedValidator = v.picklist(['True', 'False', 'Not Sure', 'Uncertain']);

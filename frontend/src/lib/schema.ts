@@ -66,6 +66,7 @@ export const CreateIssueRequestSchema = v.object({
 
 export const UserPreferencesRequestSchema = v.object({
   location: requiredStringValidator,
+  addresss: v.string(),
   language: v.optional(v.string()),
   interests: v.array(v.string()),
   profession: requiredStringValidator,
@@ -136,6 +137,12 @@ export const IssueResponseSingleSchema = v.object({
   success: v.boolean(),
   message: v.string(),
   data: v.optional(v.nullable(IssueSchema)),
+});
+
+export const IssueResponseMultipleSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
+  data: v.optional(v.nullable(v.array(IssueSchema))),
 });
 
 export const PostResponseSchema = v.object({
@@ -236,4 +243,14 @@ export const UserReactionsResponseSchema = v.object({
 export const LanguageSchema = v.object({
   code: langCodeValidator,
   name: v.string(),
+});
+export const CommunitySchema = v.object({
+  _id: v.string(),
+  community_name: v.string(),
+});
+
+export const CommunitiesResponseSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
+  data: v.optional(v.nullable(v.array(CommunitySchema))),
 });
