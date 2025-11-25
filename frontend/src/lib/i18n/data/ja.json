@@ -50,5 +50,27 @@
         "errors": {
             "generic": "申し訳ありません、リクエストの処理中にエラーが発生しました。もう一度お試しください。"
         }
+    },
+    "communities": {
+        "sidebarTitle": "トピック一覧",
+        "communityHeading": "コミュニティ: {community}",
+        "tabPosts": "投稿",
+        "tabIssues": "課題",
+        "startPost": "{community}で投稿を開始",
+        "photo": "写真",
+        "write": "執筆",
+        "postButton": "投稿する",
+        "loadingPosts": "投稿を読み込み中...",
+        "errorPosts": "投稿の読み込み中にエラー: {message}",
+        "raiseIssueTitle": "課題を報告する",
+        "raiseIssueSubtitle": "住民や行政が返信でき、同じ問題を抱えるメンバーは賛成票を入れられます。",
+        "issueTitlePlaceholder": "短いタイトル（例: 5th Ave の街灯が故障）",
+        "issueDescriptionPlaceholder": "課題と詳細（場所、時間、影響など）を記入してください...",
+        "issueAssigneesPlaceholder": "誰が対応すべきですか？（例: 清掃局、地域議員）",
+        "clearButton": "クリア",
+        "submitIssueButton": "送信",
+        "loadingIssues": "課題を読み込み中...",
+        "errorIssues": "課題の読み込み中にエラー: {message}",
+        "youLabel": "あなた"
     }
 }

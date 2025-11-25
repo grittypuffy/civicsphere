@@ -50,5 +50,27 @@
         "errors": {
             "generic": "죄송합니다. 요청을 처리하는 중 오류가 발생했습니다. 다시 시도해 주세요."
         }
+    },
+    "communities": {
+        "sidebarTitle": "주제 목록",
+        "communityHeading": "커뮤니티: {community}",
+        "tabPosts": "게시물",
+        "tabIssues": "이슈",
+        "startPost": "{community}에서 글을 시작하세요",
+        "photo": "사진",
+        "write": "글쓰기",
+        "postButton": "게시",
+        "loadingPosts": "게시물을 불러오는 중...",
+        "errorPosts": "게시물을 불러오는 중 오류: {message}",
+        "raiseIssueTitle": "이슈 제기",
+        "raiseIssueSubtitle": "주민과 기관이 답변할 수 있으며, 같은 문제를 겪는 구성원은 추천할 수 있습니다.",
+        "issueTitlePlaceholder": "짧은 제목 (예: 5th Ave 가로등 고장)",
+        "issueDescriptionPlaceholder": "이슈와 세부 정보(장소, 시간, 영향 등)를 설명하세요...",
+        "issueAssigneesPlaceholder": "누가 조치해야 하나요? (예: 위생국, 지역 의원)",
+        "clearButton": "지우기",
+        "submitIssueButton": "제출",
+        "loadingIssues": "이슈를 불러오는 중...",
+        "errorIssues": "이슈를 불러오는 중 오류: {message}",
+        "youLabel": "나"
     }
 }

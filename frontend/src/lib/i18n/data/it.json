@@ -50,5 +50,27 @@
         "errors": {
             "generic": "Spiacenti, si è verificato un errore durante l'elaborazione della tua richiesta. Riprova."
         }
+    },
+    "communities": {
+        "sidebarTitle": "Elenco degli argomenti",
+        "communityHeading": "Comunità: {community}",
+        "tabPosts": "Post",
+        "tabIssues": "Problemi",
+        "startPost": "Avvia un post in {community}",
+        "photo": "Foto",
+        "write": "Scrivi",
+        "postButton": "Pubblica",
+        "loadingPosts": "Caricamento dei post...",
+        "errorPosts": "Errore nel caricamento dei post: {message}",
+        "raiseIssueTitle": "Segnala un problema",
+        "raiseIssueSubtitle": "Persone e autorità possono rispondere; i membri della comunità possono votare se hanno lo stesso problema.",
+        "issueTitlePlaceholder": "Titolo breve (es. Lampione rotto sulla 5th Ave)",
+        "issueDescriptionPlaceholder": "Descrivi il problema e i dettagli (dove, quando, impatto)...",
+        "issueAssigneesPlaceholder": "Chi dovrebbe intervenire? (es. Servizio di igiene urbana, consigliere locale)",
+        "clearButton": "Pulisci",
+        "submitIssueButton": "Segnala",
+        "loadingIssues": "Caricamento dei problemi...",
+        "errorIssues": "Errore nel caricamento dei problemi: {message}",
+        "youLabel": "Tu"
     }
 }

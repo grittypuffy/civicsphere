@@ -51,6 +51,28 @@
             "generic": "抱歉，处理请求时出错。请再试一次。"
         }
     },
+    "communities": {
+        "sidebarTitle": "主题列表",
+        "communityHeading": "社区：{community}",
+        "tabPosts": "帖子",
+        "tabIssues": "议题",
+        "startPost": "在 {community} 发起帖子",
+        "photo": "照片",
+        "write": "写作",
+        "postButton": "发布",
+        "loadingPosts": "正在加载帖子...",
+        "errorPosts": "加载帖子时出错：{message}",
+        "raiseIssueTitle": "提交议题",
+        "raiseIssueSubtitle": "居民和政府可以回复；如果社区成员遇到相同问题，可以投票支持。",
+        "issueTitlePlaceholder": "简短标题（如：5th Ave 的路灯损坏）",
+        "issueDescriptionPlaceholder": "描述议题以及详细信息（地点、时间、影响等）...",
+        "issueAssigneesPlaceholder": "谁应该采取行动？（如：环卫部门、当地议员）",
+        "clearButton": "清除",
+        "submitIssueButton": "提交",
+        "loadingIssues": "正在加载议题...",
+        "errorIssues": "加载议题时出错：{message}",
+        "youLabel": "你"
+    },
     "affordable-housing": "可负担住房",
     "artificial-intelligence": "人工智能",
     "arts-and-culture": "艺术与文化",

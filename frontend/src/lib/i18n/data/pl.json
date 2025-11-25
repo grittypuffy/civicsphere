@@ -50,5 +50,27 @@
         "errors": {
             "generic": "Przepraszamy, wystąpił błąd podczas przetwarzania żądania. Spróbuj ponownie."
         }
+    },
+    "communities": {
+        "sidebarTitle": "Lista tematów",
+        "communityHeading": "Społeczność: {community}",
+        "tabPosts": "Posty",
+        "tabIssues": "Problemy",
+        "startPost": "Rozpocznij post w {community}",
+        "photo": "Zdjęcie",
+        "write": "Napisz",
+        "postButton": "Opublikuj",
+        "loadingPosts": "Ładowanie postów...",
+        "errorPosts": "Błąd ładowania postów: {message}",
+        "raiseIssueTitle": "Zgłoś problem",
+        "raiseIssueSubtitle": "Mieszkańcy i władze mogą odpowiadać; członkowie społeczności mogą głosować, jeśli mają ten sam problem.",
+        "issueTitlePlaceholder": "Krótki tytuł (np. Zepsuta latarnia na 5th Ave)",
+        "issueDescriptionPlaceholder": "Opisz problem i wszelkie szczegóły (gdzie, kiedy, wpływ)...",
+        "issueAssigneesPlaceholder": "Kto powinien działać? (np. Wydział sanitarny, lokalny radny)",
+        "clearButton": "Wyczyść",
+        "submitIssueButton": "Zgłoś",
+        "loadingIssues": "Ładowanie problemów...",
+        "errorIssues": "Błąd ładowania problemów: {message}",
+        "youLabel": "Ty"
     }
 }
