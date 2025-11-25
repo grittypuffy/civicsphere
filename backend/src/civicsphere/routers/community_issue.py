@@ -8,11 +8,11 @@ import logging
 
 
 
-router = APIRouter(tags=["Community_Issue"])
+router = APIRouter(tags=["Community Issue"])
 
 config: AppConfig = get_config()
 
-@router.get("/")
+@router.get("/all")
 async def get_community_issue(
     community_id: str,
     req: Request
