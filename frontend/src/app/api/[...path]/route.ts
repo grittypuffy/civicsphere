@@ -8,6 +8,18 @@ export async function POST(req: NextRequest) {
   return await proxyRequest(req)
 }
 
+export async function PUT(req: NextRequest) {
+  return await proxyRequest(req)
+}
+
+export async function DELETE(req: NextRequest) {
+  return await proxyRequest(req)
+}
+
+export async function PATCH(req: NextRequest) {
+  return await proxyRequest(req)
+}
+
 async function proxyRequest(req: NextRequest) {
   const url = req.nextUrl;
   const backendApi = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -78,6 +90,7 @@ async function proxyRequest(req: NextRequest) {
     } else {
       // For non-streaming responses, buffer the entire response
       const responseBody = await res.arrayBuffer();
+      console.log('Proxied response body:', new TextDecoder().decode(responseBody).slice(0, 100));
       return new Response(responseBody, {
         status: res.status,
         statusText: res.statusText,
