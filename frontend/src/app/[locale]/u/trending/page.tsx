@@ -5,9 +5,7 @@ import { Button, Tab, TabList, TabValue } from '@fluentui/react-components';
 import { ArrowClockwiseFilled } from '@fluentui/react-icons';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { loadable } from 'jotai/utils';
-import { SetStateAction, useEffect, useState } from 'react';
-
-type Trend = { id: number; tag: string; score: number }
+import { SetStateAction, useState } from 'react';
 
 const trendingPostsAtom = atom(getTrendingPosts());
 const loadableTrendingPostsAtom = loadable(trendingPostsAtom);
@@ -16,31 +14,12 @@ const loadableTrendingTopicsAtom = loadable(trendingTopicsAtom);
 
 export default function TrendingPage() {
   const trendingPosts = useAtomValue(loadableTrendingPostsAtom);
+  const trendingTopics = useAtomValue(loadableTrendingTopicsAtom);
   const setTrendingPosts = useSetAtom(trendingPostsAtom);
   const [selectedTab, setSelectedTab] = useState<TabValue>('trending-posts');
 
-  // sample static list; backend will replace this later
-  const initial: Trend[] = [
-    { id: 1, tag: '#sports', score: 1245 },
-    { id: 2, tag: '#education', score: 980 },
-    { id: 3, tag: '#science', score: 876 },
-    { id: 4, tag: '#politics', score: 760 },
-    { id: 5, tag: '#tech', score: 654 },
-    { id: 6, tag: '#climate-action', score: 432 },
-    { id: 7, tag: '#public-health', score: 389 },
-    { id: 8, tag: '#local-politics', score: 312 },
-    { id: 9, tag: '#community-development', score: 298 },
-    { id: 10, tag: '#education-for-all', score: 210 }
-  ]
-
-  const [trends] = useState<Trend[]>(initial)
   const [sortBy, setSortBy] = useState<'rank' | 'score'>('rank')
 
-  const sorted = [...trends].sort((a, b) => sortBy === 'rank' ? a.id - b.id : b.score - a.score)
-
-  useEffect(() => {
-    setTrendingPosts(getTrendingPosts())
-  }, [])
   return (
     <>
       <div className='flex flex-col items-center justify-between'>
@@ -105,33 +84,54 @@ export default function TrendingPage() {
             )}
 
             {selectedTab === 'trending-topics' && (
-              <div className='p-4'>
-                <div className='flex items-center justify-between mb-4'>
-                  <h2 className='text-xl font-semibold'>Trending Topics</h2>
-                  <div className='flex items-center gap-3'>
-                    <label className='text-sm'>Sort</label>
-                    <select value={sortBy} onChange={e => setSortBy(e.target.value as SetStateAction<'rank' | 'score'>)} className='p-2  rounded'>
-                      <option value='rank'>Top by Rank</option>
-                      <option value='score'>Top by Activity</option>
-                    </select>
-                  </div>
-                </div>
-
-                <section className='bg-white rounded shadow-sm divide-y'>
-                  {sorted.map((t, idx) => (
-                    <div key={t.id} className='flex items-center justify-between p-4'>
-                      <div className='flex items-center gap-4'>
-                        <div className='w-8 text-center font-semibold text-gray-700'>{idx + 1}</div>
-                        <div>
-                          <a href={`/tag/${encodeURIComponent(t.tag.replace('#', ''))}`} className='text-lg font-medium text-brand'>{t.tag}</a>
-                          <div className='text-xs text-gray-500'>Trending topic</div>
+              <>
+                {(() => {
+                  switch (trendingTopics.state) {
+                    case 'loading':
+                      return <div className='p-4'>Loading trending topics...</div>
+                    case 'hasError':
+                      return (
+                        <div className='p-4'>
+                          <div className='text-red-600'>
+                            Error loading trending topics: {String(trendingTopics.error)}
+                          </div>
                         </div>
-                      </div>
-                      <div className='text-sm text-gray-600'>{t.score} mentions</div>
-                    </div>
-                  ))}
-                </section>
-              </div>
+                      )
+                    case 'hasData':
+                      const sortedTopics = [...trendingTopics.data].sort((a, b) =>
+                        sortBy === 'rank' ? a.count - b.count : b.count - a.count
+                      )
+                      return (
+                        <div className='p-4'>
+                          <div className='flex items-center justify-between mb-4'>
+                            <div className='flex items-center gap-3'>
+                              <label className='text-sm'>Sort</label>
+                              <select value={sortBy} onChange={e => setSortBy(e.target.value as SetStateAction<'rank' | 'score'>)} className='p-2  rounded'>
+                                <option value='rank'>Top by Rank</option>
+                                <option value='score'>Top by Activity</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <section className='bg-white rounded shadow-sm divide-y'>
+                            {sortedTopics.map((topic, i) => (
+                              <div key={i} className='flex items-center justify-between p-4'>
+                                <div className='flex items-center gap-4'>
+                                  <div className='w-8 text-center font-semibold text-gray-700'>{i + 1}</div>
+                                  <div>
+                                    <a href={`/tag/${encodeURIComponent(topic.tag.replace('#', ''))}`} className='text-lg font-medium text-brand'>{topic.tag}</a>
+                                    <div className='text-xs text-gray-500'>Trending topic</div>
+                                  </div>
+                                </div>
+                                <div className='text-sm text-gray-600'>{topic.count} mentions</div>
+                              </div>
+                            ))}
+                          </section>
+                        </div>
+                      )
+                  }
+                })()}
+              </>
             )}
           </div>
         </div>

@@ -1,7 +1,7 @@
 'use client'
 import { LANGS, TAGS } from '@/lib/consts'
 import { userNameAtom, userPrefsAtom, userPrefsAtom_loadable } from '@/lib/store'
-import { LangCode, UserPreferencesUpdateRequest } from '@/lib/types'
+import { LangCode, UserPreferences, UserPreferencesUpdateRequest } from '@/lib/types'
 import { getUserPreferences, updateUserPreferences } from '@/lib/utils'
 import {
   Avatar,
@@ -28,25 +28,19 @@ export default function SettingsPage() {
   const [filter, setFilter] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
-  // Get current preferences data
-  const currentPrefs = userPrefs.state === 'hasData' ? userPrefs.data : null
-  const location = currentPrefs?.location || ''
-  const language = currentPrefs?.language || 'en'
-  const interests = currentPrefs?.interests || []
-
   // Local state for editable fields
   const [localLocation, setLocalLocation] = useState('')
-  const [localLanguage, setLocalLanguage] = useState<LangCode>('en')
+  const [localLanguage, setLocalLanguage] = useState<string>('en')
   const [localInterests, setLocalInterests] = useState<string[]>([])
 
   // Initialize local state when editing starts
-  const startEditing = (field: keyof typeof editing) => {
+  const startEditing = (field: keyof typeof editing, currentPrefs: UserPreferences) => {
     if (field === 'location') {
-      setLocalLocation(location)
+      setLocalLocation(currentPrefs?.location || '')
     } else if (field === 'language') {
-      setLocalLanguage(language as LangCode)
+      setLocalLanguage(currentPrefs?.language || 'en')
     } else if (field === 'interests') {
-      setLocalInterests([...interests])
+      setLocalInterests([...(currentPrefs?.interests || [])])
     }
     setEditing(prev => ({ ...prev, [field]: true }))
   }
@@ -98,105 +92,171 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        <div className='grid grid-cols-1 gap-6'>
-          <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
-            <div className='flex items-center justify-between mb-4'>
-              <Body1 className="text-[#0369a1] font-semibold">Location</Body1>
-              <Button
-                appearance="subtle"
-                size="small"
-                disabled={isLoading}
-                icon={editing.location ? <CheckmarkRegular /> : <EditRegular />}
-                onClick={() => editing.location ? saveChanges('location') : startEditing('location')}
-                className="text-[#0369a1]"
-              >
-                {editing.location ? 'Done' : 'Edit'}
-              </Button>
-            </div>
-            {!editing.location ? (
-              <Text className="text-[#274c6f]">{location || 'Not set'}</Text>
-            ) : (
-              <Input
-                value={localLocation}
-                onChange={(_, data) => setLocalLocation(data.value)}
-                placeholder="Enter your location"
-                disabled={isLoading}
-              />
-            )}
-          </div>
+        {(() => {
+          switch (userPrefs.state) {
+            case 'loading':
+              return (
+                <div className='grid grid-cols-1 gap-6'>
+                  <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
+                    <div className='flex items-center justify-between mb-4'>
+                      <Body1 className="text-[#0369a1] font-semibold">Location</Body1>
+                      <Button appearance="subtle" size="small" disabled icon={<EditRegular />} className="text-[#0369a1]">
+                        Edit
+                      </Button>
+                    </div>
+                    <Text className="text-[#274c6f]">Loading...</Text>
+                  </div>
 
-          <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-gradient-to-b from-[#f7fbff] to-white">
-            <div className='flex items-center justify-between mb-4'>
-              <Body1 className="text-[#0369a1] font-semibold">Language Preference</Body1>
-              <Button
-                appearance="subtle"
-                size="small"
-                disabled={isLoading}
-                icon={editing.language ? <CheckmarkRegular /> : <EditRegular />}
-                onClick={() => editing.language ? saveChanges('language') : startEditing('language')}
-                className="text-[#0369a1]"
-              >
-                {editing.language ? 'Done' : 'Edit'}
-              </Button>
-            </div>
-            {!editing.language ? (
-              <Text className="text-[#274c6f]">{LANGS.find(lang => lang.code === language)?.name || 'English'} ({language})</Text>
-            ) : (
-              <Dropdown
-                value={localLanguage}
-                onOptionSelect={(_, data) => setLocalLanguage(data.optionValue as LangCode)}
-                disabled={isLoading}
-              >
-                {LANGS.map((lang, i) => (
-                  <Option key={i} text={lang.name} value={lang.code}>
-                    {lang.name}
-                  </Option>
-                ))}
-              </Dropdown>
-            )}
-          </div>
+                  <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
+                    <div className='flex items-center justify-between mb-4'>
+                      <Body1 className="text-[#0369a1] font-semibold">Language Preference</Body1>
+                      <Button appearance="subtle" size="small" disabled icon={<EditRegular />} className="text-[#0369a1]">
+                        Edit
+                      </Button>
+                    </div>
+                    <Text className="text-[#274c6f]">Loading...</Text>
+                  </div>
 
-          <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-gradient-to-b from-[#f7fbff] to-white">
-            <div className='flex items-center justify-between mb-4'>
-              <Body1 className="text-[#0369a1] font-semibold">Interests</Body1>
-              <div className='flex items-center gap-2'>
-                <Input
-                  size="small"
-                  value={filter}
-                  onChange={(_, data) => setFilter(data.value)}
-                  placeholder='Filter tags'
-                  contentBefore={<SearchRegular />}
-                  disabled={isLoading}
-                />
-                <Button
-                  appearance="subtle"
-                  size="small"
-                  disabled={isLoading}
-                  icon={editing.interests ? <CheckmarkRegular /> : <EditRegular />}
-                  onClick={() => editing.interests ? saveChanges('interests') : startEditing('interests')}
-                  className="text-[#0369a1]"
-                >
-                  {editing.interests ? 'Done' : 'Edit'}
-                </Button>
-              </div>
-            </div>
-            <Caption1 className='mb-2 text-[#274c6f]'>
-              Select the topics you are interested in — these will be suggested when posting.
-            </Caption1>
-            <div className='grid grid-cols-2 gap-2 max-h-64 overflow-auto border rounded p-2'>
-              {TAGS.filter(t => t.includes(filter)).map(tag => (
-                <label key={tag} className='flex items-center gap-2 text-sm text-[#274c6f]'>
-                  <Checkbox
-                    checked={editing.interests ? localInterests.includes(tag) : interests.includes(tag)}
-                    disabled={!editing.interests || isLoading}
-                    onChange={() => editing.interests && toggleInterest(tag)}
-                  />
-                  <span className='truncate'>{tag}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-        </div>
+                  <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
+                    <div className='flex items-center justify-between mb-4'>
+                      <Body1 className="text-[#0369a1] font-semibold">Interests</Body1>
+                      <div className='flex items-center gap-2'>
+                        <Input size="small" disabled placeholder='Filter tags' contentBefore={<SearchRegular />} />
+                        <Button appearance="subtle" size="small" disabled icon={<EditRegular />} className="text-[#0369a1]">
+                          Edit
+                        </Button>
+                      </div>
+                    </div>
+                    <Text className="text-[#274c6f]">Loading interests...</Text>
+                  </div>
+                </div>
+              )
+            case 'hasError':
+              return (
+                <div className="p-5 rounded-lg border border-red-200 bg-red-50 text-red-700">
+                  <Body1 className="font-semibold mb-2">Error Loading Preferences</Body1>
+                  <Text>Failed to load user preferences. Please refresh the page or try again later.</Text>
+                  <Button
+                    appearance="primary"
+                    size="small"
+                    className="mt-3"
+                    onClick={() => setUserPrefs(getUserPreferences())}
+                  >
+                    Retry
+                  </Button>
+                </div>
+              )
+            case 'hasData':
+              const currentPrefs = userPrefs.data as UserPreferences
+              const location = currentPrefs.location || ''
+              const language = currentPrefs.language || 'en'
+              const interests = currentPrefs.interests || []
+
+              return (
+                <div className='grid grid-cols-1 gap-6'>
+                  <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
+                    <div className='flex items-center justify-between mb-4'>
+                      <Body1 className="text-[#0369a1] font-semibold">Location</Body1>
+                      <Button
+                        appearance="subtle"
+                        size="small"
+                        disabled={isLoading}
+                        icon={editing.location ? <CheckmarkRegular /> : <EditRegular />}
+                        onClick={() => editing.location ? saveChanges('location') : startEditing('location', currentPrefs)}
+                        className="text-[#0369a1]"
+                      >
+                        {editing.location ? 'Done' : 'Edit'}
+                      </Button>
+                    </div>
+                    {!editing.location ? (
+                      <Text className="text-[#274c6f]">{location || 'Not set'}</Text>
+                    ) : (
+                      <Input
+                        value={localLocation}
+                        onChange={(_, data) => setLocalLocation(data.value)}
+                        placeholder="Enter your location"
+                        disabled={isLoading}
+                      />
+                    )}
+                  </div>
+
+                  <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
+                    <div className='flex items-center justify-between mb-4'>
+                      <Body1 className="text-[#0369a1] font-semibold">Language Preference</Body1>
+                      <Button
+                        appearance="subtle"
+                        size="small"
+                        disabled={isLoading}
+                        icon={editing.language ? <CheckmarkRegular /> : <EditRegular />}
+                        onClick={() => editing.language ? saveChanges('language') : startEditing('language', currentPrefs)}
+                        className="text-[#0369a1]"
+                      >
+                        {editing.language ? 'Done' : 'Edit'}
+                      </Button>
+                    </div>
+                    {!editing.language ? (
+                      <Text className="text-[#274c6f]">{LANGS.find(lang => lang.code === language)?.name || 'English'} ({language})</Text>
+                    ) : (
+                      <Dropdown
+                        value={localLanguage}
+                        onOptionSelect={(_, data) => setLocalLanguage(data.optionValue as LangCode)}
+                        disabled={isLoading}
+                      >
+                        {LANGS.map((lang, i) => (
+                          <Option key={i} text={lang.name} value={lang.code}>
+                            {lang.name}
+                          </Option>
+                        ))}
+                      </Dropdown>
+                    )}
+                  </div>
+
+                  <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
+                    <div className='flex items-center justify-between mb-4'>
+                      <Body1 className="text-[#0369a1] font-semibold">Interests</Body1>
+                      <div className='flex items-center gap-2'>
+                        <Input
+                          size="small"
+                          value={filter}
+                          onChange={(_, data) => setFilter(data.value)}
+                          placeholder='Filter tags'
+                          contentBefore={<SearchRegular />}
+                          disabled={isLoading}
+                        />
+                        <Button
+                          appearance="subtle"
+                          size="small"
+                          disabled={isLoading}
+                          icon={editing.interests ? <CheckmarkRegular /> : <EditRegular />}
+                          onClick={() => editing.interests ? saveChanges('interests') : startEditing('interests', currentPrefs)}
+                          className="text-[#0369a1]"
+                        >
+                          {editing.interests ? 'Done' : 'Edit'}
+                        </Button>
+                      </div>
+                    </div>
+                    <Caption1 className='mb-2 text-[#274c6f]'>
+                      Select the topics you are interested in — these will be suggested when posting.
+                    </Caption1>
+                    <div className='grid grid-cols-2 gap-2 max-h-64 overflow-auto border rounded p-2'>
+                      {TAGS.filter(t => t.includes(filter)).map(tag => (
+                        <label key={tag} className='flex items-center gap-2 text-sm text-[#274c6f]'>
+                          <Checkbox
+                            checked={editing.interests ? localInterests.includes(tag) : interests.includes(tag)}
+                            disabled={!editing.interests || isLoading}
+                            onChange={() => editing.interests && toggleInterest(tag)}
+                          />
+                          <span className='truncate'>{tag}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )
+            default:
+              return null
+          }
+        })()}
       </div>
     </main>
   )

@@ -116,7 +116,7 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             setUserName(formData.username)
             setTimeout(() => {
               router.push('/u/home');
-            }, 400);
+            }, 200);
             break;
           case 422:
             ToastMessage(
