@@ -1,13 +1,13 @@
+import logging
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse, StreamingResponse
-import logging
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+
 from ..config import AppConfig
 from ..services.chatbot.rag import search_documents
 from ..models.api.chat import Chat, ChatData, ChatRequest, ChatResponse
-from langchain_core.prompts import PromptTemplate
-from langchain_core.output_parsers import StrOutputParser
-from ..services.chatbot.external.bing_search import search_bing
-
+from ..services.chatbot.scraper.web.nyc import parse_address, get_pollsite_info
 
 config: AppConfig = AppConfig()
 router = APIRouter(tags=["Chatbot"])
@@ -63,21 +63,41 @@ async def chat(
             ).model_dump()
         )
 
-
     try:
+        prefs = await config.db["userPreferences"].find_one(
+            {"user_id": user_id},
+            {"location": 1, "address": 1, "profession": 1, "interests": 1, "language": 1, "_id": 0}
+        )
+        if not prefs:
+            return JSONResponse(
+                status_code=400,
+                content=ChatResponse(
+                    success=False,
+                    message="Preferences not found. User may not have completed onboarding."
+                ).dict()
+            )
+        prefs_data = UserPreferences(**prefs)
+        match prompt.prompt:
+            case "Find my nearest pollsites":
+                parsed_address = None
+                try:
+                    parsed_address = parse_address(prefs_data.address)
+                except Exception as e:
+                    return JSONResponse(
+                        status_code=400,
+                        content=ChatResponse(
+                            success=False,
+                            message="Invalid US address. Please change your address to a proper NYC address"
+                        ).dict()
+                    )
+                
+
         client = config.langchain_llm
         # RAG Search
         rag_results = await search_documents(prompt.prompt)
-        # Bing Search
-        # bing_results = await search_bing(prompt.prompt)
-        # logging.info(f"Bing results content: {bing_results}")
-        bing_results = []
-        # Combine results
         context_parts = []
         if rag_results:
             context_parts.append("Knowledge Base Results:\n" + "\n".join(rag_results))
-        if bing_results:
-            context_parts.append("External Search Results:\n" + "\n".join(bing_results))
             
         context_str = "\n\n".join(context_parts)
         

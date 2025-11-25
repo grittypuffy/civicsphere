@@ -59,10 +59,6 @@ class EnvVarConfig(BaseSettings):
     azure_openai_model_name: str    
     translations_path: str = f"{os.getcwd()}/src/civicsphere/translations"
     tmp_upload_dir: str = "/backend/uploads"
-
-    # Bing Search
-    bing_search_api_key: str
-    bing_search_endpoint: str
     
     # Function App
     azure_function_app_url: str
