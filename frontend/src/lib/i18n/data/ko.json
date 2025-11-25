@@ -18,5 +18,37 @@
                 "description": "접근 가능하고 포용적인 방식으로 귀하의 지역을 위해 선별된 지역 자원과 시민 기회를 발견하세요."
             }
         }
+    },
+    "auth": {
+        "heroTitle": "CivicSphere에 오신 것을 환영합니다",
+        "heroSubtitle": "커뮤니티에 참여해 발견하고 토론하며 행동하세요.",
+        "onboardTitle": "온보딩을 완료하세요",
+        "signupTitle": "계정을 생성하세요",
+        "signinTitle": "다시 오신 것을 환영합니다",
+        "tabSignup": "가입하기",
+        "tabSignin": "로그인",
+        "loading": "로딩 중..."
+    },
+    "chat": {
+        "suggestions": {
+            "housing": "뉴욕시(예: 맨해튼)와 인근 교외의 주택 가격과 추세는 현재 어떤가요?",
+            "elections": "우리 지역 선거는 언제이고 어떻게 투표하며 누가 출마하나요?",
+            "judicial": "연방 판사의 역할은 무엇이며 다른 정치적·사법적 직위와 어떻게 다른가요?"
+        },
+        "labels": {
+            "you": "나",
+            "assistant": "어시스턴트",
+            "typing": "입력 중..."
+        },
+        "inputPlaceholder": "AI와 대화할 내용을 입력하세요",
+        "tooltip": {
+            "clearHistory": "채팅 기록 지우기"
+        },
+        "mic": {
+            "captured": "이것은 시뮬레이션된 음성 메시지를 필사한 것입니다."
+        },
+        "errors": {
+            "generic": "죄송합니다. 요청을 처리하는 중 오류가 발생했습니다. 다시 시도해 주세요."
+        }
     }
 }

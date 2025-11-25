@@ -18,5 +18,37 @@
                 "description": "Odkryj lokalne zasoby i możliwości obywatelskie wyselekcjonowane dla Twojego obszaru w przystępny i włączający sposób."
             }
         }
+    },
+    "auth": {
+        "heroTitle": "Witamy w CivicSphere",
+        "heroSubtitle": "Dołącz do swojej społeczności — odkrywaj, dyskutuj i działaj.",
+        "onboardTitle": "Dokończ onboarding",
+        "signupTitle": "Utwórz konto",
+        "signinTitle": "Witamy ponownie",
+        "tabSignup": "Zarejestruj się",
+        "tabSignin": "Zaloguj się",
+        "loading": "Ładowanie..."
+    },
+    "chat": {
+        "suggestions": {
+            "housing": "Jaka jest obecna sytuacja z cenami mieszkań i trendami w dzielnicach Nowego Jorku (np. na Manhattanie) oraz okolicznych przedmieściach?",
+            "elections": "Kiedy odbywają się moje lokalne wybory, jak oddać głos i kto kandyduje w mojej okolicy?",
+            "judicial": "Jaką rolę pełni sędzia federalny i czym różni się ona od innych stanowisk politycznych lub sądowych?"
+        },
+        "labels": {
+            "you": "Ty",
+            "assistant": "Asystent",
+            "typing": "Pisze..."
+        },
+        "inputPlaceholder": "Wpisz tekst, aby porozmawiać z AI",
+        "tooltip": {
+            "clearHistory": "Wyczyść historię czatu"
+        },
+        "mic": {
+            "captured": "To symulowana wiadomość głosowa w transkrypcji."
+        },
+        "errors": {
+            "generic": "Przepraszamy, wystąpił błąd podczas przetwarzania żądania. Spróbuj ponownie."
+        }
     }
 }

@@ -19,6 +19,38 @@
             }
         }
     },
+    "auth": {
+        "heroTitle": "Bienvenue sur CivicSphere",
+        "heroSubtitle": "Rejoignez votre communauté — découvrir, débattre et agir.",
+        "onboardTitle": "Terminez votre accueil",
+        "signupTitle": "Créez votre compte",
+        "signinTitle": "Bon retour",
+        "tabSignup": "Inscription",
+        "tabSignin": "Connexion",
+        "loading": "Chargement..."
+    },
+    "chat": {
+        "suggestions": {
+            "housing": "Quelle est la situation actuelle des prix et des tendances du logement dans les quartiers de New York (par ex. Manhattan) et les banlieues voisines ?",
+            "elections": "Quand ont lieu mes élections locales, comment voter et qui se présente dans ma région ?",
+            "judicial": "Quel est le rôle d'un juge fédéral et en quoi diffère-t-il des autres postes politiques ou judiciaires ?"
+        },
+        "labels": {
+            "you": "Vous",
+            "assistant": "Assistant",
+            "typing": "Saisie en cours..."
+        },
+        "inputPlaceholder": "Entrez du texte pour discuter avec l'IA",
+        "tooltip": {
+            "clearHistory": "Effacer l'historique du chat"
+        },
+        "mic": {
+            "captured": "Ceci est la transcription d'un message vocal simulé."
+        },
+        "errors": {
+            "generic": "Désolé, une erreur s'est produite lors du traitement de votre demande. Veuillez réessayer."
+        }
+    },
     "affordable-housing": "Logement Abordable",
     "artificial-intelligence": "Intelligence Artificielle",
     "arts-and-culture": "Arts et Culture",
