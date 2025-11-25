@@ -82,7 +82,7 @@ async def get_user_upvotes(
                     message="User ID not found"
                 ).dict()
             )
-        reactions_cursor = config.db["post_reaction"].find({"user_id": user_id, "upvote": True})
+        reactions_cursor = config.db["postReaction"].find({"user_id": user_id, "upvote": True})
         post_ids = []
         async for reaction in reactions_cursor:
             post_ids.append(reaction["post_id"])
@@ -126,7 +126,7 @@ async def get_user_downvotes(
                     message="User ID not found"
                 ).dict()
             )
-        reactions_cursor = config.db["post_reaction"].find({"user_id": user_id, "upvote": False})
+        reactions_cursor = config.db["postReaction"].find({"user_id": user_id, "upvote": False})
         post_ids = []
         async for reaction in reactions_cursor:
             post_ids.append(reaction["post_id"])

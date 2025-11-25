@@ -1,4 +1,78 @@
 {
+  "home": {
+    "title": "CivicSphere",
+    "description": "A platform for civic engagement and community collaboration.",
+    "getStarted": "Get Started",
+    "signIn": "Sign In",
+    "features": {
+      "communityDiscussions": {
+        "title": "Community Discussions",
+        "description": "Join local conversations about issues that matter to your neighborhood with verified content."
+      },
+      "clearDoubts": {
+        "title": "Clear all your doubts",
+        "description": "Ultimate AI Chatbot which is updated and trained to answer all your queries related to civic issues and services."
+      },
+      "accessible": {
+        "title": "Accessible and Inclusive",
+        "description": "Discover local resources and civic opportunities curated for your area in an accessible and inclusive manner."
+      }
+    }
+  },
+  "auth": {
+    "heroTitle": "Welcome to CivicSphere",
+    "heroSubtitle": "Join your community — discover, discuss and act.",
+    "onboardTitle": "Complete Your Onboarding",
+    "signupTitle": "Create Your Account",
+    "signinTitle": "Welcome Back",
+    "tabSignup": "Sign Up",
+    "tabSignin": "Sign In",
+    "loading": "Loading..."
+  },
+  "chat": {
+    "suggestions": {
+      "housing": "What's the current situation with housing prices and trends in New York City neighborhoods (e.g., Manhattan) and nearby suburbs?",
+      "elections": "When are my local elections, how do I cast a ballot, and who is contesting in my area?",
+      "judicial": "What is the role of a federal judge and how does it differ from other political or judicial positions?"
+    },
+    "labels": {
+      "you": "You",
+      "assistant": "Assistant",
+      "typing": "Typing..."
+    },
+    "inputPlaceholder": "Enter text to chat with AI",
+    "tooltip": {
+      "clearHistory": "Clear chat history"
+    },
+    "mic": {
+      "captured": "This is a simulated voice message transcribed."
+    },
+    "errors": {
+      "generic": "Sorry, there was an error processing your request. Please try again."
+    }
+  },
+  "communities": {
+    "sidebarTitle": "List of Topics",
+    "communityHeading": "Community: {community}",
+    "tabPosts": "Posts",
+    "tabIssues": "Issues",
+    "startPost": "Start a post in {community}",
+    "photo": "Photo",
+    "write": "Write",
+    "postButton": "Post",
+    "loadingPosts": "Loading posts...",
+    "errorPosts": "Error loading posts: {message}",
+    "raiseIssueTitle": "Raise an issue",
+    "raiseIssueSubtitle": "People and authorities can respond; community members can upvote if they have the same problem.",
+    "issueTitlePlaceholder": "Short title (e.g. Broken street light on 5th Ave)",
+    "issueDescriptionPlaceholder": "Describe the issue and any details (where, when, impact)...",
+    "issueAssigneesPlaceholder": "Who should take action? (e.g. Sanitation Dept, Local Councilor)",
+    "clearButton": "Clear",
+    "submitIssueButton": "Raise",
+    "loadingIssues": "Loading issues...",
+    "errorIssues": "Error loading issues: {message}",
+    "youLabel": "You"
+  },
   "tags": {
     "affordable-housing": "Affordable Housing {name}",
     "artificial-intelligence": "Artificial Intelligence",

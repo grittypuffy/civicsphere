@@ -1,95 +1,68 @@
-import { PostData } from "@/lib/types"
-import { Badge, Button, Card, CardFooter, CardHeader, Text } from "@fluentui/react-components"
-import { CheckmarkCircleColor, CheckmarkRegular, ClockRegular, FlagFilled, LocalLanguageFilled, Location16Filled, ThumbDislikeRegular } from "@fluentui/react-icons"
+import { userIssueUpvotesAtom, userIssueUpvotesAtom_loadable, userPostDownvotesAtom, userPostDownvotesAtom_loadable, userPostUpvotesAtom, userPostUpvotesAtom_loadable } from "@/lib/store"
+import { Issue, PostData } from "@/lib/types"
+import { downvotePost, getUserIssueUpvotes, getUserPostDownvotes, getUserPostUpvotes, removeDownvotePost, removeUpvoteIssue, removeUpvotePost, upvoteIssue, upvotePost } from "@/lib/utils"
+import { Badge, Button, Card, CardFooter, CardHeader, Dialog, DialogActions, DialogBody, DialogSurface, DialogTitle, Text } from "@fluentui/react-components"
+import { CheckmarkCircleColor, CheckmarkRegular, ClockRegular, EyeRegular, FlagFilled, HandRightRegular, LocalLanguageFilled, Location16Filled, ThumbDislikeFilled, ThumbDislikeRegular, ThumbLikeFilled } from "@fluentui/react-icons"
 import { ThumbLikeRegular } from "@fluentui/react-icons/svg/thumb-like"
+import { useAtomValue, useSetAtom } from "jotai"
+import { useState } from "react"
 
-// Sample local data for demonstration
-// [TODO] Remove this after API integration
-const localPostData: PostData[] = [
-  {
-    community_id: "comm_001",
-    post_id: "post_001",
-    user_id: "user_001",
-    tags: ["tech", "programming"],
-    upvote: 42,
-    downvote: 3,
-    title: "Getting Started with React Development",
-    description: "A comprehensive guide to building modern web applications with React and TypeScript. Learn the fundamentals and best practices.",
-    url: ["https://example.com/react-guide"],
-    lang: "en",
-    location: "San Francisco, CA",
-    verified: "True",
-    flagged: false,
-    created_at: "2024-01-15T10:30:00Z"
-  },
-  {
-    community_id: "comm_002",
-    post_id: "post_002",
-    user_id: "user_002",
-    tags: ["design", "ui/ux"],
-    upvote: 28,
-    downvote: 1,
-    title: "Modern UI Design Principles",
-    description: "Exploring the latest trends in user interface design and how to create engaging user experiences.",
-    url: ["https://example.com/ui-design"],
-    lang: "en",
-    location: "New York, NY",
-    verified: "Not Sure",
-    flagged: false,
-    created_at: "2024-01-14T14:20:00Z"
-  },
-  {
-    community_id: "comm_003",
-    post_id: "post_003",
-    user_id: "user_003",
-    tags: ["javascript", "performance"],
-    upvote: 35,
-    downvote: 2,
-    title: "Optimizing JavaScript Performance",
-    description: "Learn advanced techniques for improving JavaScript performance in web applications, including memory management and code optimization.",
-    url: ["https://example.com/js-performance"],
-    lang: "en",
-    location: "Austin, TX",
-    verified: "True",
-    flagged: false,
-    created_at: "2024-01-13T09:15:00Z"
-  },
-  {
-    community_id: "comm_004",
-    post_id: "post_004",
-    user_id: "user_004",
-    tags: ["data", "analytics"],
-    upvote: 19,
-    downvote: 5,
-    title: "Data Visualization Best Practices",
-    description: "A deep dive into creating effective data visualizations that tell compelling stories and drive business decisions.",
-    url: ["https://example.com/data-viz", "https://example.com/charts-guide"],
-    lang: "en",
-    location: "Seattle, WA",
-    verified: "False",
-    flagged: true,
-    created_at: "2024-01-12T16:45:00Z"
-  },
-  {
-    community_id: "comm_005",
-    post_id: "post_005",
-    user_id: "user_005",
-    tags: ["mobile", "development", "ios"],
-    upvote: 24,
-    downvote: 0,
-    title: "Building Native iOS Apps with Swift",
-    description: "Complete tutorial series covering iOS development from basics to advanced concepts, including SwiftUI and networking.",
-    url: [],
-    lang: "en",
-    location: "Los Angeles, CA",
-    verified: "Not Sure",
-    flagged: false,
-    created_at: "2024-01-11T11:30:00Z"
+interface FeedsProps {
+  posts?: PostData[]
+  issues?: Issue[]
+  showVoted?: boolean
+}
+
+const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boolean, setOpen: (open: boolean) => void }) => {
+  const upvotedPosts = useAtomValue(userPostUpvotesAtom_loadable)
+  const downvotedPosts = useAtomValue(userPostDownvotesAtom_loadable)
+  const setPostUpvotes = useSetAtom(userPostUpvotesAtom)
+  const setPostDownvotes = useSetAtom(userPostDownvotesAtom)
+  const [loading, setLoading] = useState(false)
+
+  const upvotedPostIds = upvotedPosts.state === 'hasData' ? upvotedPosts.data as string[] : []
+  const downvotedPostIds = downvotedPosts.state === 'hasData' ? downvotedPosts.data as string[] : []
+
+  const isUpvoted = upvotedPostIds?.includes(post.post_id)
+  const isDownvoted = downvotedPostIds?.includes(post.post_id)
+
+  const handleUpvote = async () => {
+    if (loading) return
+    setLoading(true)
+
+    try {
+      if (isUpvoted) {
+        await removeUpvotePost(post.community_id, post.post_id)
+      } else {
+        await upvotePost(post.community_id, post.post_id)
+      }
+      setPostUpvotes(getUserPostUpvotes())
+      setPostDownvotes(getUserPostDownvotes())
+    } catch (error) {
+      console.error('Failed to handle upvote:', error)
+    } finally {
+      setLoading(false)
+    }
   }
-]
 
-export const Feeds = ({ posts }: { posts?: PostData[] }) => {
-  const displayPosts = posts ? posts : localPostData
+  const handleDownvote = async () => {
+    if (loading) return
+    setLoading(true)
+
+    try {
+      if (isDownvoted) {
+        await removeDownvotePost(post.community_id, post.post_id)
+      } else {
+        await downvotePost(post.community_id, post.post_id)
+      }
+      setPostUpvotes(getUserPostUpvotes())
+      setPostDownvotes(getUserPostDownvotes())
+    } catch (error) {
+      console.error('Failed to handle downvote:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const getVerifiedBadgeColor = (verified: string) => {
     switch (verified) {
@@ -110,10 +83,11 @@ export const Feeds = ({ posts }: { posts?: PostData[] }) => {
   }
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
-      <div className="grid gap-6">
-        {displayPosts.map((post) => (
-          <Card key={post.post_id} className="w-full shadow-md hover:shadow-lg transition-shadow duration-200">
+    <Dialog open={open} onOpenChange={(event, data) => setOpen(data.open)}>
+      <DialogSurface className="max-w-4xl">
+        <DialogTitle>{post.title}</DialogTitle>
+        <DialogBody>
+          <Card className="w-full shadow-md">
             <CardHeader
               header={
                 <div className="space-y-2 w-full p-3">
@@ -199,18 +173,22 @@ export const Feeds = ({ posts }: { posts?: PostData[] }) => {
                 </div>
                 <div className="flex items-center space-x-4">
                   <Button
-                    appearance="subtle"
+                    appearance={isUpvoted ? "primary" : "subtle"}
                     size="medium"
-                    icon={<ThumbLikeRegular />}
-                    className="text-green-600 hover:text-green-700"
+                    icon={isUpvoted ? <ThumbLikeFilled /> : <ThumbLikeRegular />}
+                    className={isUpvoted ? "text-green-700" : "text-green-600 hover:text-green-700"}
+                    disabled={loading}
+                    onClick={handleUpvote}
                   >
                     {post.upvote}
                   </Button>
                   <Button
-                    appearance="subtle"
+                    appearance={isDownvoted ? "primary" : "subtle"}
                     size="medium"
-                    icon={<ThumbDislikeRegular />}
-                    className="text-red-600 hover:text-red-700"
+                    icon={isDownvoted ? <ThumbDislikeFilled /> : <ThumbDislikeRegular />}
+                    className={isDownvoted ? "text-red-700" : "text-red-600 hover:text-red-700"}
+                    disabled={loading}
+                    onClick={handleDownvote}
                   >
                     {post.downvote}
                   </Button>
@@ -218,14 +196,317 @@ export const Feeds = ({ posts }: { posts?: PostData[] }) => {
               </div>
             </CardFooter>
           </Card>
+        </DialogBody>
+        <DialogActions>
+          <Button appearance="secondary" onClick={() => setOpen(false)}>
+            Close
+          </Button>
+        </DialogActions>
+      </DialogSurface>
+    </Dialog>
+  )
+}
+
+const PostCard = ({ post }: { post: PostData }) => {
+  const upvotedPosts = useAtomValue(userPostUpvotesAtom_loadable)
+  const downvotedPosts = useAtomValue(userPostDownvotesAtom_loadable)
+  const [dialogOpen, setDialogOpen] = useState(false)
+
+  const upvotedPostIds = upvotedPosts.state === 'hasData' ? upvotedPosts.data as string[] : []
+  const downvotedPostIds = downvotedPosts.state === 'hasData' ? downvotedPosts.data as string[] : []
+
+  const isUpvoted = upvotedPostIds?.includes(post.post_id)
+  const isDownvoted = downvotedPostIds?.includes(post.post_id)
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    })
+  }
+
+  return (
+    <>
+      <Card
+        key={post.post_id}
+        className={`w-full shadow-sm hover:shadow-md transition-shadow duration-200 ${(isUpvoted || isDownvoted) ? 'bg-blue-50 border-blue-200' : ''}`}
+      >
+        <div className="p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 cursor-pointer"
+                onClick={() => setDialogOpen(true)}>
+                {post.title}
+              </h3>
+              <div className="flex items-center space-x-4 text-sm text-gray-500">
+                <div className="flex items-center space-x-1">
+                  <ClockRegular />
+                  <span>{formatDate(post.created_at)}</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <Location16Filled />
+                  <span>{post.location}</span>
+                </div>
+              </div>
+            </div>
+            <div className="ml-4">
+              <Button
+                appearance="outline"
+                size="medium"
+                icon={<EyeRegular />}
+                onClick={() => setDialogOpen(true)}
+              >
+                View
+              </Button>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      <PostDetailDialog
+        post={post}
+        open={dialogOpen}
+        setOpen={setDialogOpen}
+      />
+    </>
+  )
+}
+
+const IssueDetailDialog = ({ issue, open, setOpen }: { issue: Issue, open: boolean, setOpen: (open: boolean) => void }) => {
+  const upvotedIssues = useAtomValue(userIssueUpvotesAtom_loadable)
+  const setIssueUpvotes = useSetAtom(userIssueUpvotesAtom)
+  const [loading, setLoading] = useState(false)
+
+  const upvotedIssueIds = upvotedIssues.state === 'hasData' ? upvotedIssues.data as string[] : []
+  const isUpvoted = upvotedIssueIds?.includes(issue.issue_id)
+
+  const handleUpvote = async () => {
+    if (loading) return
+    setLoading(true)
+
+    try {
+      if (isUpvoted) {
+        await removeUpvoteIssue(issue.community_id, issue.issue_id)
+      } else {
+        await upvoteIssue(issue.community_id, issue.issue_id)
+      }
+      setIssueUpvotes(getUserIssueUpvotes())
+    } catch (error) {
+      console.error('Failed to handle issue upvote:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const getStatusBadgeColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case "resolved": return "success"
+      case "in_progress": return "warning"
+      case "open": return "informative"
+      default: return "subtle"
+    }
+  }
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    })
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={(event, data) => setOpen(data.open)}>
+      <DialogSurface className="max-w-4xl">
+        <DialogTitle>{issue.title}</DialogTitle>
+        <DialogBody>
+          <Card className="w-full shadow-md">
+            <CardHeader
+              header={
+                <div className="space-y-2 w-full p-3">
+                  <div className="flex items-start justify-between">
+                    <h2 className="text-xl font-semibold text-gray-900 flex-1">{issue.title}</h2>
+                    <div className="flex items-center space-x-2 ml-4">
+                      <Badge
+                        appearance="filled"
+                        color={getStatusBadgeColor(issue.status)}
+                        size="medium"
+                        icon={<HandRightRegular />}
+                      >
+                        {issue.status}
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+              }
+              description={
+                <div className="space-y-3 px-3 w-full">
+                  <div className="flex gap-2">
+                    <Badge appearance="ghost" size="small">
+                      <div className="flex items-center space-x-1 px-1">
+                        <ClockRegular />
+                        <span className="text-xs">{formatDate(issue.created_at)}</span>
+                      </div>
+                    </Badge>
+                  </div>
+                  <div className="py-1">
+                    <p className="text-gray-600 text-sm leading-relaxed">{issue.description}</p>
+                  </div>
+                  <hr />
+                </div>
+              }
+            />
+            <CardFooter>
+              <div className="flex items-center justify-between w-full px-3">
+                <div className="flex items-center space-x-2">
+                  <span className="text-md text-gray-500">
+                    Issue ID: {issue.issue_id}
+                  </span>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <Button
+                    appearance={isUpvoted ? "primary" : "subtle"}
+                    size="medium"
+                    icon={isUpvoted ? <ThumbLikeFilled /> : <ThumbLikeRegular />}
+                    className={isUpvoted ? "text-green-700" : "text-green-600 hover:text-green-700"}
+                    disabled={loading}
+                    onClick={handleUpvote}
+                  >
+                    {issue.upvote}
+                  </Button>
+                </div>
+              </div>
+            </CardFooter>
+          </Card>
+        </DialogBody>
+        <DialogActions>
+          <Button appearance="secondary" onClick={() => setOpen(false)}>
+            Close
+          </Button>
+        </DialogActions>
+      </DialogSurface>
+    </Dialog>
+  )
+}
+
+const IssueCard = ({ issue }: { issue: Issue }) => {
+  const upvotedIssues = useAtomValue(userIssueUpvotesAtom_loadable)
+  const [dialogOpen, setDialogOpen] = useState(false)
+
+  const upvotedIssueIds = upvotedIssues.state === 'hasData' ? upvotedIssues.data as string[] : []
+  const isUpvoted = upvotedIssueIds?.includes(issue.issue_id)
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    })
+  }
+
+  return (
+    <>
+      <Card
+        key={issue.issue_id}
+        className={`w-full shadow-sm hover:shadow-md transition-shadow duration-200 ${isUpvoted ? 'bg-orange-50 border-orange-200' : ''}`}
+      >
+        <div className="p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 cursor-pointer"
+                onClick={() => setDialogOpen(true)}>
+                {issue.title}
+              </h3>
+              <div className="flex items-center space-x-4 text-sm text-gray-500">
+                <div className="flex items-center space-x-1">
+                  <ClockRegular />
+                  <span>{formatDate(issue.created_at)}</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <span>Issue ID: {issue.issue_id}</span>
+                </div>
+              </div>
+            </div>
+            <div className="ml-4">
+              <Button
+                appearance="outline"
+                size="medium"
+                icon={<EyeRegular />}
+                onClick={() => setDialogOpen(true)}
+              >
+                View
+              </Button>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      <IssueDetailDialog
+        issue={issue}
+        open={dialogOpen}
+        setOpen={setDialogOpen}
+      />
+    </>
+  )
+}
+
+export const Feeds = ({ posts, issues, showVoted }: FeedsProps) => {
+  const upvotedPosts = useAtomValue(userPostUpvotesAtom_loadable)
+  const downvotedPosts = useAtomValue(userPostDownvotesAtom_loadable)
+  const upvotedIssues = useAtomValue(userIssueUpvotesAtom_loadable)
+
+  const upvotedPostIds = upvotedPosts.state === 'hasData' ? new Set(upvotedPosts.data as string[]) : new Set()
+  const downvotedPostIds = downvotedPosts.state === 'hasData' ? new Set(downvotedPosts.data as string[]) : new Set()
+  const upvotedIssueIds = upvotedIssues.state === 'hasData' ? new Set(upvotedIssues.data as string[]) : new Set()
+
+  const votedPostIds = new Set([...upvotedPostIds, ...downvotedPostIds])
+
+  const filteredPosts = posts?.filter(post =>
+    showVoted ? votedPostIds.has(post.post_id) : !votedPostIds.has(post.post_id)
+  ) || []
+
+  const filteredIssues = issues?.filter(issue =>
+    showVoted ? upvotedIssueIds.has(issue.issue_id) : !upvotedIssueIds.has(issue.issue_id)
+  ) || []
+
+  const hasAnyContent = filteredPosts.length > 0 || filteredIssues.length > 0
+
+  if (!hasAnyContent) {
+    return (
+      <div className="max-w-5xl mx-auto p-6">
+        <div className="text-center py-12">
+          <Text size={400} className="text-gray-500">
+            {showVoted ? "No voted content found" : "Nothing here"}
+          </Text>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="max-w-5xl mx-auto p-6">
+      <div className="grid gap-4">
+        {filteredPosts.map((post) => (
+          <PostCard
+            key={post.post_id}
+            post={post}
+          />
+        ))}
+
+        {filteredIssues.map((issue) => (
+          <IssueCard
+            key={issue.issue_id}
+            issue={issue}
+          />
         ))}
       </div>
-
-      {displayPosts.length === 0 && (
-        <div className="text-center py-12">
-          <Text size={400} className="text-gray-500">No posts available</Text>
-        </div>
-      )}
     </div>
   )
 }

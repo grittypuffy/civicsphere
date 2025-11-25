@@ -5,10 +5,13 @@ import {
   ChatDataSchema,
   ChatRequestSchema,
   ChatResponseSchema,
+  CommunitiesResponseSchema,
+  CommunitySchema,
   CreateIssueRequestSchema,
   CreatePostRequestSchema,
   GetPreferencesResponseSchema,
   HTTPValidationErrorSchema,
+  IssueResponseMultipleSchema,
   IssueResponseSingleSchema,
   IssueSchema,
   LanguageSchema,
@@ -85,6 +88,7 @@ export type UserReactionsResponse = v.InferOutput<typeof UserReactionsResponseSc
 // Content Types
 export type Issue = v.InferOutput<typeof IssueSchema>;
 export type IssueResponseSingle = v.InferOutput<typeof IssueResponseSingleSchema>;
+export type IssueResponseMultiple = v.InferOutput<typeof IssueResponseMultipleSchema>;
 export type CreateIssueRequest = v.InferInput<typeof CreateIssueRequestSchema>;
 export type CreatePostRequest = v.InferInput<typeof CreatePostRequestSchema>;
 export type PostResponse = v.InferOutput<typeof PostResponseSchema>;
@@ -93,3 +97,5 @@ export type TagAnalytics = v.InferOutput<typeof TagAnalyticsSchema>;
 export type TagResponse = v.InferOutput<typeof TagResponseSchema>;
 export type TrendingResponse = v.InferOutput<typeof TrendingResponseSchema>;
 export type PostData = NonNullable<TrendingResponse["data"]>[number];
+export type Community = v.InferOutput<typeof CommunitySchema>;
+export type CommunitiesResponse = v.InferOutput<typeof CommunitiesResponseSchema>;

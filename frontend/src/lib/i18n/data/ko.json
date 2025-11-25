@@ -1,83 +1,76 @@
 {
-    "affordable-housing": "저렴한 주택",
-    "artificial-intelligence": "인공지능",
-    "arts-and-culture": "예술과 문화",
-    "asian-voices": "아시아인 목소리",
-    "atheist-voices": "무신론자 목소리",
-    "ballot-questions": "투표 질문",
-    "baptist-voices": "침례교 목소리",
-    "bipoc-voices": "BIPOC 목소리",
-    "black-voices": "흑인 목소리",
-    "buddhist-voices": "불교 목소리",
-    "catholic-voices": "가톨릭 목소리",
-    "civic-education": "시민 교육",
-    "civic-participation": "시민 참여",
-    "civil-rights": "시민권",
-    "climate-action": "기후 행동",
-    "clothing-and-fashion": "의류와 패션",
-    "colored-voices": "유색인종의 목소리",
-    "community-development": "지역 사회 개발",
-    "community-initiatives": "커뮤니티 이니셔티브",
-    "cultural-diversity": "문화적 다양성",
-    "cultural-representation": "문화적 대표성",
-    "digital-access": "디지털 접근",
-    "disability-rights": "장애인 권리",
-    "disease-prevention": "질병 예방",
-    "economic-justice": "경제 정의",
-    "economics": "경제학",
-    "education": "교육",
-    "education-access": "교육 접근성",
-    "education-for-all": "모두를 위한 교육",
-    "elections-and-voting": "선거와 투표",
-    "emergency-preparedness": "비상 대비",
-    "environmental-rights": "환경 권리",
-    "financial-literacy": "금융 교육",
-    "food-security": "식량 안보",
-    "future-of-work": "일자리의 미래",
-    "gender-equality": "성 평등",
-    "gender-justice": "성별 정의",
-    "government-policy": "정부 정책",
-    "health-equity": "건강 형평성",
-    "healthcare-access": "의료 서비스 접근",
-    "housing-rights": "주택 권리",
-    "human-rights": "인권",
-    "indigenous-voices": "원주민 목소리",
-    "immigrant-voices": "이민자 목소리",
-    "income-inequality": "소득 불평등",
-    "interfaith-dialogue": "종교 간 대화",
-    "infrastructure": "인프라",
-    "interracial-relationships": "인종 간 관계",
-    "lgbtq-voices": "LGBTQ 목소리",
-    "local-economies": "지역 경제",
-    "media-literacy": "미디어 리터러시",
-    "mental-health": "정신 건강",
-    "migrant-rights": "이주민 권리",
-    "mothers-rights": "어머니의 권리",
-    "native-american-voices": "아메리카 원주민 목소리",
-    "national-security": "국가 안보",
-    "natural-disasters": "자연 재해",
-    "neighborhoods": "이웃",
-    "nuclear-disarmament": "핵무기 폐기",
-    "pagan-voices": "이교도 목소리",
-    "pandemic-response": "팬데믹 대응",
-    "parenting-rights": "양육 권리",
-    "personal-finance": "개인 금융",
-    "philanthropy": "자선 활동",
-    "prison-reform": "교도소 개혁",
-    "progressive-values": "진보적 가치",
-    "public-health": "공공 건강",
-    "racial-justice": "인종 정의",
-    "refugee-rights": "난민 권리",
-    "religious-freedom": "종교의 자유",
-    "reproductive-rights": "재생산 권리",
-    "school-safety": "학교 안전",
-    "social-justice": "사회 정의",
-    "sports-and-recreation": "스포츠와 레크리에이션",
-    "sustainability": "지속 가능성",
-    "technology-access": "기술 접근",
-    "veteran-rights": "참전 용사 권리",
-    "violence-prevention": "폭력 예방",
-    "voter-rights": "유권자 권리",
-    "water-rights": "물 권리",
-    "women-empowerment": "여성의 권한 부여"
+    "home": {
+        "title": "CivicSphere",
+        "description": "시민 참여 및 커뮤니티 협업을 위한 플랫폼.",
+        "getStarted": "시작하기",
+        "signIn": "로그인",
+        "features": {
+            "communityDiscussions": {
+                "title": "커뮤니티 토론",
+                "description": "검증된 콘텐츠로 귀하의 이웃에 중요한 문제에 대한 지역 대화에 참여하세요."
+            },
+            "clearDoubts": {
+                "title": "모든 의문을 해결하세요",
+                "description": "시민 문제 및 서비스와 관련된 모든 질문에 답하도록 업데이트되고 훈련된 최고의 AI 챗봇."
+            },
+            "accessible": {
+                "title": "접근 가능하고 포용적",
+                "description": "접근 가능하고 포용적인 방식으로 귀하의 지역을 위해 선별된 지역 자원과 시민 기회를 발견하세요."
+            }
+        }
+    },
+    "auth": {
+        "heroTitle": "CivicSphere에 오신 것을 환영합니다",
+        "heroSubtitle": "커뮤니티에 참여해 발견하고 토론하며 행동하세요.",
+        "onboardTitle": "온보딩을 완료하세요",
+        "signupTitle": "계정을 생성하세요",
+        "signinTitle": "다시 오신 것을 환영합니다",
+        "tabSignup": "가입하기",
+        "tabSignin": "로그인",
+        "loading": "로딩 중..."
+    },
+    "chat": {
+        "suggestions": {
+            "housing": "뉴욕시(예: 맨해튼)와 인근 교외의 주택 가격과 추세는 현재 어떤가요?",
+            "elections": "우리 지역 선거는 언제이고 어떻게 투표하며 누가 출마하나요?",
+            "judicial": "연방 판사의 역할은 무엇이며 다른 정치적·사법적 직위와 어떻게 다른가요?"
+        },
+        "labels": {
+            "you": "나",
+            "assistant": "어시스턴트",
+            "typing": "입력 중..."
+        },
+        "inputPlaceholder": "AI와 대화할 내용을 입력하세요",
+        "tooltip": {
+            "clearHistory": "채팅 기록 지우기"
+        },
+        "mic": {
+            "captured": "이것은 시뮬레이션된 음성 메시지를 필사한 것입니다."
+        },
+        "errors": {
+            "generic": "죄송합니다. 요청을 처리하는 중 오류가 발생했습니다. 다시 시도해 주세요."
+        }
+    },
+    "communities": {
+        "sidebarTitle": "주제 목록",
+        "communityHeading": "커뮤니티: {community}",
+        "tabPosts": "게시물",
+        "tabIssues": "이슈",
+        "startPost": "{community}에서 글을 시작하세요",
+        "photo": "사진",
+        "write": "글쓰기",
+        "postButton": "게시",
+        "loadingPosts": "게시물을 불러오는 중...",
+        "errorPosts": "게시물을 불러오는 중 오류: {message}",
+        "raiseIssueTitle": "이슈 제기",
+        "raiseIssueSubtitle": "주민과 기관이 답변할 수 있으며, 같은 문제를 겪는 구성원은 추천할 수 있습니다.",
+        "issueTitlePlaceholder": "짧은 제목 (예: 5th Ave 가로등 고장)",
+        "issueDescriptionPlaceholder": "이슈와 세부 정보(장소, 시간, 영향 등)를 설명하세요...",
+        "issueAssigneesPlaceholder": "누가 조치해야 하나요? (예: 위생국, 지역 의원)",
+        "clearButton": "지우기",
+        "submitIssueButton": "제출",
+        "loadingIssues": "이슈를 불러오는 중...",
+        "errorIssues": "이슈를 불러오는 중 오류: {message}",
+        "youLabel": "나"
+    }
 }

@@ -1,83 +1,76 @@
 {
-    "affordable-housing": "सस्ती आवास",
-    "artificial-intelligence": "कृत्रिम बुद्धिमत्ता",
-    "arts-and-culture": "कला और संस्कृति",
-    "asian-voices": "एशियाई आवाजें",
-    "atheist-voices": "नास्तिक आवाजें",
-    "ballot-questions": "मतदाता प्रश्न",
-    "baptist-voices": "बैप्टिस्ट आवाजें",
-    "bipoc-voices": "BIPOC आवाजें",
-    "black-voices": "काले आवाजें",
-    "buddhist-voices": "बौद्ध आवाजें",
-    "catholic-voices": "कैथोलिक आवाजें",
-    "civic-education": "नागरिक शिक्षा",
-    "civic-participation": "नागरिक भागीदारी",
-    "civil-rights": "नागरिक अधिकार",
-    "climate-action": "जलवायु कार्रवाई",
-    "clothing-and-fashion": "वस्त्र और फैशन",
-    "colored-voices": "रंगीन आवाजें",
-    "community-development": "समुदाय विकास",
-    "community-initiatives": "समुदाय पहलों",
-    "cultural-diversity": "सांस्कृतिक विविधता",
-    "cultural-representation": "सांस्कृतिक प्रतिनिधित्व",
-    "digital-access": "डिजिटल पहुंच",
-    "disability-rights": "विकलांग अधिकार",
-    "disease-prevention": "रोगों की रोकथाम",
-    "economic-justice": "आर्थिक न्याय",
-    "economics": "अर्थशास्त्र",
-    "education": "शिक्षा",
-    "education-access": "शिक्षा तक पहुंच",
-    "education-for-all": "सबके लिए शिक्षा",
-    "elections-and-voting": "चुनाव और मतदान",
-    "emergency-preparedness": "आपातकालीन तैयारी",
-    "environmental-rights": "पर्यावरणीय अधिकार",
-    "financial-literacy": "वित्तीय साक्षरता",
-    "food-security": "खाद्य सुरक्षा",
-    "future-of-work": "कार्य का भविष्य",
-    "gender-equality": "लिंग समानता",
-    "gender-justice": "लिंग न्याय",
-    "government-policy": "सरकारी नीति",
-    "health-equity": "स्वास्थ्य समानता",
-    "healthcare-access": "स्वास्थ्य देखभाल तक पहुंच",
-    "housing-rights": "आवास अधिकार",
-    "human-rights": "मानव अधिकार",
-    "indigenous-voices": "आदिवासी आवाजें",
-    "immigrant-voices": "आव्रजन आवाजें",
-    "income-inequality": "आय असमानता",
-    "interfaith-dialogue": "धार्मिक संवाद",
-    "infrastructure": "आधारभूत संरचना",
-    "interracial-relationships": "जातिवादी संबंध",
-    "lgbtq-voices": "LGBTQ आवाजें",
-    "local-economies": "स्थानीय अर्थव्यवस्थाएँ",
-    "media-literacy": "मीडिया साक्षरता",
-    "mental-health": "मानसिक स्वास्थ्य",
-    "migrant-rights": "आप्रवासी अधिकार",
-    "mothers-rights": "माताओं के अधिकार",
-    "native-american-voices": "देशी अमेरिकी आवाजें",
-    "national-security": "राष्ट्रीय सुरक्षा",
-    "natural-disasters": "प्राकृतिक आपदाएँ",
-    "neighborhoods": "पड़ोस",
-    "nuclear-disarmament": "न्यूक्लियर निरस्त्रीकरण",
-    "pagan-voices": "पगन आवाजें",
-    "pandemic-response": "महामारी प्रतिक्रिया",
-    "parenting-rights": "माता-पिता के अधिकार",
-    "personal-finance": "व्यक्तिगत वित्त",
-    "philanthropy": "दानशीलता",
-    "prison-reform": "जेल सुधार",
-    "progressive-values": "प्रगतिशील मूल्य",
-    "public-health": "सार्वजनिक स्वास्थ्य",
-    "racial-justice": "जातीय न्याय",
-    "refugee-rights": "शरणार्थी अधिकार",
-    "religious-freedom": "धार्मिक स्वतंत्रता",
-    "reproductive-rights": "प्रजनन अधिकार",
-    "school-safety": "स्कूल सुरक्षा",
-    "social-justice": "सामाजिक न्याय",
-    "sports-and-recreation": "खेल और मनोरंजन",
-    "sustainability": "सततता",
-    "technology-access": "प्रौद्योगिकी तक पहुंच",
-    "veteran-rights": "युद्ध विधवा अधिकार",
-    "violence-prevention": "हिंसा की रोकथाम",
-    "voter-rights": "मतदाता अधिकार",
-    "water-rights": "पानी अधिकार",
-    "women-empowerment": "महिला सशक्तिकरण"
+    "home": {
+        "title": "CivicSphere",
+        "description": "नागरिक भागीदारी और सामुदायिक सहयोग के लिए एक मंच।",
+        "getStarted": "शुरू करें",
+        "signIn": "साइन इन करें",
+        "features": {
+            "communityDiscussions": {
+                "title": "सामुदायिक चर्चाएं",
+                "description": "सत्यापित सामग्री के साथ अपने पड़ोस के लिए महत्वपूर्ण मुद्दों के बारे में स्थानीय बातचीत में शामिल हों।"
+            },
+            "clearDoubts": {
+                "title": "अपनी सभी शंकाओं को दूर करें",
+                "description": "परम एआई चैटबॉट जो नागरिक मुद्दों और सेवाओं से संबंधित आपके सभी प्रश्नों का उत्तर देने के लिए अपडेट और प्रशिक्षित है।"
+            },
+            "accessible": {
+                "title": "सुलभ और समावेशी",
+                "description": "अपने क्षेत्र के लिए सुलभ और समावेशी तरीके से तैयार किए गए स्थानीय संसाधनों और नागरिक अवसरों को खोजें।"
+            }
+        }
+    },
+    "auth": {
+        "heroTitle": "CivicSphere में आपका स्वागत है",
+        "heroSubtitle": "अपनी कम्युनिटी से जुड़ें — खोजें, चर्चा करें और कार्रवाई करें।",
+        "onboardTitle": "अपना ऑनबोर्डिंग पूरा करें",
+        "signupTitle": "अपना खाता बनाएँ",
+        "signinTitle": "वापसी पर स्वागत है",
+        "tabSignup": "साइन अप",
+        "tabSignin": "साइन इन",
+        "loading": "लोड हो रहा है..."
+    },
+    "chat": {
+        "suggestions": {
+            "housing": "न्यूयॉर्क सिटी के इलाकों (जैसे मैनहैटन) और आसपास के उपनगरों में आवास की कीमतों और रुझानों की मौजूदा स्थिति क्या है?",
+            "elections": "मेरे स्थानीय चुनाव कब हैं, मैं मतदान कैसे करूँ और मेरे क्षेत्र में कौन उम्मीदवार है?",
+            "judicial": "संघीय न्यायाधीश की भूमिका क्या है और यह अन्य राजनीतिक या न्यायिक पदों से कैसे अलग है?"
+        },
+        "labels": {
+            "you": "आप",
+            "assistant": "सहायक",
+            "typing": "टाइप किया जा रहा है..."
+        },
+        "inputPlaceholder": "एआई से चैट करने के लिए पाठ दर्ज करें",
+        "tooltip": {
+            "clearHistory": "चैट इतिहास साफ़ करें"
+        },
+        "mic": {
+            "captured": "यह एक सिम्युलेटेड वॉयस संदेश की लिप्यंतरण है।"
+        },
+        "errors": {
+            "generic": "क्षमा करें, आपके अनुरोध को संसाधित करते समय त्रुटि हुई। कृपया पुनः प्रयास करें।"
+        }
+    },
+    "communities": {
+        "sidebarTitle": "विषयों की सूची",
+        "communityHeading": "समुदाय: {community}",
+        "tabPosts": "पोस्ट",
+        "tabIssues": "मुद्दे",
+        "startPost": "{community} में एक पोस्ट शुरू करें",
+        "photo": "फोटो",
+        "write": "लिखें",
+        "postButton": "पोस्ट करें",
+        "loadingPosts": "पोस्ट लोड हो रही हैं...",
+        "errorPosts": "पोस्ट लोड करने में त्रुटि: {message}",
+        "raiseIssueTitle": "एक मुद्दा उठाएँ",
+        "raiseIssueSubtitle": "लोग और प्रशासन प्रतिक्रिया दे सकते हैं; यदि सदस्यों को वही समस्या हो तो वे अपवोट कर सकते हैं।",
+        "issueTitlePlaceholder": "संक्षिप्त शीर्षक (उदा. 5th Ave पर टूटी स्ट्रीट लाइट)",
+        "issueDescriptionPlaceholder": "मुद्दे और किसी भी विवरण का वर्णन करें (कहाँ, कब, प्रभाव)...",
+        "issueAssigneesPlaceholder": "किसे कार्रवाई करनी चाहिए? (उदा. स्वच्छता विभाग, स्थानीय पार्षद)",
+        "clearButton": "साफ़ करें",
+        "submitIssueButton": "उठाएँ",
+        "loadingIssues": "मुद्दे लोड हो रहे हैं...",
+        "errorIssues": "मुद्दे लोड करने में त्रुटि: {message}",
+        "youLabel": "आप"
+    }
 }

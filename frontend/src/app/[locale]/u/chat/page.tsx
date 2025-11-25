@@ -1,11 +1,12 @@
 'use client'
 
 import { Avatar, Button, Textarea, Tooltip } from '@fluentui/react-components'
+import { DeleteFilled, MicFilled, MicRegular, SendFilled } from '@fluentui/react-icons'
+import { useTranslations } from 'next-intl'
 import { atom, useAtom } from 'jotai'
 import { useEffect, useRef } from 'react'
 
 import { ChatData } from '@/lib/types'
-import { DeleteFilled, MicFilled, MicRegular, SendFilled } from '@fluentui/react-icons'
 
 type MessageWithId = ChatData & { id: number }
 
@@ -65,6 +66,7 @@ const chatStateAtom = atom({
 })
 
 export default function ChatPage() {
+  const t = useTranslations('chat')
   const [messages, setMessages] = useAtom(messagesAtom)
   const [chatState, setChatState] = useAtom(chatStateAtom)
   const { input, isRecording, isWaiting } = chatState
@@ -72,9 +74,9 @@ export default function ChatPage() {
   
   // Default suggestion prompts to help users start conversations quickly
   const suggestions: string[] = [
-    "What's the current situation with housing prices and trends in New York City neighborhoods (e.g., Manhattan) and nearby suburbs?",
-    'When are my local elections, how do I cast a ballot, and who is contesting in my area?',
-    'What is the role of a federal judge and how does it differ from other political or judicial positions?'
+    t('suggestions.housing'),
+    t('suggestions.elections'),
+    t('suggestions.judicial')
   ]
 
   useEffect(() => {
@@ -119,7 +121,7 @@ export default function ChatPage() {
     simulateTyping(text, userMessage.id)
 
     const botMessageId = Date.now() + 1
-    const botMessage: MessageWithId = { id: botMessageId, role: 'bot', content: '' }
+    const botMessage: MessageWithId = { id: botMessageId, role: 'assistant', content: '' }
     setMessages((m: MessageWithId[]) => [...m, botMessage])
 
     try {
@@ -157,7 +159,7 @@ export default function ChatPage() {
     } catch (error) {
       console.error('Error sending message:', error)
       // Update bot message with error
-      simulateTyping('Sorry, there was an error processing your request. Please try again.', botMessageId)
+      simulateTyping(t('errors.generic'), botMessageId)
       setChatState(prev => ({ ...prev, isWaiting: false }))
     }
   }
@@ -173,7 +175,7 @@ export default function ChatPage() {
   function toggleMic() {
     if (isRecording) {
       // stop recording and simulate a captured phrase
-      const captured = 'This is a simulated voice message transcribed.'
+      const captured = t('mic.captured')
       setChatState(prev => ({
         ...prev,
         isRecording: false,
@@ -197,10 +199,10 @@ export default function ChatPage() {
               )}
 
               <div className={`${m.role === 'user' ? 'bg-brand text-white self-end' : 'bg-white text-ui-heading'} max-w-[70%] p-3 rounded-lg shadow-sm`}>
-                <div className='text-xs mb-1 opacity-90'>{m.role === 'user' ? 'You' : 'Bot'}</div>
+                <div className='text-xs mb-1 opacity-90'>{m.role === 'user' ? t('labels.you') : t('labels.assistant')}</div>
                 <div className='whitespace-pre-wrap'>
                   {m.content || (m.role !== 'user' && isWaiting ? (
-                    <span className='opacity-60 italic'>Typing...</span>
+                    <span className='opacity-60 italic'>{t('labels.typing')}</span>
                   ) : m.content)}
                 </div>
               </div>
@@ -220,7 +222,7 @@ export default function ChatPage() {
                 value={input}
                 onChange={(_, data) => setChatState(prev => ({ ...prev, input: data.value }))}
                 onKeyDown={handleKeyDown}
-                placeholder='Enter text to chat with AI'
+                placeholder={t('inputPlaceholder')}
                 className='flex-1 w-full px-24'
                 resize='none'
                 rows={2}
@@ -237,7 +239,7 @@ export default function ChatPage() {
                 />
                 <div className='flex gap-2 items-center'>
                   <Tooltip
-                    content="Clear chat history"
+                    content={t('tooltip.clearHistory')}
                     relationship='label'
                     positioning='above'
                   >

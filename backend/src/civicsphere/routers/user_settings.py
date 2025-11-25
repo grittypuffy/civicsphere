@@ -6,6 +6,7 @@ from typing import List
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 from ..config import AppConfig, get_config
+from ..services.chatbot.scraper.web.nyc import parse_address
 from ..models.db.user import UserPreferencesModel, User, UserDataModel,UserPreferences
 from ..models.api.user import UserPreferencesRequest, UserPreferencesUpdateRequest, UserPreferencesResponse, UserDataResponse, GetPreferencesResponse
 
@@ -40,6 +41,9 @@ async def onboarding(
         language = payload.language
         if payload.language not in config.languages:
             language = "en"
+
+        address = parse_address(payload.address)
+
         final_interests = []
         translation_file_path = f"{config.env.translations_path}/tags/{language}.json"
         async with aiofiles.open(translation_file_path, mode='r') as translation_file:
@@ -53,6 +57,7 @@ async def onboarding(
         prefs_doc = UserPreferencesModel(
             user_id=user_id,
             location=payload.location,
+            address=payload.address,
             profession=payload.profession,
             interests=final_interests,
             language=language
@@ -105,7 +110,7 @@ async def get_preferences(
     try:
         prefs = await config.db["userPreferences"].find_one(
             {"user_id": user_id},
-            {"location": 1, "profession": 1, "interests": 1, "language": 1, "_id": 0}
+            {"location": 1, "address": 1, "profession": 1, "interests": 1, "language": 1, "_id": 0}
         )
         logging.info("prefs:",prefs)
         if not prefs:
@@ -160,7 +165,7 @@ async def update_preferences(
         # Fetch existing preferences
         existing_prefs = await config.db["userPreferences"].find_one(
             {"user_id": user_id},
-            {"location": 1, "profession": 1, "interests": 1, "language": 1, "_id": 0}
+            {"location": 1, "address": 1, "profession": 1, "interests": 1, "language": 1, "_id": 0}
         )
         if not existing_prefs:
             return JSONResponse(
@@ -189,6 +194,7 @@ async def update_preferences(
             final_interests = existing_prefs.get("interests", [])
 
         update_data = {}
+
         if payload.location is not None:
             update_data["location"] = payload.location
             response.set_cookie(
@@ -198,8 +204,13 @@ async def update_preferences(
                 secure=True,
                 samesite="lax",
             )
+
+        if payload.address is not None:
+            update_data["address"] = payload.address
+
         if payload.profession is not None:
             update_data["profession"] = payload.profession
+
         update_data["interests"] = final_interests
         update_data["language"] = language
 

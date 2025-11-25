@@ -1,4 +1,5 @@
 'use client'
+import LocaleSwitcher from '@/components/LocaleSwitcher'
 import SideBar from '@/components/SideBar'
 import { navStateAtom } from '@/lib/store'
 import { Avatar, Hamburger, Link, Tooltip } from '@fluentui/react-components'
@@ -28,16 +29,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <h1 className='font-semibold text-lg ml-2'>CivicSphere</h1>
           </div>
 
-          <Link href='/u/settings'>
-            <Avatar
-              name={userName}
-              activeAppearance='ring-shadow'
-              active='active'
-              color='platinum'
-              aria-label={`User avatar for ${userName}`}
-              className='cursor-pointer'
-            />
-          </Link>
+          <div className='flex items-center gap-2'>
+            <LocaleSwitcher variant="navbar" />
+            <Link href='/u/settings'>
+              <Avatar
+                name={userName}
+                activeAppearance='ring-shadow'
+                active='active'
+                color='platinum'
+                aria-label={`User avatar for ${userName}`}
+                className='cursor-pointer'
+              />
+            </Link>
+          </div>
         </header>
       </div>
       <div className='flex flex-col w-full flex-1 overflow-hidden h-full min-w-dvw lg:max-w-5xl mx-auto'>

@@ -1,4 +1,78 @@
 {
+    "home": {
+        "title": "CivicSphere",
+        "description": "Eine Plattform für bürgerschaftliches Engagement und Zusammenarbeit in der Gemeinschaft.",
+        "getStarted": "Loslegen",
+        "signIn": "Anmelden",
+        "features": {
+            "communityDiscussions": {
+                "title": "Gemeinschaftsdiskussionen",
+                "description": "Nehmen Sie an lokalen Gesprächen über Themen teil, die Ihrer Nachbarschaft wichtig sind, mit verifizierten Inhalten."
+            },
+            "clearDoubts": {
+                "title": "Klären Sie alle Ihre Zweifel",
+                "description": "Ultimativer KI-Chatbot, der aktualisiert und trainiert wurde, um all Ihre Fragen zu bürgerschaftlichen Themen und Dienstleistungen zu beantworten."
+            },
+            "accessible": {
+                "title": "Zugänglich und inklusiv",
+                "description": "Entdecken Sie lokale Ressourcen und bürgerschaftliche Möglichkeiten, die für Ihre Region in zugänglicher und inklusiver Weise kuratiert wurden."
+            }
+        }
+    },
+    "auth": {
+        "heroTitle": "Willkommen bei CivicSphere",
+        "heroSubtitle": "Schließe dich deiner Community an – entdecken, diskutieren und handeln.",
+        "onboardTitle": "Schließe dein Onboarding ab",
+        "signupTitle": "Erstelle dein Konto",
+        "signinTitle": "Willkommen zurück",
+        "tabSignup": "Registrieren",
+        "tabSignin": "Anmelden",
+        "loading": "Wird geladen..."
+    },
+    "chat": {
+        "suggestions": {
+            "housing": "Wie ist die aktuelle Lage bei Wohnungspreisen und Trends in New Yorker Vierteln (z. B. Manhattan) und den umliegenden Vororten?",
+            "elections": "Wann finden meine lokalen Wahlen statt, wie gebe ich meine Stimme ab und wer kandidiert in meiner Region?",
+            "judicial": "Welche Aufgabe hat ein Bundesrichter und wie unterscheidet sie sich von anderen politischen oder juristischen Ämtern?"
+        },
+        "labels": {
+            "you": "Du",
+            "assistant": "Assistent",
+            "typing": "Schreibt..."
+        },
+        "inputPlaceholder": "Text eingeben, um mit der KI zu chatten",
+        "tooltip": {
+            "clearHistory": "Chatverlauf löschen"
+        },
+        "mic": {
+            "captured": "Dies ist eine simulierte Transkription einer Sprachmitteilung."
+        },
+        "errors": {
+            "generic": "Entschuldigung, bei deiner Anfrage ist ein Fehler aufgetreten. Bitte versuche es erneut."
+        }
+    },
+    "communities": {
+        "sidebarTitle": "Themenübersicht",
+        "communityHeading": "Community: {community}",
+        "tabPosts": "Beiträge",
+        "tabIssues": "Anliegen",
+        "startPost": "Starte einen Beitrag in {community}",
+        "photo": "Foto",
+        "write": "Schreiben",
+        "postButton": "Veröffentlichen",
+        "loadingPosts": "Beiträge werden geladen...",
+        "errorPosts": "Fehler beim Laden der Beiträge: {message}",
+        "raiseIssueTitle": "Ein Anliegen melden",
+        "raiseIssueSubtitle": "Behörden und Anwohnende können antworten; Community-Mitglieder können hochstimmen, wenn sie dasselbe Problem haben.",
+        "issueTitlePlaceholder": "Kurzer Titel (z. B. Kaputte Straßenlaterne auf der 5th Ave)",
+        "issueDescriptionPlaceholder": "Beschreibe das Anliegen und alle Details (wo, wann, Auswirkungen)...",
+        "issueAssigneesPlaceholder": "Wer sollte handeln? (z. B. Stadtreinigung, Bezirksrat)",
+        "clearButton": "Zurücksetzen",
+        "submitIssueButton": "Melden",
+        "loadingIssues": "Anliegen werden geladen...",
+        "errorIssues": "Fehler beim Laden der Anliegen: {message}",
+        "youLabel": "Du"
+    },
     "affordable-housing": "Bezahlbarer Wohnraum",
     "artificial-intelligence": "Künstliche Intelligenz",
     "arts-and-culture": "Kunst und Kultur",

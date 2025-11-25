@@ -1,83 +1,76 @@
 {
-    "affordable-housing": "Προσιτή Στέγαση",
-    "artificial-intelligence": "Τεχνητή Νοημοσύνη",
-    "arts-and-culture": "Τέχνη και Πολιτισμός",
-    "asian-voices": "Ασιατικές Φωνές",
-    "atheist-voices": "Άθεες Φωνές",
-    "ballot-questions": "Ερωτήσεις Εκλογής",
-    "baptist-voices": "Φωνές Βαπτιστών",
-    "bipoc-voices": "Φωνές BIPOC",
-    "black-voices": "Μαύρες Φωνές",
-    "buddhist-voices": "Βουδιστικές Φωνές",
-    "catholic-voices": "Καθολικές Φωνές",
-    "civic-education": "Δημοτική Εκπαίδευση",
-    "civic-participation": "Δημοτική Συμμετοχή",
-    "civil-rights": "Ανθρώπινα Δικαιώματα",
-    "climate-action": "Δράση για το Κλίμα",
-    "clothing-and-fashion": "Ρούχα και Μόδα",
-    "colored-voices": "Χρωματιστές Φωνές",
-    "community-development": "Ανάπτυξη Κοινότητας",
-    "community-initiatives": "Πρωτοβουλίες Κοινότητας",
-    "cultural-diversity": "Πολιτισμική Διαφορετικότητα",
-    "cultural-representation": "Πολιτισμική Αναπαράσταση",
-    "digital-access": "Ψηφιακή Πρόσβαση",
-    "disability-rights": "Δικαιώματα Ατόμων με Αναπηρία",
-    "disease-prevention": "Πρόληψη Ασθενειών",
-    "economic-justice": "Οικονομική Δικαιοσύνη",
-    "economics": "Οικονομία",
-    "education": "Εκπαίδευση",
-    "education-access": "Πρόσβαση στην Εκπαίδευση",
-    "education-for-all": "Εκπαίδευση για Όλους",
-    "elections-and-voting": "Εκλογές και Ψηφοφορία",
-    "emergency-preparedness": "Ετοιμότητα για Έκτακτες Ανάγκες",
-    "environmental-rights": "Περιβαλλοντικά Δικαιώματα",
-    "financial-literacy": "Οικονομική Γραμματισμός",
-    "food-security": "Ασφάλεια Τροφίμων",
-    "future-of-work": "Μέλλον της Εργασίας",
-    "gender-equality": "Ισότητα των Φύλων",
-    "gender-justice": "Δικαιοσύνη για τα Φύλα",
-    "government-policy": "Κυβερνητική Πολιτική",
-    "health-equity": "Ισότητα στην Υγεία",
-    "healthcare-access": "Πρόσβαση στην Υγειονομική Περίθαλψη",
-    "housing-rights": "Δικαιώματα Στέγασης",
-    "human-rights": "Ανθρώπινα Δικαιώματα",
-    "indigenous-voices": "Φωνές των Ιθαγενών",
-    "immigrant-voices": "Φωνές Μεταναστών",
-    "income-inequality": "Ανισότητα Εισοδήματος",
-    "interfaith-dialogue": "Διάλογος Μεταξύ Θρησκειών",
-    "infrastructure": "Υποδομή",
-    "interracial-relationships": "Διαφυλετικές Σχέσεις",
-    "lgbtq-voices": "Φωνές LGBTQ",
-    "local-economies": "Τοπικές Οικονομίες",
-    "media-literacy": "Γραμματισμός ΜΜΕ",
-    "mental-health": "Ψυχική Υγεία",
-    "migrant-rights": "Δικαιώματα Μεταναστών",
-    "mothers-rights": "Δικαιώματα Μητρότητας",
-    "native-american-voices": "Φωνές Ιθαγενών Αμερικανών",
-    "national-security": "Εθνική Ασφάλεια",
-    "natural-disasters": "Φυσικές Καταστροφές",
-    "neighborhoods": "Γειτονιές",
-    "nuclear-disarmament": "Πυρηνικός Αφοπλισμός",
-    "pagan-voices": "Παγανιστικές Φωνές",
-    "pandemic-response": "Αντίδραση στην Πανδημία",
-    "parenting-rights": "Δικαιώματα Γονέων",
-    "personal-finance": "Προσωπικά Οικονομικά",
-    "philanthropy": "Φιλανθρωπία",
-    "prison-reform": "Μεταρρύθμιση Σωφρονιστικών Ιδρυμάτων",
-    "progressive-values": "Προοδευτικές Αξίες",
-    "public-health": "Δημόσια Υγεία",
-    "racial-justice": "Φυλετική Δικαιοσύνη",
-    "refugee-rights": "Δικαιώματα Προσφύγων",
-    "religious-freedom": "Θρησκευτική Ελευθερία",
-    "reproductive-rights": "Δικαιώματα Αναπαραγωγής",
-    "school-safety": "Ασφάλεια Σχολείων",
-    "social-justice": "Κοινωνική Δικαιοσύνη",
-    "sports-and-recreation": "Αθλήματα και Αναψυχή",
-    "sustainability": "Βιωσιμότητα",
-    "technology-access": "Πρόσβαση στην Τεχνολογία",
-    "veteran-rights": "Δικαιώματα Βετεράνων",
-    "violence-prevention": "Πρόληψη Βίας",
-    "voter-rights": "Δικαιώματα Ψηφοφόρων",
-    "water-rights": "Δικαιώματα Νερού",
-    "women-empowerment": "Ενδυνάμωση Γυναικών"
+    "home": {
+        "title": "CivicSphere",
+        "description": "Μια πλατφόρμα για πολιτική συμμετοχή και συνεργασία της κοινότητας.",
+        "getStarted": "Ξεκινήστε",
+        "signIn": "Σύνδεση",
+        "features": {
+            "communityDiscussions": {
+                "title": "Συζητήσεις Κοινότητας",
+                "description": "Συμμετάσχετε σε τοπικές συζητήσεις για θέματα που είναι σημαντικά για τη γειτονιά σας με επαληθευμένο περιεχόμενο."
+            },
+            "clearDoubts": {
+                "title": "Ξεκαθαρίστε όλες τις αμφιβολίες σας",
+                "description": "Το απόλυτο AI Chatbot που έχει ενημερωθεί και εκπαιδευτεί για να απαντήσει σε όλες τις ερωτήσεις σας σχετικά με πολιτικά θέματα και υπηρεσίες."
+            },
+            "accessible": {
+                "title": "Προσβάσιμο και Περιεκτικό",
+                "description": "Ανακαλύψτε τοπικούς πόρους και πολιτικές ευκαιρίες που έχουν επιμεληθεί για την περιοχή σας με προσβάσιμο και περιεκτικό τρόπο."
+            }
+        }
+    },
+    "auth": {
+        "heroTitle": "Καλώς ήρθατε στο CivicSphere",
+        "heroSubtitle": "Συνδεθείτε με την κοινότητά σας — ανακαλύψτε, συζητήστε και δράστε.",
+        "onboardTitle": "Ολοκληρώστε την εγγραφή σας",
+        "signupTitle": "Δημιουργήστε τον λογαριασμό σας",
+        "signinTitle": "Καλώς επιστρέψατε",
+        "tabSignup": "Εγγραφή",
+        "tabSignin": "Σύνδεση",
+        "loading": "Φόρτωση..."
+    },
+    "chat": {
+        "suggestions": {
+            "housing": "Ποια είναι η τρέχουσα κατάσταση με τις τιμές και τις τάσεις κατοικίας στις γειτονιές της Νέας Υόρκης (π.χ. Μανχάταν) και στα κοντινά προάστια;",
+            "elections": "Πότε διεξάγονται οι τοπικές μου εκλογές, πώς ψηφίζω και ποιοι είναι οι υποψήφιοι στην περιοχή μου;",
+            "judicial": "Ποιος είναι ο ρόλος ενός ομοσπονδιακού δικαστή και πώς διαφέρει από άλλες πολιτικές ή δικαστικές θέσεις;"
+        },
+        "labels": {
+            "you": "Εσύ",
+            "assistant": "Βοηθός",
+            "typing": "Πληκτρολογεί..."
+        },
+        "inputPlaceholder": "Πληκτρολογήστε για να συνομιλήσετε με την ΤΝ",
+        "tooltip": {
+            "clearHistory": "Καθαρισμός ιστορικού συνομιλίας"
+        },
+        "mic": {
+            "captured": "Αυτό είναι ένα προσομοιωμένο ηχητικό μήνυμα σε μεταγραφή."
+        },
+        "errors": {
+            "generic": "Λυπούμαστε, προέκυψε σφάλμα κατά την επεξεργασία του αιτήματος. Δοκιμάστε ξανά."
+        }
+    },
+    "communities": {
+        "sidebarTitle": "Λίστα θεμάτων",
+        "communityHeading": "Κοινότητα: {community}",
+        "tabPosts": "Αναρτήσεις",
+        "tabIssues": "Ζητήματα",
+        "startPost": "Ξεκινήστε μια ανάρτηση στην {community}",
+        "photo": "Φωτογραφία",
+        "write": "Γράψτε",
+        "postButton": "Δημοσίευση",
+        "loadingPosts": "Φόρτωση αναρτήσεων...",
+        "errorPosts": "Σφάλμα κατά τη φόρτωση αναρτήσεων: {message}",
+        "raiseIssueTitle": "Αναφέρετε ένα ζήτημα",
+        "raiseIssueSubtitle": "Οι πολίτες και οι αρχές μπορούν να απαντήσουν· τα μέλη της κοινότητας μπορούν να ψηφίσουν αν έχουν το ίδιο πρόβλημα.",
+        "issueTitlePlaceholder": "Σύντομος τίτλος (π.χ. Σπασμένη κολόνα φωτισμού στην 5th Ave)",
+        "issueDescriptionPlaceholder": "Περιγράψτε το ζήτημα και λεπτομέρειες (πού, πότε, επίδραση)...",
+        "issueAssigneesPlaceholder": "Ποιος πρέπει να ενεργήσει; (π.χ. Τμήμα Καθαριότητας, Τοπικός Σύμβουλος)",
+        "clearButton": "Καθαρισμός",
+        "submitIssueButton": "Υποβολή",
+        "loadingIssues": "Φόρτωση ζητημάτων...",
+        "errorIssues": "Σφάλμα κατά τη φόρτωση ζητημάτων: {message}",
+        "youLabel": "Εσύ"
+    }
 }

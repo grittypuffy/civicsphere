@@ -252,6 +252,23 @@ files = [
 ]
 
 [[package]]
+name = "azure-ai-agents"
+version = "1.1.0"
+description = "Microsoft Corporation Azure AI Agents Client Library for Python"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "azure_ai_agents-1.1.0-py3-none-any.whl", hash = "sha256:f660bb0d564aeb88e33140ebc1e4700d2e36e2e12ee60c3346915d702a9310a9"},
+    {file = "azure_ai_agents-1.1.0.tar.gz", hash = "sha256:eb9d7226282d03206c3fab3f3ee0a2fc71e0ad38e52d2f4f19a92c56ed951aea"},
+]
+
+[package.dependencies]
+azure-core = ">=1.30.0"
+isodate = ">=0.6.1"
+typing-extensions = ">=4.6.0"
+
+[[package]]
 name = "azure-ai-evaluation"
 version = "1.13.7"
 description = "Microsoft Azure Evaluation Library for Python"
@@ -363,6 +380,25 @@ typing-extensions = "<5.0.0"
 [package.extras]
 designer = ["mldesigner"]
 mount = ["azureml-dataprep-rslex (>=2.22.0) ; python_version < \"3.13\""]
+
+[[package]]
+name = "azure-ai-projects"
+version = "1.0.0"
+description = "Microsoft Azure AI Projects Client Library for Python"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "azure_ai_projects-1.0.0-py3-none-any.whl", hash = "sha256:81369ed7a2f84a65864f57d3fa153e16c30f411a1504d334e184fb070165a3fa"},
+    {file = "azure_ai_projects-1.0.0.tar.gz", hash = "sha256:b5f03024ccf0fd543fbe0f5abcc74e45b15eccc1c71ab87fc71c63061d9fd63c"},
+]
+
+[package.dependencies]
+azure-ai-agents = ">=1.0.0"
+azure-core = ">=1.30.0"
+azure-storage-blob = ">=12.15.0"
+isodate = ">=0.6.1"
+typing-extensions = ">=4.12.2"
 
 [[package]]
 name = "azure-ai-resources"
@@ -6341,4 +6377,4 @@ cffi = ["cffi (>=1.17,<2.0) ; platform_python_implementation != \"PyPy\" and pyt
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13,<4.0"
-content-hash = "57a099aa717e9330c10c1720fea11652f26ef435de7309c61e1a545a37c7555b"
+content-hash = "43705258ad87129a3a5a493a8d4510978df8b5454116c3ddb77426c746f46dc7"

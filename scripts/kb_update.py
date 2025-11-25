@@ -19,6 +19,9 @@ client = SearchClient(endpoint=endpoint,
 with open(kb_path, "r") as file:
     data = json.load(file)
 
+for doc in data:
+    doc["@search.action"] = "upload"
+
 try:
     result = client.upload_documents(documents=data)
     print(f"Upload successful! Uploaded {len(result)} documents.")  # Print number of documents uploaded

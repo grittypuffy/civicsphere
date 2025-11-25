@@ -1,4 +1,78 @@
 {
+    "home": {
+        "title": "CivicSphere",
+        "description": "一个促进公民参与和社区协作的平台。",
+        "getStarted": "开始使用",
+        "signIn": "登录",
+        "features": {
+            "communityDiscussions": {
+                "title": "社区讨论",
+                "description": "加入关于您社区重要问题的本地对话，内容经过验证。"
+            },
+            "clearDoubts": {
+                "title": "解答您的所有疑问",
+                "description": "终极AI聊天机器人，已更新和训练，可以回答您所有与公民问题和服务相关的查询。"
+            },
+            "accessible": {
+                "title": "无障碍和包容性",
+                "description": "以无障碍和包容的方式发现为您所在地区精心策划的本地资源和公民机会。"
+            }
+        }
+    },
+    "auth": {
+        "heroTitle": "欢迎来到 CivicSphere",
+        "heroSubtitle": "加入你的社区——探索、讨论并采取行动。",
+        "onboardTitle": "完成入门设置",
+        "signupTitle": "创建账户",
+        "signinTitle": "欢迎回来",
+        "tabSignup": "注册",
+        "tabSignin": "登录",
+        "loading": "加载中..."
+    },
+    "chat": {
+        "suggestions": {
+            "housing": "纽约市各社区（例如曼哈顿）及周边郊区的房价和趋势目前如何？",
+            "elections": "我的本地选举是什么时候，如何投票，以及谁在我所在地区参选？",
+            "judicial": "联邦法官的角色是什么，它与其他政治或司法职位有何不同？"
+        },
+        "labels": {
+            "you": "你",
+            "assistant": "助手",
+            "typing": "正在输入..."
+        },
+        "inputPlaceholder": "输入内容与 AI 对话",
+        "tooltip": {
+            "clearHistory": "清除聊天记录"
+        },
+        "mic": {
+            "captured": "这是模拟的语音消息转写。"
+        },
+        "errors": {
+            "generic": "抱歉，处理请求时出错。请再试一次。"
+        }
+    },
+    "communities": {
+        "sidebarTitle": "主题列表",
+        "communityHeading": "社区：{community}",
+        "tabPosts": "帖子",
+        "tabIssues": "议题",
+        "startPost": "在 {community} 发起帖子",
+        "photo": "照片",
+        "write": "写作",
+        "postButton": "发布",
+        "loadingPosts": "正在加载帖子...",
+        "errorPosts": "加载帖子时出错：{message}",
+        "raiseIssueTitle": "提交议题",
+        "raiseIssueSubtitle": "居民和政府可以回复；如果社区成员遇到相同问题，可以投票支持。",
+        "issueTitlePlaceholder": "简短标题（如：5th Ave 的路灯损坏）",
+        "issueDescriptionPlaceholder": "描述议题以及详细信息（地点、时间、影响等）...",
+        "issueAssigneesPlaceholder": "谁应该采取行动？（如：环卫部门、当地议员）",
+        "clearButton": "清除",
+        "submitIssueButton": "提交",
+        "loadingIssues": "正在加载议题...",
+        "errorIssues": "加载议题时出错：{message}",
+        "youLabel": "你"
+    },
     "affordable-housing": "可负担住房",
     "artificial-intelligence": "人工智能",
     "arts-and-culture": "艺术与文化",

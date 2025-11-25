@@ -3,7 +3,7 @@ from typing import Literal, Optional
 
 
 class ChatData(BaseModel):
-    role: Literal["user", "bot", "system"]
+    role: Literal["user", "assistant", "system"]
     content: str
 
 class Chat(BaseModel):

@@ -1,83 +1,76 @@
 {
-    "affordable-housing": "手頃な住宅",
-    "artificial-intelligence": "人工知能",
-    "arts-and-culture": "芸術と文化",
-    "asian-voices": "アジアの声",
-    "atheist-voices": "無神論者の声",
-    "ballot-questions": "投票の質問",
-    "baptist-voices": "バプテストの声",
-    "bipoc-voices": "BIPOCの声",
-    "black-voices": "黒人の声",
-    "buddhist-voices": "仏教徒の声",
-    "catholic-voices": "カトリックの声",
-    "civic-education": "市民教育",
-    "civic-participation": "市民参加",
-    "civil-rights": "市民権",
-    "climate-action": "気候変動対策",
-    "clothing-and-fashion": "衣服とファッション",
-    "colored-voices": "有色人種の声",
-    "community-development": "地域社会の発展",
-    "community-initiatives": "地域社会のイニシアチブ",
-    "cultural-diversity": "文化的多様性",
-    "cultural-representation": "文化的表現",
-    "digital-access": "デジタルアクセス",
-    "disability-rights": "障害者の権利",
-    "disease-prevention": "病気予防",
-    "economic-justice": "経済的正義",
-    "economics": "経済学",
-    "education": "教育",
-    "education-access": "教育へのアクセス",
-    "education-for-all": "すべての人々への教育",
-    "elections-and-voting": "選挙と投票",
-    "emergency-preparedness": "緊急対応準備",
-    "environmental-rights": "環境権",
-    "financial-literacy": "金融リテラシー",
-    "food-security": "食料安全保障",
-    "future-of-work": "仕事の未来",
-    "gender-equality": "性別平等",
-    "gender-justice": "性別の正義",
-    "government-policy": "政府の政策",
-    "health-equity": "健康の公平",
-    "healthcare-access": "医療アクセス",
-    "housing-rights": "住宅の権利",
-    "human-rights": "人権",
-    "indigenous-voices": "先住民の声",
-    "immigrant-voices": "移民の声",
-    "income-inequality": "所得格差",
-    "interfaith-dialogue": "宗教間対話",
-    "infrastructure": "インフラ",
-    "interracial-relationships": "人種間関係",
-    "lgbtq-voices": "LGBTQの声",
-    "local-economies": "地域経済",
-    "media-literacy": "メディアリテラシー",
-    "mental-health": "メンタルヘルス",
-    "migrant-rights": "移民の権利",
-    "mothers-rights": "母親の権利",
-    "native-american-voices": "ネイティブアメリカンの声",
-    "national-security": "国家安全保障",
-    "natural-disasters": "自然災害",
-    "neighborhoods": "近隣地域",
-    "nuclear-disarmament": "核軍縮",
-    "pagan-voices": "異教徒の声",
-    "pandemic-response": "パンデミック対応",
-    "parenting-rights": "育児の権利",
-    "personal-finance": "個人金融",
-    "philanthropy": "慈善活動",
-    "prison-reform": "刑務所改革",
-    "progressive-values": "進歩的価値観",
-    "public-health": "公衆衛生",
-    "racial-justice": "人種的正義",
-    "refugee-rights": "難民の権利",
-    "religious-freedom": "宗教の自由",
-    "reproductive-rights": "生殖の権利",
-    "school-safety": "学校安全",
-    "social-justice": "社会的正義",
-    "sports-and-recreation": "スポーツとレクリエーション",
-    "sustainability": "持続可能性",
-    "technology-access": "技術アクセス",
-    "veteran-rights": "退役軍人の権利",
-    "violence-prevention": "暴力防止",
-    "voter-rights": "有権者の権利",
-    "water-rights": "水の権利",
-    "women-empowerment": "女性のエンパワーメント"
+    "home": {
+        "title": "CivicSphere",
+        "description": "市民参加とコミュニティコラボレーションのためのプラットフォーム。",
+        "getStarted": "はじめる",
+        "signIn": "サインイン",
+        "features": {
+            "communityDiscussions": {
+                "title": "コミュニティディスカッション",
+                "description": "検証済みコンテンツで、あなたの地域にとって重要な問題についての地域の会話に参加します。"
+            },
+            "clearDoubts": {
+                "title": "すべての疑問を解消",
+                "description": "市民問題とサービスに関連するすべてのクエリに回答するために更新およびトレーニングされた究極のAIチャットボット。"
+            },
+            "accessible": {
+                "title": "アクセス可能で包括的",
+                "description": "アクセス可能で包括的な方法で、あなたの地域のためにキュレーションされた地元のリソースと市民の機会を発見します。"
+            }
+        }
+    },
+    "auth": {
+        "heroTitle": "CivicSphere へようこそ",
+        "heroSubtitle": "地域コミュニティに参加して、見つけ、語り、行動しましょう。",
+        "onboardTitle": "オンボーディングを完了してください",
+        "signupTitle": "アカウントを作成",
+        "signinTitle": "おかえりなさい",
+        "tabSignup": "登録",
+        "tabSignin": "ログイン",
+        "loading": "読み込み中..."
+    },
+    "chat": {
+        "suggestions": {
+            "housing": "ニューヨーク市（例: マンハッタン）の各地域や近郊の住宅価格と動向は現在どうなっていますか？",
+            "elections": "地域の選挙はいつ行われ、どのように投票し、誰が立候補していますか？",
+            "judicial": "連邦判事の役割は何で、他の政治・司法職とどのように違うのですか？"
+        },
+        "labels": {
+            "you": "あなた",
+            "assistant": "アシスタント",
+            "typing": "入力中..."
+        },
+        "inputPlaceholder": "AI とチャットするテキストを入力してください",
+        "tooltip": {
+            "clearHistory": "チャット履歴をクリア"
+        },
+        "mic": {
+            "captured": "これはシミュレートされた音声メッセージの書き起こしです。"
+        },
+        "errors": {
+            "generic": "申し訳ありません、リクエストの処理中にエラーが発生しました。もう一度お試しください。"
+        }
+    },
+    "communities": {
+        "sidebarTitle": "トピック一覧",
+        "communityHeading": "コミュニティ: {community}",
+        "tabPosts": "投稿",
+        "tabIssues": "課題",
+        "startPost": "{community}で投稿を開始",
+        "photo": "写真",
+        "write": "執筆",
+        "postButton": "投稿する",
+        "loadingPosts": "投稿を読み込み中...",
+        "errorPosts": "投稿の読み込み中にエラー: {message}",
+        "raiseIssueTitle": "課題を報告する",
+        "raiseIssueSubtitle": "住民や行政が返信でき、同じ問題を抱えるメンバーは賛成票を入れられます。",
+        "issueTitlePlaceholder": "短いタイトル（例: 5th Ave の街灯が故障）",
+        "issueDescriptionPlaceholder": "課題と詳細（場所、時間、影響など）を記入してください...",
+        "issueAssigneesPlaceholder": "誰が対応すべきですか？（例: 清掃局、地域議員）",
+        "clearButton": "クリア",
+        "submitIssueButton": "送信",
+        "loadingIssues": "課題を読み込み中...",
+        "errorIssues": "課題の読み込み中にエラー: {message}",
+        "youLabel": "あなた"
+    }
 }

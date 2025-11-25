@@ -12,6 +12,7 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
   const [formData, setFormData] = useState<UserPreferencesRequest>({
     location: '',
     language: 'en',
+    addresss: '',
     interests: [],
     profession: '',
   });

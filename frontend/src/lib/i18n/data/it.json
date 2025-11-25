@@ -1,83 +1,76 @@
 {
-    "affordable-housing": "Alloggi Accessibili",
-    "artificial-intelligence": "Intelligenza Artificiale",
-    "arts-and-culture": "Arti e Cultura",
-    "asian-voices": "Voci Asiatiche",
-    "atheist-voices": "Voci Ateiste",
-    "ballot-questions": "Domande sul Voto",
-    "baptist-voices": "Voci Battiste",
-    "bipoc-voices": "Voci BIPOC",
-    "black-voices": "Voci Nere",
-    "buddhist-voices": "Voci Buddiste",
-    "catholic-voices": "Voci Cattoliche",
-    "civic-education": "Educazione Civica",
-    "civic-participation": "Partecipazione Civica",
-    "civil-rights": "Diritti Civili",
-    "climate-action": "Azione per il Clima",
-    "clothing-and-fashion": "Abbigliamento e Moda",
-    "colored-voices": "Voci di Colore",
-    "community-development": "Sviluppo Comunitario",
-    "community-initiatives": "Iniziative Comunitarie",
-    "cultural-diversity": "Diversità Culturale",
-    "cultural-representation": "Rappresentanza Culturale",
-    "digital-access": "Accesso Digitale",
-    "disability-rights": "Diritti delle Persone Disabili",
-    "disease-prevention": "Prevenzione delle Malattie",
-    "economic-justice": "Giustizia Economica",
-    "economics": "Economia",
-    "education": "Educazione",
-    "education-access": "Accesso all'Educazione",
-    "education-for-all": "Educazione per Tutti",
-    "elections-and-voting": "Elezioni e Votazioni",
-    "emergency-preparedness": "Preparazione alle Emergenze",
-    "environmental-rights": "Diritti Ambientali",
-    "financial-literacy": "Alfabetizzazione Finanziaria",
-    "food-security": "Sicurezza Alimentare",
-    "future-of-work": "Futuro del Lavoro",
-    "gender-equality": "Eguaglianza di Genere",
-    "gender-justice": "Giustizia di Genere",
-    "government-policy": "Politica Governativa",
-    "health-equity": "Equità Sanitaria",
-    "healthcare-access": "Accesso alle Cure Sanitarie",
-    "housing-rights": "Diritti all'Alloggio",
-    "human-rights": "Diritti Umani",
-    "indigenous-voices": "Voci Indigene",
-    "immigrant-voices": "Voci degli Immigrati",
-    "income-inequality": "Ineguaglianza del Reddito",
-    "interfaith-dialogue": "Dialogo Interreligioso",
-    "infrastructure": "Infrastrutture",
-    "interracial-relationships": "Relazioni Interraziali",
-    "lgbtq-voices": "Voci LGBTQ",
-    "local-economies": "Economia Locale",
-    "media-literacy": "Alfabetizzazione Mediatica",
-    "mental-health": "Salute Mentale",
-    "migrant-rights": "Diritti dei Migranti",
-    "mothers-rights": "Diritti delle Madri",
-    "native-american-voices": "Voci dei Nativi Americani",
-    "national-security": "Sicurezza Nazionale",
-    "natural-disasters": "Disastri Naturali",
-    "neighborhoods": "Quartieri",
-    "nuclear-disarmament": "Disarmo Nucleare",
-    "pagan-voices": "Voci Pagane",
-    "pandemic-response": "Risposta alla Pandemia",
-    "parenting-rights": "Diritti dei Genitori",
-    "personal-finance": "Finanze Personali",
-    "philanthropy": "Filantropia",
-    "prison-reform": "Riforma Carceraria",
-    "progressive-values": "Valori Progressisti",
-    "public-health": "Salute Pubblica",
-    "racial-justice": "Giustizia Razziale",
-    "refugee-rights": "Diritti dei Rifugiati",
-    "religious-freedom": "Libertà Religiosa",
-    "reproductive-rights": "Diritti Riproduttivi",
-    "school-safety": "Sicurezza Scolastica",
-    "social-justice": "Giustizia Sociale",
-    "sports-and-recreation": "Sport e Ricreazione",
-    "sustainability": "Sostenibilità",
-    "technology-access": "Accesso alla Tecnologia",
-    "veteran-rights": "Diritti dei Veterani",
-    "violence-prevention": "Prevenzione della Violenza",
-    "voter-rights": "Diritti dei Votanti",
-    "water-rights": "Diritti sull'Acqua",
-    "women-empowerment": "Empowerment delle Donne"
+    "home": {
+        "title": "CivicSphere",
+        "description": "Una piattaforma per l'impegno civico e la collaborazione della comunità.",
+        "getStarted": "Inizia",
+        "signIn": "Accedi",
+        "features": {
+            "communityDiscussions": {
+                "title": "Discussioni della Comunità",
+                "description": "Partecipa a conversazioni locali su questioni importanti per il tuo quartiere con contenuti verificati."
+            },
+            "clearDoubts": {
+                "title": "Chiarisci tutti i tuoi dubbi",
+                "description": "Il chatbot AI definitivo che è aggiornato e addestrato per rispondere a tutte le tue domande relative a questioni e servizi civici."
+            },
+            "accessible": {
+                "title": "Accessibile e Inclusivo",
+                "description": "Scopri risorse locali e opportunità civiche selezionate per la tua area in modo accessibile e inclusivo."
+            }
+        }
+    },
+    "auth": {
+        "heroTitle": "Benvenuto su CivicSphere",
+        "heroSubtitle": "Unisciti alla tua comunità — scopri, discuti e agisci.",
+        "onboardTitle": "Completa il tuo onboarding",
+        "signupTitle": "Crea il tuo account",
+        "signinTitle": "Bentornato",
+        "tabSignup": "Registrati",
+        "tabSignin": "Accedi",
+        "loading": "Caricamento..."
+    },
+    "chat": {
+        "suggestions": {
+            "housing": "Qual è la situazione attuale dei prezzi e delle tendenze abitative nei quartieri di New York (ad es. Manhattan) e nei sobborghi vicini?",
+            "elections": "Quando si tengono le mie elezioni locali, come posso votare e chi si candida nella mia zona?",
+            "judicial": "Qual è il ruolo di un giudice federale e in cosa differisce dalle altre cariche politiche o giudiziarie?"
+        },
+        "labels": {
+            "you": "Tu",
+            "assistant": "Assistente",
+            "typing": "Sta scrivendo..."
+        },
+        "inputPlaceholder": "Inserisci il testo per chattare con l'IA",
+        "tooltip": {
+            "clearHistory": "Cancella la cronologia della chat"
+        },
+        "mic": {
+            "captured": "Questo è un messaggio vocale simulato trascritto."
+        },
+        "errors": {
+            "generic": "Spiacenti, si è verificato un errore durante l'elaborazione della tua richiesta. Riprova."
+        }
+    },
+    "communities": {
+        "sidebarTitle": "Elenco degli argomenti",
+        "communityHeading": "Comunità: {community}",
+        "tabPosts": "Post",
+        "tabIssues": "Problemi",
+        "startPost": "Avvia un post in {community}",
+        "photo": "Foto",
+        "write": "Scrivi",
+        "postButton": "Pubblica",
+        "loadingPosts": "Caricamento dei post...",
+        "errorPosts": "Errore nel caricamento dei post: {message}",
+        "raiseIssueTitle": "Segnala un problema",
+        "raiseIssueSubtitle": "Persone e autorità possono rispondere; i membri della comunità possono votare se hanno lo stesso problema.",
+        "issueTitlePlaceholder": "Titolo breve (es. Lampione rotto sulla 5th Ave)",
+        "issueDescriptionPlaceholder": "Descrivi il problema e i dettagli (dove, quando, impatto)...",
+        "issueAssigneesPlaceholder": "Chi dovrebbe intervenire? (es. Servizio di igiene urbana, consigliere locale)",
+        "clearButton": "Pulisci",
+        "submitIssueButton": "Segnala",
+        "loadingIssues": "Caricamento dei problemi...",
+        "errorIssues": "Errore nel caricamento dei problemi: {message}",
+        "youLabel": "Tu"
+    }
 }

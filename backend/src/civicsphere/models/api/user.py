@@ -5,6 +5,7 @@ from ..db.user import UserDataModel, UserPreferences
 
 class UserPreferencesRequest(BaseModel):
     location: str
+    address: str
     language: str = "en"
     interests: List[str]
     profession: str
@@ -12,6 +13,7 @@ class UserPreferencesRequest(BaseModel):
 
 class UserPreferencesUpdateRequest(BaseModel):
     location: Optional[str] = None
+    address: Optional[str] = None
     language: Optional[str] = None
     interests: Optional[List[str]] = None
     profession: Optional[str] = None
