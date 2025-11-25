@@ -1,0 +1,22 @@
+{
+    "home": {
+        "title": "CivicSphere",
+        "description": "Yon platfòm pou angajman sivik ak kolaborasyon kominotè.",
+        "getStarted": "Kòmanse",
+        "signIn": "Konekte",
+        "features": {
+            "communityDiscussions": {
+                "title": "Diskisyon Kominotè",
+                "description": "Rantre nan konvèsasyon lokal sou pwoblèm ki enpòtan pou katye ou ak kontni verifye."
+            },
+            "clearDoubts": {
+                "title": "Klere tout dout ou",
+                "description": "Chatbot AI final ki mete ajou e antrennen pou reponn tout kesyon ou konsènan pwoblèm ak sèvis sivik."
+            },
+            "accessible": {
+                "title": "Aksesib e Enklizif",
+                "description": "Dekouvri resous lokal ak opòtinite sivik pou zòn ou nan yon fason aksesib e enklizif."
+            }
+        }
+    }
+}

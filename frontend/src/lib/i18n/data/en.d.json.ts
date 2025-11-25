@@ -2,6 +2,26 @@
 // See: https://next-intl.dev/docs/workflows/typescript#messages-arguments
 
 declare const messages: {
+  "home": {
+    "title": "CivicSphere",
+    "description": "A platform for civic engagement and community collaboration.",
+    "getStarted": "Get Started",
+    "signIn": "Sign In",
+    "features": {
+      "communityDiscussions": {
+        "title": "Community Discussions",
+        "description": "Join local conversations about issues that matter to your neighborhood with verified content."
+      },
+      "clearDoubts": {
+        "title": "Clear all your doubts",
+        "description": "Ultimate AI Chatbot which is updated and trained to answer all your queries related to civic issues and services."
+      },
+      "accessible": {
+        "title": "Accessible and Inclusive",
+        "description": "Discover local resources and civic opportunities curated for your area in an accessible and inclusive manner."
+      }
+    }
+  },
   "tags": {
     "affordable-housing": "Affordable Housing {name}",
     "artificial-intelligence": "Artificial Intelligence",

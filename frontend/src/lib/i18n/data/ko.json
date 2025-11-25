@@ -1,0 +1,22 @@
+{
+    "home": {
+        "title": "CivicSphere",
+        "description": "시민 참여 및 커뮤니티 협업을 위한 플랫폼.",
+        "getStarted": "시작하기",
+        "signIn": "로그인",
+        "features": {
+            "communityDiscussions": {
+                "title": "커뮤니티 토론",
+                "description": "검증된 콘텐츠로 귀하의 이웃에 중요한 문제에 대한 지역 대화에 참여하세요."
+            },
+            "clearDoubts": {
+                "title": "모든 의문을 해결하세요",
+                "description": "시민 문제 및 서비스와 관련된 모든 질문에 답하도록 업데이트되고 훈련된 최고의 AI 챗봇."
+            },
+            "accessible": {
+                "title": "접근 가능하고 포용적",
+                "description": "접근 가능하고 포용적인 방식으로 귀하의 지역을 위해 선별된 지역 자원과 시민 기회를 발견하세요."
+            }
+        }
+    }
+}

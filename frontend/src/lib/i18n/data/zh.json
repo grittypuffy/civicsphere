@@ -1,4 +1,24 @@
 {
+    "home": {
+        "title": "CivicSphere",
+        "description": "一个促进公民参与和社区协作的平台。",
+        "getStarted": "开始使用",
+        "signIn": "登录",
+        "features": {
+            "communityDiscussions": {
+                "title": "社区讨论",
+                "description": "加入关于您社区重要问题的本地对话，内容经过验证。"
+            },
+            "clearDoubts": {
+                "title": "解答您的所有疑问",
+                "description": "终极AI聊天机器人，已更新和训练，可以回答您所有与公民问题和服务相关的查询。"
+            },
+            "accessible": {
+                "title": "无障碍和包容性",
+                "description": "以无障碍和包容的方式发现为您所在地区精心策划的本地资源和公民机会。"
+            }
+        }
+    },
     "affordable-housing": "可负担住房",
     "artificial-intelligence": "人工智能",
     "arts-and-culture": "艺术与文化",

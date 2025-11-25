@@ -1,4 +1,24 @@
 {
+    "home": {
+        "title": "CivicSphere",
+        "description": "Une plateforme pour l'engagement civique et la collaboration communautaire.",
+        "getStarted": "Commencer",
+        "signIn": "Se connecter",
+        "features": {
+            "communityDiscussions": {
+                "title": "Discussions Communautaires",
+                "description": "Rejoignez les conversations locales sur les questions qui comptent pour votre quartier avec du contenu vérifié."
+            },
+            "clearDoubts": {
+                "title": "Clarifiez tous vos doutes",
+                "description": "Chatbot IA ultime qui est mis à jour et formé pour répondre à toutes vos questions liées aux problèmes et services civiques."
+            },
+            "accessible": {
+                "title": "Accessible et Inclusif",
+                "description": "Découvrez des ressources locales et des opportunités civiques organisées pour votre région de manière accessible et inclusive."
+            }
+        }
+    },
     "affordable-housing": "Logement Abordable",
     "artificial-intelligence": "Intelligence Artificielle",
     "arts-and-culture": "Arts et Culture",

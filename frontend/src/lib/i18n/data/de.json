@@ -1,4 +1,24 @@
 {
+    "home": {
+        "title": "CivicSphere",
+        "description": "Eine Plattform für bürgerschaftliches Engagement und Zusammenarbeit in der Gemeinschaft.",
+        "getStarted": "Loslegen",
+        "signIn": "Anmelden",
+        "features": {
+            "communityDiscussions": {
+                "title": "Gemeinschaftsdiskussionen",
+                "description": "Nehmen Sie an lokalen Gesprächen über Themen teil, die Ihrer Nachbarschaft wichtig sind, mit verifizierten Inhalten."
+            },
+            "clearDoubts": {
+                "title": "Klären Sie alle Ihre Zweifel",
+                "description": "Ultimativer KI-Chatbot, der aktualisiert und trainiert wurde, um all Ihre Fragen zu bürgerschaftlichen Themen und Dienstleistungen zu beantworten."
+            },
+            "accessible": {
+                "title": "Zugänglich und inklusiv",
+                "description": "Entdecken Sie lokale Ressourcen und bürgerschaftliche Möglichkeiten, die für Ihre Region in zugänglicher und inklusiver Weise kuratiert wurden."
+            }
+        }
+    },
     "affordable-housing": "Bezahlbarer Wohnraum",
     "artificial-intelligence": "Künstliche Intelligenz",
     "arts-and-culture": "Kunst und Kultur",

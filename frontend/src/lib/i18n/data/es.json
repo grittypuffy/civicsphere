@@ -1,0 +1,22 @@
+{
+    "home": {
+        "title": "CivicSphere",
+        "description": "Una plataforma para el compromiso cívico y la colaboración comunitaria.",
+        "getStarted": "Comenzar",
+        "signIn": "Iniciar sesión",
+        "features": {
+            "communityDiscussions": {
+                "title": "Discusiones Comunitarias",
+                "description": "Únete a conversaciones locales sobre temas importantes para tu vecindario con contenido verificado."
+            },
+            "clearDoubts": {
+                "title": "Aclara todas tus dudas",
+                "description": "El chatbot de IA definitivo que se actualiza y entrena para responder a todas tus consultas relacionadas con asuntos y servicios cívicos."
+            },
+            "accessible": {
+                "title": "Accesible e Inclusivo",
+                "description": "Descubre recursos locales y oportunidades cívicas seleccionadas para tu área de manera accesible e inclusiva."
+            }
+        }
+    }
+}

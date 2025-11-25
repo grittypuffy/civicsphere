@@ -1,0 +1,22 @@
+{
+    "home": {
+        "title": "CivicSphere",
+        "description": "Platforma zaangażowania obywatelskiego i współpracy społeczności.",
+        "getStarted": "Rozpocznij",
+        "signIn": "Zaloguj się",
+        "features": {
+            "communityDiscussions": {
+                "title": "Dyskusje Społeczności",
+                "description": "Dołącz do lokalnych rozmów o sprawach ważnych dla Twojej okolicy ze zweryfikowaną treścią."
+            },
+            "clearDoubts": {
+                "title": "Wyjaśnij wszystkie swoje wątpliwości",
+                "description": "Najlepszy chatbot AI, który jest aktualizowany i szkolony, aby odpowiadać na wszystkie Twoje pytania związane z kwestiami i usługami obywatelskimi."
+            },
+            "accessible": {
+                "title": "Dostępny i Włączający",
+                "description": "Odkryj lokalne zasoby i możliwości obywatelskie wyselekcjonowane dla Twojego obszaru w przystępny i włączający sposób."
+            }
+        }
+    }
+}
