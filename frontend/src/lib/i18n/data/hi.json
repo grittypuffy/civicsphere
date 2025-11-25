@@ -50,5 +50,27 @@
         "errors": {
             "generic": "क्षमा करें, आपके अनुरोध को संसाधित करते समय त्रुटि हुई। कृपया पुनः प्रयास करें।"
         }
+    },
+    "communities": {
+        "sidebarTitle": "विषयों की सूची",
+        "communityHeading": "समुदाय: {community}",
+        "tabPosts": "पोस्ट",
+        "tabIssues": "मुद्दे",
+        "startPost": "{community} में एक पोस्ट शुरू करें",
+        "photo": "फोटो",
+        "write": "लिखें",
+        "postButton": "पोस्ट करें",
+        "loadingPosts": "पोस्ट लोड हो रही हैं...",
+        "errorPosts": "पोस्ट लोड करने में त्रुटि: {message}",
+        "raiseIssueTitle": "एक मुद्दा उठाएँ",
+        "raiseIssueSubtitle": "लोग और प्रशासन प्रतिक्रिया दे सकते हैं; यदि सदस्यों को वही समस्या हो तो वे अपवोट कर सकते हैं।",
+        "issueTitlePlaceholder": "संक्षिप्त शीर्षक (उदा. 5th Ave पर टूटी स्ट्रीट लाइट)",
+        "issueDescriptionPlaceholder": "मुद्दे और किसी भी विवरण का वर्णन करें (कहाँ, कब, प्रभाव)...",
+        "issueAssigneesPlaceholder": "किसे कार्रवाई करनी चाहिए? (उदा. स्वच्छता विभाग, स्थानीय पार्षद)",
+        "clearButton": "साफ़ करें",
+        "submitIssueButton": "उठाएँ",
+        "loadingIssues": "मुद्दे लोड हो रहे हैं...",
+        "errorIssues": "मुद्दे लोड करने में त्रुटि: {message}",
+        "youLabel": "आप"
     }
 }

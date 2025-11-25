@@ -54,6 +54,28 @@ declare const messages: {
       "generic": "Sorry, there was an error processing your request. Please try again."
     }
   },
+  "communities": {
+    "sidebarTitle": "List of Topics",
+    "communityHeading": "Community: {community}",
+    "tabPosts": "Posts",
+    "tabIssues": "Issues",
+    "startPost": "Start a post in {community}",
+    "photo": "Photo",
+    "write": "Write",
+    "postButton": "Post",
+    "loadingPosts": "Loading posts...",
+    "errorPosts": "Error loading posts: {message}",
+    "raiseIssueTitle": "Raise an issue",
+    "raiseIssueSubtitle": "People and authorities can respond; community members can upvote if they have the same problem.",
+    "issueTitlePlaceholder": "Short title (e.g. Broken street light on 5th Ave)",
+    "issueDescriptionPlaceholder": "Describe the issue and any details (where, when, impact)...",
+    "issueAssigneesPlaceholder": "Who should take action? (e.g. Sanitation Dept, Local Councilor)",
+    "clearButton": "Clear",
+    "submitIssueButton": "Raise",
+    "loadingIssues": "Loading issues...",
+    "errorIssues": "Error loading issues: {message}",
+    "youLabel": "You"
+  },
   "tags": {
     "affordable-housing": "Affordable Housing {name}",
     "artificial-intelligence": "Artificial Intelligence",

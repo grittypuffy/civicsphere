@@ -19,6 +19,28 @@
             }
         }
     },
+    "communities": {
+        "sidebarTitle": "Lista de temas",
+        "communityHeading": "Comunidad: {community}",
+        "tabPosts": "Publicaciones",
+        "tabIssues": "Incidencias",
+        "startPost": "Inicia una publicación en {community}",
+        "photo": "Foto",
+        "write": "Escribir",
+        "postButton": "Publicar",
+        "loadingPosts": "Cargando publicaciones...",
+        "errorPosts": "Error al cargar publicaciones: {message}",
+        "raiseIssueTitle": "Reportar un problema",
+        "raiseIssueSubtitle": "Las personas y las autoridades pueden responder; los miembros de la comunidad pueden votar si tienen el mismo problema.",
+        "issueTitlePlaceholder": "Título corto (p. ej. Farola rota en la 5th Ave)",
+        "issueDescriptionPlaceholder": "Describe el problema y cualquier detalle (dónde, cuándo, impacto)...",
+        "issueAssigneesPlaceholder": "¿Quién debe actuar? (p. ej. Departamento de Sanidad, Concejal local)",
+        "clearButton": "Limpiar",
+        "submitIssueButton": "Reportar",
+        "loadingIssues": "Cargando incidencias...",
+        "errorIssues": "Error al cargar incidencias: {message}",
+        "youLabel": "Tú"
+    },
     "auth": {
         "heroTitle": "Bienvenido a CivicSphere",
         "heroSubtitle": "Únete a tu comunidad: descubre, debate y actúa.",

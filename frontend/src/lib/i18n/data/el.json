@@ -50,5 +50,27 @@
         "errors": {
             "generic": "Λυπούμαστε, προέκυψε σφάλμα κατά την επεξεργασία του αιτήματος. Δοκιμάστε ξανά."
         }
+    },
+    "communities": {
+        "sidebarTitle": "Λίστα θεμάτων",
+        "communityHeading": "Κοινότητα: {community}",
+        "tabPosts": "Αναρτήσεις",
+        "tabIssues": "Ζητήματα",
+        "startPost": "Ξεκινήστε μια ανάρτηση στην {community}",
+        "photo": "Φωτογραφία",
+        "write": "Γράψτε",
+        "postButton": "Δημοσίευση",
+        "loadingPosts": "Φόρτωση αναρτήσεων...",
+        "errorPosts": "Σφάλμα κατά τη φόρτωση αναρτήσεων: {message}",
+        "raiseIssueTitle": "Αναφέρετε ένα ζήτημα",
+        "raiseIssueSubtitle": "Οι πολίτες και οι αρχές μπορούν να απαντήσουν· τα μέλη της κοινότητας μπορούν να ψηφίσουν αν έχουν το ίδιο πρόβλημα.",
+        "issueTitlePlaceholder": "Σύντομος τίτλος (π.χ. Σπασμένη κολόνα φωτισμού στην 5th Ave)",
+        "issueDescriptionPlaceholder": "Περιγράψτε το ζήτημα και λεπτομέρειες (πού, πότε, επίδραση)...",
+        "issueAssigneesPlaceholder": "Ποιος πρέπει να ενεργήσει; (π.χ. Τμήμα Καθαριότητας, Τοπικός Σύμβουλος)",
+        "clearButton": "Καθαρισμός",
+        "submitIssueButton": "Υποβολή",
+        "loadingIssues": "Φόρτωση ζητημάτων...",
+        "errorIssues": "Σφάλμα κατά τη φόρτωση ζητημάτων: {message}",
+        "youLabel": "Εσύ"
     }
 }

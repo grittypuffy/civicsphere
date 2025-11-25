@@ -33,6 +33,7 @@ import {
 } from '@fluentui/react-icons'
 import { atom, useAtomValue, useSetAtom } from 'jotai'
 import { loadable } from 'jotai/utils'
+import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 
 // Local constants
@@ -46,6 +47,7 @@ const loadablePostsAtom = loadable(communityPostsAtom)
 const loadableIssuesAtom = loadable(communityIssuesAtom)
 
 export default function CommunitiesPage() {
+  const t = useTranslations('communities')
   const selectedCommunity = useAtomValue(selectedCommunityAtom)
   const setSelectedCommunity = useSetAtom(selectedCommunityAtom)
   const posts = useAtomValue(loadablePostsAtom)
@@ -152,7 +154,7 @@ export default function CommunitiesPage() {
     <div className='flex gap-4'>
       {/* Left topics list */}
       <aside className='w-56 bg-pink-50 p-3 rounded-md h-[calc(100vh-40px)] overflow-auto'>
-        <Text size={500} weight="semibold" className='mb-3 block'>List of Topics</Text>
+        <Text size={500} weight="semibold" className='mb-3 block'>{t('sidebarTitle')}</Text>
         <ul className='space-y-2'>
           {COMMUNITIES.map((community: string) => (
             <li key={community}>
@@ -171,10 +173,10 @@ export default function CommunitiesPage() {
       {/* Center column */}
       <main className='flex-1 max-w-5xl mx-auto p-3 lg:p-5 flex flex-col'>
         <div className='flex items-center justify-between mb-3'>
-          <Text size={600} weight="semibold">Community: {selectedCommunity}</Text>
+          <Text size={600} weight="semibold">{t('communityHeading', { community: selectedCommunity })}</Text>
           <TabList selectedValue={tab} onTabSelect={handleTabSelect}>
-            <Tab value="posts">Posts</Tab>
-            <Tab value="issues">Issues</Tab>
+            <Tab value="posts">{t('tabPosts')}</Tab>
+            <Tab value="issues">{t('tabIssues')}</Tab>
           </TabList>
         </div>
 
@@ -186,14 +188,14 @@ export default function CommunitiesPage() {
                 <CardHeader
                   header={
                     <div className='flex items-start gap-3 w-full'>
-                      <Avatar name="You" color="brand" />
+                      <Avatar name={t('youLabel')} color="brand" />
                       <div className='flex-1'>
                         <Button
                           appearance='outline'
                           onClick={() => setCreateOpen(true)}
                           className='w-full h-20 justify-start'
                         >
-                          Start a post in {selectedCommunity}
+                          {t('startPost', { community: selectedCommunity })}
                         </Button>
                         <div className='mt-3 flex items-center justify-between'>
                           <div className='flex gap-2'>
@@ -203,7 +205,7 @@ export default function CommunitiesPage() {
                               icon={<ImageRegular />}
                               onClick={() => setCreateOpen(true)}
                             >
-                              Photo
+                              {t('photo')}
                             </Button>
                             <Button
                               appearance='subtle'
@@ -211,14 +213,14 @@ export default function CommunitiesPage() {
                               icon={<EditRegular />}
                               onClick={() => setCreateOpen(true)}
                             >
-                              Write
+                              {t('write')}
                             </Button>
                           </div>
                           <Button
                             appearance='primary'
                             onClick={() => setCreateOpen(true)}
                           >
-                            Post
+                            {t('postButton')}
                           </Button>
                         </div>
                       </div>
@@ -230,9 +232,9 @@ export default function CommunitiesPage() {
               {(() => {
                 switch (posts.state) {
                   case 'loading':
-                    return <Text>Loading posts...</Text>
+                    return <Text>{t('loadingPosts')}</Text>
                   case 'hasError':
-                    return <Text>Error loading posts: {String(posts.error)}</Text>
+                    return <Text>{t('errorPosts', { message: String(posts.error) })}</Text>
                   case 'hasData':
                     return posts.data.map((post: PostData) => (
                       <Card key={post.post_id} className='mb-4'>
@@ -289,27 +291,27 @@ export default function CommunitiesPage() {
           {tab === 'issues' && (
             <section>
               <div className='mb-4'>
-                <Text size={500} weight="semibold" className='mb-2 block'>Raise an issue</Text>
+                <Text size={500} weight="semibold" className='mb-2 block'>{t('raiseIssueTitle')}</Text>
                 <Text size={300} className='text-gray-600 mb-3 block'>
-                  People and authorities can respond; community members can upvote if they have the same problem.
+                  {t('raiseIssueSubtitle')}
                 </Text>
 
                 {/* Inline raise form */}
                 <Card className='p-3 mb-4'>
                   <div className='grid gap-3'>
                     <Input
-                      placeholder='Short title (e.g. Broken street light on 5th Ave)'
+                      placeholder={t('issueTitlePlaceholder')}
                       value={newIssueTitle}
                       onChange={(e) => setNewIssueTitle(e.target.value)}
                     />
                     <Textarea
-                      placeholder='Describe the issue and any details (where, when, impact)...'
+                      placeholder={t('issueDescriptionPlaceholder')}
                       value={newIssueDescription}
                       onChange={(e) => setNewIssueDescription(e.target.value)}
                       rows={3}
                     />
                     <Input
-                      placeholder='Who should take action? (e.g. Sanitation Dept, Local Councilor)'
+                      placeholder={t('issueAssigneesPlaceholder')}
                       value={newIssueAssignees}
                       onChange={(e) => setNewIssueAssignees(e.target.value)}
                     />
@@ -322,7 +324,7 @@ export default function CommunitiesPage() {
                           setNewIssueAssignees('')
                         }}
                       >
-                        Clear
+                        {t('clearButton')}
                       </Button>
                       <Button
                         appearance='primary'
@@ -332,7 +334,7 @@ export default function CommunitiesPage() {
                           newIssueDescription.trim(),
                         )}
                       >
-                        Raise
+                        {t('submitIssueButton')}
                       </Button>
                     </div>
                   </div>
@@ -342,9 +344,9 @@ export default function CommunitiesPage() {
               {(() => {
                 switch (issues.state) {
                   case 'loading':
-                    return <Text>Loading issues...</Text>
+                    return <Text>{t('loadingIssues')}</Text>
                   case 'hasError':
-                    return <Text>Error loading issues: {String(issues.error)}</Text>
+                    return <Text>{t('errorIssues', { message: String(issues.error) })}</Text>
                   case 'hasData':
                     return (
                       <div className='grid gap-4'>
@@ -399,7 +401,7 @@ export default function CommunitiesPage() {
         isOpen={isCreateOpen}
         onClose={() => setCreateOpen(false)}
         onSubmit={({ text }) => handleCreatePost(text)}
-        userName={'You'}
+        userName={t('youLabel')}
       />
     </div>
   )

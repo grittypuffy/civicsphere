@@ -51,6 +51,28 @@
             "generic": "Désolé, une erreur s'est produite lors du traitement de votre demande. Veuillez réessayer."
         }
     },
+    "communities": {
+        "sidebarTitle": "Liste des sujets",
+        "communityHeading": "Communauté : {community}",
+        "tabPosts": "Publications",
+        "tabIssues": "Signalements",
+        "startPost": "Commencez une publication dans {community}",
+        "photo": "Photo",
+        "write": "Écrire",
+        "postButton": "Publier",
+        "loadingPosts": "Chargement des publications...",
+        "errorPosts": "Erreur lors du chargement des publications : {message}",
+        "raiseIssueTitle": "Signaler un problème",
+        "raiseIssueSubtitle": "Les habitants et les autorités peuvent répondre ; les membres de la communauté peuvent voter s'ils rencontrent le même problème.",
+        "issueTitlePlaceholder": "Titre court (ex. Réverbère cassé sur la 5th Ave)",
+        "issueDescriptionPlaceholder": "Décrivez le problème et les détails (où, quand, impact)...",
+        "issueAssigneesPlaceholder": "Qui doit agir ? (ex. Service de propreté, conseiller local)",
+        "clearButton": "Effacer",
+        "submitIssueButton": "Signaler",
+        "loadingIssues": "Chargement des signalements...",
+        "errorIssues": "Erreur lors du chargement des signalements : {message}",
+        "youLabel": "Vous"
+    },
     "affordable-housing": "Logement Abordable",
     "artificial-intelligence": "Intelligence Artificielle",
     "arts-and-culture": "Arts et Culture",

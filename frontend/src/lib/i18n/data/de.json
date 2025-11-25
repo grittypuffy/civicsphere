@@ -51,6 +51,28 @@
             "generic": "Entschuldigung, bei deiner Anfrage ist ein Fehler aufgetreten. Bitte versuche es erneut."
         }
     },
+    "communities": {
+        "sidebarTitle": "Themenübersicht",
+        "communityHeading": "Community: {community}",
+        "tabPosts": "Beiträge",
+        "tabIssues": "Anliegen",
+        "startPost": "Starte einen Beitrag in {community}",
+        "photo": "Foto",
+        "write": "Schreiben",
+        "postButton": "Veröffentlichen",
+        "loadingPosts": "Beiträge werden geladen...",
+        "errorPosts": "Fehler beim Laden der Beiträge: {message}",
+        "raiseIssueTitle": "Ein Anliegen melden",
+        "raiseIssueSubtitle": "Behörden und Anwohnende können antworten; Community-Mitglieder können hochstimmen, wenn sie dasselbe Problem haben.",
+        "issueTitlePlaceholder": "Kurzer Titel (z. B. Kaputte Straßenlaterne auf der 5th Ave)",
+        "issueDescriptionPlaceholder": "Beschreibe das Anliegen und alle Details (wo, wann, Auswirkungen)...",
+        "issueAssigneesPlaceholder": "Wer sollte handeln? (z. B. Stadtreinigung, Bezirksrat)",
+        "clearButton": "Zurücksetzen",
+        "submitIssueButton": "Melden",
+        "loadingIssues": "Anliegen werden geladen...",
+        "errorIssues": "Fehler beim Laden der Anliegen: {message}",
+        "youLabel": "Du"
+    },
     "affordable-housing": "Bezahlbarer Wohnraum",
     "artificial-intelligence": "Künstliche Intelligenz",
     "arts-and-culture": "Kunst und Kultur",
