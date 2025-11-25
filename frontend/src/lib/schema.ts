@@ -90,7 +90,7 @@ export const AuthResponseSchema = v.object({
 });
 
 export const ChatDataSchema = v.object({
-  role: v.picklist(['user', 'bot', 'system']),
+  role: v.picklist(['user', 'assistant', 'system']),
   content: v.string(),
 });
 

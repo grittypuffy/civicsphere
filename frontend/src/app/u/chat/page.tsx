@@ -119,7 +119,7 @@ export default function ChatPage() {
     simulateTyping(text, userMessage.id)
 
     const botMessageId = Date.now() + 1
-    const botMessage: MessageWithId = { id: botMessageId, role: 'bot', content: '' }
+    const botMessage: MessageWithId = { id: botMessageId, role: 'assistant', content: '' }
     setMessages((m: MessageWithId[]) => [...m, botMessage])
 
     try {
@@ -197,7 +197,7 @@ export default function ChatPage() {
               )}
 
               <div className={`${m.role === 'user' ? 'bg-brand text-white self-end' : 'bg-white text-ui-heading'} max-w-[70%] p-3 rounded-lg shadow-sm`}>
-                <div className='text-xs mb-1 opacity-90'>{m.role === 'user' ? 'You' : 'Bot'}</div>
+                <div className='text-xs mb-1 opacity-90'>{m.role === 'user' ? 'You' : 'Assistant'}</div>
                 <div className='whitespace-pre-wrap'>
                   {m.content || (m.role !== 'user' && isWaiting ? (
                     <span className='opacity-60 italic'>Typing...</span>
