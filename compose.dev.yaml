@@ -26,7 +26,7 @@ services:
         - action: rebuild
           path: ./backend/pyproject.toml
     environment:
-      - MONGODB_URI=mongodb://root:root@mongodb:27017/civicsphere?authSource=admin
+      # - MONGODB_URI=mongodb://root:root@mongodb:27017/civicsphere?authSource=admin
       - TMP_UPLOADS_DIR=/backend/uploads
     env_file:
       - ./backend/.env
@@ -38,7 +38,7 @@ services:
       context: ./frontend
       dockerfile: ./Dockerfile.dev
       args:
-        NEXT_PUBLIC_BACKEND_URL: http://backend:8000
+        NEXT_PUBLIC_BACKEND_URL: https://backend:8000
     volumes:
       - ../certs:/certs:ro
     develop:
