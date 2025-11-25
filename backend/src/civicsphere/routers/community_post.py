@@ -389,7 +389,7 @@ async def upvote_post(
             {"$set": {"upvote": updated_vote}}
         )
         
-        await config.db["posReaction"].insert_one({
+        await config.db["postReaction"].insert_one({
             "post_id": post_id,
             "user_id": req.state.user["user_id"],
             "upvote": True
