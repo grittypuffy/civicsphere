@@ -3,25 +3,18 @@ import { Language } from "./types";
 export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export const LANGS: Language[] = [
-  { code: "ar", name: "Arabic" },
-  { code: "bn", name: "Bengali" },
   { code: "de", name: "German" },
   { code: "el", name: "Greek" },
   { code: "en", name: "English" },
   { code: "es", name: "Spanish" },
   { code: "fr", name: "French" },
   { code: "hi", name: "Hindi" },
-  { code: "ht", name: "Haitian Creole" },
   { code: "it", name: "Italian" },
   { code: "ja", name: "Japanese" },
   { code: "ko", name: "Korean" },
   { code: "pl", name: "Polish" },
-  { code: "pa", name: "Punjabi" },
   { code: "pt", name: "Portuguese" },
   { code: "ru", name: "Russian" },
-  { code: "tl", name: "Filipino" },
-  { code: "ur", name: "Urdu" },
-  { code: "yi", name: "Yiddish" },
   { code: "zh", name: "Chinese" }
 ]
 

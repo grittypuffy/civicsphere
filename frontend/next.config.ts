@@ -10,7 +10,7 @@ const withNextIntl = createNextIntlPlugin({
     createMessagesDeclaration: './src/lib/i18n/data/en.json',
     messages: {
       path: "./src/lib/data",
-      locales: ['ar', 'bn', 'de', 'el', 'en', 'es', 'fr', 'hi', 'ht', 'it', 'ja', 'ko', 'pl', 'pa', 'pt', 'ru', 'tl', 'ur', 'yi', 'zh'],
+      locales: ['de', 'el', 'en', 'es', 'fr', 'hi', 'it', 'ja', 'ko', 'pl', 'pt', 'ru', 'zh'],
       format: "json"
     }
   }
