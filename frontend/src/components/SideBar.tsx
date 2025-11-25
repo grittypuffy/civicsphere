@@ -1,10 +1,10 @@
 'use client'
 import { navStateAtom } from "@/lib/store"
+import { useRouter } from "@/lib/i18n/navigation"
 import { Hamburger, NavDrawer, NavDrawerBody, NavDrawerFooter, NavDrawerHeader, NavItem, Tooltip } from "@fluentui/react-components"
 import { ArrowTrendingLinesFilled, HomeRegular, PeopleCommunityRegular, SettingsRegular, SignOutRegular } from "@fluentui/react-icons"
 import { ChatSparkleRegular } from "@fluentui/react-icons/svg/chat-sparkle"
 import { useAtom } from "jotai"
-import { useRouter } from "next/navigation"
 
 const PAGES = [{
   href: '/u/home', label: 'Home', icon: <HomeRegular />
