@@ -88,7 +88,7 @@ async def get_user_upvotes(
             issue_ids.append(str(reaction["issue_id"]))
         return UserReactionsResponse(
             success=True,
-            message="Successfully fetched user issue  upvotes",
+            message="Successfully fetched user issue upvotes",
             data= issue_ids
         )
     except Exception as e:

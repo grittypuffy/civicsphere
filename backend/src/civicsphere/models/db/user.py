@@ -6,6 +6,7 @@ from bson import ObjectId
 class UserPreferencesModel(BaseModel):
     user_id: str
     location: str
+    address: str
     language: str = "en"
     interests: List[str]
     profession: str
@@ -26,6 +27,7 @@ class User(BaseModel):
 
 class UserPreferences(BaseModel):
     location: str
+    address: str
     language: str = "en"
     interests: List[str]
     profession: str

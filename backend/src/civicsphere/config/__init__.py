@@ -69,10 +69,7 @@ class AppConfig:
         self.bing_search_api_key = self.env.bing_search_api_key
         self.bing_search_endpoint = self.env.bing_search_endpoint
 
-        self.languages: List[str] = [
-            "ar", "bn", "de", "el", "en", "es", "fr", "hi", "ht", "it", 
-            "ja", "ko", "pl", "pa", "pt", "ru", "tl", "ur", "yi", "zh"
-        ]
+        self.languages: List[str] = ["en", "es", "fr", "ru", "zh"]
 
 def get_config() -> AppConfig:
     return AppConfig()
