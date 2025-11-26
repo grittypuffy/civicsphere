@@ -227,32 +227,6 @@ export default function SettingsPage() {
 
                   <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
                     <div className='flex items-center justify-between mb-4'>
-                      <Body1 className="text-[#0369a1] font-semibold">Address</Body1>
-                      <Button
-                        appearance="subtle"
-                        size="small"
-                        disabled={isLoading}
-                        icon={editing.address ? <CheckmarkRegular /> : <EditRegular />}
-                        onClick={() => editing.address ? saveChanges('address') : startEditing('address', currentPrefs)}
-                        className="text-[#0369a1]"
-                      >
-                        {editing.address ? 'Done' : 'Edit'}
-                      </Button>
-                    </div>
-                    {!editing.address ? (
-                      <Text className="text-[#274c6f]">{address || 'Not set'}</Text>
-                    ) : (
-                      <Input
-                        value={localAddress}
-                        onChange={(_, data) => setLocalAddress(data.value)}
-                        placeholder="Enter your address"
-                        disabled={isLoading}
-                      />
-                    )}
-                  </div>
-
-                  <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
-                    <div className='flex items-center justify-between mb-4'>
                       <Body1 className="text-[#0369a1] font-semibold">{t('languageTitle')}</Body1>
                       <Button
                         appearance="subtle"
