@@ -16,6 +16,7 @@ const ALL_TAGS = [
 
 export default function CreatePost({ isOpen, onClose, onSubmit, userName = 'You' }: Props) {
   const t = useTranslations('createPost');
+  const tTag = useTranslations('tags');
   const [text, setText] = useState('')
   const [selected, setSelected] = useState<string[]>([])
   const [files, setFiles] = useState<File[]>([])
@@ -105,7 +106,7 @@ export default function CreatePost({ isOpen, onClose, onSubmit, userName = 'You'
               {ALL_TAGS.filter(t => t.includes(filter)).map(tag => (
                 <label key={tag} className='flex items-center gap-2 text-sm'>
                   <input type='checkbox' checked={selected.includes(tag)} onChange={() => toggleTag(tag)} />
-                  <span className='truncate'>{tag}</span>
+                  <span className='truncate'>{tTag(tag as any)}</span>
                 </label>
               ))}
             </div>
