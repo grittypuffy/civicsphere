@@ -63,6 +63,13 @@ class EnvVarConfig(BaseSettings):
     # Function App
     azure_function_app_url: str
 
+    # Azure Foundry Project
+    azure_foundry_project_endpoint: str
+    ai_agent_id: str
+    bing_tool_connection_name: str
+    ai_search_tool_connection_name: str
+    ai_agent_model_name: str = "gpt-4.1-mini"
+
     class EnvVarConfig:
         env_file = ".env"
         env_file_encoding = "utf-8"

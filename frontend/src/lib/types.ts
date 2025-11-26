@@ -51,7 +51,7 @@ export type ToastFunc = ({ message, description }: {
 }, intent: ToastIntent, position?: ToastPosition) => void
 
 // Language & Localization Types
-export type LangCode = 'ar' | 'bn' | 'de' | 'el' | 'en' | 'es' | 'fr' | 'hi' | 'ht' | 'it' | 'ja' | 'ko' | 'pl' | 'pa' | 'pt' | 'ru' | 'tl' | 'ur' | 'yi' | 'zh';
+export type LangCode = 'de' | 'el' | 'en' | 'es' | 'fr' | 'hi' | 'it' | 'ja' | 'ko' | 'pl' | 'pt' | 'ru' | 'zh';
 export type Language = v.InferOutput<typeof LanguageSchema>;
 
 // Authentication Types

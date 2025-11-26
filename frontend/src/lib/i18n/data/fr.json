@@ -1,78 +1,149 @@
 {
-    "home": {
-        "title": "CivicSphere",
-        "description": "Une plateforme pour l'engagement civique et la collaboration communautaire.",
-        "getStarted": "Commencer",
-        "signIn": "Se connecter",
-        "features": {
-            "communityDiscussions": {
-                "title": "Discussions Communautaires",
-                "description": "Rejoignez les conversations locales sur les questions qui comptent pour votre quartier avec du contenu vérifié."
-            },
-            "clearDoubts": {
-                "title": "Clarifiez tous vos doutes",
-                "description": "Chatbot IA ultime qui est mis à jour et formé pour répondre à toutes vos questions liées aux problèmes et services civiques."
-            },
-            "accessible": {
-                "title": "Accessible et Inclusif",
-                "description": "Découvrez des ressources locales et des opportunités civiques organisées pour votre région de manière accessible et inclusive."
-            }
-        }
+  "home": {
+    "title": "CivicSphere",
+    "description": "Une plateforme pour l'engagement civique et la collaboration communautaire.",
+    "getStarted": "Commencer",
+    "signIn": "Se connecter",
+    "features": {
+      "communityDiscussions": {
+        "title": "Discussions Communautaires",
+        "description": "Rejoignez les conversations locales sur les questions qui comptent pour votre quartier avec du contenu vérifié."
+      },
+      "clearDoubts": {
+        "title": "Clarifiez tous vos doutes",
+        "description": "Chatbot IA ultime qui est mis à jour et formé pour répondre à toutes vos questions liées aux problèmes et services civiques."
+      },
+      "accessible": {
+        "title": "Accessible et Inclusif",
+        "description": "Découvrez des ressources locales et des opportunités civiques organisées pour votre région de manière accessible et inclusive."
+      }
+    }
+  },
+  "homePage": {
+    "welcomeBack": "Bon retour !",
+    "greeting": "Bonjour, {name} !",
+    "placeholderName": "Voisin",
+    "refreshAria": "Actualiser le fil",
+    "refreshHint": "Envie de voir de nouvelles actualités ?",
+    "loadingFeeds": "Chargement des fils...",
+    "errorLoading": "Erreur lors du chargement des publications tendances : {message}",
+    "fallbackNotice": "Affichage de données d’exemple."
+  },
+  "settings": {
+    "title": "Paramètres",
+    "locationTitle": "Emplacement",
+    "languageTitle": "Préférence linguistique",
+    "interestsTitle": "Centres d’intérêt",
+    "edit": "Modifier",
+    "done": "Terminé",
+    "loadingGeneric": "Chargement...",
+    "loadingInterests": "Chargement des centres d’intérêt...",
+    "filterPlaceholder": "Filtrer les tags",
+    "errorTitle": "Erreur lors du chargement des préférences",
+    "errorDescription": "Impossible de charger les préférences utilisateur. Actualisez la page ou réessayez plus tard.",
+    "retry": "Réessayer",
+    "notSet": "Non défini",
+    "locationPlaceholder": "Saisissez votre emplacement",
+    "languageFallback": "Anglais",
+    "interestsHint": "Sélectionnez les sujets qui vous intéressent — ils seront suggérés lors de vos publications.",
+    "saveError": "Échec de l’enregistrement des préférences. Veuillez réessayer."
+  },
+  "auth": {
+    "heroTitle": "Bienvenue sur CivicSphere",
+    "heroSubtitle": "Rejoignez votre communauté — découvrir, débattre et agir.",
+    "onboardTitle": "Terminez votre accueil",
+    "signupTitle": "Créez votre compte",
+    "signinTitle": "Bon retour",
+    "tabSignup": "Inscription",
+    "tabSignin": "Connexion",
+    "loading": "Chargement..."
+  },
+  "chat": {
+    "suggestions": {
+      "housing": "Quelle est la situation actuelle des prix et des tendances du logement dans les quartiers de New York (par ex. Manhattan) et les banlieues voisines ?",
+      "elections": "Quand ont lieu mes élections locales, comment voter et qui se présente dans ma région ?",
+      "judicial": "Quel est le rôle d'un juge fédéral et en quoi diffère-t-il des autres postes politiques ou judiciaires ?"
     },
-    "auth": {
-        "heroTitle": "Bienvenue sur CivicSphere",
-        "heroSubtitle": "Rejoignez votre communauté — découvrir, débattre et agir.",
-        "onboardTitle": "Terminez votre accueil",
-        "signupTitle": "Créez votre compte",
-        "signinTitle": "Bon retour",
-        "tabSignup": "Inscription",
-        "tabSignin": "Connexion",
-        "loading": "Chargement..."
+    "labels": {
+      "you": "Vous",
+      "assistant": "Assistant",
+      "typing": "Saisie en cours..."
     },
-    "chat": {
-        "suggestions": {
-            "housing": "Quelle est la situation actuelle des prix et des tendances du logement dans les quartiers de New York (par ex. Manhattan) et les banlieues voisines ?",
-            "elections": "Quand ont lieu mes élections locales, comment voter et qui se présente dans ma région ?",
-            "judicial": "Quel est le rôle d'un juge fédéral et en quoi diffère-t-il des autres postes politiques ou judiciaires ?"
-        },
-        "labels": {
-            "you": "Vous",
-            "assistant": "Assistant",
-            "typing": "Saisie en cours..."
-        },
-        "inputPlaceholder": "Entrez du texte pour discuter avec l'IA",
-        "tooltip": {
-            "clearHistory": "Effacer l'historique du chat"
-        },
-        "mic": {
-            "captured": "Ceci est la transcription d'un message vocal simulé."
-        },
-        "errors": {
-            "generic": "Désolé, une erreur s'est produite lors du traitement de votre demande. Veuillez réessayer."
-        }
+    "inputPlaceholder": "Entrez du texte pour discuter avec l'IA",
+    "tooltip": {
+      "clearHistory": "Effacer l'historique du chat"
     },
-    "communities": {
-        "sidebarTitle": "Liste des sujets",
-        "communityHeading": "Communauté : {community}",
-        "tabPosts": "Publications",
-        "tabIssues": "Signalements",
-        "startPost": "Commencez une publication dans {community}",
-        "photo": "Photo",
-        "write": "Écrire",
-        "postButton": "Publier",
-        "loadingPosts": "Chargement des publications...",
-        "errorPosts": "Erreur lors du chargement des publications : {message}",
-        "raiseIssueTitle": "Signaler un problème",
-        "raiseIssueSubtitle": "Les habitants et les autorités peuvent répondre ; les membres de la communauté peuvent voter s'ils rencontrent le même problème.",
-        "issueTitlePlaceholder": "Titre court (ex. Réverbère cassé sur la 5th Ave)",
-        "issueDescriptionPlaceholder": "Décrivez le problème et les détails (où, quand, impact)...",
-        "issueAssigneesPlaceholder": "Qui doit agir ? (ex. Service de propreté, conseiller local)",
-        "clearButton": "Effacer",
-        "submitIssueButton": "Signaler",
-        "loadingIssues": "Chargement des signalements...",
-        "errorIssues": "Erreur lors du chargement des signalements : {message}",
-        "youLabel": "Vous"
+    "mic": {
+      "captured": "Ceci est la transcription d'un message vocal simulé."
     },
+    "errors": {
+      "generic": "Désolé, une erreur s'est produite lors du traitement de votre demande. Veuillez réessayer."
+    }
+  },
+  "communities": {
+    "sidebarTitle": "Liste des sujets",
+    "communityHeading": "Communauté : {community}",
+    "tabPosts": "Publications",
+    "tabIssues": "Signalements",
+    "startPost": "Commencez une publication dans {community}",
+    "photo": "Photo",
+    "write": "Écrire",
+    "postButton": "Publier",
+    "loadingPosts": "Chargement des publications...",
+    "errorPosts": "Erreur lors du chargement des publications : {message}",
+    "raiseIssueTitle": "Signaler un problème",
+    "raiseIssueSubtitle": "Les habitants et les autorités peuvent répondre ; les membres de la communauté peuvent voter s'ils rencontrent le même problème.",
+    "issueTitlePlaceholder": "Titre court (ex. Réverbère cassé sur la 5th Ave)",
+    "issueDescriptionPlaceholder": "Décrivez le problème et les détails (où, quand, impact)...",
+    "issueAssigneesPlaceholder": "Qui doit agir ? (ex. Service de propreté, conseiller local)",
+    "clearButton": "Effacer",
+    "submitIssueButton": "Signaler",
+    "loadingIssues": "Chargement des signalements...",
+    "errorIssues": "Erreur lors du chargement des signalements : {message}",
+    "youLabel": "Vous"
+  },
+  "trending": {
+    "discoverWhat": "Découvrez ce qui est",
+    "trendingNow": "Tendance maintenant !",
+    "refreshHint": "Voulez-vous actualiser le contenu tendance ?",
+    "refreshAria": "Actualiser le contenu tendance",
+    "tabPosts": "Publications tendances",
+    "tabTopics": "Sujets tendances",
+    "loadingPosts": "Chargement des publications tendances...",
+    "loadingTopics": "Chargement des sujets tendances...",
+    "errorPosts": "Erreur lors du chargement des publications tendances :",
+    "errorTopics": "Erreur lors du chargement des sujets tendances :",
+    "fallbackNotice": "Affichage de données d'exemple comme alternative.",
+    "sortLabel": "Trier",
+    "sortByRank": "Meilleurs par rang",
+    "sortByActivity": "Meilleurs par activité",
+    "trendingTopic": "Sujet tendance",
+    "mentions": "mentions"
+  },
+  "createPost": {
+    "title": "Créer une publication",
+    "close": "Fermer",
+    "placeholder": "Partagez quelque chose sur la politique locale ou les questions communautaires...",
+    "addMedia": "Ajouter des médias",
+    "uploadHint": "Vous pouvez télécharger des images, des vidéos ou des documents.",
+    "selectTags": "Sélectionner des tags",
+    "filterPlaceholder": "Filtrer les tags",
+    "cancel": "Annuler",
+    "post": "Publier"
+  },
+  "feeds": {
+    "verified": "Vérifié",
+    "unverified": "Non vérifié",
+    "pending": "En attente",
+    "flagged": "Signalé",
+    "links": "Liens :",
+    "close": "Fermer",
+    "view": "Voir",
+    "issueId": "ID du problème :",
+    "noVotedContent": "Aucun contenu voté trouvé",
+    "nothingHere": "Rien ici"
+  },
+  "tags": {
     "affordable-housing": "Logement Abordable",
     "artificial-intelligence": "Intelligence Artificielle",
     "arts-and-culture": "Arts et Culture",
@@ -154,4 +225,32 @@
     "voter-rights": "Droits des Électeurs",
     "water-rights": "Droits à l'Eau",
     "women-empowerment": "Autonomisation des Femmes"
+  },
+  "onboard": {
+    "locationLabel": "Lieu",
+    "addressLabel": "Adresse",
+    "languageLabel": "Langue",
+    "languagePlaceholder": "Sélectionnez votre langue préférée",
+    "interestsLabel": "Centres d’intérêt (séparés par des virgules)",
+    "interestsPlaceholder": "ex., technologie, musique, sport",
+    "interestsExample": "ex., technologie, musique, sport",
+    "professionLabel": "Profession",
+    "buttonComplete": "Terminer l’onboarding",
+    "loadingAria": "Onboarding en cours, veuillez patienter",
+    "onboardingFailTitle": "Échec de l’onboarding",
+    "onboardingFailDescInvalid": "Données invalides ! Veuillez vérifier vos informations.",
+    "completingOnboarding": "Finalisation de l’onboarding...",
+    "onboardingCompleteTitle": "Onboarding terminé",
+    "onboardingCompleteDesc": "Bienvenue ! Redirection vers votre tableau de bord...",
+    "invalidDataTitle": "Données invalides",
+    "invalidDataDesc": "Veuillez vérifier vos informations et réessayer.",
+    "onboardingFailedGenericTitle": "Échec de l’onboarding",
+    "onboardingFailedGenericDesc": "Veuillez réessayer plus tard.",
+    "ariaFormLabel": "Formulaire d’onboarding utilisateur",
+    "ariaLocation": "Lieu",
+    "ariaAddress": "Adresse",
+    "ariaLanguage": "Langue",
+    "ariaInterests": "Centres d’intérêt",
+    "ariaProfession": "Profession"
+  }
 }

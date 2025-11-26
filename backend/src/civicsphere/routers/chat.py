@@ -3,8 +3,17 @@ from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse, StreamingResponse
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
+from azure.identity.aio import DefaultAzureCredential
+from azure.ai.projects.aio import AIProjectClient
+from azure.ai.agents.aio import AgentsClient
+from azure.ai.agents.models import ListSortOrder
+from azure.ai.agents.models import AsyncToolSet
+from azure.ai.agents.models import BingGroundingTool
+from azure.ai.agents.models import AzureAISearchTool
+from azure.ai.agents.models import AzureAISearchQueryType
 
 from ..config import AppConfig
+from ..models.api.user import UserPreferences
 from ..models.api.chat import Chat, ChatData, ChatRequest, ChatResponse
 from ..models.api.post import PostResponse
 from ..services.chatbot.rag import search_documents
@@ -13,35 +22,24 @@ from ..services.chatbot.scraper.web.nyc import parse_address, get_pollsite_info,
 config: AppConfig = AppConfig()
 router = APIRouter(tags=["Chatbot"])
 
+instructions = """\
+You are a helpful civilian assistant that answers local community query, political query, and provides information on local policies and laws for NYC.
 
-chatbot_template = """\
-You are a helpful civilian assistant that answers local community queries, \
-political queries, and provides information on local policies and laws. \
-You have access to a knowledge base and external search results.
-
-Use the provided context to answer the user's question. \
-If the context contains relevant information, prioritize it. \
-If the user asks about candidates or voting, provide factual information about the candidates \
-but DO NOT provide specific recommendations or show bias. \
+If the user asks about candidates or voting, provide factual information about the candidates but DO NOT provide specific recommendations or show bias. \
 Maintain strict neutrality and fairness.
 
-Keep your responses concise, relevant, and use simple language that is easy to understand.
-
-Here's the context:
-{context}
-
-Here's the prompt:
-{prompt}
+Keep your responses concise, relevant, and use simple language that is easy to understand.\
 
 Guidelines:
-- Use plain English.
-- Give generic answers if needed.
+- Use simple language
 - Be unbiased and neutral, especially regarding elections.
 - Do not say "You should vote for X". Instead, say "Candidate X supports Y".
+- Provide factual data with citations
 """
 
 @router.post(
     "/new",
+    response_model=ChatResponse
 )
 async def chat(
     req: Request,
@@ -78,6 +76,8 @@ async def chat(
                 ).dict()
             )
         prefs_data = UserPreferences(**prefs)
+        language = prefs_data.language or "en"
+
         match prompt.prompt:
             case "Find my nearest pollsites":
                 parsed_address = None
@@ -87,7 +87,11 @@ async def chat(
                     summary = summarize_pollsite(response)
                     return ChatResponse(
                         success=True,
-                        message=summary
+                        data=ChatData(
+                            role="assistant",
+                            content=summary
+                        ),
+                        message="Fetched pollsite summary"
                     )
 
                 except Exception as e:
@@ -95,7 +99,7 @@ async def chat(
                         status_code=400,
                         content=ChatResponse(
                             success=False,
-                            message="An error occurred while checking nearest pollsites. Please check your address."
+                            message=f"An error occurred while checking nearest pollsites. Please check your address. Error: {e}"
                         ).dict()
                     )
 
@@ -108,8 +112,33 @@ async def chat(
                     async for post in posts_cursor:
                         post["post_id"] = str(post.pop("_id"))
                         posts.append(PostResponse(**post))
-                        posts.sort(key=lambda x: x.created_at, reverse=True)
+                    posts.sort(key=lambda x: x.created_at, reverse=True)
+                    if not posts:
+                        return ChatResponse(
+                            success=True,
+                            message="No trending posts in your area right now.",
+                            data=ChatData(
+                                role="assistant",
+                                content="No trending posts in your area right now."
+                            )
+                        )
 
+                    md = "# Trending Discussions Near You\n\n"
+                    for idx, post in enumerate(posts, start=1):
+                        md += f"### {idx}. {post.title}\n"
+                        if post.description:
+                            md += f"{post.description}\n"
+                        if post.tags:
+                            md += f"**Tags:** {', '.join(post.tags)}\n"
+                        md += "\n---\n\n"
+                    return ChatResponse(
+                        success=True,
+                        message="Successfully fetched trending posts",
+                        data=ChatData(
+                            role="assistant",
+                            content=md
+                        )
+                    )
                 else:
                     return JSONResponse(
                         status_code=400,
@@ -127,7 +156,11 @@ async def chat(
                     accessibility_summary = summarize_accessibility(response)
                     return ChatResponse(
                         success=True,
-                        message=accessibility_summary
+                        data=ChatData(
+                            role="assistant",
+                            content=accessibility_summary
+                        ),
+                        message="Fetched pollsite accessibility summary"
                     )
 
                 except Exception as e:
@@ -139,28 +172,83 @@ async def chat(
                         ).dict()
                     )
 
+            case _:
+                credential = DefaultAzureCredential()
+                async with credential:
+                    project_client: AIProjectClient = AIProjectClient(
+                        endpoint=config.env.azure_foundry_project_endpoint,
+                        credential=credential,
+                    )
+                    async with project_client:
+                        agents_client: AgentsClient = project_client.agents
+                        bing_connection_id = (await project_client.connections.get(
+                            config.env.bing_tool_connection_name
+                        )).id
+                        bing = BingGroundingTool(
+                            connection_id=bing_connection_id,
+                            market=config.market_codes.get(language) or "en-US",
+                            set_lang=prefs_data.language,
+                            count=3
+                        )
+                        ai_search = AzureAISearchTool(
+                           index_connection_id=config.env.ai_search_tool_connection_name,
+                           index_name=config.env.ai_search_index_name,
+                           query_type=AzureAISearchQueryType.SIMPLE,
+                           top_k=2,
+                           filter=""
+                        )
+                        toolset = AsyncToolSet()
+                        toolset.add(bing)
+                        toolset.add(ai_search)
+                        agents_client.enable_auto_function_calls(toolset)
+                        agent = await agents_client.create_agent(
+                            model=config.env.ai_agent_model_name,
+                            name="civicsphere-agent-bot",
+                            instructions=instructions,
+                            toolset=toolset,
+                        )
 
-        client = config.langchain_llm
-        rag_results = await search_documents(prompt.prompt)
-        context_parts = []
-        if rag_results:
-            context_parts.append("Knowledge Base Results:\n" + "\n".join(rag_results))
-            
-        context_str = "\n\n".join(context_parts)
-        
-        chatbot_prompt = PromptTemplate(
-            input_variables=["prompt", "context"],
-            template=chatbot_template
-        )
-        
-        # Create chain with context
-        chain = chatbot_prompt | client | StrOutputParser()
-        
-        async def generate():
-            async for chunk in chain.astream({"prompt": prompt.prompt, "context": context_str}):
-                yield chunk
+                        run = await agents_client.create_thread_and_process_run(
+                                agent_id=agent.id,
+                                thread=AgentThreadCreationOptions(
+                                    messages=[ThreadMessageOptions(role="user", content=prompt.prompt)]
+                                ),
+                            )
 
-        return StreamingResponse(generate(), media_type="text/event-stream")
+                        if run.status == "failed":
+                            logging.error("Error occurred in /chat endpoint")
+                            return JSONResponse(
+                                status_code=500,
+                                content=ChatResponse(
+                                    success=False,
+                                    message=f"Failed to retrieve response from chat agent. Error: {run.last_error}"
+                                ).model_dump()
+                            )
+
+
+                        messages = agents_client.messages.list(
+                            thread_id=run.thread_id,
+                            order=ListSortOrder.ASCENDING,
+                        )
+                        async for msg in messages:
+                            last_part = msg.content[-1]
+                            if isinstance(last_part, MessageTextContent):
+                                responses = []
+                                responses.append(text_message.text.value)
+                                message = " ".join(responses)
+                                for annotation in msg.url_citation_annotations:
+                                    message = message.replace(
+                                        annotation.text, f" [{annotation.url_citation.title}]({annotation.url_citation.url})"
+                                    )
+                                await agents_client.delete_agent(agent.id)
+                                return ChatResponse(
+                                    success=True,
+                                    message="Agent executed successfully",
+                                    data=ChatData(
+                                        role=msg.role,
+                                        content=last_part.text.value
+                                    )
+                                )
 
     except Exception as e:
         logging.exception("Error occurred in /chat endpoint")

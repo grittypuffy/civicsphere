@@ -19,6 +19,35 @@
             }
         }
     },
+    "homePage": {
+        "welcomeBack": "Καλώς επιστρέψατε!",
+        "greeting": "Γεια σου, {name}!",
+        "placeholderName": "Γείτονα",
+        "refreshAria": "Ανανέωση ροών",
+        "refreshHint": "Θέλετε να δείτε νέα ροή;",
+        "loadingFeeds": "Φόρτωση ροών...",
+        "errorLoading": "Σφάλμα κατά τη φόρτωση κορυφαίων αναρτήσεων: {message}",
+        "fallbackNotice": "Εμφανίζονται δείγματα δεδομένων."
+    },
+    "settings": {
+        "title": "Ρυθμίσεις",
+        "locationTitle": "Τοποθεσία",
+        "languageTitle": "Προτίμηση γλώσσας",
+        "interestsTitle": "Ενδιαφέροντα",
+        "edit": "Επεξεργασία",
+        "done": "Ολοκληρώθηκε",
+        "loadingGeneric": "Φόρτωση...",
+        "loadingInterests": "Φόρτωση ενδιαφερόντων...",
+        "filterPlaceholder": "Φίλτρο ετικετών",
+        "errorTitle": "Σφάλμα φόρτωσης προτιμήσεων",
+        "errorDescription": "Αποτυχία φόρτωσης προτιμήσεων χρήστη. Ανανεώστε τη σελίδα ή δοκιμάστε ξανά αργότερα.",
+        "retry": "Δοκιμή ξανά",
+        "notSet": "Δεν έχει οριστεί",
+        "locationPlaceholder": "Εισαγάγετε την τοποθεσία σας",
+        "languageFallback": "Αγγλικά",
+        "interestsHint": "Επιλέξτε τα θέματα που σας ενδιαφέρουν — θα προτείνονται όταν δημοσιεύετε.",
+        "saveError": "Αποτυχία αποθήκευσης προτιμήσεων. Προσπαθήστε ξανά."
+    },
     "auth": {
         "heroTitle": "Καλώς ήρθατε στο CivicSphere",
         "heroSubtitle": "Συνδεθείτε με την κοινότητά σας — ανακαλύψτε, συζητήστε και δράστε.",
@@ -72,5 +101,74 @@
         "loadingIssues": "Φόρτωση ζητημάτων...",
         "errorIssues": "Σφάλμα κατά τη φόρτωση ζητημάτων: {message}",
         "youLabel": "Εσύ"
-    }
+    },
+    "trending": {
+        "discoverWhat": "Ανακαλύψτε τι είναι",
+        "trendingNow": "Δημοφιλές τώρα!",
+        "refreshHint": "Θέλετε να ανανεώσετε το δημοφιλές περιεχόμενο;",
+        "refreshAria": "Ανανέωση δημοφιλούς περιεχομένου",
+        "tabPosts": "Δημοφιλείς αναρτήσεις",
+        "tabTopics": "Δημοφιλή θέματα",
+        "loadingPosts": "Φόρτωση δημοφιλών αναρτήσεων...",
+        "loadingTopics": "Φόρτωση δημοφιλών θεμάτων...",
+        "errorPosts": "Σφάλμα κατά τη φόρτωση δημοφιλών αναρτήσεων:",
+        "errorTopics": "Σφάλμα κατά τη φόρτωση δημοφιλών θεμάτων:",
+        "fallbackNotice": "Εμφανίζονται δείγματα δεδομένων ως εναλλακτική.",
+        "sortLabel": "Ταξινόμηση",
+        "sortByRank": "Κορυφαία κατά κατάταξη",
+        "sortByActivity": "Κορυφαία κατά δραστηριότητα",
+        "trendingTopic": "Δημοφιλές θέμα",
+        "mentions": "αναφορές"
+    },
+    "createPost": {
+        "title": "Δημιουργία ανάρτησης",
+        "close": "Κλείσιμο",
+        "placeholder": "Μοιραστείτε κάτι για την τοπική πολιτική ή κοινοτικά ζητήματα...",
+        "addMedia": "Προσθήκη πολυμέσων",
+        "uploadHint": "Μπορείτε να ανεβάσετε εικόνες, βίντεο ή έγγραφα.",
+        "selectTags": "Επιλογή ετικετών",
+        "filterPlaceholder": "Φίλτρο ετικετών",
+        "cancel": "Ακύρωση",
+        "post": "Δημοσίευση"
+    },
+    "feeds": {
+        "verified": "Επαληθευμένο",
+        "unverified": "Μη επαληθευμένο",
+        "pending": "Εκκρεμεί",
+        "flagged": "Επισημασμένο",
+        "links": "Σύνδεσμοι:",
+        "close": "Κλείσιμο",
+        "view": "Προβολή",
+        "issueId": "ID ζητήματος:",
+        "noVotedContent": "Δεν βρέθηκε περιεχόμενο με ψήφο",
+        "nothingHere": "Τίποτα εδώ"
+    },
+  "onboard": {
+    "locationLabel": "Τοποθεσία",
+    "addressLabel": "Διεύθυνση",
+    "languageLabel": "Γλώσσα",
+    "languagePlaceholder": "Επιλέξτε την προτιμώμενη γλώσσα",
+    "interestsLabel": "Ενδιαφέροντα (χωρισμένα με κόμμα)",
+    "interestsPlaceholder": "π.χ. τεχνολογία, μουσική, αθλητισμός",
+    "interestsExample": "π.χ. τεχνολογία, μουσική, αθλητισμός",
+    "professionLabel": "Επάγγελμα",
+    "buttonComplete": "Ολοκλήρωση Onboarding",
+    "loadingAria": "Το onboarding ολοκληρώνεται, παρακαλώ περιμένετε",
+    "onboardingFailTitle": "Αποτυχία onboarding",
+    "onboardingFailDescInvalid": "Μη έγκυρα δεδομένα! Ελέγξτε τις πληροφορίες και δοκιμάστε ξανά.",
+    "completingOnboarding": "Ολοκλήρωση onboarding...",
+    "onboardingCompleteTitle": "Το onboarding ολοκληρώθηκε",
+    "onboardingCompleteDesc": "Καλώς ήρθατε! Ανακατεύθυνση στο dashboard...",
+    "invalidDataTitle": "Μη έγκυρα δεδομένα",
+    "invalidDataDesc": "Ελέγξτε τις πληροφορίες σας και δοκιμάστε ξανά.",
+    "onboardingFailedGenericTitle": "Αποτυχία onboarding",
+    "onboardingFailedGenericDesc": "Παρακαλώ δοκιμάστε ξανά αργότερα.",
+    "ariaFormLabel": "Φόρμα onboarding χρήστη",
+    "ariaLocation": "Τοποθεσία",
+    "ariaAddress": "Διεύθυνση",
+    "ariaLanguage": "Γλώσσα",
+    "ariaInterests": "Ενδιαφέροντα",
+    "ariaProfession": "Επάγγελμα"
+  }
+
 }

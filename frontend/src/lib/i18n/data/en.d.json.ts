@@ -22,6 +22,35 @@ declare const messages: {
       }
     }
   },
+  "homePage": {
+    "welcomeBack": "Welcome back!",
+    "greeting": "Hello, {name}!",
+    "placeholderName": "Neighbor",
+    "refreshAria": "Refresh feeds",
+    "refreshHint": "Want to see fresh updates?",
+    "loadingFeeds": "Loading feeds...",
+    "errorLoading": "Error loading trending posts: {message}",
+    "fallbackNotice": "Showing sample data instead."
+  },
+  "settings": {
+    "title": "Settings",
+    "locationTitle": "Location",
+    "languageTitle": "Language Preference",
+    "interestsTitle": "Interests",
+    "edit": "Edit",
+    "done": "Done",
+    "loadingGeneric": "Loading...",
+    "loadingInterests": "Loading interests...",
+    "filterPlaceholder": "Filter tags",
+    "errorTitle": "Error Loading Preferences",
+    "errorDescription": "Failed to load user preferences. Please refresh the page or try again later.",
+    "retry": "Retry",
+    "notSet": "Not set",
+    "locationPlaceholder": "Enter your location",
+    "languageFallback": "English",
+    "interestsHint": "Select the topics you are interested in — these will be suggested when posting.",
+    "saveError": "Failed to save preferences. Please try again."
+  },
   "auth": {
     "heroTitle": "Welcome to CivicSphere",
     "heroSubtitle": "Join your community — discover, discuss and act.",
@@ -75,6 +104,47 @@ declare const messages: {
     "loadingIssues": "Loading issues...",
     "errorIssues": "Error loading issues: {message}",
     "youLabel": "You"
+  },
+  "trending": {
+    "discoverWhat": "Discover what's",
+    "trendingNow": "Trending Now!",
+    "refreshHint": "Want to refresh trending content?",
+    "refreshAria": "Refresh trending content",
+    "tabPosts": "Trending Posts",
+    "tabTopics": "Trending Topics",
+    "loadingPosts": "Loading trending posts...",
+    "loadingTopics": "Loading trending topics...",
+    "errorPosts": "Error loading trending posts:",
+    "errorTopics": "Error loading trending topics:",
+    "fallbackNotice": "Showing dummy data as fallback instead.",
+    "sortLabel": "Sort",
+    "sortByRank": "Top by Rank",
+    "sortByActivity": "Top by Activity",
+    "trendingTopic": "Trending topic",
+    "mentions": "mentions"
+  },
+  "createPost": {
+    "title": "Create a post",
+    "close": "Close",
+    "placeholder": "Share something about local politics or community issues...",
+    "addMedia": "Add media",
+    "uploadHint": "You can upload images, videos or documents.",
+    "selectTags": "Select tags",
+    "filterPlaceholder": "Filter tags",
+    "cancel": "Cancel",
+    "post": "Post"
+  },
+  "feeds": {
+    "verified": "Verified",
+    "unverified": "Unverified",
+    "pending": "Pending",
+    "flagged": "Flagged",
+    "links": "Links:",
+    "close": "Close",
+    "view": "View",
+    "issueId": "Issue ID:",
+    "noVotedContent": "No voted content found",
+    "nothingHere": "Nothing here"
   },
   "tags": {
     "affordable-housing": "Affordable Housing {name}",
@@ -158,6 +228,33 @@ declare const messages: {
     "voter-rights": "Voter Rights",
     "water-rights": "Water Rights",
     "women-empowerment": "Women Empowerment"
+  },
+  "onboard": {
+    "locationLabel": "Location",
+    "addressLabel": "Address",
+    "languageLabel": "Language",
+    "languagePlaceholder": "Select your preferred language",
+    "interestsLabel": "Interests (comma separated)",
+    "interestsPlaceholder": "e.g., technology, music, sports",
+    "interestsExample": "e.g., technology, music, sports",
+    "professionLabel": "Profession",
+    "buttonComplete": "Complete Onboarding",
+    "loadingAria": "Completing onboarding, please wait",
+    "onboardingFailTitle": "Onboarding Failed",
+    "onboardingFailDescInvalid": "Invalid data! Please check your input and try again.",
+    "completingOnboarding": "Completing Onboarding..",
+    "onboardingCompleteTitle": "Onboarding Complete",
+    "onboardingCompleteDesc": "Welcome! Redirecting to your dashboard...",
+    "invalidDataTitle": "Invalid Data",
+    "invalidDataDesc": "Please check your information and try again.",
+    "onboardingFailedGenericTitle": "Onboarding Failed",
+    "onboardingFailedGenericDesc": "Please try again later.",
+    "ariaFormLabel": "User onboarding form",
+    "ariaLocation": "Location",
+    "ariaAddress": "Address",
+    "ariaLanguage": "Language",
+    "ariaInterests": "Interests",
+    "ariaProfession": "Profession"
   }
 };
 export default messages;

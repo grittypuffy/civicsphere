@@ -65,7 +65,23 @@ class AppConfig:
         # Image Analysis Client
         self.image_analysis_client: ImageAnalysisClient = get_image_analysis_client(self.env.azure_cv_endpoint, self.env.azure_cv_key)
 
-        self.languages: List[str] = ["en", "es", "fr", "ru", "zh"]
+        self.languages: List[str] = ["de", "el", "en", "es", "fr", "hi", "it", "ja", "ko", "pl", "pt", "ru", "zh"]
+
+        self.market_codes = {
+            "de": "de-DE",
+            "el": "el-GR",
+            "en": "en-US",
+            "es": "es-ES",
+            "fr": "fr-FR",
+            "hi": "hi-IN",
+            "it": "it-IT",
+            "ja": "ja-JP",
+            "ko": "ko-KR",
+            "pl": "pl-PL",
+            "pt": "pt-PT",
+            "ru": "ru-RU",
+            "zh": "zh-CN"
+        }
 
 def get_config() -> AppConfig:
     return AppConfig()

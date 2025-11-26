@@ -116,7 +116,20 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
               { message: 'Sign Up Successful', description: 'You can now sign in.' },
               'success'
             );
-            router.push('/auth?action=onboard');
+            const signInRes: Response = await fetch('/api/v1/auth/sign_in', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                username: formData.username,
+                password: formData.password
+              }),
+            });
+            if (signInRes.ok) {
+              router.push('/auth?action=onboard');
+              break;
+            }
             break;
           case 409:
             ToastMessage(
@@ -131,9 +144,7 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             );
             break;
           default:
-            if (!res.ok) {
-              throw new Error('Network response was not ok');
-            }
+            throw new Error('Network response was not ok');
         }
       } catch (error) {
         console.error('Error during sign up:', error);

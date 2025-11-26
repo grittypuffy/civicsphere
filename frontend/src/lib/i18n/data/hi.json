@@ -1,76 +1,173 @@
 {
-    "home": {
-        "title": "CivicSphere",
-        "description": "नागरिक भागीदारी और सामुदायिक सहयोग के लिए एक मंच।",
-        "getStarted": "शुरू करें",
-        "signIn": "साइन इन करें",
-        "features": {
-            "communityDiscussions": {
-                "title": "सामुदायिक चर्चाएं",
-                "description": "सत्यापित सामग्री के साथ अपने पड़ोस के लिए महत्वपूर्ण मुद्दों के बारे में स्थानीय बातचीत में शामिल हों।"
-            },
-            "clearDoubts": {
-                "title": "अपनी सभी शंकाओं को दूर करें",
-                "description": "परम एआई चैटबॉट जो नागरिक मुद्दों और सेवाओं से संबंधित आपके सभी प्रश्नों का उत्तर देने के लिए अपडेट और प्रशिक्षित है।"
-            },
-            "accessible": {
-                "title": "सुलभ और समावेशी",
-                "description": "अपने क्षेत्र के लिए सुलभ और समावेशी तरीके से तैयार किए गए स्थानीय संसाधनों और नागरिक अवसरों को खोजें।"
-            }
-        }
-    },
-    "auth": {
-        "heroTitle": "CivicSphere में आपका स्वागत है",
-        "heroSubtitle": "अपनी कम्युनिटी से जुड़ें — खोजें, चर्चा करें और कार्रवाई करें।",
-        "onboardTitle": "अपना ऑनबोर्डिंग पूरा करें",
-        "signupTitle": "अपना खाता बनाएँ",
-        "signinTitle": "वापसी पर स्वागत है",
-        "tabSignup": "साइन अप",
-        "tabSignin": "साइन इन",
-        "loading": "लोड हो रहा है..."
-    },
-    "chat": {
-        "suggestions": {
-            "housing": "न्यूयॉर्क सिटी के इलाकों (जैसे मैनहैटन) और आसपास के उपनगरों में आवास की कीमतों और रुझानों की मौजूदा स्थिति क्या है?",
-            "elections": "मेरे स्थानीय चुनाव कब हैं, मैं मतदान कैसे करूँ और मेरे क्षेत्र में कौन उम्मीदवार है?",
-            "judicial": "संघीय न्यायाधीश की भूमिका क्या है और यह अन्य राजनीतिक या न्यायिक पदों से कैसे अलग है?"
-        },
-        "labels": {
-            "you": "आप",
-            "assistant": "सहायक",
-            "typing": "टाइप किया जा रहा है..."
-        },
-        "inputPlaceholder": "एआई से चैट करने के लिए पाठ दर्ज करें",
-        "tooltip": {
-            "clearHistory": "चैट इतिहास साफ़ करें"
-        },
-        "mic": {
-            "captured": "यह एक सिम्युलेटेड वॉयस संदेश की लिप्यंतरण है।"
-        },
-        "errors": {
-            "generic": "क्षमा करें, आपके अनुरोध को संसाधित करते समय त्रुटि हुई। कृपया पुनः प्रयास करें।"
-        }
-    },
-    "communities": {
-        "sidebarTitle": "विषयों की सूची",
-        "communityHeading": "समुदाय: {community}",
-        "tabPosts": "पोस्ट",
-        "tabIssues": "मुद्दे",
-        "startPost": "{community} में एक पोस्ट शुरू करें",
-        "photo": "फोटो",
-        "write": "लिखें",
-        "postButton": "पोस्ट करें",
-        "loadingPosts": "पोस्ट लोड हो रही हैं...",
-        "errorPosts": "पोस्ट लोड करने में त्रुटि: {message}",
-        "raiseIssueTitle": "एक मुद्दा उठाएँ",
-        "raiseIssueSubtitle": "लोग और प्रशासन प्रतिक्रिया दे सकते हैं; यदि सदस्यों को वही समस्या हो तो वे अपवोट कर सकते हैं।",
-        "issueTitlePlaceholder": "संक्षिप्त शीर्षक (उदा. 5th Ave पर टूटी स्ट्रीट लाइट)",
-        "issueDescriptionPlaceholder": "मुद्दे और किसी भी विवरण का वर्णन करें (कहाँ, कब, प्रभाव)...",
-        "issueAssigneesPlaceholder": "किसे कार्रवाई करनी चाहिए? (उदा. स्वच्छता विभाग, स्थानीय पार्षद)",
-        "clearButton": "साफ़ करें",
-        "submitIssueButton": "उठाएँ",
-        "loadingIssues": "मुद्दे लोड हो रहे हैं...",
-        "errorIssues": "मुद्दे लोड करने में त्रुटि: {message}",
-        "youLabel": "आप"
+  "home": {
+    "title": "CivicSphere",
+    "description": "नागरिक भागीदारी और सामुदायिक सहयोग के लिए एक मंच।",
+    "getStarted": "शुरू करें",
+    "signIn": "साइन इन करें",
+    "features": {
+      "communityDiscussions": {
+        "title": "सामुदायिक चर्चाएं",
+        "description": "सत्यापित सामग्री के साथ अपने पड़ोस के लिए महत्वपूर्ण मुद्दों के बारे में स्थानीय बातचीत में शामिल हों।"
+      },
+      "clearDoubts": {
+        "title": "अपनी सभी शंकाओं को दूर करें",
+        "description": "परम एआई चैटबॉट जो नागरिक मुद्दों और सेवाओं से संबंधित आपके सभी प्रश्नों का उत्तर देने के लिए अपडेट और प्रशिक्षित है।"
+      },
+      "accessible": {
+        "title": "सुलभ और समावेशी",
+        "description": "अपने क्षेत्र के लिए सुलभ और समावेशी तरीके से तैयार किए गए स्थानीय संसाधनों और नागरिक अवसरों को खोजें।"
+      }
     }
+  },
+  "homePage": {
+    "welcomeBack": "वापसी पर स्वागत है!",
+    "greeting": "नमस्ते, {name}!",
+    "placeholderName": "पड़ोसी",
+    "refreshAria": "फ़ीड रीफ़्रेश करें",
+    "refreshHint": "नई फ़ीड देखना चाहते हैं?",
+    "loadingFeeds": "फ़ीड लोड हो रही हैं...",
+    "errorLoading": "ट्रेंडिंग पोस्ट लोड करने में त्रुटि: {message}",
+    "fallbackNotice": "इसके बजाय नमूना डेटा दिखाया जा रहा है।"
+  },
+  "settings": {
+    "title": "सेटिंग्स",
+    "locationTitle": "स्थान",
+    "languageTitle": "भाषा वरीयता",
+    "interestsTitle": "रुचियाँ",
+    "edit": "संपादित करें",
+    "done": "पूर्ण",
+    "loadingGeneric": "लोड हो रहा है...",
+    "loadingInterests": "रुचियाँ लोड हो रही हैं...",
+    "filterPlaceholder": "टैग फ़िल्टर करें",
+    "errorTitle": "प्राथमिकताएँ लोड करने में त्रुटि",
+    "errorDescription": "उपयोगकर्ता प्राथमिकताएँ लोड नहीं हो सकीं। कृपया पेज रीफ़्रेश करें या बाद में फिर कोशिश करें।",
+    "retry": "पुनः प्रयास",
+    "notSet": "सेट नहीं",
+    "locationPlaceholder": "अपना स्थान दर्ज करें",
+    "languageFallback": "अंग्रेज़ी",
+    "interestsHint": "वे विषय चुनें जिनमें आपकी रुचि है — पोस्ट करते समय इन्हें सुझाया जाएगा।",
+    "saveError": "प्राथमिकताएँ सहेजने में विफल। कृपया पुनः प्रयास करें।"
+  },
+  "auth": {
+    "heroTitle": "CivicSphere में आपका स्वागत है",
+    "heroSubtitle": "अपनी कम्युनिटी से जुड़ें — खोजें, चर्चा करें और कार्रवाई करें।",
+    "onboardTitle": "अपना ऑनबोर्डिंग पूरा करें",
+    "signupTitle": "अपना खाता बनाएँ",
+    "signinTitle": "वापसी पर स्वागत है",
+    "tabSignup": "साइन अप",
+    "tabSignin": "साइन इन",
+    "loading": "लोड हो रहा है..."
+  },
+  "chat": {
+    "suggestions": {
+      "housing": "न्यूयॉर्क सिटी के इलाकों (जैसे मैनहैटन) और आसपास के उपनगरों में आवास की कीमतों और रुझानों की मौजूदा स्थिति क्या है?",
+      "elections": "मेरे स्थानीय चुनाव कब हैं, मैं मतदान कैसे करूँ और मेरे क्षेत्र में कौन उम्मीदवार है?",
+      "judicial": "संघीय न्यायाधीश की भूमिका क्या है और यह अन्य राजनीतिक या न्यायिक पदों से कैसे अलग है?"
+    },
+    "labels": {
+      "you": "आप",
+      "assistant": "सहायक",
+      "typing": "टाइप किया जा रहा है..."
+    },
+    "inputPlaceholder": "एआई से चैट करने के लिए पाठ दर्ज करें",
+    "tooltip": {
+      "clearHistory": "चैट इतिहास साफ़ करें"
+    },
+    "mic": {
+      "captured": "यह एक सिम्युलेटेड वॉयस संदेश की लिप्यंतरण है।"
+    },
+    "errors": {
+      "generic": "क्षमा करें, आपके अनुरोध को संसाधित करते समय त्रुटि हुई। कृपया पुनः प्रयास करें।"
+    }
+  },
+  "communities": {
+    "sidebarTitle": "विषयों की सूची",
+    "communityHeading": "समुदाय: {community}",
+    "tabPosts": "पोस्ट",
+    "tabIssues": "मुद्दे",
+    "startPost": "{community} में एक पोस्ट शुरू करें",
+    "photo": "फोटो",
+    "write": "लिखें",
+    "postButton": "पोस्ट करें",
+    "loadingPosts": "पोस्ट लोड हो रही हैं...",
+    "errorPosts": "पोस्ट लोड करने में त्रुटि: {message}",
+    "raiseIssueTitle": "एक मुद्दा उठाएँ",
+    "raiseIssueSubtitle": "लोग और प्रशासन प्रतिक्रिया दे सकते हैं; यदि सदस्यों को वही समस्या हो तो वे अपवोट कर सकते हैं।",
+    "issueTitlePlaceholder": "संक्षिप्त शीर्षक (उदा. 5th Ave पर टूटी स्ट्रीट लाइट)",
+    "issueDescriptionPlaceholder": "मुद्दे और किसी भी विवरण का वर्णन करें (कहाँ, कब, प्रभाव)...",
+    "issueAssigneesPlaceholder": "किसे कार्रवाई करनी चाहिए? (उदा. स्वच्छता विभाग, स्थानीय पार्षद)",
+    "clearButton": "साफ़ करें",
+    "submitIssueButton": "उठाएँ",
+    "loadingIssues": "मुद्दे लोड हो रहे हैं...",
+    "errorIssues": "मुद्दे लोड करने में त्रुटि: {message}",
+    "youLabel": "आप"
+  },
+  "trending": {
+    "discoverWhat": "जानें क्या है",
+    "trendingNow": "अभी ट्रेंडिंग!",
+    "refreshHint": "ट्रेंडिंग सामग्री को रीफ़्रेश करना चाहते हैं?",
+    "refreshAria": "ट्रेंडिंग सामग्री रीफ़्रेश करें",
+    "tabPosts": "ट्रेंडिंग पोस्ट",
+    "tabTopics": "ट्रेंडिंग विषय",
+    "loadingPosts": "ट्रेंडिंग पोस्ट लोड हो रही हैं...",
+    "loadingTopics": "ट्रेंडिंग विषय लोड हो रहे हैं...",
+    "errorPosts": "ट्रेंडिंग पोस्ट लोड करने में त्रुटि:",
+    "errorTopics": "ट्रेंडिंग विषय लोड करने में त्रुटि:",
+    "fallbackNotice": "विकल्प के रूप में नमूना डेटा दिखाया जा रहा है।",
+    "sortLabel": "क्रमबद्ध करें",
+    "sortByRank": "रैंक के अनुसार शीर्ष",
+    "sortByActivity": "गतिविधि के अनुसार शीर्ष",
+    "trendingTopic": "ट्रेंडिंग विषय",
+    "mentions": "उल्लेख"
+  },
+  "createPost": {
+    "title": "एक पोस्ट बनाएं",
+    "close": "बंद करें",
+    "placeholder": "स्थानीय राजनीति या सामुदायिक मुद्दों के बारे में कुछ साझा करें...",
+    "addMedia": "मीडिया जोड़ें",
+    "uploadHint": "आप छवियां, वीडियो या दस्तावेज़ अपलोड कर सकते हैं।",
+    "selectTags": "टैग चुनें",
+    "filterPlaceholder": "टैग फ़िल्टर करें",
+    "cancel": "रद्द करें",
+    "post": "पोस्ट करें"
+  },
+  "feeds": {
+    "verified": "सत्यापित",
+    "unverified": "असत्यापित",
+    "pending": "लंबित",
+    "flagged": "फ्लैग किया गया",
+    "links": "लिंक:",
+    "close": "बंद करें",
+    "view": "देखें",
+    "issueId": "मुद्दा ID:",
+    "noVotedContent": "कोई मतदान की गई सामग्री नहीं मिली",
+    "nothingHere": "यहाँ कुछ नहीं है"
+  },
+  "onboard": {
+    "locationLabel": "स्थान",
+    "addressLabel": "पता",
+    "languageLabel": "भाषा",
+    "languagePlaceholder": "अपनी पसंदीदा भाषा चुनें",
+    "interestsLabel": "रुचियाँ (कॉमा से अलग)",
+    "interestsPlaceholder": "उदा., टेक्नोलॉजी, संगीत, खेल",
+    "interestsExample": "उदा., टेक्नोलॉजी, संगीत, खेल",
+    "professionLabel": "पेशा",
+    "buttonComplete": "ऑनबोर्डिंग पूरा करें",
+    "loadingAria": "ऑनबोर्डिंग पूरा हो रहा है, कृपया प्रतीक्षा करें",
+    "onboardingFailTitle": "ऑनबोर्डिंग असफल",
+    "onboardingFailDescInvalid": "अमान्य डेटा! कृपया अपनी जानकारी जाँचें।",
+    "completingOnboarding": "ऑनबोर्डिंग पूरा किया जा रहा है...",
+    "onboardingCompleteTitle": "ऑनबोर्डिंग पूर्ण",
+    "onboardingCompleteDesc": "स्वागत है! आपको डैशबोर्ड पर भेजा जा रहा है...",
+    "invalidDataTitle": "अमान्य डेटा",
+    "invalidDataDesc": "कृपया अपनी जानकारी जाँचें और पुनः प्रयास करें।",
+    "onboardingFailedGenericTitle": "ऑनबोर्डिंग असफल",
+    "onboardingFailedGenericDesc": "कृपया बाद में पुनः प्रयास करें।",
+    "ariaFormLabel": "यूज़र ऑनबोर्डिंग फॉर्म",
+    "ariaLocation": "स्थान",
+    "ariaAddress": "पता",
+    "ariaLanguage": "भाषा",
+    "ariaInterests": "रुचियाँ",
+    "ariaProfession": "पेशा"
+  }
 }

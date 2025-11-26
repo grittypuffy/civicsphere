@@ -6,12 +6,14 @@ import { Button } from '@fluentui/react-components';
 import { ArrowClockwiseFilled } from '@fluentui/react-icons';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { loadable } from 'jotai/utils';
+import { useTranslations } from 'next-intl';
 import { useEffect } from 'react';
 
 const feedAtom = atom(getFeeds());
 const loadableFeedAtom = loadable(feedAtom);
 
 export default function Page() {
+  const t = useTranslations('homePage');
   const username = useAtomValue(userNameAtom)
   const feeds = useAtomValue(loadableFeedAtom)
   const setFeeds = useSetAtom(feedAtom)
@@ -32,9 +34,9 @@ export default function Page() {
       <div className='flex flex-col items-center justify-between'>
         <div className='min-w-dvw lg:min-w-5xl'>
           <div className='mx-auto  p-3 md:p-5 lg:p-8 flex flex-col'>
-            <p className='text-lg lg:text-xl'>Welcome back!</p>
+            <p className='text-lg lg:text-xl'>{t('welcomeBack')}</p>
             <h1 className='text-4xl lg:text-5xl font-bold'>
-              Hello, {username ? username : "Dummy Name"}!
+              {t('greeting', { name: username || t('placeholderName') })}
             </h1>
             <div className='flex items-center gap-3 mt-2'>
               <Button
@@ -44,11 +46,11 @@ export default function Page() {
                 onClick={() => {
                   setFeeds(getFeeds())
                 }}
-                aria-label='Refresh feeds'
+                aria-label={t('refreshAria')}
                 icon={
                   <ArrowClockwiseFilled />}
               />
-              <p className='text-sm'>Want to have new feed?</p>
+              <p className='text-sm'>{t('refreshHint')}</p>
             </div>
           </div>
           <div
@@ -58,15 +60,15 @@ export default function Page() {
             {(() => {
               switch (feeds.state) {
                 case 'loading':
-                  return <div>Loading feeds...</div>
+                  return <div>{t('loadingFeeds')}</div>
                 case 'hasError':
                   return (
                     <div className='p-4'>
                       <div className='mb-4 text-red-600 px-5'>
                         <span>
-                          Error loading trending posts: {String(feeds.error)}
+                          {t('errorLoading', { message: String(feeds.error) })}
                         </span>
-                        <span> Showing dummy data as fallback instead.</span>
+                        <span> {t('fallbackNotice')}</span>
                       </div>
                       <Feeds />
                     </div>

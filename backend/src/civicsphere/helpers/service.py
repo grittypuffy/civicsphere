@@ -48,7 +48,6 @@ def get_llm(openai_api_key: str, endpoint: str, api_version: str) -> AzureOpenAI
     return llm
 
 
-
 def get_search(index_name: str, key: str, endpoint: str) -> SearchClient:
     client = SearchClient(
         endpoint=endpoint, index_name=index_name, credential=AzureKeyCredential(key))
