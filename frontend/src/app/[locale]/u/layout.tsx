@@ -12,24 +12,27 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className='flex flex-col h-full flex-1'>
       <div>
         <SideBar />
-        <header className='sticky top-0 z-10 flex justify-between items-center p-3 lg:p-5 border-b bg-navbar text-white'>
-          <Tooltip
-            content="Open Navigation bar"
-            relationship="label"
-            positioning="after"
-          >
-            <Hamburger
-              onClick={() => setNavOpen(true)}
-              className='text-white'
-              aria-label="Open Navigation bar"
-            />
-          </Tooltip>
-
-          <div className='flex items-center gap-4'>
-            <h1 className='font-semibold text-lg ml-2'>CivicSphere</h1>
+        <header className='sticky top-0 z-10 grid grid-cols-3 items-center p-3 lg:p-5 border-b bg-navbar text-white'>
+          <div className='justify-self-start'>
+            <Tooltip
+              content="Open Navigation bar"
+              relationship="label"
+              positioning="after"
+            >
+              <Hamburger
+                onClick={() => setNavOpen(true)}
+                className='text-white fill-white'
+                aria-label="Open Navigation bar"
+                style={{ color: 'white' }}
+              />
+            </Tooltip>
           </div>
 
-          <div className='flex items-center gap-2'>
+          <div className='justify-self-center'>
+            <h1 className='font-semibold text-lg'>CivicSphere</h1>
+          </div>
+
+          <div className='justify-self-end flex items-center gap-2'>
             <LocaleSwitcher variant="navbar" />
             <Link href='/u/settings'>
               <Avatar
