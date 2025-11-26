@@ -119,5 +119,16 @@
         "sortByActivity": "활동별 상위",
         "trendingTopic": "인기 주제",
         "mentions": "언급"
+    },
+    "createPost": {
+        "title": "게시물 작성",
+        "close": "닫기",
+        "placeholder": "지역 정치나 커뮤니티 문제에 대해 공유하세요...",
+        "addMedia": "미디어 추가",
+        "uploadHint": "이미지, 동영상 또는 문서를 업로드할 수 있습니다.",
+        "selectTags": "태그 선택",
+        "filterPlaceholder": "태그 필터",
+        "cancel": "취소",
+        "post": "게시"
     }
 }

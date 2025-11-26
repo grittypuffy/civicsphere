@@ -119,5 +119,16 @@
         "sortByActivity": "Najlepsze według aktywności",
         "trendingTopic": "Popularny temat",
         "mentions": "wzmianek"
+    },
+    "createPost": {
+        "title": "Utwórz post",
+        "close": "Zamknij",
+        "placeholder": "Podziel się czymś o lokalnej polityce lub sprawach społeczności...",
+        "addMedia": "Dodaj media",
+        "uploadHint": "Możesz przesłać zdjęcia, filmy lub dokumenty.",
+        "selectTags": "Wybierz tagi",
+        "filterPlaceholder": "Filtruj tagi",
+        "cancel": "Anuluj",
+        "post": "Opublikuj"
     }
 }

@@ -120,6 +120,17 @@
         "trendingTopic": "热门话题",
         "mentions": "提及"
     },
+    "createPost": {
+        "title": "创建帖子",
+        "close": "关闭",
+        "placeholder": "分享一些关于当地政治或社区问题的内容...",
+        "addMedia": "添加媒体",
+        "uploadHint": "您可以上传图片、视频或文档。",
+        "selectTags": "选择标签",
+        "filterPlaceholder": "筛选标签",
+        "cancel": "取消",
+        "post": "发布"
+    },
     "affordable-housing": "可负担住房",
     "artificial-intelligence": "人工智能",
     "arts-and-culture": "艺术与文化",
