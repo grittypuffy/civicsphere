@@ -305,5 +305,43 @@
       "signingIn": "Accesso in corso, attendere prego",
       "loading": "Caricamento"
     }
+  },
+  "signup_form": {
+  "form": {
+    "usernameLabel": "Nome utente",
+    "checkUsername": "Controlla nome utente",
+    "changeUsername": "Cambia nome utente",
+    "fullNameLabel": "Nome completo",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "showPassword": "Mostra password",
+    "hidePassword": "Nascondi password",
+    "cookieLabel": "Questo sito web richiede i cookie per funzionare correttamente. Accetto i cookie di terze parti.",
+    "cookieDesc": "Devi accettare la politica sui cookie per creare un account",
+    "submit": "Invia"
+  },
+  "toast": {
+    "signUpFailed": "Registrazione non riuscita",
+    "improperData": "Dati non validi! Segui il formato indicato.",
+    "signUpSuccessful": "Registrazione avvenuta con successo",
+    "canSignIn": "Ora puoi accedere.",
+    "exists": "Nome utente o email già esistenti.",
+    "invalidData422": "Dati non validi! Controlla le informazioni e riprova.",
+    "tryLater": "Per favore riprova più tardi.",
+    "invalidUsername": "Nome utente non valido",
+    "usernameUnavailable": "Nome utente non disponibile",
+    "chooseDifferent": "Scegli un nome utente diverso.",
+    "followFormat": "Segui il formato del nome utente.",
+    "usernameAvailable": "Il nome utente \"{username}\" è disponibile",
+    "usernameAvailableDesc": "Puoi procedere con questo nome utente.",
+    "usernameValidationError": "Errore durante la validazione del nome utente"
+  },
+  "aria": {
+    "usernameValidationForm": "Modulo di validazione del nome utente",
+    "checkingUsername": "Verifica disponibilità nome utente",
+    "signUpForm": "Modulo di registrazione",
+    "creatingAccount": "Creazione dell’account"
   }
+}
+
 }

@@ -305,5 +305,42 @@
       "signingIn": "Connexion en cours, veuillez patienter",
       "loading": "Chargement"
     }
+  },
+  "signup_form": {
+    "form": {
+      "usernameLabel": "Nom d’utilisateur",
+      "checkUsername": "Vérifier le nom d’utilisateur",
+      "changeUsername": "Changer le nom d’utilisateur",
+      "fullNameLabel": "Nom complet",
+      "emailLabel": "E-mail",
+      "passwordLabel": "Mot de passe",
+      "showPassword": "Afficher le mot de passe",
+      "hidePassword": "Masquer le mot de passe",
+      "cookieLabel": "Ce site nécessite des cookies pour fonctionner correctement. J’accepte les cookies tiers.",
+      "cookieDesc": "Vous devez accepter la politique de cookies pour créer un compte",
+      "submit": "Soumettre"
+    },
+    "toast": {
+      "signUpFailed": "Échec de l’inscription",
+      "improperData": "Données incorrectes ! Veuillez suivre le format indiqué.",
+      "signUpSuccessful": "Inscription réussie",
+      "canSignIn": "Vous pouvez maintenant vous connecter.",
+      "exists": "Le nom d’utilisateur ou l’e-mail existe déjà.",
+      "invalidData422": "Données invalides ! Veuillez vérifier vos informations et réessayer.",
+      "tryLater": "Veuillez réessayer plus tard.",
+      "invalidUsername": "Nom d’utilisateur invalide",
+      "usernameUnavailable": "Nom d’utilisateur non disponible",
+      "chooseDifferent": "Veuillez choisir un autre nom d’utilisateur.",
+      "followFormat": "Veuillez suivre le format du nom d’utilisateur.",
+      "usernameAvailable": "Le nom d’utilisateur « {username} » est disponible",
+      "usernameAvailableDesc": "Vous pouvez continuer avec ce nom d’utilisateur.",
+      "usernameValidationError": "Erreur lors de la validation du nom d’utilisateur"
+    },
+    "aria": {
+      "usernameValidationForm": "Formulaire de validation du nom d’utilisateur",
+      "checkingUsername": "Vérification de la disponibilité du nom d’utilisateur",
+      "signUpForm": "Formulaire d’inscription",
+      "creatingAccount": "Création du compte"
+    }
   }
 }

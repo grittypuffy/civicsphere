@@ -305,5 +305,42 @@
       "signingIn": "Anmeldung läuft, bitte warten",
       "loading": "Laden"
     }
+  },
+  "signup_form": {
+    "form": {
+      "usernameLabel": "Benutzername",
+      "checkUsername": "Benutzernamen prüfen",
+      "changeUsername": "Benutzernamen ändern",
+      "fullNameLabel": "Vollständiger Name",
+      "emailLabel": "E-Mail",
+      "passwordLabel": "Passwort",
+      "showPassword": "Passwort anzeigen",
+      "hidePassword": "Passwort ausblenden",
+      "cookieLabel": "Diese Website benötigt Cookies, um ordnungsgemäß zu funktionieren. Ich akzeptiere Cookies von Drittanbietern.",
+      "cookieDesc": "Sie müssen die Cookie-Richtlinie akzeptieren, um ein Konto zu erstellen",
+      "submit": "Absenden"
+    },
+    "toast": {
+      "signUpFailed": "Registrierung fehlgeschlagen",
+      "improperData": "Ungültige Daten! Bitte folgen Sie dem angegebenen Format.",
+      "signUpSuccessful": "Registrierung erfolgreich",
+      "canSignIn": "Sie können sich jetzt anmelden.",
+      "exists": "Benutzername oder E-Mail existiert bereits.",
+      "invalidData422": "Ungültige Daten! Bitte überprüfen Sie Ihre Eingaben und versuchen Sie es erneut.",
+      "tryLater": "Bitte versuchen Sie es später erneut.",
+      "invalidUsername": "Ungültiger Benutzername",
+      "usernameUnavailable": "Benutzername nicht verfügbar",
+      "chooseDifferent": "Bitte wählen Sie einen anderen Benutzernamen.",
+      "followFormat": "Bitte beachten Sie das Benutzernamenformat.",
+      "usernameAvailable": "Benutzername „{username}“ ist verfügbar",
+      "usernameAvailableDesc": "Sie können mit diesem Benutzernamen fortfahren.",
+      "usernameValidationError": "Fehler bei der Überprüfung des Benutzernamens"
+    },
+    "aria": {
+      "usernameValidationForm": "Formular zur Benutzernamenprüfung",
+      "checkingUsername": "Überprüfung der Verfügbarkeit des Benutzernamens",
+      "signUpForm": "Registrierungsformular",
+      "creatingAccount": "Konto wird erstellt"
+    }
   }
 }

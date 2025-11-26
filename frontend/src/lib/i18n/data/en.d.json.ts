@@ -308,6 +308,43 @@ declare const messages: {
       "signingIn": "Signing in, please wait",
       "loading": "Loading"
     }
+  },
+  "signup_form": {
+    "form": {
+      "usernameLabel": "Username",
+      "checkUsername": "Check Username",
+      "changeUsername": "Change Username",
+      "fullNameLabel": "Full Name",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "showPassword": "Show Password",
+      "hidePassword": "Hide Password",
+      "cookieLabel": "This website requires cookies to function properly. I accept third-party cookies.",
+      "cookieDesc": "You must accept the cookie policy to create an account",
+      "submit": "Submit"
+    },
+    "toast": {
+      "signUpFailed": "Sign Up Failed",
+      "improperData": "Improper data! Please follow the format specified.",
+      "signUpSuccessful": "Sign Up Successful",
+      "canSignIn": "You can now sign in.",
+      "exists": "Username or Email already exists.",
+      "invalidData422": "Invalid data! Please check your input and try again.",
+      "tryLater": "Please try again later.",
+      "invalidUsername": "Invalid Username",
+      "usernameUnavailable": "Username Unavailable",
+      "chooseDifferent": "Please choose a different username.",
+      "followFormat": "Please follow the username format.",
+      "usernameAvailable": "Username \"{username}\" is available",
+      "usernameAvailableDesc": "You can proceed with this username.",
+      "usernameValidationError": "Error validating username"
+    },
+    "aria": {
+      "usernameValidationForm": "Username validation form",
+      "checkingUsername": "Checking username availability",
+      "signUpForm": "Sign up form",
+      "creatingAccount": "Creating account"
+    }
   }
 };
 export default messages;

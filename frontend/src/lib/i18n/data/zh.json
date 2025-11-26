@@ -305,5 +305,42 @@
       "signingIn": "正在登录，请稍候",
       "loading": "加载中"
     }
+  },
+  "signup_form": {
+    "form": {
+      "usernameLabel": "用户名",
+      "checkUsername": "检查用户名",
+      "changeUsername": "更改用户名",
+      "fullNameLabel": "全名",
+      "emailLabel": "邮箱",
+      "passwordLabel": "密码",
+      "showPassword": "显示密码",
+      "hidePassword": "隐藏密码",
+      "cookieLabel": "本网站需要 Cookies 才能正常运行。我接受第三方 Cookies。",
+      "cookieDesc": "您必须接受 Cookie 政策才能创建账户",
+      "submit": "提交"
+    },
+    "toast": {
+      "signUpFailed": "注册失败",
+      "improperData": "数据格式不正确！请按照要求填写。",
+      "signUpSuccessful": "注册成功",
+      "canSignIn": "您现在可以登录了。",
+      "exists": "用户名或邮箱已存在。",
+      "invalidData422": "数据无效！请检查后再试一次。",
+      "tryLater": "请稍后再试。",
+      "invalidUsername": "无效的用户名",
+      "usernameUnavailable": "用户名不可用",
+      "chooseDifferent": "请换一个用户名。",
+      "followFormat": "请遵循用户名格式要求。",
+      "usernameAvailable": "用户名 “{username}” 可用",
+      "usernameAvailableDesc": "您可以继续使用此用户名。",
+      "usernameValidationError": "验证用户名时出错"
+    },
+    "aria": {
+      "usernameValidationForm": "用户名验证表单",
+      "checkingUsername": "正在检查用户名可用性",
+      "signUpForm": "注册表单",
+      "creatingAccount": "正在创建账户"
+    }
   }
 }

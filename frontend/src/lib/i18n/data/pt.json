@@ -281,30 +281,66 @@
     "copyright": "© {year} {appName}"
   },
   "signin_form": {
-  "form": {
-    "usernameLabel": "Nome de usuário",
-    "usernameAria": "Nome de usuário",
-    "passwordLabel": "Senha",
-    "passwordAria": "Senha",
-    "signIn": "Entrar",
-    "showPassword": "Mostrar senha",
-    "hidePassword": "Ocultar senha"
+    "form": {
+      "usernameLabel": "Nome de usuário",
+      "usernameAria": "Nome de usuário",
+      "passwordLabel": "Senha",
+      "passwordAria": "Senha",
+      "signIn": "Entrar",
+      "showPassword": "Mostrar senha",
+      "hidePassword": "Ocultar senha"
+    },
+    "toast": {
+      "signInFailed": "Falha no login",
+      "invalidData": "Dados inválidos! Verifique suas informações.",
+      "signingIn": "Entrando...",
+      "signInSuccessful": "Login bem-sucedido",
+      "redirecting": "Redirecionando...",
+      "invalidCredentialsTitle": "Credenciais inválidas",
+      "invalidCredentialsDesc": "Verifique seu nome de usuário e senha.",
+      "tryLater": "Tente novamente mais tarde."
+    },
+    "aria": {
+      "formLabel": "Formulário de login",
+      "signingIn": "Entrando, por favor aguarde",
+      "loading": "Carregando"
+    }
   },
-  "toast": {
-    "signInFailed": "Falha no login",
-    "invalidData": "Dados inválidos! Verifique suas informações.",
-    "signingIn": "Entrando...",
-    "signInSuccessful": "Login bem-sucedido",
-    "redirecting": "Redirecionando...",
-    "invalidCredentialsTitle": "Credenciais inválidas",
-    "invalidCredentialsDesc": "Verifique seu nome de usuário e senha.",
-    "tryLater": "Tente novamente mais tarde."
-  },
-  "aria": {
-    "formLabel": "Formulário de login",
-    "signingIn": "Entrando, por favor aguarde",
-    "loading": "Carregando"
+  "signup_form": {
+    "form": {
+      "usernameLabel": "Nome de usuário",
+      "checkUsername": "Verificar nome de usuário",
+      "changeUsername": "Alterar nome de usuário",
+      "fullNameLabel": "Nome completo",
+      "emailLabel": "Email",
+      "passwordLabel": "Senha",
+      "showPassword": "Mostrar senha",
+      "hidePassword": "Ocultar senha",
+      "cookieLabel": "Este site requer cookies para funcionar corretamente. Aceito cookies de terceiros.",
+      "cookieDesc": "Você deve aceitar a política de cookies para criar uma conta",
+      "submit": "Enviar"
+    },
+    "toast": {
+      "signUpFailed": "Falha no cadastro",
+      "improperData": "Dados incorretos! Siga o formato especificado.",
+      "signUpSuccessful": "Cadastro realizado com sucesso",
+      "canSignIn": "Agora você pode fazer login.",
+      "exists": "Nome de usuário ou email já existe.",
+      "invalidData422": "Dados inválidos! Verifique suas informações e tente novamente.",
+      "tryLater": "Por favor, tente novamente mais tarde.",
+      "invalidUsername": "Nome de usuário inválido",
+      "usernameUnavailable": "Nome de usuário indisponível",
+      "chooseDifferent": "Escolha outro nome de usuário.",
+      "followFormat": "Siga o formato do nome de usuário.",
+      "usernameAvailable": "O nome de usuário \"{username}\" está disponível",
+      "usernameAvailableDesc": "Você pode continuar com este nome de usuário.",
+      "usernameValidationError": "Erro ao validar o nome de usuário"
+    },
+    "aria": {
+      "usernameValidationForm": "Formulário de validação do nome de usuário",
+      "checkingUsername": "Verificando disponibilidade do nome de usuário",
+      "signUpForm": "Formulário de cadastro",
+      "creatingAccount": "Criando conta"
+    }
   }
-}
-
 }

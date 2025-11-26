@@ -305,5 +305,42 @@
       "signingIn": "Logowanie, proszę czekać",
       "loading": "Ładowanie"
     }
+  },
+  "signup_form": {
+    "form": {
+      "usernameLabel": "Nazwa użytkownika",
+      "checkUsername": "Sprawdź nazwę użytkownika",
+      "changeUsername": "Zmień nazwę użytkownika",
+      "fullNameLabel": "Pełne imię i nazwisko",
+      "emailLabel": "Email",
+      "passwordLabel": "Hasło",
+      "showPassword": "Pokaż hasło",
+      "hidePassword": "Ukryj hasło",
+      "cookieLabel": "Ta strona wymaga plików cookies do prawidłowego działania. Akceptuję cookies stron trzecich.",
+      "cookieDesc": "Musisz zaakceptować politykę cookies, aby utworzyć konto",
+      "submit": "Zatwierdź"
+    },
+    "toast": {
+      "signUpFailed": "Rejestracja nieudana",
+      "improperData": "Nieprawidłowe dane! Postępuj zgodnie z podanym formatem.",
+      "signUpSuccessful": "Rejestracja zakończona sukcesem",
+      "canSignIn": "Możesz się teraz zalogować.",
+      "exists": "Nazwa użytkownika lub e-mail już istnieje.",
+      "invalidData422": "Nieprawidłowe dane! Sprawdź informacje i spróbuj ponownie.",
+      "tryLater": "Spróbuj ponownie później.",
+      "invalidUsername": "Nieprawidłowa nazwa użytkownika",
+      "usernameUnavailable": "Nazwa użytkownika niedostępna",
+      "chooseDifferent": "Wybierz inną nazwę użytkownika.",
+      "followFormat": "Postępuj zgodnie z formatem nazwy użytkownika.",
+      "usernameAvailable": "Nazwa użytkownika \"{username}\" jest dostępna",
+      "usernameAvailableDesc": "Możesz kontynuować z tą nazwą użytkownika.",
+      "usernameValidationError": "Błąd podczas sprawdzania nazwy użytkownika"
+    },
+    "aria": {
+      "usernameValidationForm": "Formularz weryfikacji nazwy użytkownika",
+      "checkingUsername": "Sprawdzanie dostępności nazwy użytkownika",
+      "signUpForm": "Formularz rejestracji",
+      "creatingAccount": "Tworzenie konta"
+    }
   }
 }

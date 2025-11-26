@@ -305,5 +305,42 @@
       "signingIn": "サインイン中です。お待ちください。",
       "loading": "読み込み中"
     }
+  },
+  "signup_form": {
+    "form": {
+      "usernameLabel": "ユーザー名",
+      "checkUsername": "ユーザー名を確認",
+      "changeUsername": "ユーザー名を変更",
+      "fullNameLabel": "フルネーム",
+      "emailLabel": "メールアドレス",
+      "passwordLabel": "パスワード",
+      "showPassword": "パスワードを表示",
+      "hidePassword": "パスワードを非表示",
+      "cookieLabel": "このウェブサイトは正しく動作するためにクッキーが必要です。第三者のクッキーを許可します。",
+      "cookieDesc": "アカウントを作成するにはクッキーポリシーに同意する必要があります",
+      "submit": "送信"
+    },
+    "toast": {
+      "signUpFailed": "サインアップに失敗しました",
+      "improperData": "不正なデータです！指定された形式に従ってください。",
+      "signUpSuccessful": "サインアップ成功",
+      "canSignIn": "ログインできます。",
+      "exists": "ユーザー名またはメールアドレスは既に存在します。",
+      "invalidData422": "無効なデータです！内容を確認して再試行してください。",
+      "tryLater": "後でもう一度お試しください。",
+      "invalidUsername": "無効なユーザー名",
+      "usernameUnavailable": "ユーザー名は使用できません",
+      "chooseDifferent": "別のユーザー名を選択してください。",
+      "followFormat": "ユーザー名の形式に従ってください。",
+      "usernameAvailable": "ユーザー名「{username}」は利用可能です",
+      "usernameAvailableDesc": "このユーザー名で続行できます。",
+      "usernameValidationError": "ユーザー名の確認中にエラーが発生しました"
+    },
+    "aria": {
+      "usernameValidationForm": "ユーザー名確認フォーム",
+      "checkingUsername": "ユーザー名の利用可能性を確認中",
+      "signUpForm": "サインアップフォーム",
+      "creatingAccount": "アカウント作成中"
+    }
   }
 }

@@ -305,5 +305,42 @@
       "signingIn": "로그인 중입니다. 잠시만 기다려주세요.",
       "loading": "로드 중"
     }
+  },
+  "signup_form": {
+    "form": {
+      "usernameLabel": "사용자 이름",
+      "checkUsername": "사용자 이름 확인",
+      "changeUsername": "사용자 이름 변경",
+      "fullNameLabel": "전체 이름",
+      "emailLabel": "이메일",
+      "passwordLabel": "비밀번호",
+      "showPassword": "비밀번호 보이기",
+      "hidePassword": "비밀번호 숨기기",
+      "cookieLabel": "이 웹사이트는 정상 작동을 위해 쿠키가 필요합니다. 타사 쿠키 사용에 동의합니다.",
+      "cookieDesc": "계정을 생성하려면 쿠키 정책에 동의해야 합니다",
+      "submit": "제출"
+    },
+    "toast": {
+      "signUpFailed": "회원가입 실패",
+      "improperData": "잘못된 데이터입니다! 지정된 형식을 따라주세요.",
+      "signUpSuccessful": "회원가입 성공",
+      "canSignIn": "이제 로그인할 수 있습니다.",
+      "exists": "사용자 이름 또는 이메일이 이미 존재합니다.",
+      "invalidData422": "유효하지 않은 데이터입니다! 정보를 확인하고 다시 시도하세요.",
+      "tryLater": "나중에 다시 시도해주세요.",
+      "invalidUsername": "유효하지 않은 사용자 이름",
+      "usernameUnavailable": "사용자 이름 사용 불가",
+      "chooseDifferent": "다른 사용자 이름을 선택하세요.",
+      "followFormat": "사용자 이름 형식을 따라주세요.",
+      "usernameAvailable": "\"{username}\" 사용자 이름 사용 가능",
+      "usernameAvailableDesc": "이 사용자 이름으로 계속할 수 있습니다.",
+      "usernameValidationError": "사용자 이름 확인 중 오류 발생"
+    },
+    "aria": {
+      "usernameValidationForm": "사용자 이름 확인 폼",
+      "checkingUsername": "사용자 이름 사용 가능 여부 확인 중",
+      "signUpForm": "회원가입 폼",
+      "creatingAccount": "계정 생성 중"
+    }
   }
 }
