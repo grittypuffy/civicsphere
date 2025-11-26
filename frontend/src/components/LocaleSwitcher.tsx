@@ -82,12 +82,12 @@ export default function LocaleSwitcher({ variant = 'navbar' }: LocaleSwitcherPro
                 <Tooltip content="Change language" relationship="label">
                     <Button
                         appearance="transparent"
-                        icon={<LocalLanguageRegular className="text-xl" />}
+                        icon={<LocalLanguageRegular className="text-xl text-white" />}
                         disabled={isPending}
                         aria-label="Change language"
                         className="text-white hover:bg-white/10"
                     >
-                        <span className="hidden sm:inline">{currentLanguage?.code.toUpperCase()}</span>
+                        <span className="hidden sm:inline text-white">{currentLanguage?.code.toUpperCase()}</span>
                     </Button>
                 </Tooltip>
             </MenuTrigger>
