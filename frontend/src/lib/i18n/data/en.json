@@ -120,6 +120,17 @@
     "trendingTopic": "Trending topic",
     "mentions": "mentions"
   },
+  "createPost": {
+    "title": "Create a post",
+    "close": "Close",
+    "placeholder": "Share something about local politics or community issues...",
+    "addMedia": "Add media",
+    "uploadHint": "You can upload images, videos or documents.",
+    "selectTags": "Select tags",
+    "filterPlaceholder": "Filter tags",
+    "cancel": "Cancel",
+    "post": "Post"
+  },
   "tags": {
     "affordable-housing": "Affordable Housing {name}",
     "artificial-intelligence": "Artificial Intelligence",

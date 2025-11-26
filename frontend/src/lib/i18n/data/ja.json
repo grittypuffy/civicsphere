@@ -119,5 +119,16 @@
         "sortByActivity": "アクティビティ順",
         "trendingTopic": "トレンドトピック",
         "mentions": "件の言及"
+    },
+    "createPost": {
+        "title": "投稿を作成",
+        "close": "閉じる",
+        "placeholder": "地域政治やコミュニティの問題について何か共有してください...",
+        "addMedia": "メディアを追加",
+        "uploadHint": "画像、動画、またはドキュメントをアップロードできます。",
+        "selectTags": "タグを選択",
+        "filterPlaceholder": "タグを絞り込む",
+        "cancel": "キャンセル",
+        "post": "投稿する"
     }
 }

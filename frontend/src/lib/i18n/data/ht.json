@@ -36,5 +36,16 @@
         "sortByActivity": "Pi bon pa aktivite",
         "trendingTopic": "Sijè popilè",
         "mentions": "mansyon"
+    },
+    "createPost": {
+        "title": "Kreye yon pòs",
+        "close": "Fèmen",
+        "placeholder": "Pataje yon bagay sou politik lokal oswa pwoblèm kominotè...",
+        "addMedia": "Ajoute medya",
+        "uploadHint": "Ou ka telechaje imaj, videyo oswa dokiman.",
+        "selectTags": "Chwazi tag",
+        "filterPlaceholder": "Filtre tag",
+        "cancel": "Anile",
+        "post": "Poste"
     }
 }

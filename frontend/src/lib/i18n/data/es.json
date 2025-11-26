@@ -119,5 +119,16 @@
         "sortByActivity": "Mejores por actividad",
         "trendingTopic": "Tema en tendencia",
         "mentions": "menciones"
+    },
+    "createPost": {
+        "title": "Crear una publicación",
+        "close": "Cerrar",
+        "placeholder": "Comparte algo sobre política local o temas comunitarios...",
+        "addMedia": "Agregar medios",
+        "uploadHint": "Puedes subir imágenes, videos o documentos.",
+        "selectTags": "Seleccionar etiquetas",
+        "filterPlaceholder": "Filtrar etiquetas",
+        "cancel": "Cancelar",
+        "post": "Publicar"
     }
 }

@@ -120,6 +120,17 @@
         "trendingTopic": "Sujet tendance",
         "mentions": "mentions"
     },
+    "createPost": {
+        "title": "Créer une publication",
+        "close": "Fermer",
+        "placeholder": "Partagez quelque chose sur la politique locale ou les questions communautaires...",
+        "addMedia": "Ajouter des médias",
+        "uploadHint": "Vous pouvez télécharger des images, des vidéos ou des documents.",
+        "selectTags": "Sélectionner des tags",
+        "filterPlaceholder": "Filtrer les tags",
+        "cancel": "Annuler",
+        "post": "Publier"
+    },
     "affordable-housing": "Logement Abordable",
     "artificial-intelligence": "Intelligence Artificielle",
     "arts-and-culture": "Arts et Culture",
