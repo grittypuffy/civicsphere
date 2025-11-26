@@ -258,5 +258,26 @@
     "womens-rights": "女性の権利",
     "women-voices": "女性の声",
     "wellness-programs": "ウェルネスプログラム"
+  },
+  "sidebar": {
+    "appName": "CivicSphere",
+    "nav": {
+      "home": "ホーム",
+      "trending": "トレンド",
+      "chat": "チャット",
+      "community": "コミュニティ",
+      "settings": "設定"
+    },
+    "tooltip": {
+      "close": "ナビゲーションバーを閉じる"
+    },
+    "aria": {
+      "mainNavigation": "メインナビゲーション",
+      "closeNavigation": "ナビゲーションメニューを閉じる",
+      "navigateTo": "{page} ページへ移動",
+      "signOut": "サインアウトボタン"
+    },
+    "signout": "サインアウト",
+    "copyright": "© {year} {appName}"
   }
 }

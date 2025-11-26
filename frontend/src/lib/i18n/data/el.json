@@ -258,5 +258,26 @@
     "womens-rights": "Δικαιώματα των γυναικών",
     "women-voices": "Φωνές γυναικών",
     "wellness-programs": "Προγράμματα ευεξίας"
+  },
+  "sidebar": {
+    "appName": "CivicSphere",
+    "nav": {
+      "home": "Αρχική",
+      "trending": "Τάσεις",
+      "chat": "Συνομιλία",
+      "community": "Κοινότητα",
+      "settings": "Ρυθμίσεις"
+    },
+    "tooltip": {
+      "close": "Κλείσιμο γραμμής πλοήγησης"
+    },
+    "aria": {
+      "mainNavigation": "Κύρια πλοήγηση",
+      "closeNavigation": "Κλείσιμο μενού πλοήγησης",
+      "navigateTo": "Μετάβαση στη σελίδα {page}",
+      "signOut": "Κουμπί αποσύνδεσης"
+    },
+    "signout": "Αποσύνδεση",
+    "copyright": "© {year} {appName}"
   }
 }

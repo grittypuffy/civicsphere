@@ -261,6 +261,27 @@ declare const messages: {
     "ariaLanguage": "Language",
     "ariaInterests": "Interests",
     "ariaProfession": "Profession"
+  },
+  "sidebar": {
+    "appName": "CivicSphere",
+    "nav": {
+      "home": "Home",
+      "trending": "Trending",
+      "chat": "Chat",
+      "community": "Community",
+      "settings": "Settings"
+    },
+    "tooltip": {
+      "close": "Close navigation bar"
+    },
+    "aria": {
+      "mainNavigation": "Main navigation",
+      "closeNavigation": "Close navigation menu",
+      "navigateTo": "Navigate to {page} page",
+      "signOut": "Sign out button"
+    },
+    "signout": "Logout",
+    "copyright": "© {year} {appName}"
   }
 };
 export default messages;

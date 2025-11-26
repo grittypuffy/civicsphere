@@ -258,5 +258,26 @@
     "womens-rights": "महिलाओं के अधिकार",
     "women-voices": "महिला आवाज़ें",
     "wellness-programs": "वेलनेस कार्यक्रम"
+  },
+  "sidebar": {
+    "appName": "CivicSphere",
+    "nav": {
+      "home": "मुखपृष्ठ",
+      "trending": "ट्रेंडिंग",
+      "chat": "चैट",
+      "community": "समुदाय",
+      "settings": "सेटिंग्स"
+    },
+    "tooltip": {
+      "close": "नेविगेशन बार बंद करें"
+    },
+    "aria": {
+      "mainNavigation": "मुख्य नेविगेशन",
+      "closeNavigation": "नेविगेशन मेनू बंद करें",
+      "navigateTo": "{page} पृष्ठ पर जाएँ",
+      "signOut": "साइन आउट बटन"
+    },
+    "signout": "साइन आउट",
+    "copyright": "© {year} {appName}"
   }
 }

@@ -258,5 +258,26 @@
     "womens-rights": "妇女权利",
     "women-voices": "女性声音",
     "wellness-programs": "健康计划"
+  },
+  "sidebar": {
+    "appName": "CivicSphere",
+    "nav": {
+      "home": "首页",
+      "trending": "趋势",
+      "chat": "聊天",
+      "community": "社区",
+      "settings": "设置"
+    },
+    "tooltip": {
+      "close": "关闭导航栏"
+    },
+    "aria": {
+      "mainNavigation": "主导航",
+      "closeNavigation": "关闭导航菜单",
+      "navigateTo": "跳转到 {page} 页面",
+      "signOut": "退出按钮"
+    },
+    "signout": "退出登录",
+    "copyright": "© {year} {appName}"
   }
 }

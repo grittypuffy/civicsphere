@@ -258,5 +258,26 @@
     "womens-rights": "Droits des femmes",
     "women-voices": "Voix des femmes",
     "wellness-programs": "Programmes de bien-être"
+  },
+  "sidebar": {
+    "appName": "CivicSphere",
+    "nav": {
+      "home": "Accueil",
+      "trending": "Tendance",
+      "chat": "Chat",
+      "community": "Communauté",
+      "settings": "Paramètres"
+    },
+    "tooltip": {
+      "close": "Fermer la barre de navigation"
+    },
+    "aria": {
+      "mainNavigation": "Navigation principale",
+      "closeNavigation": "Fermer le menu de navigation",
+      "navigateTo": "Naviguer vers la page {page}",
+      "signOut": "Bouton de déconnexion"
+    },
+    "signout": "Se déconnecter",
+    "copyright": "© {year} {appName}"
   }
 }
