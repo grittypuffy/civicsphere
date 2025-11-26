@@ -467,7 +467,7 @@ export const Feeds = ({ posts, issues, showVoted }: FeedsProps) => {
   const upvotedPosts = useAtomValue(userPostUpvotesAtom_loadable)
   const downvotedPosts = useAtomValue(userPostDownvotesAtom_loadable)
   const upvotedIssues = useAtomValue(userIssueUpvotesAtom_loadable)
-
+  console.log({ posts, issues, showVoted })
   const upvotedPostIds = upvotedPosts.state === 'hasData' ? new Set(upvotedPosts.data as string[]) : new Set()
   const downvotedPostIds = downvotedPosts.state === 'hasData' ? new Set(downvotedPosts.data as string[]) : new Set()
   const upvotedIssueIds = upvotedIssues.state === 'hasData' ? new Set(upvotedIssues.data as string[]) : new Set()
@@ -482,7 +482,9 @@ export const Feeds = ({ posts, issues, showVoted }: FeedsProps) => {
     showVoted ? upvotedIssueIds.has(issue.issue_id) : !upvotedIssueIds.has(issue.issue_id)
   ) || []
 
-  const hasAnyContent = filteredPosts.length > 0 || filteredIssues.length > 0
+  console.log({ filteredPosts, filteredIssues })  
+
+  const hasAnyContent = posts!.length > 0 || issues!.length > 0
 
   if (!hasAnyContent) {
     return (
@@ -499,14 +501,14 @@ export const Feeds = ({ posts, issues, showVoted }: FeedsProps) => {
   return (
     <div className="max-w-5xl mx-auto p-6">
       <div className="grid gap-4">
-        {filteredPosts.map((post) => (
+        {posts && posts!.map((post) => (
           <PostCard
             key={post.post_id}
             post={post}
           />
         ))}
 
-        {filteredIssues.map((issue) => (
+        {issues && issues!.map((issue) => (
           <IssueCard
             key={issue.issue_id}
             issue={issue}
