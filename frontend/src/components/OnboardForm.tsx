@@ -6,9 +6,79 @@ import { Button, Dropdown, Field, Input, InputOnChangeData, Option, Spinner, Tex
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
 import * as v from 'valibot';
+import { useTranslations } from 'next-intl';
 
-const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
+/**
+ * Localizable keys for the onboarding form
+ * Keys mirror the JSON you will append under the `onboard` namespace.
+ */
+type OnboardStrings = {
+  locationLabel: string;
+  addressLabel: string;
+  languageLabel: string;
+  languagePlaceholder: string;
+  interestsLabel: string;
+  interestsPlaceholder: string;
+  interestsExample: string;
+  professionLabel: string;
+  buttonComplete: string;
+  loadingAria: string;
+  onboardingFailTitle: string;
+  onboardingFailDescInvalid: string;
+  completingOnboarding: string;
+  onboardingCompleteTitle: string;
+  onboardingCompleteDesc: string;
+  invalidDataTitle: string;
+  invalidDataDesc: string;
+  onboardingFailedGenericTitle: string;
+  onboardingFailedGenericDesc: string;
+  ariaFormLabel: string;
+  ariaLocation: string;
+  ariaAddress: string;
+  ariaLanguage: string;
+  ariaInterests: string;
+  ariaProfession: string;
+}
+
+/**
+ * Props
+ * - ToastMessage: same as before
+ * - strings?: optional overrides for keys (useful for testing or programmatic overrides)
+ */
+const OnboardForm = ({ ToastMessage, strings: stringsOverride }: { ToastMessage: ToastFunc; strings?: Partial<OnboardStrings> }) => {
   const router = useRouter();
+  const t = useTranslations('onboard');
+
+  // Merge next-intl translations with optional overrides
+  const s: OnboardStrings = {
+    locationLabel: t('locationLabel'),
+    addressLabel: t('addressLabel'),
+    languageLabel: t('languageLabel'),
+    languagePlaceholder: t('languagePlaceholder'),
+    interestsLabel: t('interestsLabel'),
+    interestsPlaceholder: t('interestsPlaceholder'),
+    interestsExample: t('interestsExample'),
+    professionLabel: t('professionLabel'),
+    buttonComplete: t('buttonComplete'),
+    loadingAria: t('loadingAria'),
+    onboardingFailTitle: t('onboardingFailTitle'),
+    onboardingFailDescInvalid: t('onboardingFailDescInvalid'),
+    completingOnboarding: t('completingOnboarding'),
+    onboardingCompleteTitle: t('onboardingCompleteTitle'),
+    onboardingCompleteDesc: t('onboardingCompleteDesc'),
+    invalidDataTitle: t('invalidDataTitle'),
+    invalidDataDesc: t('invalidDataDesc'),
+    onboardingFailedGenericTitle: t('onboardingFailedGenericTitle'),
+    onboardingFailedGenericDesc: t('onboardingFailedGenericDesc'),
+    ariaFormLabel: t('ariaFormLabel'),
+    ariaLocation: t('ariaLocation'),
+    ariaAddress: t('ariaAddress'),
+    ariaLanguage: t('ariaLanguage'),
+    ariaInterests: t('ariaInterests'),
+    ariaProfession: t('ariaProfession'),
+    ...(stringsOverride || {}),
+  } as OnboardStrings;
+
   const [formData, setFormData] = useState<UserPreferencesRequest>({
     location: '',
     address: '',
@@ -65,16 +135,17 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
       setIsLoading(false);
       ToastMessage(
         {
-          message: 'Onboarding Failed',
-          description: 'Invalid data! Please check your input and try again.',
+          message: s.onboardingFailTitle,
+          description: s.onboardingFailDescInvalid,
         },
         'error'
       );
       return;
     }
 
+    // keep the small delay/UX behavior from the original
     setTimeout(async () => {
-      ToastMessage({ message: 'Completing Onboarding..', description: '' }, 'info');
+      ToastMessage({ message: s.completingOnboarding, description: '' }, 'info');
       try {
         const res: Response = await fetch('/api/v1/user/onboarding', {
           method: 'POST',
@@ -88,7 +159,7 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
         switch (res.status) {
           case 200:
             ToastMessage(
-              { message: 'Onboarding Complete', description: 'Welcome! Redirecting to your dashboard...' },
+              { message: s.onboardingCompleteTitle, description: s.onboardingCompleteDesc },
               'success'
             );
             setTimeout(() => {
@@ -97,7 +168,7 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             break;
           case 422:
             ToastMessage(
-              { message: 'Invalid Data', description: 'Please check your information and try again.' },
+              { message: s.invalidDataTitle, description: s.invalidDataDesc },
               'error'
             );
             break;
@@ -109,7 +180,7 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
       } catch (error) {
         console.error('Error during onboarding:', error);
         ToastMessage(
-          { message: 'Onboarding Failed', description: 'Please try again later.' },
+          { message: s.onboardingFailedGenericTitle, description: s.onboardingFailedGenericDesc },
           'error'
         );
       }
@@ -129,11 +200,11 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
         onSubmit={handleOnboarding}
         className="flex flex-col gap-y-3 w-full items-center"
         role="form"
-        aria-label="User onboarding form"
+        aria-label={s.ariaFormLabel}
         noValidate
       >
         <Field
-          label="Location"
+          label={s.locationLabel}
           validationMessage={validMsg.location}
           validationState={validMsg.location ? 'error' : 'none'}
           className="w-full"
@@ -148,7 +219,7 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             disabled={isLoading}
             className="w-full"
             style={{ minWidth: '200px' }}
-            aria-label='Location'
+            aria-label={s.ariaLocation}
             aria-describedby={validMsg.location ? 'location-error' : undefined}
             aria-invalid={validMsg.location ? 'true' : 'false'}
             required
@@ -157,7 +228,7 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
         </Field>
 
         <Field
-          label="Address"
+          label={s.addressLabel}
           validationMessage={validMsg.address}
           validationState={validMsg.address ? 'error' : 'none'}
           className="w-full"
@@ -172,16 +243,16 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             disabled={isLoading}
             className="w-full"
             style={{ minWidth: '200px' }}
-            aria-label='Address'
+            aria-label={s.ariaAddress}
             aria-describedby={validMsg.address ? 'address-error' : undefined}
             aria-invalid={validMsg.address ? 'true' : 'false'}
             required
-            autoComplete="address-level2"
+            autoComplete="address-line1"
           />
         </Field>
 
         <Field
-          label="Language"
+          label={s.languageLabel}
           validationMessage={validMsg.language}
           validationState={validMsg.language ? 'error' : 'none'}
           className="w-full"
@@ -192,8 +263,8 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             }}
             disabled={isLoading}
             className="w-full"
-            placeholder="Select your preferred language"
-            aria-label='Language'
+            placeholder={s.languagePlaceholder}
+            aria-label={s.ariaLanguage}
             aria-describedby={validMsg.language ? 'language-error' : undefined}
             aria-invalid={validMsg.language ? 'true' : 'false'}
           >
@@ -206,7 +277,7 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
         </Field>
 
         <Field
-          label="Interests (comma separated)"
+          label={s.interestsLabel}
           validationMessage={validMsg.interests}
           validationState={validMsg.interests ? 'error' : 'none'}
           className="w-full"
@@ -221,16 +292,16 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             disabled={isLoading}
             className="w-full"
             style={{ minWidth: '200px' }}
-            aria-label='Interests'
+            aria-label={s.ariaInterests}
             aria-describedby={validMsg.interests ? 'interests-error' : undefined}
             aria-invalid={validMsg.interests ? 'true' : 'false'}
-            placeholder="e.g., technology, music, sports"
+            placeholder={s.interestsPlaceholder}
             rows={3}
           />
         </Field>
 
         <Field
-          label="Profession"
+          label={s.professionLabel}
           validationMessage={validMsg.profession}
           validationState={validMsg.profession ? 'error' : 'none'}
           className="w-full"
@@ -245,7 +316,7 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             disabled={isLoading}
             className="w-full"
             style={{ minWidth: '200px' }}
-            aria-label='Profession'
+            aria-label={s.ariaProfession}
             aria-describedby={validMsg.profession ? 'profession-error' : undefined}
             aria-invalid={validMsg.profession ? 'true' : 'false'}
             required
@@ -255,12 +326,12 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
 
         <Button
           type="submit"
-          aria-label={isLoading ? "Completing onboarding, please wait" : "Complete onboarding"}
+          aria-label={isLoading ? s.loadingAria : s.buttonComplete}
           className="w-full max-w-xs hover:shadow-md btn-primary"
           disabled={isLoading || !formData.location || !formData.profession}
           aria-describedby={isLoading ? "loading-spinner" : undefined}
         >
-          {isLoading ? <Spinner size="extra-small" aria-label="Loading" id="loading-spinner" /> : 'Complete Onboarding'}
+          {isLoading ? <Spinner size="extra-small" aria-label="Loading" id="loading-spinner" /> : s.buttonComplete}
         </Button>
       </form>
     </div>

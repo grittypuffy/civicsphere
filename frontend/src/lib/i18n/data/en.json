@@ -225,5 +225,32 @@
     "voter-rights": "Voter Rights",
     "water-rights": "Water Rights",
     "women-empowerment": "Women Empowerment"
+  },
+  "onboard": {
+    "locationLabel": "Location",
+    "addressLabel": "Address",
+    "languageLabel": "Language",
+    "languagePlaceholder": "Select your preferred language",
+    "interestsLabel": "Interests (comma separated)",
+    "interestsPlaceholder": "e.g., technology, music, sports",
+    "interestsExample": "e.g., technology, music, sports",
+    "professionLabel": "Profession",
+    "buttonComplete": "Complete Onboarding",
+    "loadingAria": "Completing onboarding, please wait",
+    "onboardingFailTitle": "Onboarding Failed",
+    "onboardingFailDescInvalid": "Invalid data! Please check your input and try again.",
+    "completingOnboarding": "Completing Onboarding..",
+    "onboardingCompleteTitle": "Onboarding Complete",
+    "onboardingCompleteDesc": "Welcome! Redirecting to your dashboard...",
+    "invalidDataTitle": "Invalid Data",
+    "invalidDataDesc": "Please check your information and try again.",
+    "onboardingFailedGenericTitle": "Onboarding Failed",
+    "onboardingFailedGenericDesc": "Please try again later.",
+    "ariaFormLabel": "User onboarding form",
+    "ariaLocation": "Location",
+    "ariaAddress": "Address",
+    "ariaLanguage": "Language",
+    "ariaInterests": "Interests",
+    "ariaProfession": "Profession"
   }
 }

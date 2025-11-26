@@ -142,5 +142,32 @@
         "issueId": "課題ID：",
         "noVotedContent": "投票したコンテンツが見つかりません",
         "nothingHere": "ここには何もありません"
-    }
+    },
+    "onboard": {
+    "locationLabel": "場所",
+    "addressLabel": "住所",
+    "languageLabel": "言語",
+    "languagePlaceholder": "希望する言語を選択してください",
+    "interestsLabel": "興味（カンマ区切り）",
+    "interestsPlaceholder": "例：テクノロジー、音楽、スポーツ",
+    "interestsExample": "例：テクノロジー、音楽、スポーツ",
+    "professionLabel": "職業",
+    "buttonComplete": "オンボーディングを完了",
+    "loadingAria": "オンボーディングを完了しています。お待ちください",
+    "onboardingFailTitle": "オンボーディング失敗",
+    "onboardingFailDescInvalid": "無効なデータです！入力内容を確認してください。",
+    "completingOnboarding": "オンボーディングを完了中...",
+    "onboardingCompleteTitle": "オンボーディング完了",
+    "onboardingCompleteDesc": "ようこそ！ダッシュボードに移動しています...",
+    "invalidDataTitle": "無効なデータ",
+    "invalidDataDesc": "情報を確認して、再度お試しください。",
+    "onboardingFailedGenericTitle": "オンボーディング失敗",
+    "onboardingFailedGenericDesc": "後でもう一度お試しください。",
+    "ariaFormLabel": "ユーザーオンボーディングフォーム",
+    "ariaLocation": "場所",
+    "ariaAddress": "住所",
+    "ariaLanguage": "言語",
+    "ariaInterests": "興味",
+    "ariaProfession": "職業"
+  }
 }

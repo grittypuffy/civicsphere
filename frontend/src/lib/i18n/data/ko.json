@@ -1,146 +1,173 @@
 {
-    "home": {
-        "title": "CivicSphere",
-        "description": "시민 참여 및 커뮤니티 협업을 위한 플랫폼.",
-        "getStarted": "시작하기",
-        "signIn": "로그인",
-        "features": {
-            "communityDiscussions": {
-                "title": "커뮤니티 토론",
-                "description": "검증된 콘텐츠로 귀하의 이웃에 중요한 문제에 대한 지역 대화에 참여하세요."
-            },
-            "clearDoubts": {
-                "title": "모든 의문을 해결하세요",
-                "description": "시민 문제 및 서비스와 관련된 모든 질문에 답하도록 업데이트되고 훈련된 최고의 AI 챗봇."
-            },
-            "accessible": {
-                "title": "접근 가능하고 포용적",
-                "description": "접근 가능하고 포용적인 방식으로 귀하의 지역을 위해 선별된 지역 자원과 시민 기회를 발견하세요."
-            }
-        }
-    },
-    "homePage": {
-        "welcomeBack": "다시 오신 것을 환영합니다!",
-        "greeting": "안녕하세요, {name}님!",
-        "placeholderName": "이웃",
-        "refreshAria": "피드 새로고침",
-        "refreshHint": "새로운 피드를 보고 싶나요?",
-        "loadingFeeds": "피드를 불러오는 중...",
-        "errorLoading": "인기 게시물을 불러오는 중 오류가 발생했습니다: {message}",
-        "fallbackNotice": "대신 샘플 데이터를 표시합니다."
-    },
-    "settings": {
-        "title": "설정",
-        "locationTitle": "위치",
-        "languageTitle": "언어 선호",
-        "interestsTitle": "관심사",
-        "edit": "편집",
-        "done": "완료",
-        "loadingGeneric": "불러오는 중...",
-        "loadingInterests": "관심사를 불러오는 중...",
-        "filterPlaceholder": "태그 필터",
-        "errorTitle": "환경설정을 불러오는 중 오류",
-        "errorDescription": "사용자 환경설정을 불러오지 못했습니다. 페이지를 새로고침하거나 나중에 다시 시도하세요.",
-        "retry": "다시 시도",
-        "notSet": "설정되지 않음",
-        "locationPlaceholder": "위치를 입력하세요",
-        "languageFallback": "영어",
-        "interestsHint": "관심 있는 주제를 선택하세요. 게시글 작성 시 추천됩니다.",
-        "saveError": "환경설정을 저장하지 못했습니다. 다시 시도해 주세요."
-    },
-    "auth": {
-        "heroTitle": "CivicSphere에 오신 것을 환영합니다",
-        "heroSubtitle": "커뮤니티에 참여해 발견하고 토론하며 행동하세요.",
-        "onboardTitle": "온보딩을 완료하세요",
-        "signupTitle": "계정을 생성하세요",
-        "signinTitle": "다시 오신 것을 환영합니다",
-        "tabSignup": "가입하기",
-        "tabSignin": "로그인",
-        "loading": "로딩 중..."
-    },
-    "chat": {
-        "suggestions": {
-            "housing": "뉴욕시(예: 맨해튼)와 인근 교외의 주택 가격과 추세는 현재 어떤가요?",
-            "elections": "우리 지역 선거는 언제이고 어떻게 투표하며 누가 출마하나요?",
-            "judicial": "연방 판사의 역할은 무엇이며 다른 정치적·사법적 직위와 어떻게 다른가요?"
-        },
-        "labels": {
-            "you": "나",
-            "assistant": "어시스턴트",
-            "typing": "입력 중..."
-        },
-        "inputPlaceholder": "AI와 대화할 내용을 입력하세요",
-        "tooltip": {
-            "clearHistory": "채팅 기록 지우기"
-        },
-        "mic": {
-            "captured": "이것은 시뮬레이션된 음성 메시지를 필사한 것입니다."
-        },
-        "errors": {
-            "generic": "죄송합니다. 요청을 처리하는 중 오류가 발생했습니다. 다시 시도해 주세요."
-        }
-    },
-    "communities": {
-        "sidebarTitle": "주제 목록",
-        "communityHeading": "커뮤니티: {community}",
-        "tabPosts": "게시물",
-        "tabIssues": "이슈",
-        "startPost": "{community}에서 글을 시작하세요",
-        "photo": "사진",
-        "write": "글쓰기",
-        "postButton": "게시",
-        "loadingPosts": "게시물을 불러오는 중...",
-        "errorPosts": "게시물을 불러오는 중 오류: {message}",
-        "raiseIssueTitle": "이슈 제기",
-        "raiseIssueSubtitle": "주민과 기관이 답변할 수 있으며, 같은 문제를 겪는 구성원은 추천할 수 있습니다.",
-        "issueTitlePlaceholder": "짧은 제목 (예: 5th Ave 가로등 고장)",
-        "issueDescriptionPlaceholder": "이슈와 세부 정보(장소, 시간, 영향 등)를 설명하세요...",
-        "issueAssigneesPlaceholder": "누가 조치해야 하나요? (예: 위생국, 지역 의원)",
-        "clearButton": "지우기",
-        "submitIssueButton": "제출",
-        "loadingIssues": "이슈를 불러오는 중...",
-        "errorIssues": "이슈를 불러오는 중 오류: {message}",
-        "youLabel": "나"
-    },
-    "trending": {
-        "discoverWhat": "무엇이",
-        "trendingNow": "지금 인기!",
-        "refreshHint": "인기 콘텐츠를 새로고침하시겠습니까?",
-        "refreshAria": "인기 콘텐츠 새로고침",
-        "tabPosts": "인기 게시물",
-        "tabTopics": "인기 주제",
-        "loadingPosts": "인기 게시물을 불러오는 중...",
-        "loadingTopics": "인기 주제를 불러오는 중...",
-        "errorPosts": "인기 게시물을 불러오는 중 오류:",
-        "errorTopics": "인기 주제를 불러오는 중 오류:",
-        "fallbackNotice": "대신 샘플 데이터를 표시합니다.",
-        "sortLabel": "정렬",
-        "sortByRank": "순위별 상위",
-        "sortByActivity": "활동별 상위",
-        "trendingTopic": "인기 주제",
-        "mentions": "언급"
-    },
-    "createPost": {
-        "title": "게시물 작성",
-        "close": "닫기",
-        "placeholder": "지역 정치나 커뮤니티 문제에 대해 공유하세요...",
-        "addMedia": "미디어 추가",
-        "uploadHint": "이미지, 동영상 또는 문서를 업로드할 수 있습니다.",
-        "selectTags": "태그 선택",
-        "filterPlaceholder": "태그 필터",
-        "cancel": "취소",
-        "post": "게시"
-    },
-    "feeds": {
-        "verified": "검증됨",
-        "unverified": "미검증",
-        "pending": "대기 중",
-        "flagged": "신고됨",
-        "links": "링크:",
-        "close": "닫기",
-        "view": "보기",
-        "issueId": "이슈 ID:",
-        "noVotedContent": "투표한 콘텐츠를 찾을 수 없습니다",
-        "nothingHere": "여기에 아무것도 없습니다"
+  "home": {
+    "title": "CivicSphere",
+    "description": "시민 참여 및 커뮤니티 협업을 위한 플랫폼.",
+    "getStarted": "시작하기",
+    "signIn": "로그인",
+    "features": {
+      "communityDiscussions": {
+        "title": "커뮤니티 토론",
+        "description": "검증된 콘텐츠로 귀하의 이웃에 중요한 문제에 대한 지역 대화에 참여하세요."
+      },
+      "clearDoubts": {
+        "title": "모든 의문을 해결하세요",
+        "description": "시민 문제 및 서비스와 관련된 모든 질문에 답하도록 업데이트되고 훈련된 최고의 AI 챗봇."
+      },
+      "accessible": {
+        "title": "접근 가능하고 포용적",
+        "description": "접근 가능하고 포용적인 방식으로 귀하의 지역을 위해 선별된 지역 자원과 시민 기회를 발견하세요."
+      }
     }
+  },
+  "homePage": {
+    "welcomeBack": "다시 오신 것을 환영합니다!",
+    "greeting": "안녕하세요, {name}님!",
+    "placeholderName": "이웃",
+    "refreshAria": "피드 새로고침",
+    "refreshHint": "새로운 피드를 보고 싶나요?",
+    "loadingFeeds": "피드를 불러오는 중...",
+    "errorLoading": "인기 게시물을 불러오는 중 오류가 발생했습니다: {message}",
+    "fallbackNotice": "대신 샘플 데이터를 표시합니다."
+  },
+  "settings": {
+    "title": "설정",
+    "locationTitle": "위치",
+    "languageTitle": "언어 선호",
+    "interestsTitle": "관심사",
+    "edit": "편집",
+    "done": "완료",
+    "loadingGeneric": "불러오는 중...",
+    "loadingInterests": "관심사를 불러오는 중...",
+    "filterPlaceholder": "태그 필터",
+    "errorTitle": "환경설정을 불러오는 중 오류",
+    "errorDescription": "사용자 환경설정을 불러오지 못했습니다. 페이지를 새로고침하거나 나중에 다시 시도하세요.",
+    "retry": "다시 시도",
+    "notSet": "설정되지 않음",
+    "locationPlaceholder": "위치를 입력하세요",
+    "languageFallback": "영어",
+    "interestsHint": "관심 있는 주제를 선택하세요. 게시글 작성 시 추천됩니다.",
+    "saveError": "환경설정을 저장하지 못했습니다. 다시 시도해 주세요."
+  },
+  "auth": {
+    "heroTitle": "CivicSphere에 오신 것을 환영합니다",
+    "heroSubtitle": "커뮤니티에 참여해 발견하고 토론하며 행동하세요.",
+    "onboardTitle": "온보딩을 완료하세요",
+    "signupTitle": "계정을 생성하세요",
+    "signinTitle": "다시 오신 것을 환영합니다",
+    "tabSignup": "가입하기",
+    "tabSignin": "로그인",
+    "loading": "로딩 중..."
+  },
+  "chat": {
+    "suggestions": {
+      "housing": "뉴욕시(예: 맨해튼)와 인근 교외의 주택 가격과 추세는 현재 어떤가요?",
+      "elections": "우리 지역 선거는 언제이고 어떻게 투표하며 누가 출마하나요?",
+      "judicial": "연방 판사의 역할은 무엇이며 다른 정치적·사법적 직위와 어떻게 다른가요?"
+    },
+    "labels": {
+      "you": "나",
+      "assistant": "어시스턴트",
+      "typing": "입력 중..."
+    },
+    "inputPlaceholder": "AI와 대화할 내용을 입력하세요",
+    "tooltip": {
+      "clearHistory": "채팅 기록 지우기"
+    },
+    "mic": {
+      "captured": "이것은 시뮬레이션된 음성 메시지를 필사한 것입니다."
+    },
+    "errors": {
+      "generic": "죄송합니다. 요청을 처리하는 중 오류가 발생했습니다. 다시 시도해 주세요."
+    }
+  },
+  "communities": {
+    "sidebarTitle": "주제 목록",
+    "communityHeading": "커뮤니티: {community}",
+    "tabPosts": "게시물",
+    "tabIssues": "이슈",
+    "startPost": "{community}에서 글을 시작하세요",
+    "photo": "사진",
+    "write": "글쓰기",
+    "postButton": "게시",
+    "loadingPosts": "게시물을 불러오는 중...",
+    "errorPosts": "게시물을 불러오는 중 오류: {message}",
+    "raiseIssueTitle": "이슈 제기",
+    "raiseIssueSubtitle": "주민과 기관이 답변할 수 있으며, 같은 문제를 겪는 구성원은 추천할 수 있습니다.",
+    "issueTitlePlaceholder": "짧은 제목 (예: 5th Ave 가로등 고장)",
+    "issueDescriptionPlaceholder": "이슈와 세부 정보(장소, 시간, 영향 등)를 설명하세요...",
+    "issueAssigneesPlaceholder": "누가 조치해야 하나요? (예: 위생국, 지역 의원)",
+    "clearButton": "지우기",
+    "submitIssueButton": "제출",
+    "loadingIssues": "이슈를 불러오는 중...",
+    "errorIssues": "이슈를 불러오는 중 오류: {message}",
+    "youLabel": "나"
+  },
+  "trending": {
+    "discoverWhat": "무엇이",
+    "trendingNow": "지금 인기!",
+    "refreshHint": "인기 콘텐츠를 새로고침하시겠습니까?",
+    "refreshAria": "인기 콘텐츠 새로고침",
+    "tabPosts": "인기 게시물",
+    "tabTopics": "인기 주제",
+    "loadingPosts": "인기 게시물을 불러오는 중...",
+    "loadingTopics": "인기 주제를 불러오는 중...",
+    "errorPosts": "인기 게시물을 불러오는 중 오류:",
+    "errorTopics": "인기 주제를 불러오는 중 오류:",
+    "fallbackNotice": "대신 샘플 데이터를 표시합니다.",
+    "sortLabel": "정렬",
+    "sortByRank": "순위별 상위",
+    "sortByActivity": "활동별 상위",
+    "trendingTopic": "인기 주제",
+    "mentions": "언급"
+  },
+  "createPost": {
+    "title": "게시물 작성",
+    "close": "닫기",
+    "placeholder": "지역 정치나 커뮤니티 문제에 대해 공유하세요...",
+    "addMedia": "미디어 추가",
+    "uploadHint": "이미지, 동영상 또는 문서를 업로드할 수 있습니다.",
+    "selectTags": "태그 선택",
+    "filterPlaceholder": "태그 필터",
+    "cancel": "취소",
+    "post": "게시"
+  },
+  "feeds": {
+    "verified": "검증됨",
+    "unverified": "미검증",
+    "pending": "대기 중",
+    "flagged": "신고됨",
+    "links": "링크:",
+    "close": "닫기",
+    "view": "보기",
+    "issueId": "이슈 ID:",
+    "noVotedContent": "투표한 콘텐츠를 찾을 수 없습니다",
+    "nothingHere": "여기에 아무것도 없습니다"
+  },
+  "onboard": {
+    "locationLabel": "위치",
+    "addressLabel": "주소",
+    "languageLabel": "언어",
+    "languagePlaceholder": "선호하는 언어를 선택하세요",
+    "interestsLabel": "관심사 (쉼표로 구분)",
+    "interestsPlaceholder": "예: 기술, 음악, 스포츠",
+    "interestsExample": "예: 기술, 음악, 스포츠",
+    "professionLabel": "직업",
+    "buttonComplete": "온보딩 완료",
+    "loadingAria": "온보딩을 완료하는 중입니다. 잠시 기다려주세요",
+    "onboardingFailTitle": "온보딩 실패",
+    "onboardingFailDescInvalid": "잘못된 데이터입니다! 정보를 확인해주세요.",
+    "completingOnboarding": "온보딩 완료 중...",
+    "onboardingCompleteTitle": "온보딩 완료",
+    "onboardingCompleteDesc": "환영합니다! 대시보드로 이동합니다...",
+    "invalidDataTitle": "잘못된 데이터",
+    "invalidDataDesc": "정보를 확인하고 다시 시도하세요.",
+    "onboardingFailedGenericTitle": "온보딩 실패",
+    "onboardingFailedGenericDesc": "잠시 후 다시 시도해주세요.",
+    "ariaFormLabel": "사용자 온보딩 폼",
+    "ariaLocation": "위치",
+    "ariaAddress": "주소",
+    "ariaLanguage": "언어",
+    "ariaInterests": "관심사",
+    "ariaProfession": "직업"
+  }
 }

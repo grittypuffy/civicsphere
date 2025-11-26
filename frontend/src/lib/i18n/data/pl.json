@@ -1,146 +1,173 @@
 {
-    "home": {
-        "title": "CivicSphere",
-        "description": "Platforma zaangażowania obywatelskiego i współpracy społeczności.",
-        "getStarted": "Rozpocznij",
-        "signIn": "Zaloguj się",
-        "features": {
-            "communityDiscussions": {
-                "title": "Dyskusje Społeczności",
-                "description": "Dołącz do lokalnych rozmów o sprawach ważnych dla Twojej okolicy ze zweryfikowaną treścią."
-            },
-            "clearDoubts": {
-                "title": "Wyjaśnij wszystkie swoje wątpliwości",
-                "description": "Najlepszy chatbot AI, który jest aktualizowany i szkolony, aby odpowiadać na wszystkie Twoje pytania związane z kwestiami i usługami obywatelskimi."
-            },
-            "accessible": {
-                "title": "Dostępny i Włączający",
-                "description": "Odkryj lokalne zasoby i możliwości obywatelskie wyselekcjonowane dla Twojego obszaru w przystępny i włączający sposób."
-            }
-        }
-    },
-    "homePage": {
-        "welcomeBack": "Witamy ponownie!",
-        "greeting": "Cześć, {name}!",
-        "placeholderName": "Sąsiedzie",
-        "refreshAria": "Odśwież kanał",
-        "refreshHint": "Chcesz zobaczyć nowe wpisy?",
-        "loadingFeeds": "Ładowanie kanału...",
-        "errorLoading": "Błąd ładowania popularnych postów: {message}",
-        "fallbackNotice": "Wyświetlamy dane przykładowe."
-    },
-    "settings": {
-        "title": "Ustawienia",
-        "locationTitle": "Lokalizacja",
-        "languageTitle": "Preferencja językowa",
-        "interestsTitle": "Zainteresowania",
-        "edit": "Edytuj",
-        "done": "Gotowe",
-        "loadingGeneric": "Ładowanie...",
-        "loadingInterests": "Ładowanie zainteresowań...",
-        "filterPlaceholder": "Filtruj tagi",
-        "errorTitle": "Błąd ładowania preferencji",
-        "errorDescription": "Nie udało się wczytać preferencji użytkownika. Odśwież stronę lub spróbuj ponownie później.",
-        "retry": "Spróbuj ponownie",
-        "notSet": "Nie ustawiono",
-        "locationPlaceholder": "Wpisz swoją lokalizację",
-        "languageFallback": "Angielski",
-        "interestsHint": "Wybierz tematy, które Cię interesują — zostaną zasugerowane przy publikowaniu.",
-        "saveError": "Nie udało się zapisać preferencji. Spróbuj ponownie."
-    },
-    "auth": {
-        "heroTitle": "Witamy w CivicSphere",
-        "heroSubtitle": "Dołącz do swojej społeczności — odkrywaj, dyskutuj i działaj.",
-        "onboardTitle": "Dokończ onboarding",
-        "signupTitle": "Utwórz konto",
-        "signinTitle": "Witamy ponownie",
-        "tabSignup": "Zarejestruj się",
-        "tabSignin": "Zaloguj się",
-        "loading": "Ładowanie..."
-    },
-    "chat": {
-        "suggestions": {
-            "housing": "Jaka jest obecna sytuacja z cenami mieszkań i trendami w dzielnicach Nowego Jorku (np. na Manhattanie) oraz okolicznych przedmieściach?",
-            "elections": "Kiedy odbywają się moje lokalne wybory, jak oddać głos i kto kandyduje w mojej okolicy?",
-            "judicial": "Jaką rolę pełni sędzia federalny i czym różni się ona od innych stanowisk politycznych lub sądowych?"
-        },
-        "labels": {
-            "you": "Ty",
-            "assistant": "Asystent",
-            "typing": "Pisze..."
-        },
-        "inputPlaceholder": "Wpisz tekst, aby porozmawiać z AI",
-        "tooltip": {
-            "clearHistory": "Wyczyść historię czatu"
-        },
-        "mic": {
-            "captured": "To symulowana wiadomość głosowa w transkrypcji."
-        },
-        "errors": {
-            "generic": "Przepraszamy, wystąpił błąd podczas przetwarzania żądania. Spróbuj ponownie."
-        }
-    },
-    "communities": {
-        "sidebarTitle": "Lista tematów",
-        "communityHeading": "Społeczność: {community}",
-        "tabPosts": "Posty",
-        "tabIssues": "Problemy",
-        "startPost": "Rozpocznij post w {community}",
-        "photo": "Zdjęcie",
-        "write": "Napisz",
-        "postButton": "Opublikuj",
-        "loadingPosts": "Ładowanie postów...",
-        "errorPosts": "Błąd ładowania postów: {message}",
-        "raiseIssueTitle": "Zgłoś problem",
-        "raiseIssueSubtitle": "Mieszkańcy i władze mogą odpowiadać; członkowie społeczności mogą głosować, jeśli mają ten sam problem.",
-        "issueTitlePlaceholder": "Krótki tytuł (np. Zepsuta latarnia na 5th Ave)",
-        "issueDescriptionPlaceholder": "Opisz problem i wszelkie szczegóły (gdzie, kiedy, wpływ)...",
-        "issueAssigneesPlaceholder": "Kto powinien działać? (np. Wydział sanitarny, lokalny radny)",
-        "clearButton": "Wyczyść",
-        "submitIssueButton": "Zgłoś",
-        "loadingIssues": "Ładowanie problemów...",
-        "errorIssues": "Błąd ładowania problemów: {message}",
-        "youLabel": "Ty"
-    },
-    "trending": {
-        "discoverWhat": "Odkryj co jest",
-        "trendingNow": "Popularne teraz!",
-        "refreshHint": "Chcesz odświeżyć popularne treści?",
-        "refreshAria": "Odśwież popularne treści",
-        "tabPosts": "Popularne posty",
-        "tabTopics": "Popularne tematy",
-        "loadingPosts": "Ładowanie popularnych postów...",
-        "loadingTopics": "Ładowanie popularnych tematów...",
-        "errorPosts": "Błąd ładowania popularnych postów:",
-        "errorTopics": "Błąd ładowania popularnych tematów:",
-        "fallbackNotice": "Wyświetlamy dane przykładowe jako alternatywę.",
-        "sortLabel": "Sortuj",
-        "sortByRank": "Najlepsze według rankingu",
-        "sortByActivity": "Najlepsze według aktywności",
-        "trendingTopic": "Popularny temat",
-        "mentions": "wzmianek"
-    },
-    "createPost": {
-        "title": "Utwórz post",
-        "close": "Zamknij",
-        "placeholder": "Podziel się czymś o lokalnej polityce lub sprawach społeczności...",
-        "addMedia": "Dodaj media",
-        "uploadHint": "Możesz przesłać zdjęcia, filmy lub dokumenty.",
-        "selectTags": "Wybierz tagi",
-        "filterPlaceholder": "Filtruj tagi",
-        "cancel": "Anuluj",
-        "post": "Opublikuj"
-    },
-    "feeds": {
-        "verified": "Zweryfikowane",
-        "unverified": "Niezweryfikowane",
-        "pending": "Oczekujące",
-        "flagged": "Oznaczone",
-        "links": "Linki:",
-        "close": "Zamknij",
-        "view": "Wyświetl",
-        "issueId": "ID problemu:",
-        "noVotedContent": "Nie znaleziono zagłosowanej treści",
-        "nothingHere": "Nic tu nie ma"
+  "home": {
+    "title": "CivicSphere",
+    "description": "Platforma zaangażowania obywatelskiego i współpracy społeczności.",
+    "getStarted": "Rozpocznij",
+    "signIn": "Zaloguj się",
+    "features": {
+      "communityDiscussions": {
+        "title": "Dyskusje Społeczności",
+        "description": "Dołącz do lokalnych rozmów o sprawach ważnych dla Twojej okolicy ze zweryfikowaną treścią."
+      },
+      "clearDoubts": {
+        "title": "Wyjaśnij wszystkie swoje wątpliwości",
+        "description": "Najlepszy chatbot AI, który jest aktualizowany i szkolony, aby odpowiadać na wszystkie Twoje pytania związane z kwestiami i usługami obywatelskimi."
+      },
+      "accessible": {
+        "title": "Dostępny i Włączający",
+        "description": "Odkryj lokalne zasoby i możliwości obywatelskie wyselekcjonowane dla Twojego obszaru w przystępny i włączający sposób."
+      }
     }
+  },
+  "homePage": {
+    "welcomeBack": "Witamy ponownie!",
+    "greeting": "Cześć, {name}!",
+    "placeholderName": "Sąsiedzie",
+    "refreshAria": "Odśwież kanał",
+    "refreshHint": "Chcesz zobaczyć nowe wpisy?",
+    "loadingFeeds": "Ładowanie kanału...",
+    "errorLoading": "Błąd ładowania popularnych postów: {message}",
+    "fallbackNotice": "Wyświetlamy dane przykładowe."
+  },
+  "settings": {
+    "title": "Ustawienia",
+    "locationTitle": "Lokalizacja",
+    "languageTitle": "Preferencja językowa",
+    "interestsTitle": "Zainteresowania",
+    "edit": "Edytuj",
+    "done": "Gotowe",
+    "loadingGeneric": "Ładowanie...",
+    "loadingInterests": "Ładowanie zainteresowań...",
+    "filterPlaceholder": "Filtruj tagi",
+    "errorTitle": "Błąd ładowania preferencji",
+    "errorDescription": "Nie udało się wczytać preferencji użytkownika. Odśwież stronę lub spróbuj ponownie później.",
+    "retry": "Spróbuj ponownie",
+    "notSet": "Nie ustawiono",
+    "locationPlaceholder": "Wpisz swoją lokalizację",
+    "languageFallback": "Angielski",
+    "interestsHint": "Wybierz tematy, które Cię interesują — zostaną zasugerowane przy publikowaniu.",
+    "saveError": "Nie udało się zapisać preferencji. Spróbuj ponownie."
+  },
+  "auth": {
+    "heroTitle": "Witamy w CivicSphere",
+    "heroSubtitle": "Dołącz do swojej społeczności — odkrywaj, dyskutuj i działaj.",
+    "onboardTitle": "Dokończ onboarding",
+    "signupTitle": "Utwórz konto",
+    "signinTitle": "Witamy ponownie",
+    "tabSignup": "Zarejestruj się",
+    "tabSignin": "Zaloguj się",
+    "loading": "Ładowanie..."
+  },
+  "chat": {
+    "suggestions": {
+      "housing": "Jaka jest obecna sytuacja z cenami mieszkań i trendami w dzielnicach Nowego Jorku (np. na Manhattanie) oraz okolicznych przedmieściach?",
+      "elections": "Kiedy odbywają się moje lokalne wybory, jak oddać głos i kto kandyduje w mojej okolicy?",
+      "judicial": "Jaką rolę pełni sędzia federalny i czym różni się ona od innych stanowisk politycznych lub sądowych?"
+    },
+    "labels": {
+      "you": "Ty",
+      "assistant": "Asystent",
+      "typing": "Pisze..."
+    },
+    "inputPlaceholder": "Wpisz tekst, aby porozmawiać z AI",
+    "tooltip": {
+      "clearHistory": "Wyczyść historię czatu"
+    },
+    "mic": {
+      "captured": "To symulowana wiadomość głosowa w transkrypcji."
+    },
+    "errors": {
+      "generic": "Przepraszamy, wystąpił błąd podczas przetwarzania żądania. Spróbuj ponownie."
+    }
+  },
+  "communities": {
+    "sidebarTitle": "Lista tematów",
+    "communityHeading": "Społeczność: {community}",
+    "tabPosts": "Posty",
+    "tabIssues": "Problemy",
+    "startPost": "Rozpocznij post w {community}",
+    "photo": "Zdjęcie",
+    "write": "Napisz",
+    "postButton": "Opublikuj",
+    "loadingPosts": "Ładowanie postów...",
+    "errorPosts": "Błąd ładowania postów: {message}",
+    "raiseIssueTitle": "Zgłoś problem",
+    "raiseIssueSubtitle": "Mieszkańcy i władze mogą odpowiadać; członkowie społeczności mogą głosować, jeśli mają ten sam problem.",
+    "issueTitlePlaceholder": "Krótki tytuł (np. Zepsuta latarnia na 5th Ave)",
+    "issueDescriptionPlaceholder": "Opisz problem i wszelkie szczegóły (gdzie, kiedy, wpływ)...",
+    "issueAssigneesPlaceholder": "Kto powinien działać? (np. Wydział sanitarny, lokalny radny)",
+    "clearButton": "Wyczyść",
+    "submitIssueButton": "Zgłoś",
+    "loadingIssues": "Ładowanie problemów...",
+    "errorIssues": "Błąd ładowania problemów: {message}",
+    "youLabel": "Ty"
+  },
+  "trending": {
+    "discoverWhat": "Odkryj co jest",
+    "trendingNow": "Popularne teraz!",
+    "refreshHint": "Chcesz odświeżyć popularne treści?",
+    "refreshAria": "Odśwież popularne treści",
+    "tabPosts": "Popularne posty",
+    "tabTopics": "Popularne tematy",
+    "loadingPosts": "Ładowanie popularnych postów...",
+    "loadingTopics": "Ładowanie popularnych tematów...",
+    "errorPosts": "Błąd ładowania popularnych postów:",
+    "errorTopics": "Błąd ładowania popularnych tematów:",
+    "fallbackNotice": "Wyświetlamy dane przykładowe jako alternatywę.",
+    "sortLabel": "Sortuj",
+    "sortByRank": "Najlepsze według rankingu",
+    "sortByActivity": "Najlepsze według aktywności",
+    "trendingTopic": "Popularny temat",
+    "mentions": "wzmianek"
+  },
+  "createPost": {
+    "title": "Utwórz post",
+    "close": "Zamknij",
+    "placeholder": "Podziel się czymś o lokalnej polityce lub sprawach społeczności...",
+    "addMedia": "Dodaj media",
+    "uploadHint": "Możesz przesłać zdjęcia, filmy lub dokumenty.",
+    "selectTags": "Wybierz tagi",
+    "filterPlaceholder": "Filtruj tagi",
+    "cancel": "Anuluj",
+    "post": "Opublikuj"
+  },
+  "feeds": {
+    "verified": "Zweryfikowane",
+    "unverified": "Niezweryfikowane",
+    "pending": "Oczekujące",
+    "flagged": "Oznaczone",
+    "links": "Linki:",
+    "close": "Zamknij",
+    "view": "Wyświetl",
+    "issueId": "ID problemu:",
+    "noVotedContent": "Nie znaleziono zagłosowanej treści",
+    "nothingHere": "Nic tu nie ma"
+  },
+  "onboard": {
+    "locationLabel": "Lokalizacja",
+    "addressLabel": "Adres",
+    "languageLabel": "Język",
+    "languagePlaceholder": "Wybierz preferowany język",
+    "interestsLabel": "Zainteresowania (oddzielone przecinkami)",
+    "interestsPlaceholder": "np. technologia, muzyka, sport",
+    "interestsExample": "np. technologia, muzyka, sport",
+    "professionLabel": "Zawód",
+    "buttonComplete": "Zakończ onboarding",
+    "loadingAria": "Trwa kończenie onboardingu, proszę czekać",
+    "onboardingFailTitle": "Błąd onboardingu",
+    "onboardingFailDescInvalid": "Nieprawidłowe dane! Sprawdź informacje.",
+    "completingOnboarding": "Kończenie onboardingu...",
+    "onboardingCompleteTitle": "Onboarding zakończony",
+    "onboardingCompleteDesc": "Witamy! Przekierowywanie do panelu...",
+    "invalidDataTitle": "Nieprawidłowe dane",
+    "invalidDataDesc": "Sprawdź dane i spróbuj ponownie.",
+    "onboardingFailedGenericTitle": "Błąd onboardingu",
+    "onboardingFailedGenericDesc": "Spróbuj ponownie później.",
+    "ariaFormLabel": "Formularz onboardingu użytkownika",
+    "ariaLocation": "Lokalizacja",
+    "ariaAddress": "Adres",
+    "ariaLanguage": "Język",
+    "ariaInterests": "Zainteresowania",
+    "ariaProfession": "Zawód"
+  }
 }

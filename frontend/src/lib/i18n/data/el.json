@@ -142,5 +142,33 @@
         "issueId": "ID ζητήματος:",
         "noVotedContent": "Δεν βρέθηκε περιεχόμενο με ψήφο",
         "nothingHere": "Τίποτα εδώ"
-    }
+    },
+  "onboard": {
+    "locationLabel": "Τοποθεσία",
+    "addressLabel": "Διεύθυνση",
+    "languageLabel": "Γλώσσα",
+    "languagePlaceholder": "Επιλέξτε την προτιμώμενη γλώσσα",
+    "interestsLabel": "Ενδιαφέροντα (χωρισμένα με κόμμα)",
+    "interestsPlaceholder": "π.χ. τεχνολογία, μουσική, αθλητισμός",
+    "interestsExample": "π.χ. τεχνολογία, μουσική, αθλητισμός",
+    "professionLabel": "Επάγγελμα",
+    "buttonComplete": "Ολοκλήρωση Onboarding",
+    "loadingAria": "Το onboarding ολοκληρώνεται, παρακαλώ περιμένετε",
+    "onboardingFailTitle": "Αποτυχία onboarding",
+    "onboardingFailDescInvalid": "Μη έγκυρα δεδομένα! Ελέγξτε τις πληροφορίες και δοκιμάστε ξανά.",
+    "completingOnboarding": "Ολοκλήρωση onboarding...",
+    "onboardingCompleteTitle": "Το onboarding ολοκληρώθηκε",
+    "onboardingCompleteDesc": "Καλώς ήρθατε! Ανακατεύθυνση στο dashboard...",
+    "invalidDataTitle": "Μη έγκυρα δεδομένα",
+    "invalidDataDesc": "Ελέγξτε τις πληροφορίες σας και δοκιμάστε ξανά.",
+    "onboardingFailedGenericTitle": "Αποτυχία onboarding",
+    "onboardingFailedGenericDesc": "Παρακαλώ δοκιμάστε ξανά αργότερα.",
+    "ariaFormLabel": "Φόρμα onboarding χρήστη",
+    "ariaLocation": "Τοποθεσία",
+    "ariaAddress": "Διεύθυνση",
+    "ariaLanguage": "Γλώσσα",
+    "ariaInterests": "Ενδιαφέροντα",
+    "ariaProfession": "Επάγγελμα"
+  }
+
 }

@@ -1,146 +1,173 @@
 {
-    "home": {
-        "title": "CivicSphere",
-        "description": "Una piattaforma per l'impegno civico e la collaborazione della comunità.",
-        "getStarted": "Inizia",
-        "signIn": "Accedi",
-        "features": {
-            "communityDiscussions": {
-                "title": "Discussioni della Comunità",
-                "description": "Partecipa a conversazioni locali su questioni importanti per il tuo quartiere con contenuti verificati."
-            },
-            "clearDoubts": {
-                "title": "Chiarisci tutti i tuoi dubbi",
-                "description": "Il chatbot AI definitivo che è aggiornato e addestrato per rispondere a tutte le tue domande relative a questioni e servizi civici."
-            },
-            "accessible": {
-                "title": "Accessibile e Inclusivo",
-                "description": "Scopri risorse locali e opportunità civiche selezionate per la tua area in modo accessibile e inclusivo."
-            }
-        }
-    },
-    "homePage": {
-        "welcomeBack": "Bentornato!",
-        "greeting": "Ciao, {name}!",
-        "placeholderName": "Vicino",
-        "refreshAria": "Aggiorna i feed",
-        "refreshHint": "Vuoi vedere nuovi aggiornamenti?",
-        "loadingFeeds": "Caricamento dei feed...",
-        "errorLoading": "Errore durante il caricamento dei post in evidenza: {message}",
-        "fallbackNotice": "Mostriamo dati di esempio."
-    },
-    "settings": {
-        "title": "Impostazioni",
-        "locationTitle": "Posizione",
-        "languageTitle": "Preferenza linguistica",
-        "interestsTitle": "Interessi",
-        "edit": "Modifica",
-        "done": "Fatto",
-        "loadingGeneric": "Caricamento...",
-        "loadingInterests": "Caricamento degli interessi...",
-        "filterPlaceholder": "Filtra i tag",
-        "errorTitle": "Errore durante il caricamento delle preferenze",
-        "errorDescription": "Impossibile caricare le preferenze utente. Aggiorna la pagina o riprova più tardi.",
-        "retry": "Riprova",
-        "notSet": "Non impostato",
-        "locationPlaceholder": "Inserisci la tua posizione",
-        "languageFallback": "Inglese",
-        "interestsHint": "Seleziona gli argomenti che ti interessano: verranno suggeriti quando pubblichi.",
-        "saveError": "Impossibile salvare le preferenze. Riprova."
-    },
-    "auth": {
-        "heroTitle": "Benvenuto su CivicSphere",
-        "heroSubtitle": "Unisciti alla tua comunità — scopri, discuti e agisci.",
-        "onboardTitle": "Completa il tuo onboarding",
-        "signupTitle": "Crea il tuo account",
-        "signinTitle": "Bentornato",
-        "tabSignup": "Registrati",
-        "tabSignin": "Accedi",
-        "loading": "Caricamento..."
-    },
-    "chat": {
-        "suggestions": {
-            "housing": "Qual è la situazione attuale dei prezzi e delle tendenze abitative nei quartieri di New York (ad es. Manhattan) e nei sobborghi vicini?",
-            "elections": "Quando si tengono le mie elezioni locali, come posso votare e chi si candida nella mia zona?",
-            "judicial": "Qual è il ruolo di un giudice federale e in cosa differisce dalle altre cariche politiche o giudiziarie?"
-        },
-        "labels": {
-            "you": "Tu",
-            "assistant": "Assistente",
-            "typing": "Sta scrivendo..."
-        },
-        "inputPlaceholder": "Inserisci il testo per chattare con l'IA",
-        "tooltip": {
-            "clearHistory": "Cancella la cronologia della chat"
-        },
-        "mic": {
-            "captured": "Questo è un messaggio vocale simulato trascritto."
-        },
-        "errors": {
-            "generic": "Spiacenti, si è verificato un errore durante l'elaborazione della tua richiesta. Riprova."
-        }
-    },
-    "communities": {
-        "sidebarTitle": "Elenco degli argomenti",
-        "communityHeading": "Comunità: {community}",
-        "tabPosts": "Post",
-        "tabIssues": "Problemi",
-        "startPost": "Avvia un post in {community}",
-        "photo": "Foto",
-        "write": "Scrivi",
-        "postButton": "Pubblica",
-        "loadingPosts": "Caricamento dei post...",
-        "errorPosts": "Errore nel caricamento dei post: {message}",
-        "raiseIssueTitle": "Segnala un problema",
-        "raiseIssueSubtitle": "Persone e autorità possono rispondere; i membri della comunità possono votare se hanno lo stesso problema.",
-        "issueTitlePlaceholder": "Titolo breve (es. Lampione rotto sulla 5th Ave)",
-        "issueDescriptionPlaceholder": "Descrivi il problema e i dettagli (dove, quando, impatto)...",
-        "issueAssigneesPlaceholder": "Chi dovrebbe intervenire? (es. Servizio di igiene urbana, consigliere locale)",
-        "clearButton": "Pulisci",
-        "submitIssueButton": "Segnala",
-        "loadingIssues": "Caricamento dei problemi...",
-        "errorIssues": "Errore nel caricamento dei problemi: {message}",
-        "youLabel": "Tu"
-    },
-    "trending": {
-        "discoverWhat": "Scopri cosa c'è di",
-        "trendingNow": "Di tendenza ora!",
-        "refreshHint": "Vuoi aggiornare i contenuti di tendenza?",
-        "refreshAria": "Aggiorna i contenuti di tendenza",
-        "tabPosts": "Post di tendenza",
-        "tabTopics": "Argomenti di tendenza",
-        "loadingPosts": "Caricamento dei post di tendenza...",
-        "loadingTopics": "Caricamento degli argomenti di tendenza...",
-        "errorPosts": "Errore nel caricamento dei post di tendenza:",
-        "errorTopics": "Errore nel caricamento degli argomenti di tendenza:",
-        "fallbackNotice": "Mostriamo dati di esempio come alternativa.",
-        "sortLabel": "Ordina",
-        "sortByRank": "Migliori per classifica",
-        "sortByActivity": "Migliori per attività",
-        "trendingTopic": "Argomento di tendenza",
-        "mentions": "menzioni"
-    },
-    "createPost": {
-        "title": "Crea un post",
-        "close": "Chiudi",
-        "placeholder": "Condividi qualcosa sulla politica locale o sui problemi della comunità...",
-        "addMedia": "Aggiungi media",
-        "uploadHint": "Puoi caricare immagini, video o documenti.",
-        "selectTags": "Seleziona tag",
-        "filterPlaceholder": "Filtra i tag",
-        "cancel": "Annulla",
-        "post": "Pubblica"
-    },
-    "feeds": {
-        "verified": "Verificato",
-        "unverified": "Non verificato",
-        "pending": "In attesa",
-        "flagged": "Segnalato",
-        "links": "Collegamenti:",
-        "close": "Chiudi",
-        "view": "Visualizza",
-        "issueId": "ID problema:",
-        "noVotedContent": "Nessun contenuto votato trovato",
-        "nothingHere": "Niente qui"
+  "home": {
+    "title": "CivicSphere",
+    "description": "Una piattaforma per l'impegno civico e la collaborazione della comunità.",
+    "getStarted": "Inizia",
+    "signIn": "Accedi",
+    "features": {
+      "communityDiscussions": {
+        "title": "Discussioni della Comunità",
+        "description": "Partecipa a conversazioni locali su questioni importanti per il tuo quartiere con contenuti verificati."
+      },
+      "clearDoubts": {
+        "title": "Chiarisci tutti i tuoi dubbi",
+        "description": "Il chatbot AI definitivo che è aggiornato e addestrato per rispondere a tutte le tue domande relative a questioni e servizi civici."
+      },
+      "accessible": {
+        "title": "Accessibile e Inclusivo",
+        "description": "Scopri risorse locali e opportunità civiche selezionate per la tua area in modo accessibile e inclusivo."
+      }
     }
+  },
+  "homePage": {
+    "welcomeBack": "Bentornato!",
+    "greeting": "Ciao, {name}!",
+    "placeholderName": "Vicino",
+    "refreshAria": "Aggiorna i feed",
+    "refreshHint": "Vuoi vedere nuovi aggiornamenti?",
+    "loadingFeeds": "Caricamento dei feed...",
+    "errorLoading": "Errore durante il caricamento dei post in evidenza: {message}",
+    "fallbackNotice": "Mostriamo dati di esempio."
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "locationTitle": "Posizione",
+    "languageTitle": "Preferenza linguistica",
+    "interestsTitle": "Interessi",
+    "edit": "Modifica",
+    "done": "Fatto",
+    "loadingGeneric": "Caricamento...",
+    "loadingInterests": "Caricamento degli interessi...",
+    "filterPlaceholder": "Filtra i tag",
+    "errorTitle": "Errore durante il caricamento delle preferenze",
+    "errorDescription": "Impossibile caricare le preferenze utente. Aggiorna la pagina o riprova più tardi.",
+    "retry": "Riprova",
+    "notSet": "Non impostato",
+    "locationPlaceholder": "Inserisci la tua posizione",
+    "languageFallback": "Inglese",
+    "interestsHint": "Seleziona gli argomenti che ti interessano: verranno suggeriti quando pubblichi.",
+    "saveError": "Impossibile salvare le preferenze. Riprova."
+  },
+  "auth": {
+    "heroTitle": "Benvenuto su CivicSphere",
+    "heroSubtitle": "Unisciti alla tua comunità — scopri, discuti e agisci.",
+    "onboardTitle": "Completa il tuo onboarding",
+    "signupTitle": "Crea il tuo account",
+    "signinTitle": "Bentornato",
+    "tabSignup": "Registrati",
+    "tabSignin": "Accedi",
+    "loading": "Caricamento..."
+  },
+  "chat": {
+    "suggestions": {
+      "housing": "Qual è la situazione attuale dei prezzi e delle tendenze abitative nei quartieri di New York (ad es. Manhattan) e nei sobborghi vicini?",
+      "elections": "Quando si tengono le mie elezioni locali, come posso votare e chi si candida nella mia zona?",
+      "judicial": "Qual è il ruolo di un giudice federale e in cosa differisce dalle altre cariche politiche o giudiziarie?"
+    },
+    "labels": {
+      "you": "Tu",
+      "assistant": "Assistente",
+      "typing": "Sta scrivendo..."
+    },
+    "inputPlaceholder": "Inserisci il testo per chattare con l'IA",
+    "tooltip": {
+      "clearHistory": "Cancella la cronologia della chat"
+    },
+    "mic": {
+      "captured": "Questo è un messaggio vocale simulato trascritto."
+    },
+    "errors": {
+      "generic": "Spiacenti, si è verificato un errore durante l'elaborazione della tua richiesta. Riprova."
+    }
+  },
+  "communities": {
+    "sidebarTitle": "Elenco degli argomenti",
+    "communityHeading": "Comunità: {community}",
+    "tabPosts": "Post",
+    "tabIssues": "Problemi",
+    "startPost": "Avvia un post in {community}",
+    "photo": "Foto",
+    "write": "Scrivi",
+    "postButton": "Pubblica",
+    "loadingPosts": "Caricamento dei post...",
+    "errorPosts": "Errore nel caricamento dei post: {message}",
+    "raiseIssueTitle": "Segnala un problema",
+    "raiseIssueSubtitle": "Persone e autorità possono rispondere; i membri della comunità possono votare se hanno lo stesso problema.",
+    "issueTitlePlaceholder": "Titolo breve (es. Lampione rotto sulla 5th Ave)",
+    "issueDescriptionPlaceholder": "Descrivi il problema e i dettagli (dove, quando, impatto)...",
+    "issueAssigneesPlaceholder": "Chi dovrebbe intervenire? (es. Servizio di igiene urbana, consigliere locale)",
+    "clearButton": "Pulisci",
+    "submitIssueButton": "Segnala",
+    "loadingIssues": "Caricamento dei problemi...",
+    "errorIssues": "Errore nel caricamento dei problemi: {message}",
+    "youLabel": "Tu"
+  },
+  "trending": {
+    "discoverWhat": "Scopri cosa c'è di",
+    "trendingNow": "Di tendenza ora!",
+    "refreshHint": "Vuoi aggiornare i contenuti di tendenza?",
+    "refreshAria": "Aggiorna i contenuti di tendenza",
+    "tabPosts": "Post di tendenza",
+    "tabTopics": "Argomenti di tendenza",
+    "loadingPosts": "Caricamento dei post di tendenza...",
+    "loadingTopics": "Caricamento degli argomenti di tendenza...",
+    "errorPosts": "Errore nel caricamento dei post di tendenza:",
+    "errorTopics": "Errore nel caricamento degli argomenti di tendenza:",
+    "fallbackNotice": "Mostriamo dati di esempio come alternativa.",
+    "sortLabel": "Ordina",
+    "sortByRank": "Migliori per classifica",
+    "sortByActivity": "Migliori per attività",
+    "trendingTopic": "Argomento di tendenza",
+    "mentions": "menzioni"
+  },
+  "createPost": {
+    "title": "Crea un post",
+    "close": "Chiudi",
+    "placeholder": "Condividi qualcosa sulla politica locale o sui problemi della comunità...",
+    "addMedia": "Aggiungi media",
+    "uploadHint": "Puoi caricare immagini, video o documenti.",
+    "selectTags": "Seleziona tag",
+    "filterPlaceholder": "Filtra i tag",
+    "cancel": "Annulla",
+    "post": "Pubblica"
+  },
+  "feeds": {
+    "verified": "Verificato",
+    "unverified": "Non verificato",
+    "pending": "In attesa",
+    "flagged": "Segnalato",
+    "links": "Collegamenti:",
+    "close": "Chiudi",
+    "view": "Visualizza",
+    "issueId": "ID problema:",
+    "noVotedContent": "Nessun contenuto votato trovato",
+    "nothingHere": "Niente qui"
+  },
+  "onboard": {
+    "locationLabel": "Località",
+    "addressLabel": "Indirizzo",
+    "languageLabel": "Lingua",
+    "languagePlaceholder": "Seleziona la tua lingua preferita",
+    "interestsLabel": "Interessi (separati da virgole)",
+    "interestsPlaceholder": "es., tecnologia, musica, sport",
+    "interestsExample": "es., tecnologia, musica, sport",
+    "professionLabel": "Professione",
+    "buttonComplete": "Completa Onboarding",
+    "loadingAria": "Completamento onboarding in corso, attendere",
+    "onboardingFailTitle": "Onboarding fallito",
+    "onboardingFailDescInvalid": "Dati non validi! Controlla le informazioni.",
+    "completingOnboarding": "Completamento onboarding...",
+    "onboardingCompleteTitle": "Onboarding completato",
+    "onboardingCompleteDesc": "Benvenuto! Reindirizzamento alla dashboard...",
+    "invalidDataTitle": "Dati non validi",
+    "invalidDataDesc": "Controlla i dati e riprova.",
+    "onboardingFailedGenericTitle": "Onboarding fallito",
+    "onboardingFailedGenericDesc": "Riprova più tardi.",
+    "ariaFormLabel": "Modulo di onboarding utente",
+    "ariaLocation": "Località",
+    "ariaAddress": "Indirizzo",
+    "ariaLanguage": "Lingua",
+    "ariaInterests": "Interessi",
+    "ariaProfession": "Professione"
+  }
 }
