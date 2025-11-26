@@ -11,13 +11,7 @@ COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
 # Copy the entire project into the container
-COPY ./src ./src
-COPY ./public ./public
-COPY ./eslint.config.mjs ./eslint.config.mjs 
-COPY ./next-env.d.ts ./next-env.d.ts
-COPY ./next.config.ts ./next.config.ts
-COPY ./postcss.config.mjs ./postcss.config.mjs
-COPY ./tsconfig.json ./tsconfig.json
+COPY ./ ./
 
 # Set environment variable
 ARG NEXT_PUBLIC_BACKEND_URL

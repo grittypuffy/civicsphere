@@ -5,9 +5,10 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
 from ..config import AppConfig
-from ..services.chatbot.rag import search_documents
 from ..models.api.chat import Chat, ChatData, ChatRequest, ChatResponse
-from ..services.chatbot.scraper.web.nyc import parse_address, get_pollsite_info
+from ..models.api.post import PostResponse
+from ..services.chatbot.rag import search_documents
+from ..services.chatbot.scraper.web.nyc import parse_address, get_pollsite_info, summarize_pollsite, summarize_accessibility
 
 config: AppConfig = AppConfig()
 router = APIRouter(tags=["Chatbot"])
@@ -82,18 +83,64 @@ async def chat(
                 parsed_address = None
                 try:
                     parsed_address = parse_address(prefs_data.address)
+                    response = await get_pollsite_info(**parsed_address)
+                    summary = summarize_pollsite(response)
+                    return ChatResponse(
+                        success=True,
+                        message=summary
+                    )
+
                 except Exception as e:
                     return JSONResponse(
                         status_code=400,
                         content=ChatResponse(
                             success=False,
-                            message="Invalid US address. Please change your address to a proper NYC address"
+                            message="An error occurred while checking nearest pollsites. Please check your address."
                         ).dict()
                     )
-                
+
+            case "Trending discussions in my area":
+                if prefs_data.location:
+                    posts_cursor = config.db["posts"].find({
+                        "location": location
+                    }).limit(3)
+                    posts = []
+                    async for post in posts_cursor:
+                        post["post_id"] = str(post.pop("_id"))
+                        posts.append(PostResponse(**post))
+                        posts.sort(key=lambda x: x.created_at, reverse=True)
+
+                else:
+                    return JSONResponse(
+                        status_code=400,
+                        content=ChatResponse(
+                           success=False,
+                            message="User interests or location not set"
+                        ).dict()
+                    )
+
+            case "Accessibility options available at my nearest polling sites":
+                parsed_address = None
+                try:
+                    parsed_address = parse_address(prefs_data.address)
+                    response = await get_pollsite_info(**parsed_address)
+                    accessibility_summary = summarize_accessibility(response)
+                    return ChatResponse(
+                        success=True,
+                        message=accessibility_summary
+                    )
+
+                except Exception as e:
+                    return JSONResponse(
+                        status_code=400,
+                        content=ChatResponse(
+                            success=False,
+                            message="An error occurred while checking nearest pollsites. Please check your address."
+                        ).dict()
+                    )
+
 
         client = config.langchain_llm
-        # RAG Search
         rag_results = await search_documents(prompt.prompt)
         context_parts = []
         if rag_results:
