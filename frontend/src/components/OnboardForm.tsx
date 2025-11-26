@@ -4,7 +4,7 @@ import { OnboardFormSchema } from '@/lib/schema';
 import { LangCode, ToastFunc, UserPreferencesRequest } from "@/lib/types";
 import { Button, Dropdown, Field, Input, InputOnChangeData, Option, Spinner, Textarea } from "@fluentui/react-components";
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as v from 'valibot';
 import { useTranslations } from 'next-intl';
 

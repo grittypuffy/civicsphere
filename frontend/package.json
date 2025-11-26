@@ -15,6 +15,7 @@
     "@fluentui/react-icons": "^2.0.315",
     "@lottiefiles/dotlottie-react": "^0.17.8",
     "jotai": "^2.15.1",
+    "microsoft-cognitiveservices-speech-sdk": "^1.47.0",
     "next": "16.0.3",
     "next-intl": "^4.5.5",
     "react": "19.2.0",
@@ -34,6 +35,6 @@
     "typescript": "^5"
   },
   "resolutions": {
-		"@types/minimatch": "6.0.0"
-	}
+    "@types/minimatch": "6.0.0"
+  }
 }
