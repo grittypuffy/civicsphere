@@ -45,7 +45,7 @@ export default function SpeakButton({ text }: SpeakButtonProps) {
     >
       {isLoading ? (
         <>
-          <Spinner size={16} /> Generating...
+          <Spinner size={"small"} /> Generating...
         </>
       ) : (
         "Speak"
