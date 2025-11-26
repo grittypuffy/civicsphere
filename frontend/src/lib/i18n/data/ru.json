@@ -163,6 +163,7 @@
     "invalidDataDesc": "Проверьте данные и попробуйте снова.",
     "onboardingFailedGenericTitle": "Ошибка onboarding",
     "onboardingFailedGenericDesc": "Пожалуйста, попробуйте позже.",
+      "addressGuidance": "Введите ваш адрес, убедитесь, что это правильный адрес. Например: [Номер улицы], [Название улицы], [Квартира/Сuite/Unit (если есть)], [Город], [Штат], [Почтовый индекс], [Страна]",
     "ariaFormLabel": "Форма onboarding пользователя",
     "ariaLocation": "Местоположение",
     "ariaAddress": "Адрес",

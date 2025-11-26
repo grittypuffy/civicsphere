@@ -2,7 +2,7 @@
 import { LANGS } from "@/lib/consts";
 import { OnboardFormSchema } from '@/lib/schema';
 import { LangCode, ToastFunc, UserPreferencesRequest } from "@/lib/types";
-import { Button, Dropdown, Field, Input, InputOnChangeData, Option, Spinner, Textarea } from "@fluentui/react-components";
+import { Button, Checkbox, Dropdown, Field, Input, InputOnChangeData, Option, Spinner } from "@fluentui/react-components";
 import { useRouter } from 'next/navigation';
 import { useState } from "react";
 import * as v from 'valibot';
@@ -32,6 +32,7 @@ type OnboardStrings = {
   invalidDataDesc: string;
   onboardingFailedGenericTitle: string;
   onboardingFailedGenericDesc: string;
+  addressGuidance: string;
   ariaFormLabel: string;
   ariaLocation: string;
   ariaAddress: string;
@@ -70,6 +71,7 @@ const OnboardForm = ({ ToastMessage, strings: stringsOverride }: { ToastMessage:
     invalidDataDesc: t('invalidDataDesc'),
     onboardingFailedGenericTitle: t('onboardingFailedGenericTitle'),
     onboardingFailedGenericDesc: t('onboardingFailedGenericDesc'),
+    addressGuidance: t('addressGuidance'),
     ariaFormLabel: t('ariaFormLabel'),
     ariaLocation: t('ariaLocation'),
     ariaAddress: t('ariaAddress'),
@@ -86,7 +88,6 @@ const OnboardForm = ({ ToastMessage, strings: stringsOverride }: { ToastMessage:
     interests: [],
     profession: '',
   });
-
   const [validMsg, setValidMsg] = useState<{ [key: string]: string }>({
     location: '',
     language: '',
@@ -95,7 +96,90 @@ const OnboardForm = ({ ToastMessage, strings: stringsOverride }: { ToastMessage:
     profession: '',
   });
 
-  const [interestsInput, setInterestsInput] = useState('');
+  // Interest options: key -> label
+  const INTEREST_OPTIONS: { key: string; label: string }[] = [
+    { key: 'affordable-housing', label: 'Affordable Housing' },
+    { key: 'artificial-intelligence', label: 'Artificial Intelligence' },
+    { key: 'arts-and-culture', label: 'Arts And Culture' },
+    { key: 'asian-voices', label: 'Asian Voices' },
+    { key: 'atheist-voices', label: 'Atheist Voices' },
+    { key: 'ballot-questions', label: 'Ballot Questions' },
+    { key: 'baptist-voices', label: 'Baptist Voices' },
+    { key: 'bipoc-voices', label: 'Bipoc Voices' },
+    { key: 'black-voices', label: 'Black Voices' },
+    { key: 'buddhist-voices', label: 'Buddhist Voices' },
+    { key: 'catholic-voices', label: 'Catholic Voices' },
+    { key: 'civic-education', label: 'Civic Education' },
+    { key: 'civic-participation', label: 'Civic Participation' },
+    { key: 'civil-rights', label: 'Civil Rights' },
+    { key: 'climate-action', label: 'Climate Action' },
+    { key: 'clothing-and-fashion', label: 'Clothing And Fashion' },
+    { key: 'colored-voices', label: 'Colored Voices' },
+    { key: 'community-development', label: 'Community Development' },
+    { key: 'community-initiatives', label: 'Community Initiatives' },
+    { key: 'cultural-diversity', label: 'Cultural Diversity' },
+    { key: 'cultural-representation', label: 'Cultural Representation' },
+    { key: 'digital-access', label: 'Digital Access' },
+    { key: 'disability-rights', label: 'Disability Rights' },
+    { key: 'disease-prevention', label: 'Disease Prevention' },
+    { key: 'economic-justice', label: 'Economic Justice' },
+    { key: 'economics', label: 'Economics' },
+    { key: 'education', label: 'Education' },
+    { key: 'education-access', label: 'Education Access' },
+    { key: 'education-for-all', label: 'Education For All' },
+    { key: 'elections-and-voting', label: 'Elections And Voting' },
+    { key: 'emergency-preparedness', label: 'Emergency Preparedness' },
+    { key: 'environmental-rights', label: 'Environmental Rights' },
+    { key: 'financial-literacy', label: 'Financial Literacy' },
+    { key: 'food-security', label: 'Food Security' },
+    { key: 'future-of-work', label: 'Future Of Work' },
+    { key: 'gender-equality', label: 'Gender Equality' },
+    { key: 'gender-justice', label: 'Gender Justice' },
+    { key: 'government-policy', label: 'Government Policy' },
+    { key: 'health-equity', label: 'Health Equity' },
+    { key: 'healthcare-access', label: 'Healthcare Access' },
+    { key: 'housing-rights', label: 'Housing Rights' },
+    { key: 'human-rights', label: 'Human Rights' },
+    { key: 'indigenous-voices', label: 'Indigenous Voices' },
+    { key: 'immigrant-voices', label: 'Immigrant Voices' },
+    { key: 'income-inequality', label: 'Income Inequality' },
+    { key: 'interfaith-dialogue', label: 'Interfaith Dialogue' },
+    { key: 'infrastructure', label: 'Infrastructure' },
+    { key: 'interracial-relationships', label: 'Interracial Relationships' },
+    { key: 'lgbtq-voices', label: 'Lgbtq Voices' },
+    { key: 'local-economies', label: 'Local Economies' },
+    { key: 'media-literacy', label: 'Media Literacy' },
+    { key: 'mental-health', label: 'Mental Health' },
+    { key: 'migrant-rights', label: 'Migrant Rights' },
+    { key: 'mothers-rights', label: 'Mothers Rights' },
+    { key: 'native-american-voices', label: 'Native American Voices' },
+    { key: 'national-security', label: 'National Security' },
+    { key: 'natural-disasters', label: 'Natural Disasters' },
+    { key: 'neighborhoods', label: 'Neighborhoods' },
+    { key: 'nuclear-disarmament', label: 'Nuclear Disarmament' },
+    { key: 'pagan-voices', label: 'Pagan Voices' },
+    { key: 'pandemic-response', label: 'Pandemic Response' },
+    { key: 'parenting-rights', label: 'Parenting Rights' },
+    { key: 'personal-finance', label: 'Personal Finance' },
+    { key: 'philanthropy', label: 'Philanthropy' },
+    { key: 'prison-reform', label: 'Prison Reform' },
+    { key: 'progressive-values', label: 'Progressive Values' },
+    { key: 'public-health', label: 'Public Health' },
+    { key: 'racial-justice', label: 'Racial Justice' },
+    { key: 'refugee-rights', label: 'Refugee Rights' },
+    { key: 'religious-freedom', label: 'Religious Freedom' },
+    { key: 'reproductive-rights', label: 'Reproductive Rights' },
+    { key: 'school-safety', label: 'School Safety' },
+    { key: 'social-justice', label: 'Social Justice' },
+    { key: 'sports-and-recreation', label: 'Sports And Recreation' },
+    { key: 'sustainability', label: 'Sustainability' },
+    { key: 'technology-access', label: 'Technology Access' },
+    { key: 'veteran-rights', label: 'Veteran Rights' },
+    { key: 'violence-prevention', label: 'Violence Prevention' },
+    { key: 'voter-rights', label: 'Voter Rights' },
+    { key: 'water-rights', label: 'Water Rights' },
+    { key: 'women-empowerment', label: 'Women Empowerment' },
+  ];
   const [isLoading, setIsLoading] = useState(false);
 
   const validateFormData = () => {
@@ -125,6 +209,14 @@ const OnboardForm = ({ ToastMessage, strings: stringsOverride }: { ToastMessage:
       ...newValidMsg,
     }));
     return res.success;
+  };
+
+  const handleInterestsToggle = (key: string, checked: boolean) => {
+    setFormData((prev) => {
+      const next = new Set(prev.interests || []);
+      if (checked) next.add(key); else next.delete(key);
+      return { ...prev, interests: Array.from(next) };
+    });
   };
 
   const handleOnboarding = (e: React.FormEvent<HTMLFormElement>) => {
@@ -174,7 +266,28 @@ const OnboardForm = ({ ToastMessage, strings: stringsOverride }: { ToastMessage:
             break;
           default:
             if (!res.ok) {
-              throw new Error('Network response was not ok');
+              // Try to parse response body to provide a better error message for known cases
+              let bodyText = '';
+              try {
+                const json = await res.json();
+                if (json) bodyText = (json.detail || json.message || JSON.stringify(json)).toString();
+              } catch (e) {
+                try {
+                  bodyText = await res.text();
+                } catch (e) {
+                  bodyText = '';
+                }
+              }
+
+              // If backend returned an address-specific error, show the localized guidance to the user
+              const isUsAddressError = res.status === 500 && /address/i.test(bodyText) && /improper/i.test(bodyText);
+              if (isUsAddressError) {
+                // Show guidance under the address field and via toast
+                setValidMsg((prev) => ({ ...prev, address: s.addressGuidance }));
+                ToastMessage({ message: s.onboardingFailTitle, description: s.addressGuidance }, 'error');
+              } else {
+                throw new Error('Network response was not ok: ' + (bodyText || res.statusText));
+              }
             }
         }
       } catch (error) {
@@ -188,11 +301,7 @@ const OnboardForm = ({ ToastMessage, strings: stringsOverride }: { ToastMessage:
     }, 500);
   }
 
-  const handleInterestsChange = (value: string) => {
-    setInterestsInput(value);
-    const interests = value.split(',').map(item => item.trim()).filter(item => item.length > 0);
-    setFormData((prev) => ({ ...prev, interests }));
-  };
+
 
   return (
     <div className="flex flex-col w-full max-w-md">
@@ -277,27 +386,30 @@ const OnboardForm = ({ ToastMessage, strings: stringsOverride }: { ToastMessage:
         </Field>
 
         <Field
-          label={s.interestsLabel}
+          label={s.interestsLabel.replace(/\(.*\)$/, '').trim()}
           validationMessage={validMsg.interests}
           validationState={validMsg.interests ? 'error' : 'none'}
           className="w-full"
         >
-          <Textarea
-            value={interestsInput}
-            appearance="outline"
-            onChange={(_: React.ChangeEvent<HTMLTextAreaElement>, data) => {
-              handleInterestsChange(data.value);
-            }}
-            resize='none'
-            disabled={isLoading}
-            className="w-full"
-            style={{ minWidth: '200px' }}
+          <div
+            className="grid grid-cols-2 gap-x-4 gap-y-2 max-h-48 overflow-y-auto pr-2"
+            role="group"
             aria-label={s.ariaInterests}
             aria-describedby={validMsg.interests ? 'interests-error' : undefined}
-            aria-invalid={validMsg.interests ? 'true' : 'false'}
-            placeholder={s.interestsPlaceholder}
-            rows={3}
-          />
+          >
+            {INTEREST_OPTIONS.map((opt) => (
+              <div key={opt.key} className="flex items-center">
+                <Checkbox
+                  label={opt.label}
+                  disabled={isLoading}
+                  checked={(formData.interests || []).includes(opt.key)}
+                  onChange={(_: React.ChangeEvent<HTMLInputElement>, data) => {
+                    handleInterestsToggle(opt.key, !!data.checked);
+                  }}
+                />
+              </div>
+            ))}
+          </div>
         </Field>
 
         <Field

@@ -83,8 +83,9 @@
   "communities": {
     "sidebarTitle": "Elenco degli argomenti",
     "communityHeading": "Comunità: {community}",
-    "tabPosts": "Post",
-    "tabIssues": "Problemi",
+    "onboardingFailedGenericTitle": "Onboarding fallito",
+    "onboardingFailedGenericDesc": "Riprova più tardi.",
+    "addressGuidance": "Inserisci il tuo indirizzo, assicurati che sia un indirizzo corretto. Es: [Numero Civico], [Nome della Strada], [Apt/Suite/Unit (se presente)], [Città], [Stato], [CAP], [Paese]",
     "startPost": "Avvia un post in {community}",
     "photo": "Foto",
     "write": "Scrivi",

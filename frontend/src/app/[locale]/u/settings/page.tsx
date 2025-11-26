@@ -219,7 +219,7 @@ export default function SettingsPage() {
                       <Input
                         value={localAddress}
                         onChange={(_, data) => setLocalAddress(data.value)}
-                        placeholder="Enter your address"
+                        placeholder="Enter your address, make sure it's proper address. Eg: [Street Number], [Street Name], [Apt/Suite/Unit (if any)], [City], [State], [ZIP Code], [Country]"
                         disabled={isLoading}
                       />
                     )}

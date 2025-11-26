@@ -15,7 +15,7 @@ import {
 export const SignUpFormSchema = v.object({
   full_name: v.pipe(
     nameValidator,
-    v.regex(/^[A-Za-z ]+$/, "Full name must contain only alphanumeric characters"),
+    v.regex(/^[A-Za-z ]+$/, "Full name must contain only alphabets as characters"),
   ),
   username: usernameValidator,
   email: emailValidator,
@@ -42,7 +42,7 @@ export const SignUpRequestSchema = v.object({
   username: usernameValidator,
   full_name: v.pipe(
     nameValidator,
-    v.regex(/^[A-Za-z ]+$/, "Full name must contain only alphanumeric characters"),
+    v.regex(/^[A-Za-z ]+$/, "Full name must contain only alphabets as characters"),
   ),
   email: emailValidator,
   password: passwordValidator,

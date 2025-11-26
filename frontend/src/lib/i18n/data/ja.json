@@ -163,6 +163,7 @@
     "invalidDataDesc": "情報を確認して、再度お試しください。",
     "onboardingFailedGenericTitle": "オンボーディング失敗",
     "onboardingFailedGenericDesc": "後でもう一度お試しください。",
+      "addressGuidance": "住所を入力してください。正しい住所であることを確認してください。例: [番地], [通り名], [アパート/スイート/ユニット（該当する場合）], [市], [州], [郵便番号], [国]",
     "ariaFormLabel": "ユーザーオンボーディングフォーム",
     "ariaLocation": "場所",
     "ariaAddress": "住所",
