@@ -131,6 +131,18 @@
         "cancel": "Annuler",
         "post": "Publier"
     },
+    "feeds": {
+        "verified": "Vérifié",
+        "unverified": "Non vérifié",
+        "pending": "En attente",
+        "flagged": "Signalé",
+        "links": "Liens :",
+        "close": "Fermer",
+        "view": "Voir",
+        "issueId": "ID du problème :",
+        "noVotedContent": "Aucun contenu voté trouvé",
+        "nothingHere": "Rien ici"
+    },
     "affordable-housing": "Logement Abordable",
     "artificial-intelligence": "Intelligence Artificielle",
     "arts-and-culture": "Arts et Culture",

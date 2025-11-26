@@ -130,5 +130,17 @@
         "filterPlaceholder": "タグを絞り込む",
         "cancel": "キャンセル",
         "post": "投稿する"
+    },
+    "feeds": {
+        "verified": "検証済み",
+        "unverified": "未検証",
+        "pending": "保留中",
+        "flagged": "フラグ付き",
+        "links": "リンク：",
+        "close": "閉じる",
+        "view": "表示",
+        "issueId": "課題ID：",
+        "noVotedContent": "投票したコンテンツが見つかりません",
+        "nothingHere": "ここには何もありません"
     }
 }

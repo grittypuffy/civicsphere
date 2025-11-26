@@ -130,5 +130,17 @@
         "filterPlaceholder": "टैग फ़िल्टर करें",
         "cancel": "रद्द करें",
         "post": "पोस्ट करें"
+    },
+    "feeds": {
+        "verified": "सत्यापित",
+        "unverified": "असत्यापित",
+        "pending": "लंबित",
+        "flagged": "फ्लैग किया गया",
+        "links": "लिंक:",
+        "close": "बंद करें",
+        "view": "देखें",
+        "issueId": "मुद्दा ID:",
+        "noVotedContent": "कोई मतदान की गई सामग्री नहीं मिली",
+        "nothingHere": "यहाँ कुछ नहीं है"
     }
 }

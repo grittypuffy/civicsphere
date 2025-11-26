@@ -130,5 +130,17 @@
         "filterPlaceholder": "Filtrar etiquetas",
         "cancel": "Cancelar",
         "post": "Publicar"
+    },
+    "feeds": {
+        "verified": "Verificado",
+        "unverified": "No verificado",
+        "pending": "Pendiente",
+        "flagged": "Marcado",
+        "links": "Enlaces:",
+        "close": "Cerrar",
+        "view": "Ver",
+        "issueId": "ID de problema:",
+        "noVotedContent": "No se encontró contenido votado",
+        "nothingHere": "Nada aquí"
     }
 }

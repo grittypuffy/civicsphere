@@ -47,5 +47,17 @@
         "filterPlaceholder": "Filtre tag",
         "cancel": "Anile",
         "post": "Poste"
+    },
+    "feeds": {
+        "verified": "Verifye",
+        "unverified": "Pa verifye",
+        "pending": "An atant",
+        "flagged": "Make",
+        "links": "Lyen:",
+        "close": "Fèmen",
+        "view": "Gade",
+        "issueId": "ID pwoblèm:",
+        "noVotedContent": "Pa jwenn kontni ki vote",
+        "nothingHere": "Pa gen anyen isit la"
     }
 }
