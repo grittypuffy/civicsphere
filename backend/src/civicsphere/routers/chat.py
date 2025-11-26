@@ -1,6 +1,7 @@
+from typing import Optional, List
 import logging
-from fastapi import APIRouter, Request
-from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi import APIRouter, Request, Depends, File, UploadFile
+from fastapi.responses import JSONResponse
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from azure.identity.aio import DefaultAzureCredential
@@ -18,6 +19,7 @@ from ..models.api.chat import Chat, ChatData, ChatRequest, ChatResponse
 from ..models.api.post import PostResponse
 from ..services.chatbot.rag import search_documents
 from ..services.chatbot.scraper.web.nyc import parse_address, get_pollsite_info, summarize_pollsite, summarize_accessibility
+from ..services.chatbot.external.nyc import process_voice_prompt
 
 config: AppConfig = AppConfig()
 router = APIRouter(tags=["Chatbot"])
@@ -37,17 +39,41 @@ Guidelines:
 - Provide factual data with citations
 """
 
+async def get_user_preferences(user_id: str) -> UserPreferences:
+    """Fetch user preferences from the database."""
+    prefs = await config.db["userPreferences"].find_one(
+        {"user_id": user_id},
+        {
+            "location": 1,
+            "address": 1,
+            "profession": 1,
+            "interests": 1,
+            "language": 1,
+            "_id": 0,
+        },
+    )
+
+    if not prefs:
+        raise ValueError("Preferences not found. User may not have completed onboarding.")
+
+    return UserPreferences(**prefs)
+
+
 @router.post(
     "/new",
     response_model=ChatResponse
 )
 async def chat(
     req: Request,
-    prompt: ChatRequest,
+    prompt: ChatRequest = Depends(),
+    files: Optional[List[UploadFile]] = File(None),
+    voice: Optional[UploadFile] = File(None)
 ):
     """
     Prompt chatbot with user queries
     """
+
+    # User authentication
     user_id = None
     if req.state.user:
         user_id = req.state.user.get("user_id")
@@ -62,21 +88,64 @@ async def chat(
             ).model_dump()
         )
 
+    # Get preferences
     try:
-        prefs = await config.db["userPreferences"].find_one(
-            {"user_id": user_id},
-            {"location": 1, "address": 1, "profession": 1, "interests": 1, "language": 1, "_id": 0}
-        )
-        if not prefs:
-            return JSONResponse(
-                status_code=400,
-                content=ChatResponse(
-                    success=False,
-                    message="Preferences not found. User may not have completed onboarding."
-                ).dict()
-            )
-        prefs_data = UserPreferences(**prefs)
+        prefs_data = await get_user_preferences(user_id)
         language = prefs_data.language or "en"
+
+        prompt = None
+
+        # Process voice prompt
+        
+        if voice:
+            prompt_text = await process_voice_prompt(voice, language)
+        else:
+            prompt_text = prompt.prompt
+        if voice:
+            voice_content_type = voice.content_type
+            audio_processor: AudioProcessor = AudioProcessor()
+            match voice_content_type:
+                case "audio/wav" | "video/webm":
+                    transcription = await upload_client.get_audio_transcription(
+                        file_path, language_code
+                    )
+                    if (
+                        transcripted_text := transcription.get("data")
+                    ) and not transcription.get("error"):
+                        prompt = transcripted_text
+                case _:
+                    return JSONResponse(
+                        status_code=406,
+                        content={
+                            "status": "failed",
+                            "data": None,
+                            "message": "Unsupported format",
+                        },
+                    )
+
+            try:
+                transcript = await audio_processor.process_voice(lang, voice)
+                transcription = transcript.get("text", None)
+                if transcription is None:
+                    return JSONResponse(
+                        status_code=400,
+                        content={
+                            "success": False,
+                            "message": "No transcriptions found",
+                            "details": func_response.text
+                        }
+                    )
+                prompt = transcription
+            except Exception as e:
+                return JSONResponse(
+                    status_code=500,
+                    content={
+                        "success": False,
+                        "message": "Error while transcripting text",
+                        "details": func_response.text
+                    }
+                )
+
 
         match prompt.prompt:
             case "Find my nearest pollsites":
@@ -249,6 +318,9 @@ async def chat(
                                         content=last_part.text.value
                                     )
                                 )
+
+    except ValueError as e:
+        return JSONResponse(status_code=400, content=ChatResponse(success=False, message=str(e)).model_dump())
 
     except Exception as e:
         logging.exception("Error occurred in /chat endpoint")

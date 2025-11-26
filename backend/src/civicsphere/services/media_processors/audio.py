@@ -24,7 +24,7 @@ class AudioProcessor:
             config.env.uploads_container
         )
 
-    async def write_voice(self, file: UploadFile = File(...)) -> (str, str, str) | None:
+    async def write_voice(self, file: UploadFile = File(...)):
         file_content: bytes = await file.read()
         date_now = str(datetime.datetime.now())
         hashed_filename, digest = get_filename_hash(date_now, file_extension=".webm")
@@ -35,7 +35,8 @@ class AudioProcessor:
 
         if os.path.exists(file_path):
             return file_path, hashed_filename, digest
-        return None, None
+        return None, None, None
+
 
     def convert_to_wav(self, file_path: str, hashed_filename: str):
         try:
@@ -46,14 +47,26 @@ class AudioProcessor:
         except ffmpeg.Error as e:
             raise e
 
-    async def upload_voice(self, wav_file_path: str, hashed_filename: str):
-        blob_client: BlobClient = self.uploads_container.get_blob_client(f"voice/{hashed_filename}.wav")
+
+    async def upload_voice_post(self, wav_file_path: str, hashed_filename: str):
+        blob_client: BlobClient = self.uploads_container.get_blob_client(f"voice/post/{hashed_filename}.wav")
         async with aiofiles.open(wav_file_path, mode='wb') as voice_file:
             await blob_client.upload_blob(
                 voice_file,
                 overwrite=True
             )
         return blob_client.url
+
+
+    async def upload_voice_prompt(self, wav_file_path: str, hashed_filename: str):
+        blob_client: BlobClient = self.uploads_container.get_blob_client(f"voice/prompt/{hashed_filename}.wav")
+        async with aiofiles.open(wav_file_path, mode='wb') as voice_file:
+            await blob_client.upload_blob(
+                voice_file,
+                overwrite=True
+            )
+        return blob_client.url
+
 
     async def get_transcription(self, file_path: str, language_code: str = "en-US"):
         speech_config = speechsdk.SpeechConfig(subscription=config.env.azure_stt_key, region=config.env.azure_stt_region)
@@ -78,7 +91,8 @@ class AudioProcessor:
                 return {"status": "failed", "data": None, "error": cancellation_details.error_details}
             return {"status": "failed", "data": None, "error": cancellation_details.reason}
 
-    async def process_voice(self, language_code: str, file: UploadFile = File(...)):
+
+    async def process_voice_post(self, language_code: str, file: UploadFile = File(...)):
         file_path, hashed_filename, digest = await self.write_voice(file)
         if not file_path:
             raise Exception("Audio file is not written in .webm format")
@@ -86,6 +100,19 @@ class AudioProcessor:
             wav_file_path = self.convert_to_wav(file_path, digest)
         except Exception as e:
             raise e
-        blob_url = await self.upload_voice(wav_file_path, digest)
+        blob_url = await self.upload_voice_post(wav_file_path, digest)
+        transcription = await self.get_transcription(wav_file_path, language_code)
+        return transcription
+
+
+    async def process_voice_prompt(self, language_code: str, file: UploadFile = File(...)):
+        file_path, hashed_filename, digest = await self.write_voice(file)
+        if not file_path:
+            raise Exception("Audio file is not written in .webm format")
+        try:
+            wav_file_path = self.convert_to_wav(file_path, digest)
+        except Exception as e:
+            raise e
+        blob_url = await self.upload_voice_prompt(wav_file_path, digest)
         transcription = await self.get_transcription(wav_file_path, language_code)
         return transcription

@@ -6,9 +6,9 @@ from ..models.api.user import UserReactionsResponse
 from ..models.api.post import PostResponse,UserPostsResponse
 
 
-router = APIRouter(tags=["User-Post"])
-
+router = APIRouter(tags=["User Post"])
 config: AppConfig = get_config()
+
 
 @router.get(
     "",
@@ -135,6 +135,7 @@ async def get_user_downvotes(
             message="Successfully fetched user downvotes",
             data=post_ids
         )
+
     except Exception as e:
         return JSONResponse(
             status_code=500,
