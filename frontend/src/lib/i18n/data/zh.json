@@ -279,5 +279,31 @@
     },
     "signout": "退出登录",
     "copyright": "© {year} {appName}"
+  },
+  "signin_form": {
+    "form": {
+      "usernameLabel": "用户名",
+      "usernameAria": "用户名",
+      "passwordLabel": "密码",
+      "passwordAria": "密码",
+      "signIn": "登录",
+      "showPassword": "显示密码",
+      "hidePassword": "隐藏密码"
+    },
+    "toast": {
+      "signInFailed": "登录失败",
+      "invalidData": "数据无效！请检查您的输入。",
+      "signingIn": "正在登录...",
+      "signInSuccessful": "登录成功",
+      "redirecting": "正在跳转...",
+      "invalidCredentialsTitle": "凭证无效",
+      "invalidCredentialsDesc": "请检查您的用户名和密码。",
+      "tryLater": "请稍后再试。"
+    },
+    "aria": {
+      "formLabel": "登录表单",
+      "signingIn": "正在登录，请稍候",
+      "loading": "加载中"
+    }
   }
 }

@@ -279,5 +279,31 @@
     },
     "signout": "サインアウト",
     "copyright": "© {year} {appName}"
+  },
+  "signin_form": {
+    "form": {
+      "usernameLabel": "ユーザー名",
+      "usernameAria": "ユーザー名",
+      "passwordLabel": "パスワード",
+      "passwordAria": "パスワード",
+      "signIn": "サインイン",
+      "showPassword": "パスワードを表示",
+      "hidePassword": "パスワードを非表示"
+    },
+    "toast": {
+      "signInFailed": "サインインに失敗しました",
+      "invalidData": "無効なデータです。入力内容を確認してください。",
+      "signingIn": "サインイン中…",
+      "signInSuccessful": "サインイン成功",
+      "redirecting": "リダイレクト中…",
+      "invalidCredentialsTitle": "無効な認証情報",
+      "invalidCredentialsDesc": "ユーザー名とパスワードを確認してください。",
+      "tryLater": "後でもう一度お試しください。"
+    },
+    "aria": {
+      "formLabel": "サインインフォーム",
+      "signingIn": "サインイン中です。お待ちください。",
+      "loading": "読み込み中"
+    }
   }
 }

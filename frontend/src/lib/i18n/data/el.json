@@ -279,5 +279,31 @@
     },
     "signout": "Αποσύνδεση",
     "copyright": "© {year} {appName}"
+  },
+  "signin_form": {
+    "form": {
+      "usernameLabel": "Όνομα χρήστη",
+      "usernameAria": "Όνομα χρήστη",
+      "passwordLabel": "Κωδικός πρόσβασης",
+      "passwordAria": "Κωδικός πρόσβασης",
+      "signIn": "Σύνδεση",
+      "showPassword": "Εμφάνιση κωδικού",
+      "hidePassword": "Απόκρυψη κωδικού"
+    },
+    "toast": {
+      "signInFailed": "Η σύνδεση απέτυχε",
+      "invalidData": "Μη έγκυρα δεδομένα! Ελέγξτε τις πληροφορίες σας.",
+      "signingIn": "Γίνεται σύνδεση...",
+      "signInSuccessful": "Επιτυχής σύνδεση",
+      "redirecting": "Γίνεται ανακατεύθυνση...",
+      "invalidCredentialsTitle": "Μη έγκυρα στοιχεία",
+      "invalidCredentialsDesc": "Ελέγξτε το όνομα χρήστη και τον κωδικό πρόσβασής σας.",
+      "tryLater": "Παρακαλώ δοκιμάστε ξανά αργότερα."
+    },
+    "aria": {
+      "formLabel": "Φόρμα σύνδεσης",
+      "signingIn": "Γίνεται σύνδεση, παρακαλώ περιμένετε",
+      "loading": "Φόρτωση"
+    }
   }
 }

@@ -279,5 +279,31 @@
     },
     "signout": "Abmelden",
     "copyright": "© {year} {appName}"
+  },
+  "signin_form": {
+    "form": {
+      "usernameLabel": "Benutzername",
+      "usernameAria": "Benutzername",
+      "passwordLabel": "Passwort",
+      "passwordAria": "Passwort",
+      "signIn": "Anmelden",
+      "showPassword": "Passwort anzeigen",
+      "hidePassword": "Passwort ausblenden"
+    },
+    "toast": {
+      "signInFailed": "Anmeldung fehlgeschlagen",
+      "invalidData": "Ungültige Daten! Bitte überprüfen Sie Ihre Eingaben.",
+      "signingIn": "Anmeldung läuft...",
+      "signInSuccessful": "Anmeldung erfolgreich",
+      "redirecting": "Weiterleiten...",
+      "invalidCredentialsTitle": "Ungültige Zugangsdaten",
+      "invalidCredentialsDesc": "Bitte überprüfen Sie Ihren Benutzernamen und Ihr Passwort.",
+      "tryLater": "Bitte versuchen Sie es später erneut."
+    },
+    "aria": {
+      "formLabel": "Anmeldeformular",
+      "signingIn": "Anmeldung läuft, bitte warten",
+      "loading": "Laden"
+    }
   }
 }

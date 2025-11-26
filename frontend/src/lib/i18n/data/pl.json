@@ -279,5 +279,31 @@
     },
     "signout": "Wyloguj się",
     "copyright": "© {year} {appName}"
+  },
+  "signin_form": {
+    "form": {
+      "usernameLabel": "Nazwa użytkownika",
+      "usernameAria": "Nazwa użytkownika",
+      "passwordLabel": "Hasło",
+      "passwordAria": "Hasło",
+      "signIn": "Zaloguj się",
+      "showPassword": "Pokaż hasło",
+      "hidePassword": "Ukryj hasło"
+    },
+    "toast": {
+      "signInFailed": "Logowanie nieudane",
+      "invalidData": "Nieprawidłowe dane! Sprawdź poprawność informacji.",
+      "signingIn": "Logowanie...",
+      "signInSuccessful": "Pomyślnie zalogowano",
+      "redirecting": "Przekierowywanie...",
+      "invalidCredentialsTitle": "Nieprawidłowe dane logowania",
+      "invalidCredentialsDesc": "Sprawdź nazwę użytkownika i hasło.",
+      "tryLater": "Spróbuj ponownie później."
+    },
+    "aria": {
+      "formLabel": "Formularz logowania",
+      "signingIn": "Logowanie, proszę czekać",
+      "loading": "Ładowanie"
+    }
   }
 }

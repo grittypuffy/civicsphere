@@ -16,8 +16,10 @@ import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { useState } from "react";
 import * as v from 'valibot';
+import { useTranslations } from 'next-intl';
 
 const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
+  const t = useTranslations('signin_form');
   const router = useRouter();
   const [formData, setFormData] = useState<SignInFormData>({
     username: '',
@@ -25,8 +27,7 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
   });
 
   const [validMsg, setValidMsg] = useState<{ [key: string]: string }>({
-    name: '',
-    email: '',
+    username: '',
     password: '',
   });
 
@@ -34,18 +35,19 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
   const EyeToggleButton = (showPassword: boolean) => {
     return !showPassword ? (
       <EyeRegular
         className="cursor-pointer"
         onClick={() => setShowPassword(!showPassword)}
-        title="Hide Password"
+        title={t('form.showPassword')}
       />
     ) : (
       <EyeOffRegular
         className="cursor-pointer"
         onClick={() => setShowPassword(!showPassword)}
-        title="Show Password"
+        title={t('form.hidePassword')}
       />
     );
   };
@@ -84,8 +86,8 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
       setIsLoading(false);
       ToastMessage(
         {
-          message: 'Sign In Failed',
-          description: 'Invalid data! Please check your input and try again.',
+          message: t('toast.signInFailed'),
+          description: t('toast.invalidData'),
         },
         'error'
       );
@@ -93,7 +95,7 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
     }
 
     setTimeout(async () => {
-      ToastMessage({ message: 'Signing In..', description: '' }, 'info');
+      ToastMessage({ message: t('toast.signingIn'), description: '' }, 'info');
       try {
         const res: Response = await fetch('/api/v1/auth/sign_in', {
           method: 'POST',
@@ -110,7 +112,7 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
         switch (res.status) {
           case 200:
             ToastMessage(
-              { message: 'Sign In Successful', description: 'Redirecting...' },
+              { message: t('toast.signInSuccessful'), description: t('toast.redirecting') },
               'success'
             );
             setUserName(formData.username)
@@ -120,7 +122,7 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             break;
           case 422:
             ToastMessage(
-              { message: 'Invalid Credentials', description: 'Please check your username and password.' },
+              { message: t('toast.invalidCredentialsTitle'), description: t('toast.invalidCredentialsDesc') },
               'error'
             );
             break;
@@ -132,7 +134,7 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
       } catch (error) {
         console.error('Error during sign in:', error);
         ToastMessage(
-          { message: 'Sign In Failed', description: 'Please try again later.' },
+          { message: t('toast.signInFailed'), description: t('toast.tryLater') },
           'error'
         );
       }
@@ -146,11 +148,11 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
         onSubmit={signInHandler}
         className="flex flex-col gap-y-3 w-full items-center"
         role="form"
-        aria-label="Sign in form"
+        aria-label={t('aria.formLabel')}
         noValidate
       >
         <Field
-          label="Username"
+          label={t('form.usernameLabel')}
           validationMessage={validMsg.username}
           validationState={validMsg.username ? 'error' : 'none'}
           className="w-full"
@@ -165,7 +167,7 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             disabled={isLoading}
             className="w-full"
             style={{ minWidth: '200px' }}
-            aria-label='Username'
+            aria-label={t('form.usernameAria')}
             aria-describedby={validMsg.username ? 'username-error' : undefined}
             aria-invalid={validMsg.username ? 'true' : 'false'}
             required
@@ -173,7 +175,7 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
           />
         </Field>
         <Field
-          label="Password"
+          label={t('form.passwordLabel')}
           validationState={validMsg.password ? 'error' : 'none'}
           validationMessage={validMsg.password}
           className="w-full"
@@ -189,7 +191,7 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             disabled={isLoading}
             className="w-full"
             style={{ minWidth: '200px' }}
-            aria-label='Password'
+            aria-label={t('form.passwordAria')}
             aria-describedby={validMsg.password ? 'password-error' : undefined}
             aria-invalid={validMsg.password ? 'true' : 'false'}
             required
@@ -198,16 +200,16 @@ const SignInForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
         </Field>
         <Button
           type="submit"
-          aria-label={isLoading ? "Signing in, please wait" : "Sign in"}
+          aria-label={isLoading ? t('aria.signingIn') : t('form.signIn')}
           className="w-full max-w-xs hover:shadow-md btn-primary"
           disabled={isLoading || !formData.username || !formData.password}
           aria-describedby={isLoading ? "loading-spinner" : undefined}
         >
-          {isLoading ? <Spinner size="extra-small" aria-label="Loading" id="loading-spinner" /> : 'Sign In'}
+          {isLoading ? <Spinner size="extra-small" aria-label={t('aria.loading')} id="loading-spinner" /> : t('form.signIn')}
         </Button>
       </form>
     </div>
   )
 }
 
-export default SignInForm
+export default SignInForm;

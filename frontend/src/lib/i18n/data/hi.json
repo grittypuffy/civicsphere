@@ -279,5 +279,31 @@
     },
     "signout": "साइन आउट",
     "copyright": "© {year} {appName}"
+  },
+  "signin_form": {
+    "form": {
+      "usernameLabel": "उपयोगकर्ता नाम",
+      "usernameAria": "उपयोगकर्ता नाम",
+      "passwordLabel": "पासवर्ड",
+      "passwordAria": "पासवर्ड",
+      "signIn": "साइन इन करें",
+      "showPassword": "पासवर्ड दिखाएँ",
+      "hidePassword": "पासवर्ड छुपाएँ"
+    },
+    "toast": {
+      "signInFailed": "साइन इन असफल",
+      "invalidData": "अमान्य डेटा! कृपया अपनी जानकारी जाँचें।",
+      "signingIn": "साइन इन किया जा रहा है...",
+      "signInSuccessful": "साइन इन सफल",
+      "redirecting": "रीडायरेक्ट किया जा रहा है...",
+      "invalidCredentialsTitle": "गलत क्रेडेंशियल्स",
+      "invalidCredentialsDesc": "कृपया अपना उपयोगकर्ता नाम और पासवर्ड जाँचें।",
+      "tryLater": "कृपया बाद में पुनः प्रयास करें।"
+    },
+    "aria": {
+      "formLabel": "साइन इन फ़ॉर्म",
+      "signingIn": "साइन इन हो रहा है, कृपया प्रतीक्षा करें",
+      "loading": "लोड हो रहा है"
+    }
   }
 }

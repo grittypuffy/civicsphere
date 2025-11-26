@@ -279,5 +279,31 @@
     },
     "signout": "Cerrar sesión",
     "copyright": "© {year} {appName}"
+  },
+  "signin_form": {
+    "form": {
+      "usernameLabel": "Nombre de usuario",
+      "usernameAria": "Nombre de usuario",
+      "passwordLabel": "Contraseña",
+      "passwordAria": "Contraseña",
+      "signIn": "Iniciar sesión",
+      "showPassword": "Mostrar contraseña",
+      "hidePassword": "Ocultar contraseña"
+    },
+    "toast": {
+      "signInFailed": "Error al iniciar sesión",
+      "invalidData": "Datos inválidos. Por favor revisa tu información.",
+      "signingIn": "Iniciando sesión...",
+      "signInSuccessful": "Inicio de sesión exitoso",
+      "redirecting": "Redirigiendo...",
+      "invalidCredentialsTitle": "Credenciales inválidas",
+      "invalidCredentialsDesc": "Revisa tu nombre de usuario y contraseña.",
+      "tryLater": "Por favor inténtalo de nuevo más tarde."
+    },
+    "aria": {
+      "formLabel": "Formulario de inicio de sesión",
+      "signingIn": "Iniciando sesión, por favor espera",
+      "loading": "Cargando"
+    }
   }
 }

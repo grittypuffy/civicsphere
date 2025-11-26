@@ -279,5 +279,31 @@
     },
     "signout": "Esci",
     "copyright": "© {year} {appName}"
+  },
+  "signin_form": {
+    "form": {
+      "usernameLabel": "Nome utente",
+      "usernameAria": "Nome utente",
+      "passwordLabel": "Password",
+      "passwordAria": "Password",
+      "signIn": "Accedi",
+      "showPassword": "Mostra password",
+      "hidePassword": "Nascondi password"
+    },
+    "toast": {
+      "signInFailed": "Accesso non riuscito",
+      "invalidData": "Dati non validi! Controlla le tue informazioni.",
+      "signingIn": "Accesso in corso...",
+      "signInSuccessful": "Accesso riuscito",
+      "redirecting": "Reindirizzamento...",
+      "invalidCredentialsTitle": "Credenziali non valide",
+      "invalidCredentialsDesc": "Controlla nome utente e password.",
+      "tryLater": "Per favore riprova più tardi."
+    },
+    "aria": {
+      "formLabel": "Modulo di accesso",
+      "signingIn": "Accesso in corso, attendere prego",
+      "loading": "Caricamento"
+    }
   }
 }

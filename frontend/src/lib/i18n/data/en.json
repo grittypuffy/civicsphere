@@ -279,5 +279,31 @@
     },
     "signout": "Logout",
     "copyright": "© {year} {appName}"
+  },
+  "signin_form": {
+    "form": {
+      "usernameLabel": "Username",
+      "usernameAria": "Username",
+      "passwordLabel": "Password",
+      "passwordAria": "Password",
+      "signIn": "Sign In",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password"
+    },
+    "toast": {
+      "signInFailed": "Sign In Failed",
+      "invalidData": "Invalid data! Please check your input and try again.",
+      "signingIn": "Signing In..",
+      "signInSuccessful": "Sign In Successful",
+      "redirecting": "Redirecting...",
+      "invalidCredentialsTitle": "Invalid Credentials",
+      "invalidCredentialsDesc": "Please check your username and password.",
+      "tryLater": "Please try again later."
+    },
+    "aria": {
+      "formLabel": "Sign in form",
+      "signingIn": "Signing in, please wait",
+      "loading": "Loading"
+    }
   }
 }

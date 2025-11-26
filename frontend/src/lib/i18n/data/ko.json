@@ -279,5 +279,31 @@
     },
     "signout": "로그아웃",
     "copyright": "© {year} {appName}"
+  },
+  "signin_form": {
+    "form": {
+      "usernameLabel": "사용자 이름",
+      "usernameAria": "사용자 이름",
+      "passwordLabel": "비밀번호",
+      "passwordAria": "비밀번호",
+      "signIn": "로그인",
+      "showPassword": "비밀번호 보기",
+      "hidePassword": "비밀번호 숨기기"
+    },
+    "toast": {
+      "signInFailed": "로그인 실패",
+      "invalidData": "잘못된 데이터입니다! 입력 내용을 확인하세요.",
+      "signingIn": "로그인 중...",
+      "signInSuccessful": "로그인 성공",
+      "redirecting": "이동 중...",
+      "invalidCredentialsTitle": "잘못된 계정 정보",
+      "invalidCredentialsDesc": "사용자 이름과 비밀번호를 확인하세요.",
+      "tryLater": "나중에 다시 시도해주세요."
+    },
+    "aria": {
+      "formLabel": "로그인 양식",
+      "signingIn": "로그인 중입니다. 잠시만 기다려주세요.",
+      "loading": "로드 중"
+    }
   }
 }

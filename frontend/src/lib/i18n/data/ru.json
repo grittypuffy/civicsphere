@@ -279,5 +279,31 @@
     },
     "signout": "Выйти",
     "copyright": "© {year} {appName}"
+  },
+  "signin_form": {
+    "form": {
+      "usernameLabel": "Имя пользователя",
+      "usernameAria": "Имя пользователя",
+      "passwordLabel": "Пароль",
+      "passwordAria": "Пароль",
+      "signIn": "Войти",
+      "showPassword": "Показать пароль",
+      "hidePassword": "Скрыть пароль"
+    },
+    "toast": {
+      "signInFailed": "Ошибка входа",
+      "invalidData": "Недействительные данные! Проверьте введённую информацию.",
+      "signingIn": "Вход...",
+      "signInSuccessful": "Успешный вход",
+      "redirecting": "Перенаправление...",
+      "invalidCredentialsTitle": "Неверные учетные данные",
+      "invalidCredentialsDesc": "Проверьте имя пользователя и пароль.",
+      "tryLater": "Пожалуйста, попробуйте позже."
+    },
+    "aria": {
+      "formLabel": "Форма входа",
+      "signingIn": "Вход, пожалуйста подождите",
+      "loading": "Загрузка"
+    }
   }
 }

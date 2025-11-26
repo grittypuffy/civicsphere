@@ -279,5 +279,31 @@
     },
     "signout": "Se déconnecter",
     "copyright": "© {year} {appName}"
+  },
+  "signin_form": {
+    "form": {
+      "usernameLabel": "Nom d'utilisateur",
+      "usernameAria": "Nom d'utilisateur",
+      "passwordLabel": "Mot de passe",
+      "passwordAria": "Mot de passe",
+      "signIn": "Se connecter",
+      "showPassword": "Afficher le mot de passe",
+      "hidePassword": "Masquer le mot de passe"
+    },
+    "toast": {
+      "signInFailed": "Échec de la connexion",
+      "invalidData": "Données invalides ! Veuillez vérifier vos informations.",
+      "signingIn": "Connexion...",
+      "signInSuccessful": "Connexion réussie",
+      "redirecting": "Redirection...",
+      "invalidCredentialsTitle": "Identifiants invalides",
+      "invalidCredentialsDesc": "Veuillez vérifier votre nom d'utilisateur et votre mot de passe.",
+      "tryLater": "Veuillez réessayer plus tard."
+    },
+    "aria": {
+      "formLabel": "Formulaire de connexion",
+      "signingIn": "Connexion en cours, veuillez patienter",
+      "loading": "Chargement"
+    }
   }
 }

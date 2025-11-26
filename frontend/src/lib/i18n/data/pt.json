@@ -279,5 +279,32 @@
     },
     "signout": "Sair",
     "copyright": "© {year} {appName}"
+  },
+  "signin_form": {
+  "form": {
+    "usernameLabel": "Nome de usuário",
+    "usernameAria": "Nome de usuário",
+    "passwordLabel": "Senha",
+    "passwordAria": "Senha",
+    "signIn": "Entrar",
+    "showPassword": "Mostrar senha",
+    "hidePassword": "Ocultar senha"
+  },
+  "toast": {
+    "signInFailed": "Falha no login",
+    "invalidData": "Dados inválidos! Verifique suas informações.",
+    "signingIn": "Entrando...",
+    "signInSuccessful": "Login bem-sucedido",
+    "redirecting": "Redirecionando...",
+    "invalidCredentialsTitle": "Credenciais inválidas",
+    "invalidCredentialsDesc": "Verifique seu nome de usuário e senha.",
+    "tryLater": "Tente novamente mais tarde."
+  },
+  "aria": {
+    "formLabel": "Formulário de login",
+    "signingIn": "Entrando, por favor aguarde",
+    "loading": "Carregando"
   }
+}
+
 }
