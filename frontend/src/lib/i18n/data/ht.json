@@ -18,5 +18,23 @@
                 "description": "Dekouvri resous lokal ak opòtinite sivik pou zòn ou nan yon fason aksesib e enklizif."
             }
         }
+    },
+    "trending": {
+        "discoverWhat": "Dekouvri sa ki",
+        "trendingNow": "Popilè kounye a!",
+        "refreshHint": "Ou vle rafrechi kontni popilè a?",
+        "refreshAria": "Rafrechi kontni popilè",
+        "tabPosts": "Pòs popilè",
+        "tabTopics": "Sijè popilè",
+        "loadingPosts": "Chajman pòs popilè...",
+        "loadingTopics": "Chajman sijè popilè...",
+        "errorPosts": "Erè nan chajman pòs popilè:",
+        "errorTopics": "Erè nan chajman sijè popilè:",
+        "fallbackNotice": "Montre done egzanp kòm altènativ.",
+        "sortLabel": "Triye",
+        "sortByRank": "Pi bon pa ran",
+        "sortByActivity": "Pi bon pa aktivite",
+        "trendingTopic": "Sijè popilè",
+        "mentions": "mansyon"
     }
 }

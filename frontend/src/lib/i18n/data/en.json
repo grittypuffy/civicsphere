@@ -102,6 +102,24 @@
     "errorIssues": "Error loading issues: {message}",
     "youLabel": "You"
   },
+  "trending": {
+    "discoverWhat": "Discover what's",
+    "trendingNow": "Trending Now!",
+    "refreshHint": "Want to refresh trending content?",
+    "refreshAria": "Refresh trending content",
+    "tabPosts": "Trending Posts",
+    "tabTopics": "Trending Topics",
+    "loadingPosts": "Loading trending posts...",
+    "loadingTopics": "Loading trending topics...",
+    "errorPosts": "Error loading trending posts:",
+    "errorTopics": "Error loading trending topics:",
+    "fallbackNotice": "Showing dummy data as fallback instead.",
+    "sortLabel": "Sort",
+    "sortByRank": "Top by Rank",
+    "sortByActivity": "Top by Activity",
+    "trendingTopic": "Trending topic",
+    "mentions": "mentions"
+  },
   "tags": {
     "affordable-housing": "Affordable Housing {name}",
     "artificial-intelligence": "Artificial Intelligence",

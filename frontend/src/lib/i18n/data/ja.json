@@ -101,5 +101,23 @@
         "loadingIssues": "課題を読み込み中...",
         "errorIssues": "課題の読み込み中にエラー: {message}",
         "youLabel": "あなた"
+    },
+    "trending": {
+        "discoverWhat": "何が",
+        "trendingNow": "今トレンド中！",
+        "refreshHint": "トレンドコンテンツを更新しますか？",
+        "refreshAria": "トレンドコンテンツを更新",
+        "tabPosts": "トレンド投稿",
+        "tabTopics": "トレンドトピック",
+        "loadingPosts": "トレンド投稿を読み込み中...",
+        "loadingTopics": "トレンドトピックを読み込み中...",
+        "errorPosts": "トレンド投稿の読み込み中にエラー:",
+        "errorTopics": "トレンドトピックの読み込み中にエラー:",
+        "fallbackNotice": "代わりにサンプルデータを表示しています。",
+        "sortLabel": "並べ替え",
+        "sortByRank": "ランク順",
+        "sortByActivity": "アクティビティ順",
+        "trendingTopic": "トレンドトピック",
+        "mentions": "件の言及"
     }
 }

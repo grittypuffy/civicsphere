@@ -101,5 +101,23 @@
         "loadingIssues": "Caricamento dei problemi...",
         "errorIssues": "Errore nel caricamento dei problemi: {message}",
         "youLabel": "Tu"
+    },
+    "trending": {
+        "discoverWhat": "Scopri cosa c'è di",
+        "trendingNow": "Di tendenza ora!",
+        "refreshHint": "Vuoi aggiornare i contenuti di tendenza?",
+        "refreshAria": "Aggiorna i contenuti di tendenza",
+        "tabPosts": "Post di tendenza",
+        "tabTopics": "Argomenti di tendenza",
+        "loadingPosts": "Caricamento dei post di tendenza...",
+        "loadingTopics": "Caricamento degli argomenti di tendenza...",
+        "errorPosts": "Errore nel caricamento dei post di tendenza:",
+        "errorTopics": "Errore nel caricamento degli argomenti di tendenza:",
+        "fallbackNotice": "Mostriamo dati di esempio come alternativa.",
+        "sortLabel": "Ordina",
+        "sortByRank": "Migliori per classifica",
+        "sortByActivity": "Migliori per attività",
+        "trendingTopic": "Argomento di tendenza",
+        "mentions": "menzioni"
     }
 }

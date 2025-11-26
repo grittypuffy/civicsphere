@@ -101,5 +101,23 @@
         "errors": {
             "generic": "Lo sentimos, se produjo un error al procesar tu solicitud. Inténtalo de nuevo."
         }
+    },
+    "trending": {
+        "discoverWhat": "Descubre qué está",
+        "trendingNow": "¡En tendencia ahora!",
+        "refreshHint": "¿Quieres actualizar el contenido en tendencia?",
+        "refreshAria": "Actualizar contenido en tendencia",
+        "tabPosts": "Publicaciones en tendencia",
+        "tabTopics": "Temas en tendencia",
+        "loadingPosts": "Cargando publicaciones en tendencia...",
+        "loadingTopics": "Cargando temas en tendencia...",
+        "errorPosts": "Error al cargar publicaciones en tendencia:",
+        "errorTopics": "Error al cargar temas en tendencia:",
+        "fallbackNotice": "Mostrando datos de ejemplo como alternativa.",
+        "sortLabel": "Ordenar",
+        "sortByRank": "Mejores por rango",
+        "sortByActivity": "Mejores por actividad",
+        "trendingTopic": "Tema en tendencia",
+        "mentions": "menciones"
     }
 }

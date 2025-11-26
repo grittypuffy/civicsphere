@@ -101,5 +101,23 @@
         "loadingIssues": "이슈를 불러오는 중...",
         "errorIssues": "이슈를 불러오는 중 오류: {message}",
         "youLabel": "나"
+    },
+    "trending": {
+        "discoverWhat": "무엇이",
+        "trendingNow": "지금 인기!",
+        "refreshHint": "인기 콘텐츠를 새로고침하시겠습니까?",
+        "refreshAria": "인기 콘텐츠 새로고침",
+        "tabPosts": "인기 게시물",
+        "tabTopics": "인기 주제",
+        "loadingPosts": "인기 게시물을 불러오는 중...",
+        "loadingTopics": "인기 주제를 불러오는 중...",
+        "errorPosts": "인기 게시물을 불러오는 중 오류:",
+        "errorTopics": "인기 주제를 불러오는 중 오류:",
+        "fallbackNotice": "대신 샘플 데이터를 표시합니다.",
+        "sortLabel": "정렬",
+        "sortByRank": "순위별 상위",
+        "sortByActivity": "활동별 상위",
+        "trendingTopic": "인기 주제",
+        "mentions": "언급"
     }
 }
