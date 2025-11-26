@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import List, Optional, Literal
 from pydantic import BaseModel
 
+
 class PostResponse(BaseModel):
     community_id: str
     post_id: str

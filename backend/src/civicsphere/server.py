@@ -22,10 +22,7 @@ config: AppConfig = AppConfig()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        config.env.frontend_url,
-        "https://portal.azure.com"
-    ],
+    allow_origins="*",
     allow_methods=cors_allowed_methods,
     allow_headers=["*"],
     expose_headers=["*"],

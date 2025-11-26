@@ -112,7 +112,6 @@ async def get_preferences(
             {"user_id": user_id},
             {"location": 1, "address": 1, "profession": 1, "interests": 1, "language": 1, "_id": 0}
         )
-        logging.info("prefs:",prefs)
         if not prefs:
             return JSONResponse(
                 status_code=404,

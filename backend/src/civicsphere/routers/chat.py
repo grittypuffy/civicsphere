@@ -1,13 +1,14 @@
+import logging
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse, StreamingResponse
-import logging
-from ..config import AppConfig
-from ..services.chatbot.rag import search_documents
-from ..models.api.chat import Chat, ChatData, ChatRequest, ChatResponse
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from ..services.chatbot.external.bing_search import search_bing
 
+from ..config import AppConfig
+from ..models.api.chat import Chat, ChatData, ChatRequest, ChatResponse
+from ..models.api.post import PostResponse
+from ..services.chatbot.rag import search_documents
+from ..services.chatbot.scraper.web.nyc import parse_address, get_pollsite_info, summarize_pollsite, summarize_accessibility
 
 config: AppConfig = AppConfig()
 router = APIRouter(tags=["Chatbot"])
@@ -63,21 +64,87 @@ async def chat(
             ).model_dump()
         )
 
-
     try:
+        prefs = await config.db["userPreferences"].find_one(
+            {"user_id": user_id},
+            {"location": 1, "address": 1, "profession": 1, "interests": 1, "language": 1, "_id": 0}
+        )
+        if not prefs:
+            return JSONResponse(
+                status_code=400,
+                content=ChatResponse(
+                    success=False,
+                    message="Preferences not found. User may not have completed onboarding."
+                ).dict()
+            )
+        prefs_data = UserPreferences(**prefs)
+        match prompt.prompt:
+            case "Find my nearest pollsites":
+                parsed_address = None
+                try:
+                    parsed_address = parse_address(prefs_data.address)
+                    response = await get_pollsite_info(**parsed_address)
+                    summary = summarize_pollsite(response)
+                    return ChatResponse(
+                        success=True,
+                        message=summary
+                    )
+
+                except Exception as e:
+                    return JSONResponse(
+                        status_code=400,
+                        content=ChatResponse(
+                            success=False,
+                            message="An error occurred while checking nearest pollsites. Please check your address."
+                        ).dict()
+                    )
+
+            case "Trending discussions in my area":
+                if prefs_data.location:
+                    posts_cursor = config.db["posts"].find({
+                        "location": location
+                    }).limit(3)
+                    posts = []
+                    async for post in posts_cursor:
+                        post["post_id"] = str(post.pop("_id"))
+                        posts.append(PostResponse(**post))
+                        posts.sort(key=lambda x: x.created_at, reverse=True)
+
+                else:
+                    return JSONResponse(
+                        status_code=400,
+                        content=ChatResponse(
+                           success=False,
+                            message="User interests or location not set"
+                        ).dict()
+                    )
+
+            case "Accessibility options available at my nearest polling sites":
+                parsed_address = None
+                try:
+                    parsed_address = parse_address(prefs_data.address)
+                    response = await get_pollsite_info(**parsed_address)
+                    accessibility_summary = summarize_accessibility(response)
+                    return ChatResponse(
+                        success=True,
+                        message=accessibility_summary
+                    )
+
+                except Exception as e:
+                    return JSONResponse(
+                        status_code=400,
+                        content=ChatResponse(
+                            success=False,
+                            message="An error occurred while checking nearest pollsites. Please check your address."
+                        ).dict()
+                    )
+
+
         client = config.langchain_llm
-        # RAG Search
         rag_results = await search_documents(prompt.prompt)
-        # Bing Search
-        # bing_results = await search_bing(prompt.prompt)
-        # logging.info(f"Bing results content: {bing_results}")
-        bing_results = []
-        # Combine results
         context_parts = []
         if rag_results:
             context_parts.append("Knowledge Base Results:\n" + "\n".join(rag_results))
-        if bing_results:
-            context_parts.append("External Search Results:\n" + "\n".join(bing_results))
             
         context_str = "\n\n".join(context_parts)
         
