@@ -29,6 +29,25 @@
         "errorLoading": "Błąd ładowania popularnych postów: {message}",
         "fallbackNotice": "Wyświetlamy dane przykładowe."
     },
+    "settings": {
+        "title": "Ustawienia",
+        "locationTitle": "Lokalizacja",
+        "languageTitle": "Preferencja językowa",
+        "interestsTitle": "Zainteresowania",
+        "edit": "Edytuj",
+        "done": "Gotowe",
+        "loadingGeneric": "Ładowanie...",
+        "loadingInterests": "Ładowanie zainteresowań...",
+        "filterPlaceholder": "Filtruj tagi",
+        "errorTitle": "Błąd ładowania preferencji",
+        "errorDescription": "Nie udało się wczytać preferencji użytkownika. Odśwież stronę lub spróbuj ponownie później.",
+        "retry": "Spróbuj ponownie",
+        "notSet": "Nie ustawiono",
+        "locationPlaceholder": "Wpisz swoją lokalizację",
+        "languageFallback": "Angielski",
+        "interestsHint": "Wybierz tematy, które Cię interesują — zostaną zasugerowane przy publikowaniu.",
+        "saveError": "Nie udało się zapisać preferencji. Spróbuj ponownie."
+    },
     "auth": {
         "heroTitle": "Witamy w CivicSphere",
         "heroSubtitle": "Dołącz do swojej społeczności — odkrywaj, dyskutuj i działaj.",

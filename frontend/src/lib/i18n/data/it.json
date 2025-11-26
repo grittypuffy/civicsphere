@@ -29,6 +29,25 @@
         "errorLoading": "Errore durante il caricamento dei post in evidenza: {message}",
         "fallbackNotice": "Mostriamo dati di esempio."
     },
+    "settings": {
+        "title": "Impostazioni",
+        "locationTitle": "Posizione",
+        "languageTitle": "Preferenza linguistica",
+        "interestsTitle": "Interessi",
+        "edit": "Modifica",
+        "done": "Fatto",
+        "loadingGeneric": "Caricamento...",
+        "loadingInterests": "Caricamento degli interessi...",
+        "filterPlaceholder": "Filtra i tag",
+        "errorTitle": "Errore durante il caricamento delle preferenze",
+        "errorDescription": "Impossibile caricare le preferenze utente. Aggiorna la pagina o riprova più tardi.",
+        "retry": "Riprova",
+        "notSet": "Non impostato",
+        "locationPlaceholder": "Inserisci la tua posizione",
+        "languageFallback": "Inglese",
+        "interestsHint": "Seleziona gli argomenti che ti interessano: verranno suggeriti quando pubblichi.",
+        "saveError": "Impossibile salvare le preferenze. Riprova."
+    },
     "auth": {
         "heroTitle": "Benvenuto su CivicSphere",
         "heroSubtitle": "Unisciti alla tua comunità — scopri, discuti e agisci.",

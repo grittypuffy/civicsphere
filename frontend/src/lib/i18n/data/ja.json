@@ -29,6 +29,25 @@
         "errorLoading": "話題の投稿を読み込む際にエラーが発生しました: {message}",
         "fallbackNotice": "代わりにサンプルデータを表示しています。"
     },
+    "settings": {
+        "title": "設定",
+        "locationTitle": "場所",
+        "languageTitle": "言語設定",
+        "interestsTitle": "関心分野",
+        "edit": "編集",
+        "done": "完了",
+        "loadingGeneric": "読み込み中...",
+        "loadingInterests": "関心分野を読み込み中...",
+        "filterPlaceholder": "タグを絞り込む",
+        "errorTitle": "設定の読み込みエラー",
+        "errorDescription": "ユーザープリファレンスを読み込めませんでした。ページを再読み込みするか後でもう一度お試しください。",
+        "retry": "再試行",
+        "notSet": "未設定",
+        "locationPlaceholder": "場所を入力してください",
+        "languageFallback": "英語",
+        "interestsHint": "興味のあるトピックを選択してください。投稿時におすすめとして表示されます。",
+        "saveError": "設定の保存に失敗しました。もう一度お試しください。"
+    },
     "auth": {
         "heroTitle": "CivicSphere へようこそ",
         "heroSubtitle": "地域コミュニティに参加して、見つけ、語り、行動しましょう。",

@@ -29,6 +29,25 @@
         "errorLoading": "인기 게시물을 불러오는 중 오류가 발생했습니다: {message}",
         "fallbackNotice": "대신 샘플 데이터를 표시합니다."
     },
+    "settings": {
+        "title": "설정",
+        "locationTitle": "위치",
+        "languageTitle": "언어 선호",
+        "interestsTitle": "관심사",
+        "edit": "편집",
+        "done": "완료",
+        "loadingGeneric": "불러오는 중...",
+        "loadingInterests": "관심사를 불러오는 중...",
+        "filterPlaceholder": "태그 필터",
+        "errorTitle": "환경설정을 불러오는 중 오류",
+        "errorDescription": "사용자 환경설정을 불러오지 못했습니다. 페이지를 새로고침하거나 나중에 다시 시도하세요.",
+        "retry": "다시 시도",
+        "notSet": "설정되지 않음",
+        "locationPlaceholder": "위치를 입력하세요",
+        "languageFallback": "영어",
+        "interestsHint": "관심 있는 주제를 선택하세요. 게시글 작성 시 추천됩니다.",
+        "saveError": "환경설정을 저장하지 못했습니다. 다시 시도해 주세요."
+    },
     "auth": {
         "heroTitle": "CivicSphere에 오신 것을 환영합니다",
         "heroSubtitle": "커뮤니티에 참여해 발견하고 토론하며 행동하세요.",

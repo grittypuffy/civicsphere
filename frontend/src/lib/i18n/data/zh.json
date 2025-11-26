@@ -29,6 +29,25 @@
         "errorLoading": "加载热门帖子时出错：{message}",
         "fallbackNotice": "将显示示例数据。"
     },
+    "settings": {
+        "title": "设置",
+        "locationTitle": "所在位置",
+        "languageTitle": "语言偏好",
+        "interestsTitle": "兴趣",
+        "edit": "编辑",
+        "done": "完成",
+        "loadingGeneric": "正在加载...",
+        "loadingInterests": "正在加载兴趣...",
+        "filterPlaceholder": "筛选标签",
+        "errorTitle": "加载偏好时出错",
+        "errorDescription": "无法加载用户偏好。请刷新页面或稍后重试。",
+        "retry": "重试",
+        "notSet": "尚未设置",
+        "locationPlaceholder": "请输入您的位置",
+        "languageFallback": "英语",
+        "interestsHint": "选择你感兴趣的主题——发布内容时会推荐这些主题。",
+        "saveError": "保存偏好失败，请重试。"
+    },
     "auth": {
         "heroTitle": "欢迎来到 CivicSphere",
         "heroSubtitle": "加入你的社区——探索、讨论并采取行动。",

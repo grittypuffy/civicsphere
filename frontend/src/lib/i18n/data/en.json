@@ -29,6 +29,25 @@
     "errorLoading": "Error loading trending posts: {message}",
     "fallbackNotice": "Showing sample data instead."
   },
+  "settings": {
+    "title": "Settings",
+    "locationTitle": "Location",
+    "languageTitle": "Language Preference",
+    "interestsTitle": "Interests",
+    "edit": "Edit",
+    "done": "Done",
+    "loadingGeneric": "Loading...",
+    "loadingInterests": "Loading interests...",
+    "filterPlaceholder": "Filter tags",
+    "errorTitle": "Error Loading Preferences",
+    "errorDescription": "Failed to load user preferences. Please refresh the page or try again later.",
+    "retry": "Retry",
+    "notSet": "Not set",
+    "locationPlaceholder": "Enter your location",
+    "languageFallback": "English",
+    "interestsHint": "Select the topics you are interested in — these will be suggested when posting.",
+    "saveError": "Failed to save preferences. Please try again."
+  },
   "auth": {
     "heroTitle": "Welcome to CivicSphere",
     "heroSubtitle": "Join your community — discover, discuss and act.",

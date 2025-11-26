@@ -29,6 +29,25 @@
         "errorLoading": "Fehler beim Laden der Trend-Beiträge: {message}",
         "fallbackNotice": "Es werden stattdessen Beispieldaten angezeigt."
     },
+    "settings": {
+        "title": "Einstellungen",
+        "locationTitle": "Standort",
+        "languageTitle": "Sprachpräferenz",
+        "interestsTitle": "Interessen",
+        "edit": "Bearbeiten",
+        "done": "Fertig",
+        "loadingGeneric": "Wird geladen...",
+        "loadingInterests": "Interessen werden geladen...",
+        "filterPlaceholder": "Tags filtern",
+        "errorTitle": "Fehler beim Laden der Einstellungen",
+        "errorDescription": "Benutzereinstellungen konnten nicht geladen werden. Bitte aktualisiere die Seite oder versuche es später erneut.",
+        "retry": "Erneut versuchen",
+        "notSet": "Nicht festgelegt",
+        "locationPlaceholder": "Gib deinen Standort ein",
+        "languageFallback": "Englisch",
+        "interestsHint": "Wähle Themen aus, die dich interessieren — sie werden später beim Posten vorgeschlagen.",
+        "saveError": "Speichern der Einstellungen fehlgeschlagen. Bitte versuche es erneut."
+    },
     "auth": {
         "heroTitle": "Willkommen bei CivicSphere",
         "heroSubtitle": "Schließe dich deiner Community an – entdecken, diskutieren und handeln.",

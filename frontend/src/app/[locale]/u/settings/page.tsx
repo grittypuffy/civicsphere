@@ -18,9 +18,11 @@ import {
 } from '@fluentui/react-components'
 import { CheckmarkRegular, EditRegular, SearchRegular } from '@fluentui/react-icons'
 import { useAtomValue, useSetAtom } from 'jotai'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 
 export default function SettingsPage() {
+  const t = useTranslations('settings')
   const username = useAtomValue(userNameAtom)
   const userPrefs = useAtomValue(userPrefsAtom_loadable)
   const setUserPrefs = useSetAtom(userPrefsAtom)
@@ -67,7 +69,7 @@ export default function SettingsPage() {
       setEditing(prev => ({ ...prev, [field]: false }))
     } catch (error) {
       console.error('Failed to save preferences:', error)
-      alert('Failed to save preferences. Please try again.')
+      alert(t('saveError'))
     } finally {
       setIsLoading(false)
     }
@@ -83,7 +85,7 @@ export default function SettingsPage() {
   return (
     <main className="flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-5xl bg-white rounded-xl shadow-[0_12px_40px_rgba(3,52,94,0.08)] p-8 flex flex-col gap-3">
-        <Title3>Settings</Title3>
+        <Title3>{t('title')}</Title3>
 
         <div className='flex items-center gap-4'>
           <Avatar name={username || 'Dummy Name'} size={64} />
@@ -99,50 +101,50 @@ export default function SettingsPage() {
                 <div className='grid grid-cols-1 gap-6'>
                   <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
                     <div className='flex items-center justify-between mb-4'>
-                      <Body1 className="text-[#0369a1] font-semibold">Location</Body1>
+                      <Body1 className="text-[#0369a1] font-semibold">{t('locationTitle')}</Body1>
                       <Button appearance="subtle" size="small" disabled icon={<EditRegular />} className="text-[#0369a1]">
-                        Edit
+                        {t('edit')}
                       </Button>
                     </div>
-                    <Text className="text-[#274c6f]">Loading...</Text>
+                    <Text className="text-[#274c6f]">{t('loadingGeneric')}</Text>
                   </div>
 
                   <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
                     <div className='flex items-center justify-between mb-4'>
-                      <Body1 className="text-[#0369a1] font-semibold">Language Preference</Body1>
+                      <Body1 className="text-[#0369a1] font-semibold">{t('languageTitle')}</Body1>
                       <Button appearance="subtle" size="small" disabled icon={<EditRegular />} className="text-[#0369a1]">
-                        Edit
+                        {t('edit')}
                       </Button>
                     </div>
-                    <Text className="text-[#274c6f]">Loading...</Text>
+                    <Text className="text-[#274c6f]">{t('loadingGeneric')}</Text>
                   </div>
 
                   <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
                     <div className='flex items-center justify-between mb-4'>
-                      <Body1 className="text-[#0369a1] font-semibold">Interests</Body1>
+                      <Body1 className="text-[#0369a1] font-semibold">{t('interestsTitle')}</Body1>
                       <div className='flex items-center gap-2'>
-                        <Input size="small" disabled placeholder='Filter tags' contentBefore={<SearchRegular />} />
+                        <Input size="small" disabled placeholder={t('filterPlaceholder')} contentBefore={<SearchRegular />} />
                         <Button appearance="subtle" size="small" disabled icon={<EditRegular />} className="text-[#0369a1]">
-                          Edit
+                          {t('edit')}
                         </Button>
                       </div>
                     </div>
-                    <Text className="text-[#274c6f]">Loading interests...</Text>
+                    <Text className="text-[#274c6f]">{t('loadingInterests')}</Text>
                   </div>
                 </div>
               )
             case 'hasError':
               return (
                 <div className="p-5 rounded-lg border border-red-200 bg-red-50 text-red-700">
-                  <Body1 className="font-semibold mb-2">Error Loading Preferences</Body1>
-                  <Text>Failed to load user preferences. Please refresh the page or try again later.</Text>
+                  <Body1 className="font-semibold mb-2">{t('errorTitle')}</Body1>
+                  <Text>{t('errorDescription')}</Text>
                   <Button
                     appearance="primary"
                     size="small"
                     className="mt-3"
                     onClick={() => setUserPrefs(getUserPreferences())}
                   >
-                    Retry
+                    {t('retry')}
                   </Button>
                 </div>
               )
@@ -156,7 +158,7 @@ export default function SettingsPage() {
                 <div className='grid grid-cols-1 gap-6'>
                   <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
                     <div className='flex items-center justify-between mb-4'>
-                      <Body1 className="text-[#0369a1] font-semibold">Location</Body1>
+                      <Body1 className="text-[#0369a1] font-semibold">{t('locationTitle')}</Body1>
                       <Button
                         appearance="subtle"
                         size="small"
@@ -165,16 +167,16 @@ export default function SettingsPage() {
                         onClick={() => editing.location ? saveChanges('location') : startEditing('location', currentPrefs)}
                         className="text-[#0369a1]"
                       >
-                        {editing.location ? 'Done' : 'Edit'}
+                        {editing.location ? t('done') : t('edit')}
                       </Button>
                     </div>
                     {!editing.location ? (
-                      <Text className="text-[#274c6f]">{location || 'Not set'}</Text>
+                      <Text className="text-[#274c6f]">{location || t('notSet')}</Text>
                     ) : (
                       <Input
                         value={localLocation}
                         onChange={(_, data) => setLocalLocation(data.value)}
-                        placeholder="Enter your location"
+                        placeholder={t('locationPlaceholder')}
                         disabled={isLoading}
                       />
                     )}
@@ -182,7 +184,7 @@ export default function SettingsPage() {
 
                   <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
                     <div className='flex items-center justify-between mb-4'>
-                      <Body1 className="text-[#0369a1] font-semibold">Language Preference</Body1>
+                      <Body1 className="text-[#0369a1] font-semibold">{t('languageTitle')}</Body1>
                       <Button
                         appearance="subtle"
                         size="small"
@@ -191,11 +193,11 @@ export default function SettingsPage() {
                         onClick={() => editing.language ? saveChanges('language') : startEditing('language', currentPrefs)}
                         className="text-[#0369a1]"
                       >
-                        {editing.language ? 'Done' : 'Edit'}
+                        {editing.language ? t('done') : t('edit')}
                       </Button>
                     </div>
                     {!editing.language ? (
-                      <Text className="text-[#274c6f]">{LANGS.find(lang => lang.code === language)?.name || 'English'} ({language})</Text>
+                      <Text className="text-[#274c6f]">{LANGS.find(lang => lang.code === language)?.name || t('languageFallback')} ({language})</Text>
                     ) : (
                       <Dropdown
                         value={localLanguage}
@@ -213,13 +215,13 @@ export default function SettingsPage() {
 
                   <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
                     <div className='flex items-center justify-between mb-4'>
-                      <Body1 className="text-[#0369a1] font-semibold">Interests</Body1>
+                      <Body1 className="text-[#0369a1] font-semibold">{t('interestsTitle')}</Body1>
                       <div className='flex items-center gap-2'>
                         <Input
                           size="small"
                           value={filter}
                           onChange={(_, data) => setFilter(data.value)}
-                          placeholder='Filter tags'
+                          placeholder={t('filterPlaceholder')}
                           contentBefore={<SearchRegular />}
                           disabled={isLoading}
                         />
@@ -231,12 +233,12 @@ export default function SettingsPage() {
                           onClick={() => editing.interests ? saveChanges('interests') : startEditing('interests', currentPrefs)}
                           className="text-[#0369a1]"
                         >
-                          {editing.interests ? 'Done' : 'Edit'}
+                          {editing.interests ? t('done') : t('edit')}
                         </Button>
                       </div>
                     </div>
                     <Caption1 className='mb-2 text-[#274c6f]'>
-                      Select the topics you are interested in — these will be suggested when posting.
+                      {t('interestsHint')}
                     </Caption1>
                     <div className='grid grid-cols-2 gap-2 max-h-64 overflow-auto border rounded p-2'>
                       {TAGS.filter(t => t.includes(filter)).map(tag => (

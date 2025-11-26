@@ -29,6 +29,25 @@
         "errorLoading": "Erreur lors du chargement des publications tendances : {message}",
         "fallbackNotice": "Affichage de données d’exemple."
     },
+    "settings": {
+        "title": "Paramètres",
+        "locationTitle": "Emplacement",
+        "languageTitle": "Préférence linguistique",
+        "interestsTitle": "Centres d’intérêt",
+        "edit": "Modifier",
+        "done": "Terminé",
+        "loadingGeneric": "Chargement...",
+        "loadingInterests": "Chargement des centres d’intérêt...",
+        "filterPlaceholder": "Filtrer les tags",
+        "errorTitle": "Erreur lors du chargement des préférences",
+        "errorDescription": "Impossible de charger les préférences utilisateur. Actualisez la page ou réessayez plus tard.",
+        "retry": "Réessayer",
+        "notSet": "Non défini",
+        "locationPlaceholder": "Saisissez votre emplacement",
+        "languageFallback": "Anglais",
+        "interestsHint": "Sélectionnez les sujets qui vous intéressent — ils seront suggérés lors de vos publications.",
+        "saveError": "Échec de l’enregistrement des préférences. Veuillez réessayer."
+    },
     "auth": {
         "heroTitle": "Bienvenue sur CivicSphere",
         "heroSubtitle": "Rejoignez votre communauté — découvrir, débattre et agir.",
