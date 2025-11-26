@@ -16,8 +16,10 @@ import { EyeOffRegular, EyeRegular } from '@fluentui/react-icons';
 import { useRouter } from 'next/navigation';
 import { useState } from "react";
 import * as v from 'valibot';
+import { useTranslations } from 'next-intl';
 
 const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
+  const t = useTranslations('signup_form');
   const router = useRouter();
   const [formData, setFormData] = useState<SignUpFormData>({
     username: '',
@@ -27,9 +29,10 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
   });
 
   const [validation, setMessage] = useState<{ [key: string]: string, state: ValidationState }>({
-    name: '',
+    username: '',
     email: '',
     password: '',
+    full_name: '',
     state: 'none',
   });
 
@@ -39,18 +42,19 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
   const [isCheckingUserName, setCheckingUserName] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
   const EyeToggleButton = (showPassword: boolean) => {
     return !showPassword ? (
       <EyeRegular
         className="cursor-pointer"
         onClick={() => setShowPassword(!showPassword)}
-        title="Hide Password"
+        title={t('form.showPassword')}
       />
     ) : (
       <EyeOffRegular
         className="cursor-pointer"
         onClick={() => setShowPassword(!showPassword)}
-        title="Show Password"
+        title={t('form.hidePassword')}
       />
     );
   };
@@ -92,8 +96,8 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
       setIsLoading(false);
       ToastMessage(
         {
-          message: 'Sign Up Failed',
-          description: 'Improper data! Please follow the format specified',
+          message: t('toast.signUpFailed'),
+          description: t('toast.improperData'),
         },
         'error'
       );
@@ -113,7 +117,7 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
         switch (res.status) {
           case 200:
             ToastMessage(
-              { message: 'Sign Up Successful', description: 'You can now sign in.' },
+              { message: t('toast.signUpSuccessful'), description: t('toast.canSignIn') },
               'success'
             );
             const signInRes: Response = await fetch('/api/v1/auth/sign_in', {
@@ -133,13 +137,13 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             break;
           case 409:
             ToastMessage(
-              { message: 'Sign Up Failed', description: 'Username or Email already exists.' },
+              { message: t('toast.signUpFailed'), description: t('toast.exists') },
               'error'
             );
             break;
           case 422:
             ToastMessage(
-              { message: 'Sign Up Failed', description: 'Invalid data! Please check your input and try again.', },
+              { message: t('toast.signUpFailed'), description: t('toast.invalidData422') },
               'error'
             );
             break;
@@ -149,7 +153,7 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
       } catch (error) {
         console.error('Error during sign up:', error);
         ToastMessage(
-          { message: 'Sign Up Failed', description: 'Please try again later.' },
+          { message: t('toast.signUpFailed'), description: t('toast.tryLater') },
           'error'
         );
       }
@@ -176,7 +180,7 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
       setCheckingUserName(false);
       setMessage((prev) => ({
         ...prev,
-        username: res.issues[0]?.message || 'Invalid Username',
+        username: res.issues[0]?.message || t('toast.invalidUsername'),
       }));
       return;
     }
@@ -194,34 +198,34 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
           case 200:
             ToastMessage(
               {
-                message: `Username "${formData.username}" is available`,
-                description: 'You can proceed with this username.',
+                message: t('toast.usernameAvailable', { username: formData.username }),
+                description: t('toast.usernameAvailableDesc'),
               },
               'success'
             );
             setMessage((prev) => ({
               ...prev,
-              username: `Username "${formData.username}" is available`,
+              username: t('toast.usernameAvailable', { username: formData.username }),
             }));
             setIsValidUserName(true);
             break;
           case 409:
             ToastMessage(
-              { message: 'Username Unavailable', description: 'Please choose a different username.' },
+              { message: t('toast.usernameUnavailable'), description: t('toast.chooseDifferent') },
               'error'
             );
             break;
           case 422:
             ToastMessage(
               {
-                message: 'Invalid Username',
-                description: 'Please follow the username format.'
+                message: t('toast.invalidUsername'),
+                description: t('toast.followFormat')
               },
               'error'
             );
             setMessage((prev) => ({
               ...prev,
-              username: 'Invalid Username'
+              username: t('toast.invalidUsername')
             }));
             break;
           default:
@@ -232,7 +236,7 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
       } catch (error) {
         console.error('Error validating username:', error);
         ToastMessage(
-          { message: 'Error validating username', description: 'Please try again later.' },
+          { message: t('toast.usernameValidationError'), description: t('toast.tryLater') },
           'error'
         );
       }
@@ -245,10 +249,10 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
       <form
         onSubmit={checkUserName}
         className="flex flex-col gap-3 w-full max-w-xl items-center"
-        aria-label="Username validation form"
+        aria-label={t('aria.usernameValidationForm')}
       >
         <Field
-          label="Username"
+          label={t('form.usernameLabel')}
           validationState={isValidUserName ? 'success' : validation.username ? 'error' : 'none'}
           validationMessage={validation.username}
           className="w-full"
@@ -273,14 +277,14 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
           className="w-full max-w-xs hover:shadow-md btn-primary"
           onClick={checkUserName}
           disabled={!formData.username.length || isCheckingUserName || prevUserName === formData.username ? true : isLoading}
-          aria-label={isValidUserName ? 'Change username' : 'Check username availability'}
+          aria-label={isValidUserName ? t('form.changeUsername') : t('form.checkUsername')}
         >
           {isCheckingUserName ? (
-            <Spinner size="extra-small" aria-label="Checking username availability" />
+            <Spinner size="extra-small" aria-label={t('aria.checkingUsername')} />
           ) : isValidUserName ? (
-            'Change Username'
+            t('form.changeUsername')
           ) : (
-            'Check Username'
+            t('form.checkUsername')
           )}
         </Button>
       </form>
@@ -288,10 +292,10 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
         <form
           onSubmit={signUpHandler}
           className="flex flex-col gap-3 w-full max-w-md"
-          aria-label="Sign up form"
+          aria-label={t('aria.signUpForm')}
         >
           <Field
-            label="Full Name"
+            label={t('form.fullNameLabel')}
             validationState={validation.state}
             validationMessage={validation.full_name}
             className="w-full"
@@ -312,7 +316,7 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             />
           </Field>
           <Field
-            label="Email"
+            label={t('form.emailLabel')}
             validationState={validation.state}
             validationMessage={validation.email}
             className="w-full"
@@ -334,7 +338,7 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             />
           </Field>
           <Field
-            label="Password"
+            label={t('form.passwordLabel')}
             validationState={validation.state}
             validationMessage={validation.password}
             className="w-full"
@@ -357,7 +361,7 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             />
           </Field>
           <Checkbox
-            label="This website requires cookies to function properly. I accept third-party cookies."
+            label={t('form.cookieLabel')}
             labelPosition="after"
             onChange={(_: React.ChangeEvent<HTMLInputElement>, data: CheckboxOnChangeData) => {
               if (data.checked) {
@@ -370,15 +374,15 @@ const SignUpForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             aria-describedby="cookie-policy-description"
           />
           <div id="cookie-policy-description" className="sr-only">
-            You must accept the cookie policy to create an account
+            {t('form.cookieDesc')}
           </div>
           <Button
             type="submit"
             className="w-full mx-auto hover:shadow-md btn-primary"
             disabled={!isPolicyAccepted || isLoading}
-            aria-label="Submit sign up form"
+            aria-label={t('form.submit')}
           >
-            {isLoading ? <Spinner size="extra-small" aria-label="Creating account" /> : 'Submit'}
+            {isLoading ? <Spinner size="extra-small" aria-label={t('aria.creatingAccount')} /> : t('form.submit')}
           </Button>
         </form>
       )}

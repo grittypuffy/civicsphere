@@ -1,13 +1,13 @@
 "use client";
-import LocaleSwitcher from '@/components/LocaleSwitcher';
-import OnboardForm from '@/components/OnboardForm';
-import SignInForm from '@/components/SignInForm';
-import SignUpForm from '@/components/SignUpForm';
+import LocaleSwitcher from "@/components/LocaleSwitcher";
+import OnboardForm from "@/components/OnboardForm";
+import SignInForm from "@/components/SignInForm";
+import SignUpForm from "@/components/SignUpForm";
 import type {
   SelectTabData,
   SelectTabEvent,
-  TabValue
-} from '@fluentui/react-components';
+  TabValue,
+} from "@fluentui/react-components";
 import {
   Tab,
   TabList,
@@ -18,22 +18,32 @@ import {
   ToastPosition,
   ToastTitle,
   useId,
-  useToastController
-} from '@fluentui/react-components';
-import { useTranslations } from 'next-intl';
-import { useSearchParams } from 'next/navigation';
-import { Suspense, useState } from 'react';
+  useToastController,
+} from "@fluentui/react-components";
+import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useState, useMemo, useEffect } from "react";
 
 const AuthForm = () => {
-  const t = useTranslations('auth');
+  const t = useTranslations("auth");
   const searchParams = useSearchParams();
-  const initialFormType =
-    searchParams.get('action') === 'signin'
-      ? 'signin'
-      : searchParams.get('action') === 'onboard'
-        ? 'onboard'
-        : 'signup';
-  const [formType, setFormType] = useState<TabValue | 'onboard'>(initialFormType);
+
+  // normalize action safely (searchParams can be null/undefined early)
+  const actionFromQuery = useMemo(() => {
+    const raw = searchParams?.get("action") ?? "";
+    if (raw === "signin") return "signin";
+    if (raw === "onboard") return "onboard";
+    return "signup";
+  }, [searchParams]);
+
+  // start with a safe default and keep in sync with query param
+  const [formType, setFormType] = useState<TabValue | "onboard">("signup");
+
+  useEffect(() => {
+    // useful debug while developing:
+    // console.debug('searchParams=', searchParams?.toString(), 'resolved action=', actionFromQuery);
+    setFormType(actionFromQuery);
+  }, [actionFromQuery, searchParams]);
 
   const onTabHandler = (_: SelectTabEvent, data: SelectTabData) => {
     setFormType(data.value);
@@ -67,8 +77,10 @@ const AuthForm = () => {
         <div className="mx-auto w-full max-w-3xl p-6 surround card">
           <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="w-full md:w-1/2 px-4 py-6">
-              <h2 className="text-2xl font-semibold text-ui-heading">{t('heroTitle')}</h2>
-              <p className="mt-2 text-ui-muted">{t('heroSubtitle')}</p>
+              <h2 className="text-2xl font-semibold text-ui-heading">
+                {t("heroTitle")}
+              </h2>
+              <p className="mt-2 text-ui-muted">{t("heroSubtitle")}</p>
               <div className="mt-6">
                 <Toaster toasterId={toasterId} />
               </div>
@@ -76,16 +88,28 @@ const AuthForm = () => {
 
             <div className="w-full md:w-1/2 px-4 py-6 bg-light-brand rounded-md">
               <div className="mb-4">
-                {formType === 'onboard' ? (
-                  <h3 className="text-xl font-semibold text-ui-heading mb-2">{t('onboardTitle')}</h3>
+                {formType === "onboard" ? (
+                  <h3 className="text-xl font-semibold text-ui-heading mb-2">
+                    {t("onboardTitle")}
+                  </h3>
                 ) : (
                   <>
                     <h3 className="text-xl font-semibold text-ui-heading mb-2">
-                      {formType === 'signup' ? t('signupTitle') : t('signinTitle')}
+                      {formType === "signup"
+                        ? t("signupTitle")
+                        : t("signinTitle")}
                     </h3>
-                    <TabList selectedValue={formType} onTabSelect={onTabHandler} className="w-full">
-                      <Tab value={`signup`} className="text-ui-heading">{t('tabSignup')}</Tab>
-                      <Tab value={`signin`} className="text-ui-heading">{t('tabSignin')}</Tab>
+                    <TabList
+                      selectedValue={formType}
+                      onTabSelect={onTabHandler}
+                      className="w-full"
+                    >
+                      <Tab value={`signup`} className="text-ui-heading">
+                        {t("tabSignup")}
+                      </Tab>
+                      <Tab value={`signin`} className="text-ui-heading">
+                        {t("tabSignin")}
+                      </Tab>
                     </TabList>
                   </>
                 )}
@@ -94,9 +118,9 @@ const AuthForm = () => {
               <div className="flex flex-col w-full p-2 items-center gap-y-4">
                 {(() => {
                   switch (formType) {
-                    case 'onboard':
+                    case "onboard":
                       return <OnboardForm ToastMessage={ToastMessage} />;
-                    case 'signup':
+                    case "signup":
                       return <SignUpForm ToastMessage={ToastMessage} />;
                     default:
                       return <SignInForm ToastMessage={ToastMessage} />;
@@ -112,9 +136,15 @@ const AuthForm = () => {
 };
 
 const AuthPage = () => {
-  const t = useTranslations('auth');
+  const t = useTranslations("auth");
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-page text-ui-muted">{t('loading')}</div>}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-page text-ui-muted">
+          {t("loading")}
+        </div>
+      }
+    >
       <AuthForm />
     </Suspense>
   );

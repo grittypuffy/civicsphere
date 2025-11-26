@@ -3,21 +3,32 @@ from datetime import datetime
 import httpx
 import logging
 from typing import Optional, List
+
 from fastapi import APIRouter, Request, Form, File, UploadFile, Depends
 from fastapi.responses import JSONResponse
+from langchain_core.prompts import PromptTemplate
+
 from ..config import AppConfig, get_config
+from .post_comments import router as post_comments_router
 from ..models.api.post import TrendingResponse, PostResponse
 from ..models.api.post import CreatePostRequest,CreateVoicePostRequest
 from ..services.storage import upload_user_file
 from ..services.post_analyser import analyze_post_for_user
-from .post_comments import router as post_comments_router
+from ..services.media_processors.audio import AudioProcessor
 
 
 router = APIRouter(tags=["Community Post"])
-
 config: AppConfig = get_config()
-
 router.include_router(post_comments_router, prefix="/posts/{post_id}/comments")
+
+
+voice_post_template = """\
+Provide appropriate title for the transcript provided in the original language:
+
+Transcription:
+{transcription}
+"""
+
 
 @router.post("/post")
 async def create_post(
@@ -137,6 +148,7 @@ async def create_post(
             content={"success": False, "message": f"An internal error occurred: {str(e)}"}
         )
 
+
 @router.post("/post/voice")
 async def create_voice_post(
     community_id: str,
@@ -177,13 +189,45 @@ async def create_voice_post(
             )
         location = community["community_name"]
 
-        audio_processor = AudioProcessor()
-        transcript = await audio_processor.process_voice(lang, voice)
-        # Response moderation
+        audio_processor: AudioProcessor = AudioProcessor()
+        transcription = None
         try:
+            transcript = await audio_processor.process_voice(lang, voice)
+            transcription = transcript.get("text", None)
+            if transcription is None:
+                return JSONResponse(
+                    status_code=400,
+                    content={
+                        "success": False,
+                        "message": "No transcriptions found",
+                        "details": func_response.text
+                    }
+                )
+        except Exception as e:
+            return JSONResponse(
+                status_code=500,
+                content={
+                    "success": False,
+                    "message": "Error while transcripting text",
+                    "details": func_response.text
+                }
+            )
+        try:
+            client = config.langchain_llm
+            transcription = transcript.get("text", None)
+            chatbot_prompt = PromptTemplate(
+                input_variables=["transcription"],
+                template=chatbot_template
+            )
+            chain = chatbot_prompt | client | StrOutputParser()
+
+            title = await chain.ainvoke({
+                "transcription": transcription
+            }) or "Community post"
+
             func_payload = {
-                "title": form.title,
-                "description": form.description
+                "title": title,
+                "description": transcription
             }
 
             async with httpx.AsyncClient(timeout=20) as client:
@@ -220,12 +264,12 @@ async def create_voice_post(
             "tags": form.tags,
             "upvote": 0,
             "downvote": 0,
-            "title": form.title,
-            "description": form.description,
+            "title": func_payload.get("title"),
+            "description": func_payload.get("description"),
             "url": [],
             "lang": lang,
             "location": location,
-            "verified": validation,  # FIXED
+            "verified": validation,
             "flagged": flagged,
             "created_at": datetime.utcnow().isoformat()
         }

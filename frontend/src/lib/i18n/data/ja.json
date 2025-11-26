@@ -1,149 +1,149 @@
 {
-    "home": {
-        "title": "CivicSphere",
-        "description": "市民参加とコミュニティコラボレーションのためのプラットフォーム。",
-        "getStarted": "はじめる",
-        "signIn": "サインイン",
-        "features": {
-            "communityDiscussions": {
-                "title": "コミュニティディスカッション",
-                "description": "検証済みコンテンツで、あなたの地域にとって重要な問題についての地域の会話に参加します。"
-            },
-            "clearDoubts": {
-                "title": "すべての疑問を解消",
-                "description": "市民問題とサービスに関連するすべてのクエリに回答するために更新およびトレーニングされた究極のAIチャットボット。"
-            },
-            "accessible": {
-                "title": "アクセス可能で包括的",
-                "description": "アクセス可能で包括的な方法で、あなたの地域のためにキュレーションされた地元のリソースと市民の機会を発見します。"
-            }
-        }
+  "home": {
+    "title": "CivicSphere",
+    "description": "市民参加とコミュニティコラボレーションのためのプラットフォーム。",
+    "getStarted": "はじめる",
+    "signIn": "サインイン",
+    "features": {
+      "communityDiscussions": {
+        "title": "コミュニティディスカッション",
+        "description": "検証済みコンテンツで、あなたの地域にとって重要な問題についての地域の会話に参加します。"
+      },
+      "clearDoubts": {
+        "title": "すべての疑問を解消",
+        "description": "市民問題とサービスに関連するすべてのクエリに回答するために更新およびトレーニングされた究極のAIチャットボット。"
+      },
+      "accessible": {
+        "title": "アクセス可能で包括的",
+        "description": "アクセス可能で包括的な方法で、あなたの地域のためにキュレーションされた地元のリソースと市民の機会を発見します。"
+      }
+    }
+  },
+  "homePage": {
+    "welcomeBack": "おかえりなさい！",
+    "greeting": "こんにちは、{name}さん！",
+    "placeholderName": "ご近所さん",
+    "refreshAria": "フィードを更新",
+    "refreshHint": "新しいフィードを見ますか？",
+    "loadingFeeds": "フィードを読み込み中...",
+    "errorLoading": "話題の投稿を読み込む際にエラーが発生しました: {message}",
+    "fallbackNotice": "代わりにサンプルデータを表示しています。"
+  },
+  "settings": {
+    "title": "設定",
+    "locationTitle": "場所",
+    "languageTitle": "言語設定",
+    "interestsTitle": "関心分野",
+    "edit": "編集",
+    "done": "完了",
+    "loadingGeneric": "読み込み中...",
+    "loadingInterests": "関心分野を読み込み中...",
+    "filterPlaceholder": "タグを絞り込む",
+    "errorTitle": "設定の読み込みエラー",
+    "errorDescription": "ユーザープリファレンスを読み込めませんでした。ページを再読み込みするか後でもう一度お試しください。",
+    "retry": "再試行",
+    "notSet": "未設定",
+    "locationPlaceholder": "場所を入力してください",
+    "languageFallback": "英語",
+    "interestsHint": "興味のあるトピックを選択してください。投稿時におすすめとして表示されます。",
+    "saveError": "設定の保存に失敗しました。もう一度お試しください。"
+  },
+  "auth": {
+    "heroTitle": "CivicSphere へようこそ",
+    "heroSubtitle": "地域コミュニティに参加して、見つけ、語り、行動しましょう。",
+    "onboardTitle": "オンボーディングを完了してください",
+    "signupTitle": "アカウントを作成",
+    "signinTitle": "おかえりなさい",
+    "tabSignup": "登録",
+    "tabSignin": "ログイン",
+    "loading": "読み込み中..."
+  },
+  "chat": {
+    "suggestions": {
+      "housing": "ニューヨーク市（例: マンハッタン）の各地域や近郊の住宅価格と動向は現在どうなっていますか？",
+      "elections": "地域の選挙はいつ行われ、どのように投票し、誰が立候補していますか？",
+      "judicial": "連邦判事の役割は何で、他の政治・司法職とどのように違うのですか？"
     },
-    "homePage": {
-        "welcomeBack": "おかえりなさい！",
-        "greeting": "こんにちは、{name}さん！",
-        "placeholderName": "ご近所さん",
-        "refreshAria": "フィードを更新",
-        "refreshHint": "新しいフィードを見ますか？",
-        "loadingFeeds": "フィードを読み込み中...",
-        "errorLoading": "話題の投稿を読み込む際にエラーが発生しました: {message}",
-        "fallbackNotice": "代わりにサンプルデータを表示しています。"
+    "labels": {
+      "you": "あなた",
+      "assistant": "アシスタント",
+      "typing": "入力中..."
     },
-    "settings": {
-        "title": "設定",
-        "locationTitle": "場所",
-        "languageTitle": "言語設定",
-        "interestsTitle": "関心分野",
-        "edit": "編集",
-        "done": "完了",
-        "loadingGeneric": "読み込み中...",
-        "loadingInterests": "関心分野を読み込み中...",
-        "filterPlaceholder": "タグを絞り込む",
-        "errorTitle": "設定の読み込みエラー",
-        "errorDescription": "ユーザープリファレンスを読み込めませんでした。ページを再読み込みするか後でもう一度お試しください。",
-        "retry": "再試行",
-        "notSet": "未設定",
-        "locationPlaceholder": "場所を入力してください",
-        "languageFallback": "英語",
-        "interestsHint": "興味のあるトピックを選択してください。投稿時におすすめとして表示されます。",
-        "saveError": "設定の保存に失敗しました。もう一度お試しください。"
+    "inputPlaceholder": "AI とチャットするテキストを入力してください",
+    "tooltip": {
+      "clearHistory": "チャット履歴をクリア"
     },
-    "auth": {
-        "heroTitle": "CivicSphere へようこそ",
-        "heroSubtitle": "地域コミュニティに参加して、見つけ、語り、行動しましょう。",
-        "onboardTitle": "オンボーディングを完了してください",
-        "signupTitle": "アカウントを作成",
-        "signinTitle": "おかえりなさい",
-        "tabSignup": "登録",
-        "tabSignin": "ログイン",
-        "loading": "読み込み中..."
+    "mic": {
+      "captured": "これはシミュレートされた音声メッセージの書き起こしです。"
     },
-    "chat": {
-        "suggestions": {
-            "housing": "ニューヨーク市（例: マンハッタン）の各地域や近郊の住宅価格と動向は現在どうなっていますか？",
-            "elections": "地域の選挙はいつ行われ、どのように投票し、誰が立候補していますか？",
-            "judicial": "連邦判事の役割は何で、他の政治・司法職とどのように違うのですか？"
-        },
-        "labels": {
-            "you": "あなた",
-            "assistant": "アシスタント",
-            "typing": "入力中..."
-        },
-        "inputPlaceholder": "AI とチャットするテキストを入力してください",
-        "tooltip": {
-            "clearHistory": "チャット履歴をクリア"
-        },
-        "mic": {
-            "captured": "これはシミュレートされた音声メッセージの書き起こしです。"
-        },
-        "errors": {
-            "generic": "申し訳ありません、リクエストの処理中にエラーが発生しました。もう一度お試しください。"
-        }
-    },
-    "communities": {
-        "sidebarTitle": "トピック一覧",
-        "communityHeading": "コミュニティ: {community}",
-        "tabPosts": "投稿",
-        "tabIssues": "課題",
-        "startPost": "{community}で投稿を開始",
-        "photo": "写真",
-        "write": "執筆",
-        "postButton": "投稿する",
-        "loadingPosts": "投稿を読み込み中...",
-        "errorPosts": "投稿の読み込み中にエラー: {message}",
-        "raiseIssueTitle": "課題を報告する",
-        "raiseIssueSubtitle": "住民や行政が返信でき、同じ問題を抱えるメンバーは賛成票を入れられます。",
-        "issueTitlePlaceholder": "短いタイトル（例: 5th Ave の街灯が故障）",
-        "issueDescriptionPlaceholder": "課題と詳細（場所、時間、影響など）を記入してください...",
-        "issueAssigneesPlaceholder": "誰が対応すべきですか？（例: 清掃局、地域議員）",
-        "clearButton": "クリア",
-        "submitIssueButton": "送信",
-        "loadingIssues": "課題を読み込み中...",
-        "errorIssues": "課題の読み込み中にエラー: {message}",
-        "youLabel": "あなた"
-    },
-    "trending": {
-        "discoverWhat": "何が",
-        "trendingNow": "今トレンド中！",
-        "refreshHint": "トレンドコンテンツを更新しますか？",
-        "refreshAria": "トレンドコンテンツを更新",
-        "tabPosts": "トレンド投稿",
-        "tabTopics": "トレンドトピック",
-        "loadingPosts": "トレンド投稿を読み込み中...",
-        "loadingTopics": "トレンドトピックを読み込み中...",
-        "errorPosts": "トレンド投稿の読み込み中にエラー:",
-        "errorTopics": "トレンドトピックの読み込み中にエラー:",
-        "fallbackNotice": "代わりにサンプルデータを表示しています。",
-        "sortLabel": "並べ替え",
-        "sortByRank": "ランク順",
-        "sortByActivity": "アクティビティ順",
-        "trendingTopic": "トレンドトピック",
-        "mentions": "件の言及"
-    },
-    "createPost": {
-        "title": "投稿を作成",
-        "close": "閉じる",
-        "placeholder": "地域政治やコミュニティの問題について何か共有してください...",
-        "addMedia": "メディアを追加",
-        "uploadHint": "画像、動画、またはドキュメントをアップロードできます。",
-        "selectTags": "タグを選択",
-        "filterPlaceholder": "タグを絞り込む",
-        "cancel": "キャンセル",
-        "post": "投稿する"
-    },
-    "feeds": {
-        "verified": "検証済み",
-        "unverified": "未検証",
-        "pending": "保留中",
-        "flagged": "フラグ付き",
-        "links": "リンク：",
-        "close": "閉じる",
-        "view": "表示",
-        "issueId": "課題ID：",
-        "noVotedContent": "投票したコンテンツが見つかりません",
-        "nothingHere": "ここには何もありません"
-    },
-    "onboard": {
+    "errors": {
+      "generic": "申し訳ありません、リクエストの処理中にエラーが発生しました。もう一度お試しください。"
+    }
+  },
+  "communities": {
+    "sidebarTitle": "トピック一覧",
+    "communityHeading": "コミュニティ: {community}",
+    "tabPosts": "投稿",
+    "tabIssues": "課題",
+    "startPost": "{community}で投稿を開始",
+    "photo": "写真",
+    "write": "執筆",
+    "postButton": "投稿する",
+    "loadingPosts": "投稿を読み込み中...",
+    "errorPosts": "投稿の読み込み中にエラー: {message}",
+    "raiseIssueTitle": "課題を報告する",
+    "raiseIssueSubtitle": "住民や行政が返信でき、同じ問題を抱えるメンバーは賛成票を入れられます。",
+    "issueTitlePlaceholder": "短いタイトル（例: 5th Ave の街灯が故障）",
+    "issueDescriptionPlaceholder": "課題と詳細（場所、時間、影響など）を記入してください...",
+    "issueAssigneesPlaceholder": "誰が対応すべきですか？（例: 清掃局、地域議員）",
+    "clearButton": "クリア",
+    "submitIssueButton": "送信",
+    "loadingIssues": "課題を読み込み中...",
+    "errorIssues": "課題の読み込み中にエラー: {message}",
+    "youLabel": "あなた"
+  },
+  "trending": {
+    "discoverWhat": "何が",
+    "trendingNow": "今トレンド中！",
+    "refreshHint": "トレンドコンテンツを更新しますか？",
+    "refreshAria": "トレンドコンテンツを更新",
+    "tabPosts": "トレンド投稿",
+    "tabTopics": "トレンドトピック",
+    "loadingPosts": "トレンド投稿を読み込み中...",
+    "loadingTopics": "トレンドトピックを読み込み中...",
+    "errorPosts": "トレンド投稿の読み込み中にエラー:",
+    "errorTopics": "トレンドトピックの読み込み中にエラー:",
+    "fallbackNotice": "代わりにサンプルデータを表示しています。",
+    "sortLabel": "並べ替え",
+    "sortByRank": "ランク順",
+    "sortByActivity": "アクティビティ順",
+    "trendingTopic": "トレンドトピック",
+    "mentions": "件の言及"
+  },
+  "createPost": {
+    "title": "投稿を作成",
+    "close": "閉じる",
+    "placeholder": "地域政治やコミュニティの問題について何か共有してください...",
+    "addMedia": "メディアを追加",
+    "uploadHint": "画像、動画、またはドキュメントをアップロードできます。",
+    "selectTags": "タグを選択",
+    "filterPlaceholder": "タグを絞り込む",
+    "cancel": "キャンセル",
+    "post": "投稿する"
+  },
+  "feeds": {
+    "verified": "検証済み",
+    "unverified": "未検証",
+    "pending": "保留中",
+    "flagged": "フラグ付き",
+    "links": "リンク：",
+    "close": "閉じる",
+    "view": "表示",
+    "issueId": "課題ID：",
+    "noVotedContent": "投票したコンテンツが見つかりません",
+    "nothingHere": "ここには何もありません"
+  },
+  "onboard": {
     "locationLabel": "場所",
     "addressLabel": "住所",
     "languageLabel": "言語",
@@ -169,5 +169,178 @@
     "ariaLanguage": "言語",
     "ariaInterests": "興味",
     "ariaProfession": "職業"
+  },
+  "tags": {
+    "affordable-housing": "手頃な住居",
+    "artificial-intelligence": "人工知能",
+    "arts-and-culture": "芸術と文化",
+    "asian-voices": "アジアの声",
+    "atheist-voices": "無神論者の声",
+    "ballot-questions": "投票項目",
+    "baptist-voices": "バプテストの声",
+    "bipoc-voices": "BIPOCの声",
+    "black-voices": "黒人コミュニティの声",
+    "buddhist-voices": "仏教徒の声",
+    "catholic-voices": "カトリックの声",
+    "civic-education": "市民教育",
+    "civic-participation": "市民参加",
+    "civil-rights": "公民権",
+    "climate-action": "気候変動対策",
+    "clothing-and-fashion": "衣類とファッション",
+    "colored-voices": "有色人種の声",
+    "community-development": "地域開発",
+    "community-initiatives": "地域の取り組み",
+    "cultural-diversity": "文化の多様性",
+    "cultural-representation": "文化的表現",
+    "digital-access": "デジタルアクセス",
+    "disability-rights": "障害者の権利",
+    "disease-prevention": "疾病予防",
+    "economic-justice": "経済的公正",
+    "economics": "経済学",
+    "education": "教育",
+    "education-access": "教育へのアクセス",
+    "education-for-all": "すべての人の教育",
+    "elections-and-voting": "選挙と投票",
+    "emergency-preparedness": "緊急事態への備え",
+    "environmental-rights": "環境権",
+    "financial-literacy": "金融リテラシー",
+    "food-security": "食料安全保障",
+    "future-of-work": "働き方の未来",
+    "gender-equality": "ジェンダー平等",
+    "gender-justice": "ジェンダーの公正",
+    "government-policy": "政府の政策",
+    "health-equity": "健康の公平性",
+    "healthcare-access": "医療へのアクセス",
+    "history-and-heritage": "歴史と遺産",
+    "history-and-museums": "歴史と博物館",
+    "human-rights": "人権",
+    "immigrant-rights": "移民の権利",
+    "indigenous-rights": "先住民の権利",
+    "indigenous-voices": "先住民の声",
+    "income-inequality": "所得格差",
+    "interests": "関心事項",
+    "interests-placeholder": "関心事項を選択してください",
+    "interfaith-dialogue": "宗教間対話",
+    "jain-voices": "ジャイナ教徒の声",
+    "job-creation": "雇用創出",
+    "job-opportunities": "求人情報",
+    "jewish-voices": "ユダヤ人の声",
+    "lgbtqia-rights": "LGBTQIA+の権利",
+    "lgbtqia-voices": "LGBTQIA+の声",
+    "local-business-support": "地域ビジネス支援",
+    "local-events": "地域イベント",
+    "local-governance": "地方自治",
+    "local-politics": "地域政治",
+    "media-and-pharma": "メディア＆製薬",
+    "mental-health": "メンタルヘルス",
+    "mental-health-awareness": "メンタルヘルスの啓発",
+    "mens-rights": "男性の権利",
+    "minority-rights": "少数派の権利",
+    "music-and-bands": "音楽 & バンド",
+    "muslim-voices": "ムスリムの声",
+    "pandemic-response": "パンデミック対応",
+    "physical-health": "身体の健康",
+    "public-health": "公衆衛生",
+    "public-libraries": "公共図書館",
+    "public-policy": "公共政策",
+    "public-safety": "公共の安全",
+    "public-services": "公共サービス",
+    "public-transportation": "公共交通機関",
+    "racial-justice": "人種的正義",
+    "sikh-voices": "シーク教の声",
+    "social-justice": "社会正義",
+    "sports-and-fitness": "スポーツ & フィットネス",
+    "sustainability": "持続可能性",
+    "tech-for-good": "善のための技術",
+    "tech-regulation": "技術規制",
+    "technology-policy": "技術政策",
+    "volunteer-opportunities": "ボランティアの機会",
+    "womens-rights": "女性の権利",
+    "women-voices": "女性の声",
+    "wellness-programs": "ウェルネスプログラム"
+  },
+  "sidebar": {
+    "appName": "CivicSphere",
+    "nav": {
+      "home": "ホーム",
+      "trending": "トレンド",
+      "chat": "チャット",
+      "community": "コミュニティ",
+      "settings": "設定"
+    },
+    "tooltip": {
+      "close": "ナビゲーションバーを閉じる"
+    },
+    "aria": {
+      "mainNavigation": "メインナビゲーション",
+      "closeNavigation": "ナビゲーションメニューを閉じる",
+      "navigateTo": "{page} ページへ移動",
+      "signOut": "サインアウトボタン"
+    },
+    "signout": "サインアウト",
+    "copyright": "© {year} {appName}"
+  },
+  "signin_form": {
+    "form": {
+      "usernameLabel": "ユーザー名",
+      "usernameAria": "ユーザー名",
+      "passwordLabel": "パスワード",
+      "passwordAria": "パスワード",
+      "signIn": "サインイン",
+      "showPassword": "パスワードを表示",
+      "hidePassword": "パスワードを非表示"
+    },
+    "toast": {
+      "signInFailed": "サインインに失敗しました",
+      "invalidData": "無効なデータです。入力内容を確認してください。",
+      "signingIn": "サインイン中…",
+      "signInSuccessful": "サインイン成功",
+      "redirecting": "リダイレクト中…",
+      "invalidCredentialsTitle": "無効な認証情報",
+      "invalidCredentialsDesc": "ユーザー名とパスワードを確認してください。",
+      "tryLater": "後でもう一度お試しください。"
+    },
+    "aria": {
+      "formLabel": "サインインフォーム",
+      "signingIn": "サインイン中です。お待ちください。",
+      "loading": "読み込み中"
+    }
+  },
+  "signup_form": {
+    "form": {
+      "usernameLabel": "ユーザー名",
+      "checkUsername": "ユーザー名を確認",
+      "changeUsername": "ユーザー名を変更",
+      "fullNameLabel": "フルネーム",
+      "emailLabel": "メールアドレス",
+      "passwordLabel": "パスワード",
+      "showPassword": "パスワードを表示",
+      "hidePassword": "パスワードを非表示",
+      "cookieLabel": "このウェブサイトは正しく動作するためにクッキーが必要です。第三者のクッキーを許可します。",
+      "cookieDesc": "アカウントを作成するにはクッキーポリシーに同意する必要があります",
+      "submit": "送信"
+    },
+    "toast": {
+      "signUpFailed": "サインアップに失敗しました",
+      "improperData": "不正なデータです！指定された形式に従ってください。",
+      "signUpSuccessful": "サインアップ成功",
+      "canSignIn": "ログインできます。",
+      "exists": "ユーザー名またはメールアドレスは既に存在します。",
+      "invalidData422": "無効なデータです！内容を確認して再試行してください。",
+      "tryLater": "後でもう一度お試しください。",
+      "invalidUsername": "無効なユーザー名",
+      "usernameUnavailable": "ユーザー名は使用できません",
+      "chooseDifferent": "別のユーザー名を選択してください。",
+      "followFormat": "ユーザー名の形式に従ってください。",
+      "usernameAvailable": "ユーザー名「{username}」は利用可能です",
+      "usernameAvailableDesc": "このユーザー名で続行できます。",
+      "usernameValidationError": "ユーザー名の確認中にエラーが発生しました"
+    },
+    "aria": {
+      "usernameValidationForm": "ユーザー名確認フォーム",
+      "checkingUsername": "ユーザー名の利用可能性を確認中",
+      "signUpForm": "サインアップフォーム",
+      "creatingAccount": "アカウント作成中"
+    }
   }
 }
