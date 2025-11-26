@@ -14,9 +14,6 @@ from ....services.media_processors.audio import AudioProcessor
 
 config: AppConfig = AppConfig()
 
-
-
-
 async def process_voice_prompt(voice: UploadFile, language: str) -> str:
     """Process a voice file input and return its transcribed text."""
     match voice_content_type:
