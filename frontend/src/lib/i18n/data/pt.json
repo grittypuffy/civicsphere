@@ -101,5 +101,23 @@
         "loadingIssues": "Carregando problemas...",
         "errorIssues": "Erro ao carregar problemas: {message}",
         "youLabel": "Você"
+    },
+    "trending": {
+        "discoverWhat": "Descubra o que está",
+        "trendingNow": "Em alta agora!",
+        "refreshHint": "Quer atualizar o conteúdo em alta?",
+        "refreshAria": "Atualizar conteúdo em alta",
+        "tabPosts": "Publicações em alta",
+        "tabTopics": "Tópicos em alta",
+        "loadingPosts": "Carregando publicações em alta...",
+        "loadingTopics": "Carregando tópicos em alta...",
+        "errorPosts": "Erro ao carregar publicações em alta:",
+        "errorTopics": "Erro ao carregar tópicos em alta:",
+        "fallbackNotice": "Mostrando dados de exemplo como alternativa.",
+        "sortLabel": "Ordenar",
+        "sortByRank": "Melhores por classificação",
+        "sortByActivity": "Melhores por atividade",
+        "trendingTopic": "Tópico em alta",
+        "mentions": "menções"
     }
 }

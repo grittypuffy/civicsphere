@@ -80,7 +80,6 @@
       "generic": "Извините, при обработке запроса произошла ошибка. Попробуйте ещё раз."
     }
   },
-
   "communities": {
     "sidebarTitle": "Список тем",
     "communityHeading": "Сообщество: {community}",
@@ -102,6 +101,24 @@
     "loadingIssues": "Загрузка обращений...",
     "errorIssues": "Ошибка при загрузке обращений: {message}",
     "youLabel": "Вы"
+  },
+  "trending": {
+    "discoverWhat": "Узнайте, что",
+    "trendingNow": "В тренде сейчас!",
+    "refreshHint": "Хотите обновить популярный контент?",
+    "refreshAria": "Обновить популярный контент",
+    "tabPosts": "Популярные посты",
+    "tabTopics": "Популярные темы",
+    "loadingPosts": "Загрузка популярных постов...",
+    "loadingTopics": "Загрузка популярных тем...",
+    "errorPosts": "Ошибка при загрузке популярных постов:",
+    "errorTopics": "Ошибка при загрузке популярных тем:",
+    "fallbackNotice": "Показываем примерные данные в качестве альтернативы.",
+    "sortLabel": "Сортировать",
+    "sortByRank": "Лучшие по рангу",
+    "sortByActivity": "Лучшие по активности",
+    "trendingTopic": "Популярная тема",
+    "mentions": "упоминаний"
   },
   "affordable-housing": "Доступное жилье",
   "artificial-intelligence": "Искусственный интеллект",
