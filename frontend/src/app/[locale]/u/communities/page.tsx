@@ -1,22 +1,23 @@
 'use client'
 import CreatePost from '@/components/CreatePost'
-import { CreateIssueRequest, Issue, PostData } from '@/lib/types'
+import { Feeds } from '@/components/Feeds'
+import { Community, CreateIssueRequest, Issue, PostData } from '@/lib/types'
 import {
   createIssue,
   createPost,
-  downvotePost,
+  getCommunities,
   getCommunityIssues,
   getCommunityPosts,
-  upvoteIssue,
-  upvotePost
+  getTags
 } from '@/lib/utils'
 import {
   Avatar,
-  Badge,
   Button,
   Card,
   CardHeader,
+  Dropdown,
   Input,
+  Option,
   SelectTabData,
   SelectTabEvent,
   Tab,
@@ -25,13 +26,10 @@ import {
   Textarea
 } from '@fluentui/react-components'
 import {
-  ArrowUpRegular,
   EditRegular,
-  ImageRegular,
-  ThumbDislikeRegular,
-  ThumbLikeRegular
+  ImageRegular
 } from '@fluentui/react-icons'
-import { atom, useAtomValue, useSetAtom } from 'jotai'
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { loadable } from 'jotai/utils'
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
@@ -40,11 +38,16 @@ import { useEffect, useState } from 'react'
 const COMMUNITIES = ['NewYork', 'LosAngeles', 'Chicago', 'Houston', 'Phoenix']
 
 // Atoms for state management
-const selectedCommunityAtom = atom('NewYork')
+const communitiesAtom = atom<Promise<Community[]>>(getCommunities())
+const selectedCommunityAtom = atom('')
 const communityPostsAtom = atom<Promise<PostData[]>>(Promise.resolve([]))
 const communityIssuesAtom = atom<Promise<Issue[]>>(Promise.resolve([]))
+const tagsAtom = atom<Promise<Record<string, string>>>(getTags())
+const selectedTagAtom = atom('')
+const loadableCommunitiesAtom = loadable(communitiesAtom)
 const loadablePostsAtom = loadable(communityPostsAtom)
 const loadableIssuesAtom = loadable(communityIssuesAtom)
+const loadableTagsAtom = loadable(tagsAtom)
 
 export default function CommunitiesPage() {
   const t = useTranslations('communities')
@@ -54,6 +57,9 @@ export default function CommunitiesPage() {
   const issues = useAtomValue(loadableIssuesAtom)
   const setPosts = useSetAtom(communityPostsAtom)
   const setIssues = useSetAtom(communityIssuesAtom)
+  const communities = useAtomValue(loadableCommunitiesAtom)
+  const tags = useAtomValue(loadableTagsAtom)
+  const [selectedTag, setSelectedTag] = useAtom(selectedTagAtom)
 
   const [tab, setTab] = useState<'posts' | 'issues'>('posts')
   const [isCreateOpen, setCreateOpen] = useState(false)
@@ -64,37 +70,13 @@ export default function CommunitiesPage() {
   // Load initial data
   useEffect(() => {
     if (selectedCommunity) {
-      setPosts(getCommunityPosts(selectedCommunity.toLowerCase()))
-      setIssues(getCommunityIssues(selectedCommunity.toLowerCase()))
+      setPosts(getCommunityPosts(selectedCommunity))
+      setIssues(getCommunityIssues(selectedCommunity))
     }
   }, [selectedCommunity, setPosts, setIssues])
 
-  const handleTabSelect = (event: SelectTabEvent, data: SelectTabData) => {
+  const handleTabSelect = (_: SelectTabEvent, data: SelectTabData) => {
     setTab(data.value as 'posts' | 'issues')
-  }
-
-  async function handleVotePost(postId: string, communityId: string, type: 'up' | 'down') {
-    try {
-      if (type === 'up') {
-        await upvotePost(communityId, postId)
-      } else {
-        await downvotePost(communityId, postId)
-      }
-      // Refresh posts data
-      setPosts(getCommunityPosts(communityId))
-    } catch (error) {
-      console.error('Failed to vote on post:', error)
-    }
-  }
-
-  async function handleUpvoteIssue(issueId: string, communityId: string) {
-    try {
-      await upvoteIssue(communityId, issueId)
-      // Refresh issues data
-      setIssues(getCommunityIssues(communityId))
-    } catch (error) {
-      console.error('Failed to vote on issue:', error)
-    }
   }
 
   async function handleRaiseIssue(title: string, description = '') {
@@ -131,43 +113,62 @@ export default function CommunitiesPage() {
     }
   }
 
-  const getStatusBadgeColor = (status: string) => {
-    switch (status) {
-      case 'Open': return 'warning'
-      case 'Closed': return 'brand'
-      case 'Resolved': return 'success'
-      default: return 'subtle'
-    }
-  }
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    })
-  }
-
   return (
     <div className='flex gap-4'>
       {/* Left topics list */}
-      <aside className='w-56 bg-pink-50 p-3 rounded-md h-[calc(100vh-40px)] overflow-auto'>
-        <Text size={500} weight="semibold" className='mb-3 block'>{t('sidebarTitle')}</Text>
-        <ul className='space-y-2'>
-          {COMMUNITIES.map((community: string) => (
-            <li key={community}>
-              <Button
-                appearance={selectedCommunity === community ? 'primary' : 'subtle'}
-                onClick={() => setSelectedCommunity(community)}
-                className='w-full justify-start'
-              >
-                {community}
-              </Button>
-            </li>
-          ))}
-        </ul>
+      <aside className='w-1/6 bg-pink-50 p-3 rounded-md h-[calc(100vh-40px)] overflow-auto'>
+        <Dropdown
+          value={selectedCommunity}
+          onOptionSelect={(_, data) => setSelectedCommunity(data.optionValue || 'New York City')}
+          placeholder="Choose a community"
+        >
+          {(() => {
+            switch (communities.state) {
+              case 'loading':
+                return <Option key="loading" disabled>Loading...</Option>
+              case 'hasError':
+                return <Option key="error">Error loading communities</Option>
+              case 'hasData':
+                return communities.data.map((community: Community) => (
+                  <Option key={community._id} value={community._id}>
+                    {community.community_name}
+                  </Option>
+                ))
+              default:
+                return COMMUNITIES.map((community) => (
+                  <Option key={community} value={community}>
+                    {community}
+                  </Option>
+                ))
+            }
+          })()}
+        </Dropdown>
+
+        <div className='mt-4'>
+          <Text size={400} weight="semibold" className='mb-2 block'>Filter by tag</Text>
+          <Dropdown
+            value={selectedTag}
+            onOptionSelect={(_, data) => setSelectedTag(data.optionValue || '')}
+            placeholder="Select a tag"
+          >
+            {(() => {
+              switch (tags.state) {
+                case 'loading':
+                  return <Option key="loading" disabled>Loading...</Option>
+                case 'hasError':
+                  return <Option key="error">Error loading tags</Option>
+                case 'hasData':
+                  return Object.entries(tags.data).map(([key, value]) => (
+                    <Option key={key} value={key}>
+                      {value}
+                    </Option>
+                  ))
+                default:
+                  return null
+              }
+            })()}
+          </Dropdown>
+        </div>
       </aside>
 
       {/* Center column */}
@@ -236,53 +237,11 @@ export default function CommunitiesPage() {
                   case 'hasError':
                     return <Text>{t('errorPosts', { message: String(posts.error) })}</Text>
                   case 'hasData':
-                    return posts.data.map((post: PostData) => (
-                      <Card key={post.post_id} className='mb-4'>
-                        <CardHeader
-                          header={
-                            <div className='flex items-start justify-between w-full'>
-                              <div className='flex items-center gap-3'>
-                                <Avatar name={post.user_id} />
-                                <div>
-                                  <Text weight="semibold">{post.title}</Text>
-                                  <Text size={200} className='text-gray-500 block'>
-                                    {formatDate(post.created_at)}
-                                  </Text>
-                                </div>
-                              </div>
-                              <div className='flex items-center gap-2'>
-                                <Button
-                                  appearance='subtle'
-                                  icon={<ThumbLikeRegular />}
-                                  onClick={() => handleVotePost(post.post_id, selectedCommunity.toLowerCase(), 'up')}
-                                >
-                                  {post.upvote}
-                                </Button>
-                                <Button
-                                  appearance='subtle'
-                                  icon={<ThumbDislikeRegular />}
-                                  onClick={() => handleVotePost(post.post_id, selectedCommunity.toLowerCase(), 'down')}
-                                >
-                                  {post.downvote}
-                                </Button>
-                              </div>
-                            </div>
-                          }
-                          description={
-                            <div className='space-y-2'>
-                              <Text>{post.description}</Text>
-                              <div className='flex flex-wrap gap-1'>
-                                {post.tags.map((tag, index) => (
-                                  <Badge key={index} appearance="tint" size="small">
-                                    {tag}
-                                  </Badge>
-                                ))}
-                              </div>
-                            </div>
-                          }
-                        />
-                      </Card>
-                    ))
+                    const filteredPosts = selectedTag
+                      ? posts.data.filter((post: PostData) => post.tags.includes(selectedTag))
+                      : posts.data
+
+                    return <Feeds posts={filteredPosts} />
                 }
               })()}
             </section>
@@ -348,45 +307,7 @@ export default function CommunitiesPage() {
                   case 'hasError':
                     return <Text>{t('errorIssues', { message: String(issues.error) })}</Text>
                   case 'hasData':
-                    return (
-                      <div className='grid gap-4'>
-                        {issues.data.map((issue: Issue) => (
-                          <Card key={issue.issue_id} className='p-4'>
-                            <div className='flex items-start justify-between'>
-                              <div className='flex-1'>
-                                <div className='flex items-start gap-3'>
-                                  <Avatar name={issue.user_id} />
-                                  <div className='flex-1'>
-                                    <Text weight="semibold" className='block'>{issue.title}</Text>
-                                    <Text size={300} className='text-gray-600 block mt-1'>
-                                      {issue.description}
-                                    </Text>
-                                    <div className='mt-2'>
-                                      <Badge
-                                        appearance="filled"
-                                        color={getStatusBadgeColor(issue.status)}
-                                        size="small"
-                                      >
-                                        {issue.status}
-                                      </Badge>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className='flex flex-col items-center gap-2 ml-4'>
-                                <Button
-                                  appearance='subtle'
-                                  shape='circular'
-                                  icon={<ArrowUpRegular />}
-                                  onClick={() => handleUpvoteIssue(issue.issue_id, selectedCommunity.toLowerCase())}
-                                />
-                                <Text size={200}>{issue.upvote}</Text>
-                              </div>
-                            </div>
-                          </Card>
-                        ))}
-                      </div>
-                    )
+                    return <Feeds issues={issues.data} />
                 }
               })()}
             </section>

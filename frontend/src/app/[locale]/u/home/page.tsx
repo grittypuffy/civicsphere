@@ -1,7 +1,7 @@
 'use client'
 import { Feeds } from '@/components/Feeds';
-import { userNameAtom } from '@/lib/store';
-import { getFeeds } from '@/lib/utils';
+import { userIssueUpvotesAtom, userNameAtom, userPostDownvotesAtom, userPostUpvotesAtom, userPrefsAtom } from '@/lib/store';
+import { getFeeds, getUserIssueUpvotes, getUserPostDownvotes, getUserPostUpvotes, getUserPreferences } from '@/lib/utils';
 import { Button } from '@fluentui/react-components';
 import { ArrowClockwiseFilled } from '@fluentui/react-icons';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
@@ -15,9 +15,17 @@ export default function Page() {
   const username = useAtomValue(userNameAtom)
   const feeds = useAtomValue(loadableFeedAtom)
   const setFeeds = useSetAtom(feedAtom)
+  const setPostUpvotes = useSetAtom(userPostUpvotesAtom)
+  const setPostDownvotes = useSetAtom(userPostDownvotesAtom)
+  const setIssueUpvotes = useSetAtom(userIssueUpvotesAtom)
+  const setUserPrefs = useSetAtom(userPrefsAtom)
 
   useEffect(() => {
     setFeeds(getFeeds())
+    setPostUpvotes(getUserPostUpvotes())
+    setPostDownvotes(getUserPostDownvotes())
+    setIssueUpvotes(getUserIssueUpvotes())
+    setUserPrefs(getUserPreferences())
   }, [])
   return (
     <>
@@ -65,7 +73,7 @@ export default function Page() {
                   )
                 case 'hasData':
                   return (
-                    <Feeds posts={feeds.data} />
+                    <Feeds posts={feeds.data} showVoted={true} />
                   )
               }
             })()}

@@ -2,11 +2,14 @@ import { NextRequest } from "next/server";
 import * as v from 'valibot';
 import { SessionCache } from "./cache";
 import {
+  CommunitiesResponseSchema,
   CreateIssueRequestSchema,
   GetPreferencesResponseSchema,
+  IssueResponseMultipleSchema,
   IssueResponseSingleSchema,
   PostResponseSchema,
   TagAnalyticsSchema,
+  TagResponseSchema,
   TrendingResponseSchema,
   UserDataResponseSchema,
   UserIssuesResponseSchema,
@@ -16,8 +19,6 @@ import {
   UserReactionsResponseSchema
 } from "./schema";
 import { CreateIssueRequest, UserPreferencesUpdateRequest } from "./types";
-
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const sessionCache = new SessionCache<boolean>({
   ttl: 5 * 60 * 1000,
@@ -84,22 +85,24 @@ export const getSessionCacheStats = () => {
 }
 
 export const getFeeds = async () => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/feed`, {
+  const res = await fetch(`/api/v1/feed`, {
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to fetch feed data');
   }
-  const json = v.parse(TrendingResponseSchema, await res.json());
-  if (!json.success) {
-    throw new Error('Failed to fetch feed data');
-  }
+  const json = await res.json();
+  // if (!json.success) {
+  //   throw new Error('Failed to fetch feed data');
+  // }
   return json.data || [];
 }
 
 export const getTrendingPosts = async () => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/trending`, {
+  const res = await fetch(`/api/v1/trending`, {
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to fetch trending posts');
@@ -112,8 +115,9 @@ export const getTrendingPosts = async () => {
 }
 
 export const getTrendingTopics = async () => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/trending/analytics`, {
+  const res = await fetch(`/api/v1/trending/analytics`, {
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to fetch trending analytics');
@@ -127,8 +131,9 @@ export const getTrendingTopics = async () => {
 
 // User Preferences API
 export const getUserPreferences = async () => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/user/preferences`, {
+  const res = await fetch(`/api/v1/user/preferences`, {
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to fetch user preferences');
@@ -141,13 +146,14 @@ export const getUserPreferences = async () => {
 }
 
 export const updateUserPreferences = async (preferences: UserPreferencesUpdateRequest) => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/user/preferences`, {
+  const res = await fetch(`/api/v1/user/preferences`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(v.parse(UserPreferencesUpdateRequestSchema, preferences)),
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to update user preferences');
@@ -161,8 +167,9 @@ export const updateUserPreferences = async (preferences: UserPreferencesUpdateRe
 
 // User Posts API
 export const getUserPosts = async () => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/u/posts`, {
+  const res = await fetch(`/api/v1/u/posts`, {
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to fetch user posts');
@@ -174,9 +181,10 @@ export const getUserPosts = async () => {
   return json.data || [];
 }
 
-export const getUserUpvotes = async () => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/u/posts/upvotes`, {
+export const getUserPostUpvotes = async () => {
+  const res = await fetch(`/api/v1/u/posts/upvotes`, {
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to fetch user upvotes');
@@ -188,9 +196,10 @@ export const getUserUpvotes = async () => {
   return json.data || [];
 }
 
-export const getUserDownvotes = async () => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/u/posts/downvotes`, {
+export const getUserPostDownvotes = async () => {
+  const res = await fetch(`/api/v1/u/posts/downvotes`, {
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to fetch user downvotes');
@@ -204,8 +213,9 @@ export const getUserDownvotes = async () => {
 
 // User Issues API
 export const getUserIssues = async () => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/u/issues`, {
+  const res = await fetch(`/api/v1/u/issues`, {
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to fetch user issues');
@@ -218,8 +228,9 @@ export const getUserIssues = async () => {
 }
 
 export const getUserIssueUpvotes = async () => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/u/issues/upvotes`, {
+  const res = await fetch(`/api/v1/u/issues/upvotes`, {
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to fetch user issue upvotes');
@@ -233,8 +244,9 @@ export const getUserIssueUpvotes = async () => {
 
 // User Details API
 export const getUserDetails = async (username: string) => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/u/${username}`, {
+  const res = await fetch(`/api/v1/u/${username}`, {
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to fetch user details');
@@ -248,7 +260,7 @@ export const getUserDetails = async (username: string) => {
 
 // Community Posts API
 export const createPost = async (communityId: string, title: string, description: string, formData: FormData) => {
-  const url = new URL(`${BACKEND_URL}/api/v1/c/${communityId}/post`);
+  const url = new URL(`/api/v1/c/${communityId}/post`, window.location.origin);
   url.searchParams.append('title', title);
   url.searchParams.append('description', description);
 
@@ -256,6 +268,7 @@ export const createPost = async (communityId: string, title: string, description
     method: 'POST',
     body: formData,
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to create post');
@@ -264,13 +277,14 @@ export const createPost = async (communityId: string, title: string, description
 }
 
 export const createVoicePost = async (communityId: string, tags: string[]) => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/c/${communityId}/post/voice`, {
+  const res = await fetch(`/api/v1/c/${communityId}/post/voice`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(tags),
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to create voice post');
@@ -279,18 +293,24 @@ export const createVoicePost = async (communityId: string, tags: string[]) => {
 }
 
 export const getCommunityPosts = async (communityId: string) => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/c/${communityId}/posts`, {
+  const res = await fetch(`/api/v1/c/${communityId}/posts`, {
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to fetch community posts');
   }
-  return await res.json();
+  const json = v.parse(TrendingResponseSchema, await res.json());
+  if (!json.success) {
+    throw new Error('Failed to create post');
+  }
+  return json.data || [];
 }
 
 export const getPost = async (communityId: string, postId: string) => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/c/${communityId}/${postId}`, {
+  const res = await fetch(`/api/v1/c/${communityId}/${postId}`, {
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to fetch post');
@@ -299,8 +319,9 @@ export const getPost = async (communityId: string, postId: string) => {
 }
 
 export const explainPost = async (communityId: string, postId: string) => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/c/${communityId}/${postId}/explain`, {
+  const res = await fetch(`/api/v1/c/${communityId}/${postId}/explain`, {
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to explain post');
@@ -309,9 +330,10 @@ export const explainPost = async (communityId: string, postId: string) => {
 }
 
 export const upvotePost = async (communityId: string, postId: string) => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/c/${communityId}/${postId}/upvote`, {
+  const res = await fetch(`/api/v1/c/${communityId}/${postId}/upvote`, {
     method: 'PUT',
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to upvote post');
@@ -320,9 +342,10 @@ export const upvotePost = async (communityId: string, postId: string) => {
 }
 
 export const downvotePost = async (communityId: string, postId: string) => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/c/${communityId}/${postId}/downvote`, {
+  const res = await fetch(`/api/v1/c/${communityId}/${postId}/downvote`, {
     method: 'PUT',
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to downvote post');
@@ -331,9 +354,10 @@ export const downvotePost = async (communityId: string, postId: string) => {
 }
 
 export const removeUpvotePost = async (communityId: string, postId: string) => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/c/${communityId}/${postId}/remove_upvote`, {
+  const res = await fetch(`/api/v1/c/${communityId}/${postId}/remove_upvote`, {
     method: 'DELETE',
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to remove upvote from post');
@@ -342,9 +366,10 @@ export const removeUpvotePost = async (communityId: string, postId: string) => {
 }
 
 export const removeDownvotePost = async (communityId: string, postId: string) => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/c/${communityId}/${postId}/remove_downvote`, {
+  const res = await fetch(`/api/v1/c/${communityId}/${postId}/remove_downvote`, {
     method: 'DELETE',
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to remove downvote from post');
@@ -354,18 +379,21 @@ export const removeDownvotePost = async (communityId: string, postId: string) =>
 
 // Community Issues API
 export const getCommunityIssues = async (communityId: string) => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/c/${communityId}/issues/`, {
+  const res = await fetch(`/api/v1/c/${communityId}/issues/all`, {
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
-  if (!res.ok) {
-    throw new Error('Failed to fetch community issues');
+  const json = v.parse(IssueResponseMultipleSchema, await res.json());
+  if (!json.success) {
+    throw new Error('Failed to fetch issue');
   }
-  return await res.json();
+  return json.data || [];
 }
 
 export const getIssue = async (communityId: string, issueId: string) => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/c/${communityId}/issues/${issueId}`, {
+  const res = await fetch(`/api/v1/c/${communityId}/issues/${issueId}`, {
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to fetch issue');
@@ -378,13 +406,14 @@ export const getIssue = async (communityId: string, issueId: string) => {
 }
 
 export const createIssue = async (communityId: string, issue: CreateIssueRequest) => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/c/${communityId}/issues`, {
+  const res = await fetch(`/api/v1/c/${communityId}/issues`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(v.parse(CreateIssueRequestSchema, issue)),
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to create issue');
@@ -393,9 +422,10 @@ export const createIssue = async (communityId: string, issue: CreateIssueRequest
 }
 
 export const upvoteIssue = async (communityId: string, issueId: string) => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/c/${communityId}/issues/${issueId}/upvote`, {
+  const res = await fetch(`/api/v1/c/${communityId}/issues/${issueId}/upvote`, {
     method: 'PUT',
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to upvote issue');
@@ -404,9 +434,10 @@ export const upvoteIssue = async (communityId: string, issueId: string) => {
 }
 
 export const removeUpvoteIssue = async (communityId: string, issueId: string) => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/c/${communityId}/issues/${issueId}/remove_upvote`, {
+  const res = await fetch(`/api/v1/c/${communityId}/issues/${issueId}/remove_upvote`, {
     method: 'DELETE',
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to remove upvote from issue');
@@ -415,9 +446,10 @@ export const removeUpvoteIssue = async (communityId: string, issueId: string) =>
 }
 
 export const resolveIssue = async (communityId: string, issueId: string) => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/c/${communityId}/issues/${issueId}/resolve`, {
+  const res = await fetch(`/api/v1/c/${communityId}/issues/${issueId}/resolve`, {
     method: 'PUT',
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to resolve issue');
@@ -426,9 +458,10 @@ export const resolveIssue = async (communityId: string, issueId: string) => {
 }
 
 export const closeIssue = async (communityId: string, issueId: string) => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/c/${communityId}/issues/${issueId}/close`, {
+  const res = await fetch(`/api/v1/c/${communityId}/issues/${issueId}/close`, {
     method: 'PUT',
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to close issue');
@@ -438,11 +471,32 @@ export const closeIssue = async (communityId: string, issueId: string) => {
 
 // Communities API
 export const getCommunities = async () => {
-  const res = await fetch(`${BACKEND_URL}/api/v1/c/communities`, {
+  const res = await fetch(`/api/v1/c/communities`, {
     signal: AbortSignal.timeout(30000),
+    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to fetch communities');
   }
-  return await res.json();
+  const json = v.parse(CommunitiesResponseSchema, await res.json());
+  if (!json.success) {
+    throw new Error('Failed to fetch communities');
+  }
+  return json.data || [];
+}
+
+// Tags API
+export const getTags = async () => {
+  const res = await fetch(`/api/v1/tag/en`, {
+    signal: AbortSignal.timeout(30000),
+    credentials: 'include',
+  });
+  if (!res.ok) {
+    throw new Error('Failed to fetch tags');
+  }
+  const json = v.parse(TagResponseSchema, await res.json());
+  if (!json.success) {
+    throw new Error('Failed to fetch tags');
+  }
+  return json.tags || {};
 }
