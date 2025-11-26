@@ -3,19 +3,19 @@ import { Language } from "./types";
 export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export const LANGS: Language[] = [
-  { code: "de", name: "German" },
-  { code: "el", name: "Greek" },
+  { code: "de", name: "Deutsch" },
+  { code: "el", name: "Ελληνικά" },
   { code: "en", name: "English" },
-  { code: "es", name: "Spanish" },
-  { code: "fr", name: "French" },
-  { code: "hi", name: "Hindi" },
-  { code: "it", name: "Italian" },
-  { code: "ja", name: "Japanese" },
-  { code: "ko", name: "Korean" },
-  { code: "pl", name: "Polish" },
-  { code: "pt", name: "Portuguese" },
-  { code: "ru", name: "Russian" },
-  { code: "zh", name: "Chinese" }
+  { code: "es", name: "Español" },
+  { code: "fr", name: "Français" },
+  { code: "hi", name: "हिन्दी" },
+  { code: "it", name: "Italiano" },
+  { code: "ja", name: "日本語" },
+  { code: "ko", name: "한국어" },
+  { code: "pl", name: "Polski" },
+  { code: "pt", name: "Português" },
+  { code: "ru", name: "Русский" },
+  { code: "zh", name: "中文" }
 ]
 
 export const LOCALES = LANGS.map(lang => lang.code);
