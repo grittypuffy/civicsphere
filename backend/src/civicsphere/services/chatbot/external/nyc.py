@@ -16,10 +16,11 @@ config: AppConfig = AppConfig()
 
 async def process_voice_prompt(voice: UploadFile, language: str) -> str:
     """Process a voice file input and return its transcribed text."""
-    match voice_content_type:
-        case "audio/wav" | "video/webm":
+    match voice.content_type:
+        case ("audio/wav" | "video/webm"):
             try:
-                transcript = await audio_processor.process_voice(language, voice)
+                audio_processor: AudioProcessor = AudioProcessor()
+                transcript = await audio_processor.process_voice_prompt(language, voice)
             except Exception as e:
                 raise RuntimeError(f"Error while transcribing voice: {e}") from e
 
