@@ -19,6 +19,16 @@
             }
         }
     },
+    "homePage": {
+        "welcomeBack": "वापसी पर स्वागत है!",
+        "greeting": "नमस्ते, {name}!",
+        "placeholderName": "पड़ोसी",
+        "refreshAria": "फ़ीड रीफ़्रेश करें",
+        "refreshHint": "नई फ़ीड देखना चाहते हैं?",
+        "loadingFeeds": "फ़ीड लोड हो रही हैं...",
+        "errorLoading": "ट्रेंडिंग पोस्ट लोड करने में त्रुटि: {message}",
+        "fallbackNotice": "इसके बजाय नमूना डेटा दिखाया जा रहा है।"
+    },
     "auth": {
         "heroTitle": "CivicSphere में आपका स्वागत है",
         "heroSubtitle": "अपनी कम्युनिटी से जुड़ें — खोजें, चर्चा करें और कार्रवाई करें।",

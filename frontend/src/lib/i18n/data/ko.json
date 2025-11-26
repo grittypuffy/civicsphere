@@ -19,6 +19,16 @@
             }
         }
     },
+    "homePage": {
+        "welcomeBack": "다시 오신 것을 환영합니다!",
+        "greeting": "안녕하세요, {name}님!",
+        "placeholderName": "이웃",
+        "refreshAria": "피드 새로고침",
+        "refreshHint": "새로운 피드를 보고 싶나요?",
+        "loadingFeeds": "피드를 불러오는 중...",
+        "errorLoading": "인기 게시물을 불러오는 중 오류가 발생했습니다: {message}",
+        "fallbackNotice": "대신 샘플 데이터를 표시합니다."
+    },
     "auth": {
         "heroTitle": "CivicSphere에 오신 것을 환영합니다",
         "heroSubtitle": "커뮤니티에 참여해 발견하고 토론하며 행동하세요.",

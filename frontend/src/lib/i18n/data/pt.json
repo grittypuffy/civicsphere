@@ -19,6 +19,16 @@
             }
         }
     },
+    "homePage": {
+        "welcomeBack": "Bem-vindo de volta!",
+        "greeting": "Olá, {name}!",
+        "placeholderName": "Vizinho",
+        "refreshAria": "Atualizar feed",
+        "refreshHint": "Quer ver novidades?",
+        "loadingFeeds": "Carregando feeds...",
+        "errorLoading": "Erro ao carregar posts em destaque: {message}",
+        "fallbackNotice": "Mostrando dados de exemplo."
+    },
     "auth": {
         "heroTitle": "Bem-vindo ao CivicSphere",
         "heroSubtitle": "Junte-se à sua comunidade — descubra, discuta e aja.",

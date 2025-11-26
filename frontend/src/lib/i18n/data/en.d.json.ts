@@ -22,6 +22,16 @@ declare const messages: {
       }
     }
   },
+  "homePage": {
+    "welcomeBack": "Welcome back!",
+    "greeting": "Hello, {name}!",
+    "placeholderName": "Neighbor",
+    "refreshAria": "Refresh feeds",
+    "refreshHint": "Want to see fresh updates?",
+    "loadingFeeds": "Loading feeds...",
+    "errorLoading": "Error loading trending posts: {message}",
+    "fallbackNotice": "Showing sample data instead."
+  },
   "auth": {
     "heroTitle": "Welcome to CivicSphere",
     "heroSubtitle": "Join your community — discover, discuss and act.",

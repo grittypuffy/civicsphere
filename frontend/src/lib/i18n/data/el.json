@@ -19,6 +19,16 @@
             }
         }
     },
+    "homePage": {
+        "welcomeBack": "Καλώς επιστρέψατε!",
+        "greeting": "Γεια σου, {name}!",
+        "placeholderName": "Γείτονα",
+        "refreshAria": "Ανανέωση ροών",
+        "refreshHint": "Θέλετε να δείτε νέα ροή;",
+        "loadingFeeds": "Φόρτωση ροών...",
+        "errorLoading": "Σφάλμα κατά τη φόρτωση κορυφαίων αναρτήσεων: {message}",
+        "fallbackNotice": "Εμφανίζονται δείγματα δεδομένων."
+    },
     "auth": {
         "heroTitle": "Καλώς ήρθατε στο CivicSphere",
         "heroSubtitle": "Συνδεθείτε με την κοινότητά σας — ανακαλύψτε, συζητήστε και δράστε.",

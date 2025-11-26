@@ -19,6 +19,16 @@
             }
         }
     },
+    "homePage": {
+        "welcomeBack": "Willkommen zurück!",
+        "greeting": "Hallo, {name}!",
+        "placeholderName": "Nachbar",
+        "refreshAria": "Feeds aktualisieren",
+        "refreshHint": "Möchtest du neue Beiträge sehen?",
+        "loadingFeeds": "Beiträge werden geladen...",
+        "errorLoading": "Fehler beim Laden der Trend-Beiträge: {message}",
+        "fallbackNotice": "Es werden stattdessen Beispieldaten angezeigt."
+    },
     "auth": {
         "heroTitle": "Willkommen bei CivicSphere",
         "heroSubtitle": "Schließe dich deiner Community an – entdecken, diskutieren und handeln.",

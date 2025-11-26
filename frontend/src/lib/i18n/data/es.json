@@ -19,6 +19,16 @@
             }
         }
     },
+    "homePage": {
+        "welcomeBack": "¡Bienvenido de nuevo!",
+        "greeting": "Hola, {name}!",
+        "placeholderName": "Vecino",
+        "refreshAria": "Actualizar publicaciones",
+        "refreshHint": "¿Quieres ver novedades?",
+        "loadingFeeds": "Cargando publicaciones...",
+        "errorLoading": "Error al cargar publicaciones destacadas: {message}",
+        "fallbackNotice": "Mostrando datos de ejemplo."
+    },
     "communities": {
         "sidebarTitle": "Lista de temas",
         "communityHeading": "Comunidad: {community}",

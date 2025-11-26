@@ -19,6 +19,16 @@
       }
     }
   },
+  "homePage": {
+    "welcomeBack": "С возвращением!",
+    "greeting": "Здравствуйте, {name}!",
+    "placeholderName": "Сосед",
+    "refreshAria": "Обновить ленту",
+    "refreshHint": "Хотите увидеть новые записи?",
+    "loadingFeeds": "Лента загружается...",
+    "errorLoading": "Ошибка при загрузке популярных постов: {message}",
+    "fallbackNotice": "Показываем примерные данные."
+  },
   "auth": {
     "heroTitle": "Добро пожаловать в CivicSphere",
     "heroSubtitle": "Присоединяйтесь к своему сообществу — открывайте, обсуждайте и действуйте.",

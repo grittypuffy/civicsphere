@@ -19,6 +19,16 @@
             }
         }
     },
+    "homePage": {
+        "welcomeBack": "欢迎回来！",
+        "greeting": "你好，{name}！",
+        "placeholderName": "邻居",
+        "refreshAria": "刷新动态",
+        "refreshHint": "想看看新的动态吗？",
+        "loadingFeeds": "正在加载动态...",
+        "errorLoading": "加载热门帖子时出错：{message}",
+        "fallbackNotice": "将显示示例数据。"
+    },
     "auth": {
         "heroTitle": "欢迎来到 CivicSphere",
         "heroSubtitle": "加入你的社区——探索、讨论并采取行动。",
