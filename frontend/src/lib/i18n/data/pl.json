@@ -130,5 +130,17 @@
         "filterPlaceholder": "Filtruj tagi",
         "cancel": "Anuluj",
         "post": "Opublikuj"
+    },
+    "feeds": {
+        "verified": "Zweryfikowane",
+        "unverified": "Niezweryfikowane",
+        "pending": "Oczekujące",
+        "flagged": "Oznaczone",
+        "links": "Linki:",
+        "close": "Zamknij",
+        "view": "Wyświetl",
+        "issueId": "ID problemu:",
+        "noVotedContent": "Nie znaleziono zagłosowanej treści",
+        "nothingHere": "Nic tu nie ma"
     }
 }

@@ -6,6 +6,7 @@ import { CheckmarkCircleColor, CheckmarkRegular, ClockRegular, EyeRegular, FlagF
 import { ThumbLikeRegular } from "@fluentui/react-icons/svg/thumb-like"
 import { useAtomValue, useSetAtom } from "jotai"
 import { useState } from "react"
+import { useTranslations } from 'next-intl'
 
 interface FeedsProps {
   posts?: PostData[]
@@ -14,6 +15,7 @@ interface FeedsProps {
 }
 
 const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boolean, setOpen: (open: boolean) => void }) => {
+  const t = useTranslations('feeds');
   const upvotedPosts = useAtomValue(userPostUpvotesAtom_loadable)
   const downvotedPosts = useAtomValue(userPostDownvotesAtom_loadable)
   const setPostUpvotes = useSetAtom(userPostUpvotesAtom)
@@ -100,7 +102,7 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
                         size="medium"
                         icon={post.verified === 'True' ? <CheckmarkCircleColor /> : <CheckmarkRegular />}
                       >
-                        {post.verified === "True" ? "Verified" : post.verified === "False" ? "Unverified" : "Pending"}
+                        {post.verified === "True" ? t('verified') : post.verified === "False" ? t('unverified') : t('pending')}
                       </Badge>
                       {post.flagged && (
                         <Badge
@@ -109,7 +111,7 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
                           size="medium"
                           icon={<FlagFilled />}
                         >
-                          Flagged
+                          {t('flagged')}
                         </Badge>
                       )}
                     </div>
@@ -144,7 +146,7 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
                     <p className="text-gray-600 text-sm leading-relaxed">{post.description}</p>
                     {post.url.length > 0 && (
                       <div className="space-y-1">
-                        <Text size={200} className="text-gray-600 font-medium">Links:</Text>
+                        <Text size={200} className="text-gray-600 font-medium">{t('links')}</Text>
                         {post.url.map((link, index) => (
                           <a
                             key={index}
@@ -199,7 +201,7 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
         </DialogBody>
         <DialogActions>
           <Button appearance="secondary" onClick={() => setOpen(false)}>
-            Close
+            {t('close')}
           </Button>
         </DialogActions>
       </DialogSurface>
@@ -208,6 +210,7 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
 }
 
 const PostCard = ({ post }: { post: PostData }) => {
+  const t = useTranslations('feeds');
   const upvotedPosts = useAtomValue(userPostUpvotesAtom_loadable)
   const downvotedPosts = useAtomValue(userPostDownvotesAtom_loadable)
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -259,7 +262,7 @@ const PostCard = ({ post }: { post: PostData }) => {
                 icon={<EyeRegular />}
                 onClick={() => setDialogOpen(true)}
               >
-                View
+                {t('view')}
               </Button>
             </div>
           </div>
@@ -276,6 +279,7 @@ const PostCard = ({ post }: { post: PostData }) => {
 }
 
 const IssueDetailDialog = ({ issue, open, setOpen }: { issue: Issue, open: boolean, setOpen: (open: boolean) => void }) => {
+  const t = useTranslations('feeds');
   const upvotedIssues = useAtomValue(userIssueUpvotesAtom_loadable)
   const setIssueUpvotes = useSetAtom(userIssueUpvotesAtom)
   const [loading, setLoading] = useState(false)
@@ -365,7 +369,7 @@ const IssueDetailDialog = ({ issue, open, setOpen }: { issue: Issue, open: boole
               <div className="flex items-center justify-between w-full px-3">
                 <div className="flex items-center space-x-2">
                   <span className="text-md text-gray-500">
-                    Issue ID: {issue.issue_id}
+                    {t('issueId')} {issue.issue_id}
                   </span>
                 </div>
                 <div className="flex items-center space-x-4">
@@ -386,7 +390,7 @@ const IssueDetailDialog = ({ issue, open, setOpen }: { issue: Issue, open: boole
         </DialogBody>
         <DialogActions>
           <Button appearance="secondary" onClick={() => setOpen(false)}>
-            Close
+            {t('close')}
           </Button>
         </DialogActions>
       </DialogSurface>
@@ -395,6 +399,7 @@ const IssueDetailDialog = ({ issue, open, setOpen }: { issue: Issue, open: boole
 }
 
 const IssueCard = ({ issue }: { issue: Issue }) => {
+  const t = useTranslations('feeds');
   const upvotedIssues = useAtomValue(userIssueUpvotesAtom_loadable)
   const [dialogOpen, setDialogOpen] = useState(false)
 
@@ -430,7 +435,7 @@ const IssueCard = ({ issue }: { issue: Issue }) => {
                   <span>{formatDate(issue.created_at)}</span>
                 </div>
                 <div className="flex items-center space-x-1">
-                  <span>Issue ID: {issue.issue_id}</span>
+                  <span>{t('issueId')} {issue.issue_id}</span>
                 </div>
               </div>
             </div>
@@ -441,7 +446,7 @@ const IssueCard = ({ issue }: { issue: Issue }) => {
                 icon={<EyeRegular />}
                 onClick={() => setDialogOpen(true)}
               >
-                View
+                {t('view')}
               </Button>
             </div>
           </div>
@@ -458,6 +463,7 @@ const IssueCard = ({ issue }: { issue: Issue }) => {
 }
 
 export const Feeds = ({ posts, issues, showVoted }: FeedsProps) => {
+  const t = useTranslations('feeds');
   const upvotedPosts = useAtomValue(userPostUpvotesAtom_loadable)
   const downvotedPosts = useAtomValue(userPostDownvotesAtom_loadable)
   const upvotedIssues = useAtomValue(userIssueUpvotesAtom_loadable)
@@ -483,7 +489,7 @@ export const Feeds = ({ posts, issues, showVoted }: FeedsProps) => {
       <div className="max-w-5xl mx-auto p-6">
         <div className="text-center py-12">
           <Text size={400} className="text-gray-500">
-            {showVoted ? "No voted content found" : "Nothing here"}
+            {showVoted ? t('noVotedContent') : t('nothingHere')}
           </Text>
         </div>
       </div>

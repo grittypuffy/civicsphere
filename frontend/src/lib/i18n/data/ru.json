@@ -131,6 +131,18 @@
     "cancel": "Отмена",
     "post": "Опубликовать"
   },
+  "feeds": {
+    "verified": "Проверено",
+    "unverified": "Не проверено",
+    "pending": "Ожидание",
+    "flagged": "Отмечено",
+    "links": "Ссылки:",
+    "close": "Закрыть",
+    "view": "Просмотр",
+    "issueId": "ID проблемы:",
+    "noVotedContent": "Проголосованный контент не найден",
+    "nothingHere": "Здесь ничего нет"
+  },
   "affordable-housing": "Доступное жилье",
   "artificial-intelligence": "Искусственный интеллект",
   "arts-and-culture": "Искусство и культура",

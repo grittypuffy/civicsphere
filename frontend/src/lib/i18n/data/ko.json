@@ -130,5 +130,17 @@
         "filterPlaceholder": "태그 필터",
         "cancel": "취소",
         "post": "게시"
+    },
+    "feeds": {
+        "verified": "검증됨",
+        "unverified": "미검증",
+        "pending": "대기 중",
+        "flagged": "신고됨",
+        "links": "링크:",
+        "close": "닫기",
+        "view": "보기",
+        "issueId": "이슈 ID:",
+        "noVotedContent": "투표한 콘텐츠를 찾을 수 없습니다",
+        "nothingHere": "여기에 아무것도 없습니다"
     }
 }

@@ -131,6 +131,18 @@
         "cancel": "取消",
         "post": "发布"
     },
+    "feeds": {
+        "verified": "已验证",
+        "unverified": "未验证",
+        "pending": "待处理",
+        "flagged": "已标记",
+        "links": "链接：",
+        "close": "关闭",
+        "view": "查看",
+        "issueId": "问题ID：",
+        "noVotedContent": "未找到已投票的内容",
+        "nothingHere": "这里什么都没有"
+    },
     "affordable-housing": "可负担住房",
     "artificial-intelligence": "人工智能",
     "arts-and-culture": "艺术与文化",

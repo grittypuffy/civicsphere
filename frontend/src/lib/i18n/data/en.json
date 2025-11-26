@@ -131,6 +131,18 @@
     "cancel": "Cancel",
     "post": "Post"
   },
+  "feeds": {
+    "verified": "Verified",
+    "unverified": "Unverified",
+    "pending": "Pending",
+    "flagged": "Flagged",
+    "links": "Links:",
+    "close": "Close",
+    "view": "View",
+    "issueId": "Issue ID:",
+    "noVotedContent": "No voted content found",
+    "nothingHere": "Nothing here"
+  },
   "tags": {
     "affordable-housing": "Affordable Housing {name}",
     "artificial-intelligence": "Artificial Intelligence",
