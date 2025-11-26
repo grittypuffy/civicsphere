@@ -123,10 +123,6 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
     setFormData((prev) => ({ ...prev, interests }));
   };
 
-  useEffect(() => {
-    console.log(formData.language)
-  }, [formData]);
-
   return (
     <div className="flex flex-col w-full max-w-md">
       <form

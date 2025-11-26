@@ -93,9 +93,9 @@ export default function SettingsPage() {
         <Title3>{t('title')}</Title3>
 
         <div className='flex items-center gap-4'>
-          <Avatar name={username || 'Dummy Name'} size={64} />
+          <Avatar name={username || 'User'} size={64} />
           <div>
-            <Subtitle1>{username || 'Dummy Name'}</Subtitle1>
+            <Subtitle1>{username || 'User'}</Subtitle1>
           </div>
         </div>
 
