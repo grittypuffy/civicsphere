@@ -11,8 +11,8 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
   const router = useRouter();
   const [formData, setFormData] = useState<UserPreferencesRequest>({
     location: '',
+    address: '',
     language: 'en',
-    addresss: '',
     interests: [],
     profession: '',
   });
@@ -20,6 +20,7 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
   const [validMsg, setValidMsg] = useState<{ [key: string]: string }>({
     location: '',
     language: '',
+    address: '',
     interests: '',
     profession: '',
   });
@@ -31,6 +32,7 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
     const res = v.safeParse(OnboardFormSchema, formData);
     const newValidMsg: { [key: string]: string } = {
       location: '',
+      address: '',
       language: '',
       interests: '',
       profession: '',
@@ -90,7 +92,7 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
               'success'
             );
             setTimeout(() => {
-              router.push('/auth?action=signin');
+              router.push('/u/home');
             }, 400);
             break;
           case 422:
@@ -153,6 +155,30 @@ const OnboardForm = ({ ToastMessage }: { ToastMessage: ToastFunc }) => {
             aria-label='Location'
             aria-describedby={validMsg.location ? 'location-error' : undefined}
             aria-invalid={validMsg.location ? 'true' : 'false'}
+            required
+            autoComplete="address-level2"
+          />
+        </Field>
+
+        <Field
+          label="Address"
+          validationMessage={validMsg.address}
+          validationState={validMsg.address ? 'error' : 'none'}
+          className="w-full"
+        >
+          <Input
+            type="text"
+            value={formData.address}
+            appearance="underline"
+            onChange={(_: React.ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => {
+              setFormData((prev) => ({ ...prev, address: data.value }));
+            }}
+            disabled={isLoading}
+            className="w-full"
+            style={{ minWidth: '200px' }}
+            aria-label='Address'
+            aria-describedby={validMsg.address ? 'address-error' : undefined}
+            aria-invalid={validMsg.address ? 'true' : 'false'}
             required
             autoComplete="address-level2"
           />

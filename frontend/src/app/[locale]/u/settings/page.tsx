@@ -26,12 +26,13 @@ export default function SettingsPage() {
   const username = useAtomValue(userNameAtom)
   const userPrefs = useAtomValue(userPrefsAtom_loadable)
   const setUserPrefs = useSetAtom(userPrefsAtom)
-  const [editing, setEditing] = useState({ location: false, language: false, interests: false })
+  const [editing, setEditing] = useState({ location: false, address: false, language: false, interests: false })
   const [filter, setFilter] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   // Local state for editable fields
   const [localLocation, setLocalLocation] = useState('')
+  const [localAddress, setLocalAddress] = useState('')
   const [localLanguage, setLocalLanguage] = useState<string>('en')
   const [localInterests, setLocalInterests] = useState<string[]>([])
 
@@ -39,6 +40,8 @@ export default function SettingsPage() {
   const startEditing = (field: keyof typeof editing, currentPrefs: UserPreferences) => {
     if (field === 'location') {
       setLocalLocation(currentPrefs?.location || '')
+    } else if (field === 'address') {
+      setLocalAddress(currentPrefs?.address || '')
     } else if (field === 'language') {
       setLocalLanguage(currentPrefs?.language || 'en')
     } else if (field === 'interests') {
@@ -55,6 +58,8 @@ export default function SettingsPage() {
 
       if (field === 'location') {
         updateData.location = localLocation || null
+      } else if (field === 'address') {
+        updateData.address = localAddress || null
       } else if (field === 'language') {
         updateData.language = localLanguage || null
       } else if (field === 'interests') {
@@ -111,6 +116,17 @@ export default function SettingsPage() {
 
                   <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
                     <div className='flex items-center justify-between mb-4'>
+                      <Body1 className="text-[#0369a1] font-semibold">Address</Body1>
+                      <Button appearance="subtle" size="small" disabled icon={<EditRegular />} className="text-[#0369a1]">
+                        {t('edit')}
+                      </Button>
+                    </div>
+                    <Text className="text-[#274c6f]">{t('loadingGeneric')}</Text>
+                  </div>
+
+
+                  <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
+                    <div className='flex items-center justify-between mb-4'>
                       <Body1 className="text-[#0369a1] font-semibold">{t('languageTitle')}</Body1>
                       <Button appearance="subtle" size="small" disabled icon={<EditRegular />} className="text-[#0369a1]">
                         {t('edit')}
@@ -151,6 +167,7 @@ export default function SettingsPage() {
             case 'hasData':
               const currentPrefs = userPrefs.data as UserPreferences
               const location = currentPrefs.location || ''
+              const address = currentPrefs.address || ''
               const language = currentPrefs.language || 'en'
               const interests = currentPrefs.interests || []
 
@@ -177,6 +194,58 @@ export default function SettingsPage() {
                         value={localLocation}
                         onChange={(_, data) => setLocalLocation(data.value)}
                         placeholder={t('locationPlaceholder')}
+                        disabled={isLoading}
+                      />
+                    )}
+                  </div>
+
+                  <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
+                    <div className='flex items-center justify-between mb-4'>
+                      <Body1 className="text-[#0369a1] font-semibold">Address</Body1>
+                      <Button
+                        appearance="subtle"
+                        size="small"
+                        disabled={isLoading}
+                        icon={editing.address ? <CheckmarkRegular /> : <EditRegular />}
+                        onClick={() => editing.address ? saveChanges('address') : startEditing('address', currentPrefs)}
+                        className="text-[#0369a1]"
+                      >
+                        {editing.address ? 'Done' : 'Edit'}
+                      </Button>
+                    </div>
+                    {!editing.address ? (
+                      <Text className="text-[#274c6f]">{address || 'Not set'}</Text>
+                    ) : (
+                      <Input
+                        value={localAddress}
+                        onChange={(_, data) => setLocalAddress(data.value)}
+                        placeholder="Enter your address"
+                        disabled={isLoading}
+                      />
+                    )}
+                  </div>
+
+                  <div className="p-5 rounded-lg border border-[rgba(10,102,194,0.06)] shadow-sm bg-linear-to-b from-[#f7fbff] to-white">
+                    <div className='flex items-center justify-between mb-4'>
+                      <Body1 className="text-[#0369a1] font-semibold">Address</Body1>
+                      <Button
+                        appearance="subtle"
+                        size="small"
+                        disabled={isLoading}
+                        icon={editing.address ? <CheckmarkRegular /> : <EditRegular />}
+                        onClick={() => editing.address ? saveChanges('address') : startEditing('address', currentPrefs)}
+                        className="text-[#0369a1]"
+                      >
+                        {editing.address ? 'Done' : 'Edit'}
+                      </Button>
+                    </div>
+                    {!editing.address ? (
+                      <Text className="text-[#274c6f]">{address || 'Not set'}</Text>
+                    ) : (
+                      <Input
+                        value={localAddress}
+                        onChange={(_, data) => setLocalAddress(data.value)}
+                        placeholder="Enter your address"
                         disabled={isLoading}
                       />
                     )}

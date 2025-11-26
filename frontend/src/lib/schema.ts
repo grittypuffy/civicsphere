@@ -66,7 +66,7 @@ export const CreateIssueRequestSchema = v.object({
 
 export const UserPreferencesRequestSchema = v.object({
   location: requiredStringValidator,
-  addresss: v.string(),
+  address: v.string(),
   language: v.optional(v.string()),
   interests: v.array(v.string()),
   profession: requiredStringValidator,
@@ -74,6 +74,7 @@ export const UserPreferencesRequestSchema = v.object({
 
 export const UserPreferencesUpdateRequestSchema = v.object({
   location: v.optional(v.nullable(v.string())),
+  address: v.optional(v.nullable(v.string())),
   language: v.optional(v.nullable(v.string())),
   interests: v.optional(v.nullable(v.array(v.string()))),
   profession: v.optional(v.nullable(v.string())),
@@ -197,6 +198,7 @@ export const UserPreferencesSchema = v.object({
   location: v.string(),
   language: v.optional(v.string()),
   interests: v.array(v.string()),
+  address: v.string(),
   profession: v.string(),
 });
 
