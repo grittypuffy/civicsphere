@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 from ..config import AppConfig, get_config
-from ..models.db.user import User, UserDataModel,UserPreferences
+from ..models.db.user import User, UserDataModel, UserPreferences
 from ..models.api.user import  UserPreferencesResponse, UserDataResponse
 from .user_post import router as post_router
 from .user_issues import router as issues_router

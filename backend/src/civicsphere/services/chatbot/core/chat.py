@@ -1,6 +1,8 @@
+from typing import Optional
 from azure.identity.aio import DefaultAzureCredential
 from azure.ai.projects.aio import AIProjectClient
 from azure.ai.agents.aio import AgentsClient
+from azure.ai.agents.models import AgentThreadCreationOptions, ThreadMessageOptions, MessageTextContent
 from azure.ai.agents.models import ListSortOrder, AsyncToolSet, BingGroundingTool, AzureAISearchTool, AzureAISearchQueryType
 from ....config import AppConfig
 from ....models.api.chat import ChatData
@@ -20,11 +22,12 @@ Keep your responses concise, relevant, and use simple language that is easy to u
 Guidelines:
 - Use simple language
 - Be unbiased and neutral, especially regarding elections.
-- Do not say "You should vote for X". Instead, say "Candidate X supports Y".
+- Do not say You should vote for X. Instead, say Candidate X supports Y.
 - Provide factual data with citations
 """
 
-async def create_agent_and_run_query(prompt: str, language: str, prefs_data: UserPreferences) -> str:
+
+async def execute_agent_query(prompt: str, language: str, prefs_data: UserPreferences) -> str:
     """Create an AI agent, run the query, and return the response."""
     credential = DefaultAzureCredential()
     async with credential:
@@ -51,21 +54,17 @@ async def create_agent_and_run_query(prompt: str, language: str, prefs_data: Use
                 top_k=2,
                 filter=""
             )
-
-            # Create the toolset and add tools
-            toolset = AsyncToolSet()
-            toolset.add(bing)
-            toolset.add(ai_search)
-
-            # Enable automatic function calls for the agent
-            agents_client.enable_auto_function_calls(toolset)
+            bing_search_def = bing.definitions
+            definition = [*bing_search_def]
+            definition.extend(ai_search.definitions)
 
             # Create the agent
             agent = await agents_client.create_agent(
                 model=config.env.ai_agent_model_name,
                 name="civicsphere-agent-bot",
                 instructions=instructions,
-                toolset=toolset,
+                tools=bing.definitions,
+                tool_resources=[bing.resources, ai_search.resources]
             )
 
             # Create a new thread and process the query
@@ -83,11 +82,15 @@ async def create_agent_and_run_query(prompt: str, language: str, prefs_data: Use
 
             # Retrieve the response from the agent
             messages = agents_client.messages.list(thread_id=run.thread_id, order=ListSortOrder.ASCENDING)
+            last_message = None
+            # Collect all the messages (or find the last one directly)
             async for msg in messages:
-                last_part = msg.content[-1]
+                last_message = msg
+            if last_message:
+                last_part = last_message.content[-1]
                 if isinstance(last_part, MessageTextContent):
                     # Format the response text with citations
-                    response = " ".join([text_message.text.value for text_message in msg.content])
+                    response = " ".join([text_message.text.value for text_message in last_message.content])
                     for annotation in msg.url_citation_annotations:
                         response = response.replace(annotation.text, f" [{annotation.url_citation.title}]({annotation.url_citation.url})")
                     await agents_client.delete_agent(agent.id)  # Clean up the agent after use

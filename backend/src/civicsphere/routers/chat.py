@@ -1,14 +1,14 @@
 from typing import Optional, List
 import logging
-from fastapi import APIRouter, Request, Depends, File, UploadFile
+from fastapi import APIRouter, Request, Depends, File, UploadFile, Form
 from fastapi.responses import JSONResponse
 from langchain_core.prompts import PromptTemplate
-
 from ..config import AppConfig
-from ..models.api.user import UserPreferences
+from ..models.db.user import UserPreferences
 from ..models.api.chat import Chat, ChatData, ChatRequest, ChatResponse
 from ..models.api.post import PostResponse
 from ..services.chatbot.rag import search_documents
+from ..services.chatbot.core.chat import execute_agent_query
 from ..services.chatbot.scraper.web.nyc import parse_address, get_pollsite_info, summarize_pollsite, summarize_accessibility
 from ..services.chatbot.external.nyc import process_voice_prompt
 from ..services.chatbot.external.nyc import get_accessibility_summary, get_pollsite_summary, get_trending_posts
@@ -17,7 +17,8 @@ from ..services.chatbot.external.nyc import get_accessibility_summary, get_polls
 config: AppConfig = AppConfig()
 router = APIRouter(tags=["Chatbot"])
 
-async def get_user_preferences(user_id: str) -> UserPreferences:
+
+async def get_user_preferences(user_id: str):
     """Fetch user preferences from the database."""
     prefs = await config.db["userPreferences"].find_one(
         {"user_id": user_id},
@@ -33,7 +34,6 @@ async def get_user_preferences(user_id: str) -> UserPreferences:
 
     if not prefs:
         raise ValueError("Preferences not found. User may not have completed onboarding.")
-
     return UserPreferences(**prefs)
 
 
@@ -43,7 +43,7 @@ async def get_user_preferences(user_id: str) -> UserPreferences:
 )
 async def chat(
     req: Request,
-    prompt: ChatRequest = Depends(),
+    prompt: str = Form(...),
     files: Optional[List[UploadFile]] = File(None),
     voice: Optional[UploadFile] = File(None)
 ):
@@ -65,7 +65,7 @@ async def chat(
                 message="User is not authenticated"
             ).model_dump()
         )
-
+    logging.info(user_id)
     # Get preferences
     try:
         prefs_data = await get_user_preferences(user_id)
@@ -74,7 +74,7 @@ async def chat(
         if voice:
             prompt_text = await process_voice_prompt(voice, language)
         else:
-            prompt_text = prompt.prompt
+            prompt_text = prompt
 
         match prompt_text:
             case "Find my nearest pollsites":
