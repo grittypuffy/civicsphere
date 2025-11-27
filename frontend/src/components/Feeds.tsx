@@ -1,4 +1,4 @@
-import { communityPostDescriptionAtom, communityPostDescriptionAtom_loadable, communityPostTitleAtom, communityPostTitleAtom_loadable, userIssueUpvotesAtom, userIssueUpvotesAtom_loadable, userPostDownvotesAtom, userPostDownvotesAtom_loadable, userPostUpvotesAtom, userPostUpvotesAtom_loadable } from "@/lib/store"
+import { userIssueUpvotesAtom, userIssueUpvotesAtom_loadable, userPostDownvotesAtom, userPostDownvotesAtom_loadable, userPostUpvotesAtom, userPostUpvotesAtom_loadable } from "@/lib/store"
 import { Issue, PostData } from "@/lib/types"
 import TTSButton from "@/components/TTSButton"
 import { downvotePost, getUserIssueUpvotes, getUserPostDownvotes, getUserPostUpvotes, removeDownvotePost, removeUpvoteIssue, removeUpvotePost, translatePost, upvoteIssue, upvotePost } from "@/lib/utils"
@@ -21,16 +21,12 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
   const downvotedPosts = useAtomValue(userPostDownvotesAtom_loadable)
   const setPostUpvotes = useSetAtom(userPostUpvotesAtom)
   const setPostDownvotes = useSetAtom(userPostDownvotesAtom)
-  const postTitle = useAtomValue(communityPostTitleAtom_loadable)
-  const postDescription = useAtomValue(communityPostDescriptionAtom_loadable)
-  const setPostTitle = useSetAtom(communityPostTitleAtom)
-  const setPostDescription = useSetAtom(communityPostDescriptionAtom)
+  const [postTitle, setPostTitle] = useState(post.title)
+  const [postDescription, setPostDescription] = useState(post.description)
   const [loading, setLoading] = useState(false)
   const [translating, setTranslating] = useState(false)
   const upvotedPostIds = upvotedPosts.state === 'hasData' ? upvotedPosts.data as string[] : []
   const downvotedPostIds = downvotedPosts.state === 'hasData' ? downvotedPosts.data as string[] : []
-  const postTitleData = postTitle.state === 'hasData' ? postTitle.data as string : post.title
-  const postDescriptionData = postDescription.state === 'hasData' ? postDescription.data as string : post.description
   const isUpvoted = upvotedPostIds?.includes(post.post_id)
   const isDownvoted = downvotedPostIds?.includes(post.post_id)
 
@@ -73,20 +69,19 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
   }
 
   const handleTranslate = async () => {
-    if (translating) return
-    setTranslating(true)
+    if (translating) return;
+    setTranslating(true);
     try {
       const response = await translatePost(post.community_id, post.post_id);
-      setPostTitle(response?.title || postTitleData);
-      setPostDescription(response?.description || postDescriptionData);
-      
+      console.log('Translation response:', response);
+      setPostTitle(response?.title);
+      setPostDescription(response?.description);
     } catch (error) {
-      console.error('Failed to translate post:', error)
+      console.error('Failed to translate post:', error);
     } finally {
-      setTranslating(false)
+      setTranslating(false);
     }
-  }
-
+  };
   const getVerifiedBadgeColor = (verified: string) => {
     switch (verified) {
       case "True": return "success"
@@ -115,7 +110,7 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
               header={
                 <div className="space-y-2 w-full p-3">
                   <div className="flex items-start justify-between">
-                    <h2 className="text-xl font-semibold text-gray-900 flex-1">{post.title}</h2>
+                    <h2 className="text-xl font-semibold text-gray-900 flex-1">{postTitle}</h2>
                     <div className="flex items-center space-x-2 ml-4">
                       <Badge
                         appearance="filled"
@@ -164,7 +159,7 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
                     </Badge>
                   </div>
                   <div className="py-1">
-                    <p className="text-gray-600 text-sm leading-relaxed">{post.description}</p>
+                    <p className="text-gray-600 text-sm leading-relaxed">{postDescription}</p>
                     {post.url.length > 0 && (
                       <div className="space-y-1">
                         <Text size={200} className="text-gray-600 font-medium">{t('links')}</Text>
@@ -236,7 +231,7 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
                 "Translate"
               )}
           </Button>
-          <TTSButton text={`Title: ${post.title}. Description: ${post.description}`}></TTSButton>
+          <TTSButton text={`Title: ${postTitle}. Description: ${postDescription}`}></TTSButton>
           <Button appearance="secondary" onClick={() => setOpen(false)}>
             {t('close')}
           </Button>

@@ -29,8 +29,6 @@ export const postErrorAtom = atom<string | null>(null);
 // Post view atom
 export const communityPostTitleAtom = atom<string>("");
 export const communityPostDescriptionAtom = atom<string>("");
-export const communityPostTitleAtom_loadable = loadable(communityPostTitleAtom);
-export const communityPostDescriptionAtom_loadable = loadable(communityPostDescriptionAtom);
 
 
 // Issue atom

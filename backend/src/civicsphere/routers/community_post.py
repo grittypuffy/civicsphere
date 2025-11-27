@@ -472,7 +472,7 @@ async def translate_post(
                 status_code=200,
                 content={
                     "success": False,
-                    "message": f"Internal error: {e}",
+                    "message": f"Same language translation not supported",
                     "data": {
                         "title": title,
                         "description": description
