@@ -82,7 +82,7 @@ async def chat(
         language = prefs.get("language", "en")
         address = prefs.get("address")
         location = prefs.get("location")
-        language = prefs_data.language or "en"
+        user_language = prefs.get("language") or "en"
         # Process voice prompt        
         if voice:
             prompt_text = await process_voice_prompt(voice, language)
@@ -95,7 +95,7 @@ async def chat(
                 return ChatResponse(success=True, message="Fetched pollsite summary", data=ChatData(role="assistant", content=summary))
 
             case "Trending discussions in my area":
-                if not prefs_data.location:
+                if not location:
                     return JSONResponse(status_code=400, content=ChatResponse(success=False, message="User location not set").dict())
                 summary = await get_trending_posts(location)
                 return ChatResponse(success=True, message="Successfully fetched trending posts", data=ChatData(role="assistant", content=summary))
@@ -104,7 +104,7 @@ async def chat(
                 summary = await get_accessibility_summary(address)
                 return ChatResponse(success=True, message="Fetched pollsite accessibility summary", data=ChatData(role="assistant", content=summary))
             case _:
-                response = await execute_agent_query(prompt_text, language, prefs_data)
+                response = await execute_agent_query(prompt_text, language, user_language)
                 return ChatResponse(success=True, message="Agent executed successfully", data=ChatData(role="assistant", content=response))
 
     except ValueError as e:
