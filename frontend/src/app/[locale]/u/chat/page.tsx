@@ -1,14 +1,20 @@
-'use client'
+"use client";
 
-import { Avatar, Button, Textarea, Tooltip } from '@fluentui/react-components'
-import { DeleteFilled, MicFilled, MicRegular, SendFilled } from '@fluentui/react-icons'
-import { useTranslations } from 'next-intl'
-import { atom, useAtom } from 'jotai'
-import { useEffect, useRef } from 'react'
+import { Avatar, Button, Textarea, Tooltip } from "@fluentui/react-components";
+import {
+  DeleteFilled,
+  MicFilled,
+  MicRegular,
+  SendFilled,
+} from "@fluentui/react-icons";
+import { useTranslations } from "next-intl";
+import { atom, useAtom } from "jotai";
+import { useEffect, useRef, useState } from "react";
+import SpeakButton from "@/components/SpeakButton";
 
-import { ChatData } from '@/lib/types'
+import { ChatData } from "@/lib/types";
 
-type MessageWithId = ChatData & { id: number }
+type MessageWithId = ChatData & { id: number };
 
 const messagesAtom = atom<MessageWithId[]>([
   //   {
@@ -56,173 +62,211 @@ const messagesAtom = atom<MessageWithId[]>([
   //     role: 'bot',
   //     content: 'Perfect question! A classic example is customer segmentation for marketing.\n\nImagine an online retailer with millions of customers. They feed the algorithm purchase history, browsing behavior, and demographics - but WITHOUT telling it what groups to look for.\n\nThe algorithm might discover patterns like:\n- "Budget-conscious families" who buy in bulk during sales\n- "Tech enthusiasts" who purchase the latest gadgets\n- "Eco-conscious shoppers" who prefer sustainable products\n\nThe company never defined these segments - the algorithm found these hidden patterns on its own! This helps them create targeted marketing campaigns and personalized recommendations.'
   //   }
-])
+]);
 
 const chatStateAtom = atom({
-  input: '',
+  input: "",
   isRecording: false,
-  isWaiting: false
-})
+  isWaiting: false,
+});
 
 export default function ChatPage() {
-  const t = useTranslations('chat')
-  const [messages, setMessages] = useAtom(messagesAtom)
-  const [chatState, setChatState] = useAtom(chatStateAtom)
-  const { input, isRecording, isWaiting } = chatState
-  const listRef = useRef<HTMLDivElement | null>(null)
-  
+  const t = useTranslations("chat");
+  const [messages, setMessages] = useAtom(messagesAtom);
+  const [chatState, setChatState] = useAtom(chatStateAtom);
+  const { input, isRecording, isWaiting } = chatState;
+  const listRef = useRef<HTMLDivElement | null>(null);
+  const [voiceBlob, setVoiceBlob] = useState<Blob | null>(null);
+
   const suggestions: string[] = [
-    t('suggestions.pollsite'),
-    t('suggestions.trending'),
-    t('suggestions.accessibility')
-  ]
+    t("suggestions.pollsite"),
+    t("suggestions.trending"),
+    t("suggestions.accessibility"),
+  ];
 
   useEffect(() => {
     if (listRef.current) {
-      listRef.current.scrollTop = listRef.current.scrollHeight
+      listRef.current.scrollTop = listRef.current.scrollHeight;
     }
-  }, [messages])
+  }, [messages]);
 
-  function simulateTyping(fullText: string, messageId: number, delay: number = 5) {
-    let currentIndex = 0
+  function simulateTyping(
+    fullText: string,
+    messageId: number,
+    delay: number = 5
+  ) {
+    let currentIndex = 0;
 
     const typeNextChar = () => {
       if (currentIndex < fullText.length) {
-        const currentText = fullText.substring(0, currentIndex + 1)
+        const currentText = fullText.substring(0, currentIndex + 1);
 
         setMessages((m: MessageWithId[]) =>
           m.map((msg: MessageWithId) =>
-            msg.id === messageId
-              ? { ...msg, content: currentText }
-              : msg
+            msg.id === messageId ? { ...msg, content: currentText } : msg
           )
-        )
+        );
 
-        currentIndex++
-        setTimeout(typeNextChar, delay)
+        currentIndex++;
+        setTimeout(typeNextChar, delay);
       } else {
-        setChatState(prev => ({ ...prev, isWaiting: false }))
+        setChatState((prev) => ({ ...prev, isWaiting: false }));
       }
-    }
+    };
 
-    typeNextChar()
+    typeNextChar();
   }
+  const handleVoiceSubmit = (audioBlob: Blob) => {
+    // console.log("Received audio blob:", audioBlob);
+    setVoiceBlob(audioBlob);
+  };
 
   async function handleSend() {
-    const text = input.trim()
-    if (!text) return
-    setChatState(prev => ({ ...prev, isWaiting: true, input: '' }))
-    const userMessage: MessageWithId = { id: Date.now(), role: 'user', content: '' }
-    setMessages((m: MessageWithId[]) => [...m, userMessage])
+    const text = input.trim();
+    if (!text) return;
+    setChatState((prev) => ({ ...prev, isWaiting: true, input: "" }));
+    const userMessage: MessageWithId = {
+      id: Date.now(),
+      role: "user",
+      content: "",
+    };
+    setMessages((m: MessageWithId[]) => [...m, userMessage]);
 
-    simulateTyping(text, userMessage.id)
+    simulateTyping(text, userMessage.id);
 
-    const botMessageId = Date.now() + 1
-    const botMessage: MessageWithId = { id: botMessageId, role: 'assistant', content: '' }
-    setMessages((m: MessageWithId[]) => [...m, botMessage])
+    const botMessageId = Date.now() + 1;
+    const botMessage: MessageWithId = {
+      id: botMessageId,
+      role: "assistant",
+      content: "",
+    };
+    setMessages((m: MessageWithId[]) => [...m, botMessage]);
 
     try {
-      const response = await fetch('/api/v1/chat/new', {
-        method: 'POST',
+      const response = await fetch("/api/v1/chat/new", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ prompt: text }),
-      })
+      });
 
       if (!response.ok) {
-        throw new Error(`HTTP error. Status: ${response.status}`)
+        throw new Error(`HTTP error. Status: ${response.status}`);
       }
 
-      const reader = response.body?.getReader()
-      const decoder = new TextDecoder()
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
 
       if (!reader) {
-        throw new Error('Response body is not readable')
+        throw new Error("Response body is not readable");
       }
 
-      let accumulatedText = ''
+      let accumulatedText = "";
 
       while (true) {
-        const { done, value } = await reader.read()
+        const { done, value } = await reader.read();
 
-        if (done) break
+        if (done) break;
 
-        const chunk = decoder.decode(value, { stream: true })
-        accumulatedText += chunk
+        const chunk = decoder.decode(value, { stream: true });
+        accumulatedText += chunk;
       }
 
-      simulateTyping(accumulatedText, botMessageId)
+      simulateTyping(accumulatedText, botMessageId);
     } catch (error) {
-      console.error('Error sending message:', error)
-      simulateTyping(t('errors.generic'), botMessageId)
-      setChatState(prev => ({ ...prev, isWaiting: false }))
+      console.error("Error sending message:", error);
+      simulateTyping(t("errors.generic"), botMessageId);
+      setChatState((prev) => ({ ...prev, isWaiting: false }));
     }
   }
 
   function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      handleSend()
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
     }
   }
 
   function toggleMic() {
     if (isRecording) {
-      const captured = t('mic.captured')
-      setChatState(prev => ({
+      const captured = t("mic.captured");
+      setChatState((prev) => ({
         ...prev,
         isRecording: false,
-        input: prev.input ? prev.input + ' ' + captured : captured
-      }))
+        input: prev.input ? prev.input + " " + captured : captured,
+      }));
     } else {
-      setChatState(prev => ({ ...prev, isRecording: true }))
+      setChatState((prev) => ({ ...prev, isRecording: true }));
     }
   }
 
   return (
-    <div className='min-w-dvw max-w-5xl mx-auto flex flex-col flex-1'>
-      <div className='flex flex-col flex-1 min-h-0 items-center w-full'>
-        <div ref={listRef} className='w-full max-w-5xl overflow-y-auto pr-2 space-y-3 flex-1 min-h-[70dvh] max-h-[70dvh] p-3 lg:p-6 '>
-          {messages.map(m => (
-            <div key={m.id} className={`flex items-start ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              {m.role !== 'user' && (
-                <div className='mr-3'>
+    <div className="min-w-dvw max-w-5xl mx-auto flex flex-col flex-1">
+      <div className="flex flex-col flex-1 min-h-0 items-center w-full">
+        <div
+          ref={listRef}
+          className="w-full max-w-5xl overflow-y-auto pr-2 space-y-3 flex-1 min-h-[70dvh] max-h-[70dvh] p-3 lg:p-6 "
+        >
+          {messages.map((m) => (
+            <div
+              key={m.id}
+              className={`flex items-start ${
+                m.role === "user" ? "justify-end" : "justify-start"
+              }`}
+            >
+              {m.role !== "user" && (
+                <div className="mr-3">
                   <Avatar />
                 </div>
               )}
 
-              <div className={`${m.role === 'user' ? 'bg-brand text-white self-end' : 'bg-white text-ui-heading'} max-w-[70%] p-3 rounded-lg shadow-sm`}>
-                <div className='text-xs mb-1 opacity-90'>{m.role === 'user' ? t('labels.you') : t('labels.assistant')}</div>
-                <div className='whitespace-pre-wrap'>
-                  {m.content || (m.role !== 'user' && isWaiting ? (
-                    <span className='opacity-60 italic'>{t('labels.typing')}</span>
-                  ) : m.content)}
+              <div
+                className={`${
+                  m.role === "user"
+                    ? "bg-brand text-white self-end"
+                    : "bg-white text-ui-heading"
+                } max-w-[70%] p-3 rounded-lg shadow-sm`}
+              >
+                <div className="text-xs mb-1 opacity-90">
+                  {m.role === "user" ? t("labels.you") : t("labels.assistant")}
+                </div>
+                <div className="whitespace-pre-wrap">
+                  {m.content ||
+                    (m.role !== "user" && isWaiting ? (
+                      <span className="opacity-60 italic">
+                        {t("labels.typing")}
+                      </span>
+                    ) : (
+                      m.content
+                    ))}
                 </div>
               </div>
 
-              {m.role === 'user' && (
-                <div className='ml-3'>
+              {m.role === "user" && (
+                <div className="ml-3">
                   <Avatar />
                 </div>
               )}
             </div>
           ))}
         </div>
-        <div className='flex grow max-w-4xl w-full'>
-          <form className='flex flex-col gap-3 items-start w-full justify-between grow'>
-            <div className='flex flex-col w-full p-3 h-full gap-3'>
+        <div className="flex grow max-w-4xl w-full">
+          <form className="flex flex-col gap-3 items-start w-full justify-between grow">
+            <div className="flex flex-col w-full p-3 h-full gap-3">
               <Textarea
                 value={input}
-                onChange={(_, data) => setChatState(prev => ({ ...prev, input: data.value }))}
+                onChange={(_, data) =>
+                  setChatState((prev) => ({ ...prev, input: data.value }))
+                }
                 onKeyDown={handleKeyDown}
-                placeholder={t('inputPlaceholder')}
-                className='flex-1 w-full px-24'
-                resize='none'
+                placeholder={t("inputPlaceholder")}
+                className="flex-1 w-full px-24"
+                resize="none"
                 rows={2}
               />
-              <div className='flex justify-between'>
-                <Button
+              <div className="flex justify-between">
+                {/* <Button
                   appearance={isRecording ? 'primary' : 'subtle'}
                   onClick={toggleMic}
                   shape='circular'
@@ -230,29 +274,29 @@ export default function ChatPage() {
                     (<MicFilled />) :
                     (<MicRegular />)
                   }
-                />
-                <div className='flex gap-2 items-center'>
+                /> */}
+                <SpeakButton onVoiceSubmit={handleVoiceSubmit} />
+
+                <div className="flex gap-2 items-center">
                   <Tooltip
-                    content={t('tooltip.clearHistory')}
-                    relationship='label'
-                    positioning='above'
+                    content={t("tooltip.clearHistory")}
+                    relationship="label"
+                    positioning="above"
                   >
                     <Button
                       icon={<DeleteFilled />}
-                      appearance='subtle'
-                      shape='circular'
+                      appearance="subtle"
+                      shape="circular"
                       onClick={() => setMessages([])}
                       disabled={isWaiting || messages.length === 0}
                     />
                   </Tooltip>
                   <Button
-                    appearance='subtle'
+                    appearance="subtle"
                     onClick={handleSend}
                     disabled={isWaiting || !input.trim()}
-                    shape='circular'
-                    icon={
-                      <SendFilled />
-                    }
+                    shape="circular"
+                    icon={<SendFilled />}
                   />
                 </div>
               </div>
@@ -261,5 +305,5 @@ export default function ChatPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
