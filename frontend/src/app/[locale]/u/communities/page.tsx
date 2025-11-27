@@ -1,4 +1,5 @@
 'use client'
+import CreateIssue from '@/components/CreateIssue'
 import CreatePost from '@/components/CreatePost'
 import { Feeds } from '@/components/Feeds'
 import { Community, Issue, PostData } from '@/lib/types'
@@ -147,11 +148,28 @@ export default function CommunitiesPage() {
             </div>
           </div>
 
-          <div className='px-3 md:px-5 lg:px-8'>
+          <div className='p-x5 md:p-x8 lg:px-12 flex justify-between'>
             <TabList selectedValue={tab} onTabSelect={handleTabSelect}>
               <Tab value="posts">{t('tabPosts')}</Tab>
               <Tab value="issues">{t('tabIssues')}</Tab>
             </TabList>
+            <div className='p-3'>
+              <Dialog>
+                <DialogTrigger>
+                  <Button
+                    appearance='primary'
+                    icon={<AddSquareRegular />}
+                    shape='circular'
+                    size='medium'
+                    aria-label="Create new post"
+                  />
+                </DialogTrigger>
+                {tab === 'posts' ?
+                  <CreatePost communityId={selectedCommunityId} /> :
+                  <CreateIssue />
+                }
+              </Dialog>
+            </div>
           </div>
 
           <div
@@ -181,25 +199,7 @@ export default function CommunitiesPage() {
                         ? posts.data.filter((post: PostData) => post.tags.includes(selectedTag))
                         : posts.data
 
-                      return (
-                        <>
-                          <div className='p-6'>
-                            <Dialog>
-                              <DialogTrigger>
-                                <Button
-                                  appearance='primary'
-                                  icon={<AddSquareRegular />}
-                                  shape='circular'
-                                  size='small'
-                                  aria-label="Create new post"
-                                />
-                              </DialogTrigger>
-                              <CreatePost communityId={selectedCommunityId} />
-                            </Dialog>
-                          </div>
-                          <Feeds posts={filteredPosts} />
-                        </>
-                      )
+                      return <Feeds posts={filteredPosts} />
                   }
                 })()}
               </>
