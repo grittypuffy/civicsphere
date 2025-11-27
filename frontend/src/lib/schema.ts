@@ -81,6 +81,8 @@ export const UserPreferencesUpdateRequestSchema = v.object({
 });
 
 export const CreatePostRequestSchema = v.object({
+  title: v.string(),
+  description: v.string(),
   files: v.optional(v.nullable(v.array(v.string()))),
   tags: v.array(v.string()),
 });
