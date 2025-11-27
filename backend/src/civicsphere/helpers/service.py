@@ -55,7 +55,7 @@ def get_search(index_name: str, key: str, endpoint: str) -> SearchClient:
     return client
 
 
-def text_translator_client(endpoint: str, key: str) -> TextTranslationClient:
+def get_text_translation_client(endpoint: str, key: str) -> TextTranslationClient:
     client = TextTranslationClient(
         endpoint=endpoint,
         credential=AzureKeyCredential(key)

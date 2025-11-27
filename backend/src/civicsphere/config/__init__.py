@@ -6,6 +6,7 @@ from .environment import EnvVarConfig
 
 from ..helpers.singleton import singleton
 from ..helpers.service import get_document_analysis_client
+from ..helpers.service import get_text_translation_client
 from ..helpers.service import get_text_analysis_client
 from ..helpers.service import get_image_analysis_client
 from ..helpers.service import get_storage_client
@@ -64,7 +65,7 @@ class AppConfig:
         self.text_translation_client: TextTranslationClient = get_text_translation_client(self.env.text_translation_endpoint, self.env.text_translation_key)
 
         # Text Analytics Client
-        self.text_analytics_client: TextAnalyticsClient = get_text_analysis_client(self.env.text_analytics_endpoint, self.env.text_analytics_key)
+        self.text_analytics_client: TextAnalyticsClient = get_text_analysis_client(self.env.text_translation_endpoint, self.env.text_translation_key)
 
         # Image Analysis Client
         self.image_analysis_client: ImageAnalysisClient = get_image_analysis_client(self.env.azure_cv_endpoint, self.env.azure_cv_key)

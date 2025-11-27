@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Request
+from fastapi import Form
 from fastapi.responses import JSONResponse
 from ..config import AppConfig, get_config
 import logging
@@ -7,15 +8,16 @@ from ..models.api.comments import CommentType, CommentResponse
 import httpx
 from bson import ObjectId
 
-router = APIRouter(tags=["Post_Comments"])
+router = APIRouter()
 
 config: AppConfig = get_config()
 
 @router.post("")
 async def add_comment(
-    post_id:str,
-    description:str,
-    req: Request
+    community_id: str,
+    post_id: str,
+    req: Request,
+    description: str = Form(...)
 ):
     try:
         # User authentication
@@ -92,10 +94,11 @@ async def add_comment(
 
 @router.post("/{comment_id}/reply")
 async def add_comment_reply(
-    post_id:str,
-    comment_id:str,
-    description:str,
-    req: Request
+    community_id: str,
+    post_id: str,
+    comment_id: str,
+    req: Request,
+    description: str = Form(...)
 ):
     try:
         # User authentication
@@ -174,7 +177,8 @@ async def add_comment_reply(
 
 @router.get("")
 async def get_post_comments(
-    post_id:str,
+    community_id: str,
+    post_id: str,
     req: Request
 ):
     try:
