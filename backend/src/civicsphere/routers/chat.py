@@ -40,14 +40,21 @@ router = APIRouter(tags=["Chatbot"])
 )
 async def chat(
     req: Request,
-    prompt: str = Form(...),
+    prompt: Optional[str] = Form(None),
     files: Optional[List[UploadFile]] = File(None),
     voice: Optional[UploadFile] = File(None)
 ):
     """
     Prompt chatbot with user queries
     """
-
+    if not prompt and not voice:
+        return JSONResponse(
+            status_code=422,
+            content=ChatResponse(
+                success=False,
+                message="Please provide a prompt or voice prompt"
+            ).model_dump()
+        )
     # User authentication
     user_id = None
     if req.state.user:
@@ -80,14 +87,14 @@ async def chat(
         if not prefs:
             raise ValueError("Preferences not found. User may not have completed onboarding.")
         language = prefs.get("language", "en")
+        language = config.market_codes.get(language, "en-US")
         address = prefs.get("address")
         location = prefs.get("location")
         user_language = prefs.get("language") or "en"
+        prompt_text = prompt
         # Process voice prompt        
         if voice:
             prompt_text = await process_voice_prompt(voice, language)
-        else:
-            prompt_text = prompt
 
         match prompt_text:
             case "Find my nearest pollsites":
@@ -119,5 +126,3 @@ async def chat(
                 message=str(e)
             ).model_dump()
         )
-
-

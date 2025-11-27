@@ -77,7 +77,7 @@ export default function ChatPage() {
   const { input, isRecording, isWaiting } = chatState;
   const listRef = useRef<HTMLDivElement | null>(null);
   const [voiceBlob, setVoiceBlob] = useState<Blob | null>(null);
-
+  const [audioURL, setAudioURL] = useState('');
   const suggestions: string[] = [
     t("suggestions.pollsite"),
     t("suggestions.trending"),
@@ -116,19 +116,22 @@ export default function ChatPage() {
 
     typeNextChar();
   }
+
   const handleVoiceSubmit = (audioBlob: Blob) => {
-    // console.log("Received audio blob:", audioBlob);
+    console.log("Received audio blob:", audioBlob);
     setVoiceBlob(audioBlob);
+    const audioBlobUrl = URL.createObjectURL(audioBlob);
+    setAudioURL(audioBlobUrl);
   };
 
   async function handleSend() {
     const text = input.trim();
-    if (!text) return;
+    if (!text && !voiceBlob) return;
     setChatState((prev) => ({ ...prev, isWaiting: true, input: "" }));
     const userMessage: MessageWithId = {
       id: Date.now(),
       role: "user",
-      content: "",
+      content: voiceBlob? "[Voice Message]" : "",
     };
     setMessages((m: MessageWithId[]) => [...m, userMessage]);
 
@@ -143,37 +146,27 @@ export default function ChatPage() {
     setMessages((m: MessageWithId[]) => [...m, botMessage]);
 
     try {
-      const response = await fetch("/api/v1/chat/new", {
+      let response;
+      const formData = new FormData();
+      if (voiceBlob) {
+        formData.append('voice', voiceBlob);
+      } else if (text) {
+        formData.append('prompt', text);
+      }
+
+      response = await fetch("/api/v1/chat/new", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ prompt: text }),
+        credentials: 'include',
+        body: formData,
       });
+
+      setVoiceBlob(null);
 
       if (!response.ok) {
         throw new Error(`HTTP error. Status: ${response.status}`);
       }
-
-      const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
-
-      if (!reader) {
-        throw new Error("Response body is not readable");
-      }
-
-      let accumulatedText = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-
-        if (done) break;
-
-        const chunk = decoder.decode(value, { stream: true });
-        accumulatedText += chunk;
-      }
-
-      simulateTyping(accumulatedText, botMessageId);
+      const content: any = await response.json();
+      simulateTyping(content.data.content, botMessageId);
     } catch (error) {
       console.error("Error sending message:", error);
       simulateTyping(t("errors.generic"), botMessageId);
@@ -266,15 +259,6 @@ export default function ChatPage() {
                 rows={2}
               />
               <div className="flex justify-between">
-                {/* <Button
-                  appearance={isRecording ? 'primary' : 'subtle'}
-                  onClick={toggleMic}
-                  shape='circular'
-                  icon={isRecording ?
-                    (<MicFilled />) :
-                    (<MicRegular />)
-                  }
-                /> */}
                 <SpeakButton onVoiceSubmit={handleVoiceSubmit} />
 
                 <div className="flex gap-2 items-center">
@@ -294,7 +278,7 @@ export default function ChatPage() {
                   <Button
                     appearance="subtle"
                     onClick={handleSend}
-                    disabled={isWaiting || !input.trim()}
+                    disabled={isWaiting || (!input.trim() && !voiceBlob)}
                     shape="circular"
                     icon={<SendFilled />}
                   />

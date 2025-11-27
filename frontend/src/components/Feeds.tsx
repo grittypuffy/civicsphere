@@ -600,7 +600,7 @@ export const Feeds = ({ posts, issues, showVoted }: FeedsProps) => {
       <div className="max-w-5xl mx-auto p-6">
         <div className="text-center py-12 min-h-[50vh]">
           <Image
-            src="/imgs/no_data.svg"
+            src="/images/no_data.svg"
             alt="No Data"
             width={200}
             height={200}

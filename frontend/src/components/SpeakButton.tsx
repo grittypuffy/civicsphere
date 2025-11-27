@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@fluentui/react-components";
 import React, { useRef, useState } from "react";
 
 interface SpeakButtonProps {
@@ -49,7 +50,7 @@ const SpeakButton: React.FC<SpeakButtonProps> = ({ onVoiceSubmit }) => {
   };
 
   return (
-    <button
+    <Button
       type="button"
       onClick={isRecording ? stopRecording : startRecording}
       className="p-2 rounded-full flex items-center justify-center transition-all"
@@ -69,9 +70,8 @@ const SpeakButton: React.FC<SpeakButtonProps> = ({ onVoiceSubmit }) => {
         viewBox="0 0 24 24"
         fill="none"
         stroke="black"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       >
         <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
         <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
@@ -82,7 +82,7 @@ const SpeakButton: React.FC<SpeakButtonProps> = ({ onVoiceSubmit }) => {
       {isRecording && (
         <span className="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full animate-ping"></span>
       )}
-    </button>
+    </Button>
   );
 };
 

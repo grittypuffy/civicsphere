@@ -1,4 +1,5 @@
 import aiofiles
+import io
 import logging
 import os
 import datetime
@@ -20,8 +21,8 @@ config: AppConfig = get_config()
 class AudioProcessor:
     def __init__(self):
         self.uploads_container: ContainerClient = get_storage_client(
-            config.env.st_connection_string,
-            config.env.uploads_container
+            config.env.azure_storage_account_connection_string,
+            config.env.uploads_container_name
         )
 
     async def write_voice(self, file: UploadFile = File(...)):
@@ -91,8 +92,7 @@ class AudioProcessor:
                 return {"status": "failed", "data": None, "error": cancellation_details.error_details}
             return {"status": "failed", "data": None, "error": cancellation_details.reason}
 
-
-    async def process_voice_post(self, language_code: str, file: UploadFile = File(...)):
+    async def process_voice_post(self, language_code: str = "en-US", file: UploadFile = File(...)):
         file_path, hashed_filename, digest = await self.write_voice(file)
         if not file_path:
             raise Exception("Audio file is not written in .webm format")
@@ -105,14 +105,44 @@ class AudioProcessor:
         return transcription
 
 
-    async def process_voice_prompt(self, language_code: str, file: UploadFile = File(...)):
-        file_path, hashed_filename, digest = await self.write_voice(file)
-        if not file_path:
-            raise Exception("Audio file is not written in .webm format")
+    async def process_voice_prompt(self, language_code: str = "en-US", file: UploadFile = File(...)):
         try:
-            wav_file_path = self.convert_to_wav(file_path, digest)
+            file_path, hashed_filename, digest = await self.write_voice(file)
+            if not file_path:
+                raise Exception("Audio file is not written in .webm format")
+            try:
+                wav_file_path = self.convert_to_wav(file_path, digest)
+            except Exception as e:
+                raise e
+            speech_config = speechsdk.SpeechConfig(subscription=config.env.azure_stt_key, region=config.env.azure_stt_region)
+            speech_config.speech_recognition_language=language_code
+            audio_config = speechsdk.audio.AudioConfig(filename=wav_file_path)
+            speech_recognizer = speechsdk.SpeechRecognizer(
+                speech_config=speech_config,
+                audio_config=audio_config
+            )
+            speech_recognition_result = speech_recognizer.recognize_once_async().get()
+            if speech_recognition_result.reason == speechsdk.ResultReason.RecognizedSpeech:
+                return {"status": "success", "data": speech_recognition_result.text, "error": None}
+            elif speech_recognition_result.reason == speechsdk.ResultReason.NoMatch:
+                logging.error("No speech could be recognized: {}".format(speech_recognition_result.no_match_details))
+                return {"status": "failed", "data": None, "error": speech_recognition_result.no_match_details}
+            elif speech_recognition_result.reason == speechsdk.ResultReason.Canceled:
+                cancellation_details = speech_recognition_result.cancellation_details
+                logging.error("Speech Recognition canceled: {}".format(cancellation_details.reason))
+                if cancellation_details.reason ==  speechsdk.CancellationReason.Error:
+                    logging.error("Error details: {}".format(cancellation_details.error_details))
+                    return {"status": "failed", "data": None, "error": cancellation_details.error_details}
+                return {"status": "failed", "data": None, "error": cancellation_details.reason}
+
+            # file_path, hashed_filename, digest = await self.write_voice(file)
+            # if not file_path:
+            #    raise Exception("Audio file is not written in .webm format")
+            # try:
+            #    wav_file_path = self.convert_to_wav(file_path, digest)
+            # except Exception as e:
+            #     raise e
+            # blob_url = await self.upload_voice_prompt(wav_file_path, digest)
+            # transcription = await self.get_transcription(wav_file_path, language_code)
         except Exception as e:
-            raise e
-        blob_url = await self.upload_voice_prompt(wav_file_path, digest)
-        transcription = await self.get_transcription(wav_file_path, language_code)
-        return transcription
+            raise Exception(f"An internal error occurred while processing voice prompt: {e}")
