@@ -19,7 +19,11 @@ class CommentResponse(BaseModel):
     message: Optional[str] = None
     comments: Optional[List[CommentType]] = None
 
+
+class CreateCommentRequest(BaseModel):
+    description: str
+
 class CreateCommentResponse(BaseModel):
     success: bool = False
-    message: str = None
+    message: Optional[str] = None
     comment_id: Optional[str] = None

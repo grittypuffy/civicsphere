@@ -1,12 +1,12 @@
+import httpx
+from bson import ObjectId
 from fastapi import APIRouter, Request
 from fastapi import Form
 from fastapi.responses import JSONResponse
-from ..config import AppConfig, get_config
 import logging
+from ..config import AppConfig, get_config
 from ..models.db.comments import Comment, CommentReply
-from ..models.api.comments import CommentType, CommentResponse, CreateCommentResponse
-import httpx
-from bson import ObjectId
+from ..models.api.comments import CommentType, CommentResponse, CreateCommentRequest, CreateCommentResponse
 
 router = APIRouter()
 
@@ -17,7 +17,7 @@ async def add_comment(
     community_id: str,
     post_id: str,
     req: Request,
-    description: str = Form(...)
+    payload: CreateCommentRequest
 ):
     try:
         # User authentication
@@ -40,7 +40,7 @@ async def add_comment(
                 status_code=404,
                 content={"success": False, "message": "Post not found"}
             )
-            
+        description = payload.description
         try:
             func_payload = {
                 "title": "Comment",
@@ -105,7 +105,7 @@ async def add_comment_reply(
     post_id: str,
     comment_id: str,
     req: Request,
-    description: str = Form(...)
+    payload: CreateCommentRequest
 ):
     try:
         # User authentication
@@ -140,6 +140,7 @@ async def add_comment_reply(
                     message="Comment does not belong to the specified post"
                 ).dict()
             )
+        description = payload.description
         try:
             func_payload = {
                 "title": "Comment",
