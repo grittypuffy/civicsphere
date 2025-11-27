@@ -36,9 +36,15 @@ class CreatePostRequest(BaseModel):
     title: str
     description: str
 
+class CreatePostResponse(BaseModel):
+    success: bool = True
+    message: str
+    post_id: Optional[str] = None
+    flagged: bool = False
+
+
 class CreateVoicePostRequest(BaseModel):
     tags: List[str]
-
 
 class UserPostsResponse(BaseModel):
     success: bool
@@ -48,6 +54,7 @@ class UserPostsResponse(BaseModel):
 class TagCount(BaseModel):
     tag: str
     count: int
+
 class TagAnalytics(BaseModel):
     success: bool
     message: str

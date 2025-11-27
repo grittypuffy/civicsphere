@@ -81,6 +81,8 @@ export const UserPreferencesUpdateRequestSchema = v.object({
 });
 
 export const CreatePostRequestSchema = v.object({
+  title: v.string(),
+  description: v.string(),
   files: v.optional(v.nullable(v.array(v.string()))),
   tags: v.array(v.string()),
 });
@@ -246,6 +248,7 @@ export const LanguageSchema = v.object({
   code: langCodeValidator,
   name: v.string(),
 });
+
 export const CommunitySchema = v.object({
   _id: v.string(),
   community_name: v.string(),
@@ -255,4 +258,38 @@ export const CommunitiesResponseSchema = v.object({
   success: v.boolean(),
   message: v.string(),
   data: v.optional(v.nullable(v.array(CommunitySchema))),
+});
+
+export const TranslationResponseSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
+  data: v.optional(
+    v.nullable(
+      v.object({
+        title: v.string(),
+        description: v.string()
+      })
+    )
+  ),
+})
+
+export const CreateReplyRequestSchema = v.object({
+  description: v.string()
+})
+
+export const CreateReplyResponseSchema = v.object({
+  success: v.boolean(),
+  message: v.optional(v.nullable(v.string())),
+  comment_id: v.optional(v.nullable(v.string()))
+})
+
+export const ExplainPostResponseSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
+  data: v.optional(v.nullable(
+    v.object({
+      summary: v.string(),
+      whats_in_it_for_me: v.string(),
+    })
+  )),
 });

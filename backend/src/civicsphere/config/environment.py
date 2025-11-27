@@ -29,6 +29,8 @@ class EnvVarConfig(BaseSettings):
     ai_search_index_name: str
     document_intelligence_endpoint: str
     document_intelligence_key: str
+    text_translation_endpoint: str
+    text_translation_key: str
 
     # Azure subscription details
     azure_subscription_id: str
@@ -62,6 +64,7 @@ class EnvVarConfig(BaseSettings):
     
     # Function App
     azure_function_app_url: str
+    azure_function_app_key: str
 
     # Azure Foundry Project
     azure_foundry_project_endpoint: str

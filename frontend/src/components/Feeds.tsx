@@ -1,12 +1,15 @@
+'use client'
+
+import TTSButton from "@/components/TTSButton"
 import { userIssueUpvotesAtom, userIssueUpvotesAtom_loadable, userPostDownvotesAtom, userPostDownvotesAtom_loadable, userPostUpvotesAtom, userPostUpvotesAtom_loadable } from "@/lib/store"
-import { Issue, PostData } from "@/lib/types"
-import { downvotePost, getUserIssueUpvotes, getUserPostDownvotes, getUserPostUpvotes, removeDownvotePost, removeUpvoteIssue, removeUpvotePost, upvoteIssue, upvotePost } from "@/lib/utils"
-import { Badge, Button, Card, CardFooter, CardHeader, Dialog, DialogActions, DialogBody, DialogSurface, DialogTitle, Text } from "@fluentui/react-components"
-import { CheckmarkCircleColor, CheckmarkRegular, ClockRegular, EyeRegular, FlagFilled, HandRightRegular, LocalLanguageFilled, Location16Filled, ThumbDislikeFilled, ThumbDislikeRegular, ThumbLikeFilled } from "@fluentui/react-icons"
+import { ExplainPostData, Issue, PostData } from "@/lib/types"
+import { downvotePost, explainPost, getUserIssueUpvotes, getUserPostDownvotes, getUserPostUpvotes, removeDownvotePost, removeUpvoteIssue, removeUpvotePost, translatePost, upvoteIssue, upvotePost } from "@/lib/utils"
+import { Badge, Button, Card, CardFooter, CardHeader, Dialog, DialogActions, DialogBody, DialogSurface, DialogTitle, Skeleton, SkeletonItem, Spinner, Text, Tree, TreeItem, TreeItemLayout, TreeOpenChangeData, TreeOpenChangeEvent } from "@fluentui/react-components"
+import { CheckmarkCircleColor, CheckmarkRegular, ClockRegular, EyeRegular, FlagFilled, HandRightRegular, LocalLanguageFilled, Location16Filled, ThumbDislikeFilled, ThumbDislikeRegular, ThumbLikeFilled, TranslateFilled } from "@fluentui/react-icons"
 import { ThumbLikeRegular } from "@fluentui/react-icons/svg/thumb-like"
 import { useAtomValue, useSetAtom } from "jotai"
-import { useState } from "react"
 import { useTranslations } from 'next-intl'
+import { useState } from "react"
 
 interface FeedsProps {
   posts?: PostData[]
@@ -20,11 +23,12 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
   const downvotedPosts = useAtomValue(userPostDownvotesAtom_loadable)
   const setPostUpvotes = useSetAtom(userPostUpvotesAtom)
   const setPostDownvotes = useSetAtom(userPostDownvotesAtom)
+  const [postTitle, setPostTitle] = useState(post.title)
+  const [postDescription, setPostDescription] = useState(post.description)
   const [loading, setLoading] = useState(false)
-
+  const [translating, setTranslating] = useState(false)
   const upvotedPostIds = upvotedPosts.state === 'hasData' ? upvotedPosts.data as string[] : []
   const downvotedPostIds = downvotedPosts.state === 'hasData' ? downvotedPosts.data as string[] : []
-
   const isUpvoted = upvotedPostIds?.includes(post.post_id)
   const isDownvoted = downvotedPostIds?.includes(post.post_id)
 
@@ -66,6 +70,20 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
     }
   }
 
+  const handleTranslate = async () => {
+    if (translating) return;
+    setTranslating(true);
+    try {
+      const response = await translatePost(post.community_id, post.post_id);
+      console.log('Translation response:', response);
+      setPostTitle(response?.title);
+      setPostDescription(response?.description);
+    } catch (error) {
+      console.error('Failed to translate post:', error);
+    } finally {
+      setTranslating(false);
+    }
+  };
   const getVerifiedBadgeColor = (verified: string) => {
     switch (verified) {
       case "True": return "success"
@@ -94,7 +112,7 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
               header={
                 <div className="space-y-2 w-full p-3">
                   <div className="flex items-start justify-between">
-                    <h2 className="text-xl font-semibold text-gray-900 flex-1">{post.title}</h2>
+                    <h2 className="text-xl font-semibold text-gray-900 flex-1">{postTitle}</h2>
                     <div className="flex items-center space-x-2 ml-4">
                       <Badge
                         appearance="filled"
@@ -143,7 +161,7 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
                     </Badge>
                   </div>
                   <div className="py-1">
-                    <p className="text-gray-600 text-sm leading-relaxed">{post.description}</p>
+                    <p className="text-gray-600 text-sm leading-relaxed">{postDescription}</p>
                     {post.url.length > 0 && (
                       <div className="space-y-1">
                         <Text size={200} className="text-gray-600 font-medium">{t('links')}</Text>
@@ -200,6 +218,22 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
           </Card>
         </DialogBody>
         <DialogActions>
+          <Button
+            onClick={handleTranslate}
+            disabled={translating}
+            appearance="primary"
+            icon={<TranslateFilled aria-hidden="true" />}
+            aria-label="Translate post"
+          >
+            {translating ? (
+              <>
+                <Spinner size={"small"} /> Translating
+              </>
+            ) : (
+              "Translate"
+            )}
+          </Button>
+          <TTSButton text={`Title: ${postTitle}. Description: ${postDescription}`}></TTSButton>
           <Button appearance="secondary" onClick={() => setOpen(false)}>
             {t('close')}
           </Button>
@@ -208,6 +242,7 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
     </Dialog>
   )
 }
+
 
 const PostCard = ({ post }: { post: PostData }) => {
   const t = useTranslations('feeds');
@@ -229,6 +264,37 @@ const PostCard = ({ post }: { post: PostData }) => {
       hour: '2-digit',
       minute: '2-digit'
     })
+  }
+
+  const [explainMessage, setExplainMessage] = useState<ExplainPostData>({
+    summary: "",
+    whats_in_it_for_me: "",
+  })
+  const [isLoadingExplanation, setIsLoadingExplanation] = useState<boolean>(false)
+
+  const handleOpenChange = async (_e: TreeOpenChangeEvent, data: TreeOpenChangeData) => {
+    if (data.type === 'Click' && data.open && explainMessage.summary === "") {
+      setIsLoadingExplanation(true)
+      try {
+        const res = await explainPost(post.community_id, post.post_id)
+        if (!res) {
+          setExplainMessage({
+            summary: "No explanation available",
+            whats_in_it_for_me: "",
+          })
+          return
+        }
+        setExplainMessage(res)
+      } catch (error) {
+        console.error('Error in Tree onOpenChange:', error);
+        setExplainMessage({
+          summary: "Failed to load explanation",
+          whats_in_it_for_me: "",
+        })
+      } finally {
+        setIsLoadingExplanation(false)
+      }
+    }
   }
 
   return (
@@ -267,6 +333,36 @@ const PostCard = ({ post }: { post: PostData }) => {
             </div>
           </div>
         </div>
+        <Tree onOpenChange={handleOpenChange}>
+          <TreeItem itemType="branch">
+            <TreeItemLayout>Explain</TreeItemLayout>
+            <Tree>
+              <TreeItem itemType="leaf">
+                <TreeItemLayout>
+                  {isLoadingExplanation ? (
+                    <div className="w-full">
+                      <Skeleton>
+                        <SkeletonItem style={{ width: '60%', height: '10px' }} />
+                      </Skeleton>
+                    </div>
+                  ) : explainMessage.summary !== "" ? (
+                    <div className="space-y-2">
+                      <span className="text-sm text-gray-700">{explainMessage.summary}</span>
+                      {explainMessage.whats_in_it_for_me && (
+                        <div className="mt-2">
+                          <span className="text-xs text-gray-600 font-medium">Whats in it for me: </span>
+                          <span className="text-xs text-gray-600">{explainMessage.whats_in_it_for_me}</span>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <span className="text-sm text-gray-500">Click to load explanation...</span>
+                  )}
+                </TreeItemLayout>
+              </TreeItem>
+            </Tree>
+          </TreeItem>
+        </Tree>
       </Card>
 
       <PostDetailDialog
@@ -448,6 +544,8 @@ const IssueCard = ({ issue }: { issue: Issue }) => {
               >
                 {t('view')}
               </Button>
+              <Button>Hello</Button>
+
             </div>
           </div>
         </div>
@@ -479,7 +577,7 @@ export const Feeds = ({ posts, issues, showVoted }: FeedsProps) => {
 
   const filteredIssues = issues?.filter(issue =>
     showVoted ? upvotedIssueIds.has(issue.issue_id) : !upvotedIssueIds.has(issue.issue_id)
-  ) || [] 
+  ) || []
 
   // Use the filtered arrays for content presence checks to avoid reading properties of undefined
   const hasAnyContent = (filteredPosts.length > 0) || (filteredIssues.length > 0)

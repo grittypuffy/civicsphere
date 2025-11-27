@@ -6,6 +6,7 @@ from .environment import EnvVarConfig
 
 from ..helpers.singleton import singleton
 from ..helpers.service import get_document_analysis_client
+from ..helpers.service import get_text_translation_client
 from ..helpers.service import get_text_analysis_client
 from ..helpers.service import get_image_analysis_client
 from ..helpers.service import get_storage_client
@@ -20,6 +21,7 @@ from langchain_openai.chat_models import AzureChatOpenAI
 from azure.search.documents import SearchClient
 from openai import AzureOpenAI
 from azure.ai.textanalytics.aio import TextAnalyticsClient
+from azure.ai.translation.text.aio import TextTranslationClient
 from azure.ai.vision.imageanalysis.aio import ImageAnalysisClient
 
 
@@ -59,8 +61,11 @@ class AppConfig:
         self.search: SearchClient = get_search(
             self.env.ai_search_index_name, self.env.ai_search_api_key, self.env.ai_search_endpoint)
 
+        # Text Translation Client
+        self.text_translation_client: TextTranslationClient = get_text_translation_client(self.env.text_translation_endpoint, self.env.text_translation_key)
+
         # Text Analytics Client
-        self.text_analytics_client: TextAnalyticsClient = get_text_analysis_client(self.env.document_intelligence_endpoint, self.env.document_intelligence_key)
+        self.text_analytics_client: TextAnalyticsClient = get_text_analysis_client(self.env.text_translation_endpoint, self.env.text_translation_key)
 
         # Image Analysis Client
         self.image_analysis_client: ImageAnalysisClient = get_image_analysis_client(self.env.azure_cv_endpoint, self.env.azure_cv_key)

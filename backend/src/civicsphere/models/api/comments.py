@@ -1,11 +1,10 @@
+from typing import Optional, List
 from pydantic import BaseModel
 
 class Comment(BaseModel):
-    
     user_id: str
     description: str
     flagged: bool
-
 
 class CommentType(BaseModel):
     id: str
@@ -17,5 +16,14 @@ class CommentType(BaseModel):
 
 class CommentResponse(BaseModel):
     success: bool
-    message: str | None = None
-    comments: list[CommentType] | None = None
+    message: Optional[str] = None
+    comments: Optional[List[CommentType]] = None
+
+
+class CreateCommentRequest(BaseModel):
+    description: str
+
+class CreateCommentResponse(BaseModel):
+    success: bool = False
+    message: Optional[str] = None
+    comment_id: Optional[str] = None

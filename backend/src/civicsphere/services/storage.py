@@ -25,7 +25,7 @@ async def upload_user_file(file: UploadFile, user_id: str):
             "filename": file_name,
             "id": digest,
         })
-    return {"status": "success", "url": f"{config.env.uploads_endpoint}{hashed_filename}"}
+    return {"status": "success", "url": f"{config.env.uploads_endpoint}/{hashed_filename}"}
 
 
 async def upload_knowledge_base_file(file: UploadFile):
@@ -40,4 +40,4 @@ async def upload_knowledge_base_file(file: UploadFile):
         hashed_filename)
     await blob_client.upload_blob(file_content, overwrite=True, metadata={
                             "filename": file_name, "id": digest})
-    return {"status": "success", "url": f"{config.env.knowledge_base_endpoint}{hashed_filename}"}
+    return {"status": "success", "url": f"{config.env.knowledge_base_endpoint}/{hashed_filename}"}

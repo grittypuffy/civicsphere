@@ -66,14 +66,12 @@ def call_openai(system_prompt: str, text: str) -> dict:
         ]
     )
     content = response.choices[0].message.content
-    # Model returns text, we expect it to be valid JSON
     return json.loads(content)
 
 def analyze_safety(text: str) -> dict:
     request = {"text": text}
 
     result = safety_client.analyze_text(request)
-    # Azure SDK 2024+ uses categoriesAnalysis
     categories = result.get("categoriesAnalysis", [])
     flagged = False
     reasons = []
@@ -123,10 +121,8 @@ def analyze_post(req: func.HttpRequest) -> func.HttpResponse:
     text = f"{title}\n\n{description}"
 
     try:
-        # 1️⃣ Safety / harmful content check
         safety_result = analyze_safety(text)
 
-        # 2️⃣ Truthfulness / validation check
         validation_result = call_openai(VALIDATION_PROMPT, text)
 
         response_body = {

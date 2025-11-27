@@ -4,21 +4,23 @@ import { SessionCache } from "./cache";
 import {
   CommunitiesResponseSchema,
   CreateIssueRequestSchema,
+  ExplainPostResponseSchema,
   GetPreferencesResponseSchema,
   IssueResponseMultipleSchema,
   IssueResponseSingleSchema,
   PostResponseSchema,
   TagAnalyticsSchema,
   TagResponseSchema,
+  TranslationResponseSchema,
   TrendingResponseSchema,
   UserDataResponseSchema,
   UserIssuesResponseSchema,
   UserPostsResponseSchema,
   UserPreferencesResponseSchema,
   UserPreferencesUpdateRequestSchema,
-  UserReactionsResponseSchema
+  UserReactionsResponseSchema,
 } from "./schema";
-import { CreateIssueRequest, UserPreferencesUpdateRequest } from "./types";
+import { CreateIssueRequest, CreateReplyResponse, UserPreferencesUpdateRequest } from "./types";
 
 const sessionCache = new SessionCache<boolean>({
   ttl: 5 * 60 * 1000,
@@ -259,12 +261,8 @@ export const getUserDetails = async (username: string) => {
 }
 
 // Community Posts API
-export const createPost = async (communityId: string, title: string, description: string, formData: FormData) => {
-  const url = new URL(`/api/v1/c/${communityId}/post`, window.location.origin);
-  url.searchParams.append('title', title);
-  url.searchParams.append('description', description);
-
-  const res = await fetch(url.toString(), {
+export const createPost = async (communityId: string, formData: FormData) => {
+  const res = await fetch(`/api/v1/c/${communityId}/post`, {
     method: 'POST',
     body: formData,
     signal: AbortSignal.timeout(30000),
@@ -276,13 +274,10 @@ export const createPost = async (communityId: string, title: string, description
   return await res.json();
 }
 
-export const createVoicePost = async (communityId: string, tags: string[]) => {
+export const createVoicePost = async (communityId: string, formData: FormData) => {
   const res = await fetch(`/api/v1/c/${communityId}/post/voice`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(tags),
+    body: formData,
     signal: AbortSignal.timeout(30000),
     credentials: 'include',
   });
@@ -308,7 +303,7 @@ export const getCommunityPosts = async (communityId: string) => {
 }
 
 export const getPost = async (communityId: string, postId: string) => {
-  const res = await fetch(`/api/v1/c/${communityId}/${postId}`, {
+  const res = await fetch(`/api/v1/c/${communityId}/posts/${postId}`, {
     signal: AbortSignal.timeout(30000),
     credentials: 'include',
   });
@@ -319,18 +314,87 @@ export const getPost = async (communityId: string, postId: string) => {
 }
 
 export const explainPost = async (communityId: string, postId: string) => {
-  const res = await fetch(`/api/v1/c/${communityId}/${postId}/explain`, {
+  const res = await fetch(`/api/v1/c/${communityId}/posts/${postId}/explain`, {
     signal: AbortSignal.timeout(30000),
     credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Failed to explain post');
   }
+  const json = v.parse(ExplainPostResponseSchema, await res.json());
+  if (!json.success) {
+    throw new Error('Failed to explain post');
+  }
+  return json.data;
+}
+
+// Translate API
+export const translatePost = async (communityId: string, postId: string) => {
+  const res = await fetch(`/api/v1/c/${communityId}/posts/${postId}/translate`, {
+    method: 'GET',
+    credentials: 'include',
+    signal: AbortSignal.timeout(30000),
+  });
+  if (!res.ok) {
+    throw new Error('Failed to get translation');
+  }
+  const json = v.parse(TranslationResponseSchema, await res.json());
+  if (!json.success) {
+    throw new Error('Failed to fetch translation');
+  }
+  return json.data || { title: '', description: '' };
+}
+
+// Comments API
+export const postComment = async (communityId: string, postId: string, body: string) => {
+  const res = await fetch(`/api/v1/c/${communityId}/posts/${postId}/comments`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    signal: AbortSignal.timeout(30000),
+    credentials: 'include',
+    body: body
+  });
+  if (!res.ok) {
+    throw new Error('Failed to upvote post');
+  }
+  return await res.json() as CreateReplyResponse;
+}
+
+export const getComments = async (communityId: string, postId: string) => {
+  const res = await fetch(`/api/v1/c/${communityId}/posts/${postId}/comments`, {
+    method: 'GET',
+    signal: AbortSignal.timeout(30000),
+    credentials: 'include',
+  });
+  if (!res.ok) {
+    throw new Error('Failed to upvote post');
+  }
   return await res.json();
 }
 
+
+export const replyComment = async (communityId: string, postId: string, commentId: string, body: string) => {
+  const res = await fetch(`/api/v1/c/${communityId}/posts/${postId}/comments/${commentId}/reply`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    signal: AbortSignal.timeout(30000),
+    credentials: 'include',
+    body: body
+  });
+  if (!res.ok) {
+    throw new Error('Failed to upvote post');
+  }
+  return await res.json() as CreateReplyResponse;
+}
+
+
+// Post Reaction
 export const upvotePost = async (communityId: string, postId: string) => {
-  const res = await fetch(`/api/v1/c/${communityId}/${postId}/upvote`, {
+  const res = await fetch(`/api/v1/c/${communityId}/posts/${postId}/upvote`, {
     method: 'PUT',
     signal: AbortSignal.timeout(30000),
     credentials: 'include',
@@ -342,7 +406,7 @@ export const upvotePost = async (communityId: string, postId: string) => {
 }
 
 export const downvotePost = async (communityId: string, postId: string) => {
-  const res = await fetch(`/api/v1/c/${communityId}/${postId}/downvote`, {
+  const res = await fetch(`/api/v1/c/${communityId}/posts/${postId}/downvote`, {
     method: 'PUT',
     signal: AbortSignal.timeout(30000),
     credentials: 'include',
@@ -354,7 +418,7 @@ export const downvotePost = async (communityId: string, postId: string) => {
 }
 
 export const removeUpvotePost = async (communityId: string, postId: string) => {
-  const res = await fetch(`/api/v1/c/${communityId}/${postId}/remove_upvote`, {
+  const res = await fetch(`/api/v1/c/${communityId}/posts/${postId}/upvote/delete`, {
     method: 'DELETE',
     signal: AbortSignal.timeout(30000),
     credentials: 'include',
@@ -366,7 +430,7 @@ export const removeUpvotePost = async (communityId: string, postId: string) => {
 }
 
 export const removeDownvotePost = async (communityId: string, postId: string) => {
-  const res = await fetch(`/api/v1/c/${communityId}/${postId}/remove_downvote`, {
+  const res = await fetch(`/api/v1/c/${communityId}/posts/${postId}/downvote/delete`, {
     method: 'DELETE',
     signal: AbortSignal.timeout(30000),
     credentials: 'include',
@@ -434,7 +498,7 @@ export const upvoteIssue = async (communityId: string, issueId: string) => {
 }
 
 export const removeUpvoteIssue = async (communityId: string, issueId: string) => {
-  const res = await fetch(`/api/v1/c/${communityId}/issues/${issueId}/remove_upvote`, {
+  const res = await fetch(`/api/v1/c/${communityId}/issues/${issueId}/upvote/delete`, {
     method: 'DELETE',
     signal: AbortSignal.timeout(30000),
     credentials: 'include',

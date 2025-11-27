@@ -7,9 +7,7 @@ from bson import ObjectId
 import logging
 
 
-
 router = APIRouter(tags=["Community Issue"])
-
 config: AppConfig = get_config()
 
 @router.get("/all")
@@ -56,6 +54,7 @@ async def get_community_issue(
 
 @router.get("/{issue_id}", response_model=IssueResponseSingle)
 async def get_issue(
+    community_id: str,
     issue_id: str,
     req: Request
 ):
@@ -133,6 +132,7 @@ async def create_issue(
 
 @router.put("/{issue_id}/upvote")
 async def upvote_issue(
+    community_id: str,
     issue_id: str,
     req: Request
 ):
@@ -174,8 +174,9 @@ async def upvote_issue(
             content={"success": False, "message": f"Internal error: {e}"}
         )
 
-@router.delete("/{issue_id}/remove_upvote")
+@router.delete("/{issue_id}/upvote/delete")
 async def remove_upvote_issue(
+    community_id: str,
     issue_id: str,
     req: Request
 ):
@@ -219,6 +220,7 @@ async def remove_upvote_issue(
 
 @router.put("/{issue_id}/resolve")
 async def resolve_issue(
+    community_id: str,
     issue_id: str,
     req: Request
 ):
@@ -261,6 +263,7 @@ async def resolve_issue(
 
 @router.put("/{issue_id}/close")
 async def close_issue(
+    community_id: str,
     issue_id: str,
     req: Request
 ):

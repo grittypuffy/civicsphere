@@ -10,7 +10,7 @@ interface SpeakButtonProps {
   text: string;
 }
 
-export default function SpeakButton({ text }: SpeakButtonProps) {
+export default function TTSButton({ text }: SpeakButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleSpeak() {
@@ -40,12 +40,11 @@ export default function SpeakButton({ text }: SpeakButtonProps) {
       disabled={isLoading}
       appearance="primary"
       icon={<Speaker024Filled aria-hidden="true" />}
-      style={{ marginTop: tokens.spacingVerticalL }}
       aria-label="Speak post content"
     >
       {isLoading ? (
         <>
-          <Spinner size={"small"} /> Generating...
+          <Spinner size={"small"} /> Generating
         </>
       ) : (
         "Speak"

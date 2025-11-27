@@ -437,6 +437,23 @@ isodate = ">=0.6.1,<1.0.0"
 typing-extensions = ">=4.0.1"
 
 [[package]]
+name = "azure-ai-translation-text"
+version = "1.0.1"
+description = "Microsoft Azure Ai Translation Text Client Library for Python"
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "azure-ai-translation-text-1.0.1.tar.gz", hash = "sha256:8fff37f7ea4f82f25ad6328374859d6bad022d2f30fde9b30b5ee4cf1f7c1769"},
+    {file = "azure_ai_translation_text-1.0.1-py3-none-any.whl", hash = "sha256:2c60d1adcda68809dd9f431ec0b8ac1b1977a69037d10751a39c233bc6bc42d8"},
+]
+
+[package.dependencies]
+azure-core = ">=1.30.0"
+isodate = ">=0.6.1"
+typing-extensions = ">=4.6.0"
+
+[[package]]
 name = "azure-ai-vision-imageanalysis"
 version = "1.0.0"
 description = "Microsoft Azure Ai Vision Imageanalysis Client Library for Python"
@@ -6377,4 +6394,4 @@ cffi = ["cffi (>=1.17,<2.0) ; platform_python_implementation != \"PyPy\" and pyt
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13,<4.0"
-content-hash = "43705258ad87129a3a5a493a8d4510978df8b5454116c3ddb77426c746f46dc7"
+content-hash = "27abae7c3975fac914c7ee1db0bd104a3d3bc2376cabf57852129428d5387046"

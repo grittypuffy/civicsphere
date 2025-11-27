@@ -60,9 +60,9 @@
   },
   "chat": {
     "suggestions": {
-      "housing": "Jaka jest obecna sytuacja z cenami mieszkań i trendami w dzielnicach Nowego Jorku (np. na Manhattanie) oraz okolicznych przedmieściach?",
-      "elections": "Kiedy odbywają się moje lokalne wybory, jak oddać głos i kto kandyduje w mojej okolicy?",
-      "judicial": "Jaką rolę pełni sędzia federalny i czym różni się ona od innych stanowisk politycznych lub sądowych?"
+      "pollsite": "Znajdź moje najbliższe lokale wyborcze",
+      "trending": "Popularne dyskusje w mojej okolicy",
+      "accessibility": "Opcje dostępności w lokalach wyborczych"
     },
     "labels": {
       "you": "Ty",

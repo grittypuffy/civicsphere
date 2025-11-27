@@ -14,12 +14,16 @@
         devShells.default = stb.mkShell {
        	  packages = with stb; [
        	    bun
+       	    yarn 
        	    mkcert
        	    docker-compose
+       	    python3
        	    poetry
+       	    stdenv.cc.cc.lib
          	];
           shellHook = ''
             export NIX_SHELL_NAME="CivicSphere";
+            export LD_LIBRARY_PATH=${stb.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH
           '';
         };
       }

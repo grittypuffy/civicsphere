@@ -60,9 +60,9 @@
   },
   "chat": {
     "suggestions": {
-      "housing": "Wie ist die aktuelle Situation mit Immobilienpreisen und Trends in New Yorker Stadtvierteln (z.B. Manhattan) und nahegelegenen Vororten?",
-      "elections": "Wann sind meine Kommunalwahlen, wie gebe ich meine Stimme ab und wer kandidiert in meinem Gebiet?",
-      "judicial": "Was ist die Rolle eines Bundesrichters und wie unterscheidet sie sich von anderen politischen oder richterlichen Positionen?"
+      "pollsite": "Finde meine nächstgelegenen Wahllokale",
+      "trending": "Aktuelle Diskussionen in meiner Gegend",
+      "accessibility": "Barrierefreiheitsoptionen an Wahllokalen"
     },
     "labels": {
       "you": "Sie",
