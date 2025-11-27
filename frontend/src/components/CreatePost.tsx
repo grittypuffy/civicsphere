@@ -19,17 +19,16 @@ import { createPost } from "@/lib/utils";
 import {
   postSelectedTagsAtom,
   postTitleAtom,
-  postdescriptionAtom,
+  postDescriptionAtom,
   postFilesAtom,
   postIsLoadingAtom,
   postErrorAtom,
 } from "@/lib/store";
 
 export default function CreatePost({ communityId }: { communityId: string }) {
-  // Use the renamed atoms
   const [selectedTags, setSelectedTags] = useAtom(postSelectedTagsAtom);
   const [title, setTitle] = useAtom(postTitleAtom);
-  const [description, setDescription] = useAtom(postdescriptionAtom);
+  const [description, setDescription] = useAtom(postDescriptionAtom);
   const [files, setFiles] = useAtom(postFilesAtom);
   const [isLoading, setIsLoading] = useAtom(postIsLoadingAtom);
   const [error, setError] = useAtom(postErrorAtom);
@@ -56,9 +55,7 @@ export default function CreatePost({ communityId }: { communityId: string }) {
     });
 
     try {
-      console.log(communityId);
       const response = await createPost(communityId, formData);
-      console.log(response);
     } catch (error) {
       setError("Failed to create post. Please try again.");
       console.error(error);

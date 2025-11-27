@@ -166,7 +166,7 @@ export default function CommunitiesPage() {
                 </DialogTrigger>
                 {tab === 'posts' ?
                   <CreatePost communityId={selectedCommunityId} /> :
-                  <CreateIssue />
+                  <CreateIssue communityId={selectedCommunityId} />
                 }
               </Dialog>
             </div>
