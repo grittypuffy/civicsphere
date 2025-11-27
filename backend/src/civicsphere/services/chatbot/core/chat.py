@@ -20,7 +20,12 @@ from src.civicsphere.models.api.chat import ChatData, ChatResponse
 
 config = AppConfig()
 
-instructions = """\
+async def execute_agent_query(
+    prompt: str, language: str, user_language: str
+) -> str:
+    """Create an AI agent, run the query, and return the response."""
+    credential = DefaultAzureCredential()
+    instructions = f"""\
 You are a helpful civilian assistant that answers local community query, political query, and provides information on local policies and laws for NYC.
 
 If the user asks about candidates or voting, provide factual information about the candidates but DO NOT provide specific recommendations or show bias. Maintain strict neutrality and fairness.
@@ -28,18 +33,12 @@ If the user asks about candidates or voting, provide factual information about t
 Keep your responses concise, relevant, and use simple language that is easy to understand.
 
 Guidelines:
-- Use simple language
+- Use simple language and answer with language code {user_language}
 - Be unbiased and neutral, especially regarding elections.
 - Do not say You should vote for X. Instead, say Candidate X supports Y.
 - Provide factual data with citations
 """
 
-
-async def execute_agent_query(
-    prompt: str, language: str, user_language: UserPreferences
-) -> str:
-    """Create an AI agent, run the query, and return the response."""
-    credential = DefaultAzureCredential()
     async with credential:
         project_client = AIProjectClient(
             endpoint=config.env.azure_foundry_project_endpoint, credential=credential
