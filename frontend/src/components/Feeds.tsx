@@ -76,7 +76,6 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
     setTranslating(true);
     try {
       const response = await translatePost(post.community_id, post.post_id);
-      console.log('Translation response:', response);
       setPostTitle(response?.title);
       setPostDescription(response?.description);
     } catch (error) {
