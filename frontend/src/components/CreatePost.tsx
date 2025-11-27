@@ -44,13 +44,36 @@ export default function CreatePost({ communityId }: { communityId: string }) {
     }
   };
 
-  const handleVoicePost = () => {
-    // Logic to handle voice post creation
-    console.log("Voice post creation triggered");
-  }
+  const handleVoicePost = async () => {
+    const formData = new FormData();
+    selectedTags.forEach(tag => {
+      formData.append('tags', tag);
+    });
+    formData.append("voice", files[0]);
+
+    try {
+      const response = await fetch(`/api/v1/c/${communityId}/post/voice`, {
+        method: "POST",
+        body: formData,
+        credentials: "include"
+      });
+
+      if (!response.ok) {
+        throw new Error("Voice post creation failed");
+      }
+
+      const data = await response.json();
+      console.log("Post created successfully", data);
+    } catch (error) {
+      setError("Failed to create voice post. Please try again.");
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
 
   const handleVoiceRecording = () => {
-    // Logic to handle voice recording
     console.log("Voice recording started");
   }
 

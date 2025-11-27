@@ -454,7 +454,7 @@ async def translate_post(
         description = post.get("description"),
 
         if user_lang != post.get("lang"):
-            response = await config.text_translator_client.translate(content=[title, description], to=[user_lang])
+            response = await config.text_translation_client.translate(content=[title, description], to=[user_lang])
             translated_content = dict()
             translated_content["title"] = response[0].translations[0].text
             translated_content["description"] = response[1].translations[0].text
