@@ -2,11 +2,12 @@
 import { Feeds } from '@/components/Feeds';
 import { userIssueUpvotesAtom, userNameAtom, userPostDownvotesAtom, userPostUpvotesAtom, userPrefsAtom } from '@/lib/store';
 import { getFeeds, getUserIssueUpvotes, getUserPostDownvotes, getUserPostUpvotes, getUserPreferences } from '@/lib/utils';
-import { Button } from '@fluentui/react-components';
+import { Button, Text } from '@fluentui/react-components';
 import { ArrowClockwiseFilled } from '@fluentui/react-icons';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { loadable } from 'jotai/utils';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { useEffect } from 'react';
 
 const feedAtom = atom(getFeeds());
@@ -60,7 +61,19 @@ export default function Page() {
             {(() => {
               switch (feeds.state) {
                 case 'loading':
-                  return <div>{t('loadingFeeds')}</div>
+                  return (
+                    <div className='flex flex-col items-center justify-center p-4 min-h-[50vh]'>
+                      <Image
+                        src='/imgs/loading.png'
+                        alt='Loading'
+                        width={200}
+                        height={200}
+                      />
+                      <Text size={400} className="text-gray-500">
+                        {t('loadingFeeds')}
+                      </Text>
+                    </div>
+                  )
                 case 'hasError':
                   return (
                     <div className='p-4'>

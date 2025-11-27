@@ -1,19 +1,19 @@
 'use client'
 import LocaleSwitcher from '@/components/LocaleSwitcher'
 import SideBar from '@/components/SideBar'
-import { navStateAtom } from '@/lib/store'
+import { navStateAtom, userNameAtom } from '@/lib/store'
 import { Avatar, Hamburger, Link, Tooltip } from '@fluentui/react-components'
-import { useSetAtom } from 'jotai'
+import { useAtomValue, useSetAtom } from 'jotai'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const setNavOpen = useSetAtom(navStateAtom)
-  const userName = 'You'
+  const userName = useAtomValue(userNameAtom)
   return (
     <div className='flex flex-col h-full flex-1'>
       <div>
         <SideBar />
-        <header className='sticky top-0 z-10 grid grid-cols-3 items-center p-3 lg:p-5 border-b bg-navbar text-white'>
-          <div className='justify-self-start'>
+        <header className='sticky top-0 z-10 grid grid-cols-3 items-center p-3 lg:p-5 rounded-3xl border-b shadow-xl bg-sky-200 text-black'>
+          <div className='justify-self-start p-2 lg:p-0'>
             <Tooltip
               content="Open Navigation bar"
               relationship="label"
@@ -21,9 +21,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             >
               <Hamburger
                 onClick={() => setNavOpen(true)}
-                className='text-white fill-white'
                 aria-label="Open Navigation bar"
-                style={{ color: 'white' }}
+                style={{ color: 'black' }}
               />
             </Tooltip>
           </div>

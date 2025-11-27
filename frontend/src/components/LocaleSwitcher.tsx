@@ -45,7 +45,7 @@ export default function LocaleSwitcher({ variant = 'navbar' }: LocaleSwitcherPro
                 icon={<LocalLanguageRegular />}
                 disabled={isPending}
                 aria-label="Change language"
-                className="shadow-lg"
+                style={{ color: 'black' }}
               >
                 {currentLanguage?.name || 'Language'}
               </Button>
@@ -83,12 +83,11 @@ export default function LocaleSwitcher({ variant = 'navbar' }: LocaleSwitcherPro
         <Tooltip content="Change language" relationship="label">
           <Button
             appearance="transparent"
-            icon={<LocalLanguageRegular className="text-xl text-white" />}
+            icon={<LocalLanguageRegular className="text-xl text-black" />}
             disabled={isPending}
             aria-label="Change language"
-            className="text-white hover:bg-white/10"
           >
-            <span className="hidden sm:inline text-white">{currentLanguage?.code.toUpperCase()}</span>
+            <span className="hidden sm:inline text-black">{currentLanguage?.code.toUpperCase()}</span>
           </Button>
         </Tooltip>
       </MenuTrigger>

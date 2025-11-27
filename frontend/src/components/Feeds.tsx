@@ -4,11 +4,12 @@ import TTSButton from "@/components/TTSButton"
 import { userIssueUpvotesAtom, userIssueUpvotesAtom_loadable, userPostDownvotesAtom, userPostDownvotesAtom_loadable, userPostUpvotesAtom, userPostUpvotesAtom_loadable } from "@/lib/store"
 import { ExplainPostData, Issue, PostData } from "@/lib/types"
 import { downvotePost, explainPost, getUserIssueUpvotes, getUserPostDownvotes, getUserPostUpvotes, removeDownvotePost, removeUpvoteIssue, removeUpvotePost, translatePost, upvoteIssue, upvotePost } from "@/lib/utils"
-import { Badge, Button, Card, CardFooter, CardHeader, Dialog, DialogActions, DialogBody, DialogSurface, DialogTitle, Skeleton, SkeletonItem, Spinner, Text, Tree, TreeItem, TreeItemLayout, TreeOpenChangeData, TreeOpenChangeEvent } from "@fluentui/react-components"
-import { CheckmarkCircleColor, CheckmarkRegular, ClockRegular, EyeRegular, FlagFilled, HandRightRegular, LocalLanguageFilled, Location16Filled, ThumbDislikeFilled, ThumbDislikeRegular, ThumbLikeFilled, TranslateFilled } from "@fluentui/react-icons"
+import { Badge, Button, Card, CardFooter, CardHeader, Dialog, DialogActions, DialogBody, DialogSurface, DialogTitle, Spinner, Text, Tree, TreeItem, TreeItemLayout, TreeOpenChangeData, TreeOpenChangeEvent } from "@fluentui/react-components"
+import { CheckmarkCircleColor, CheckmarkRegular, ClockRegular, DocumentOnePageSparkleRegular, EyeRegular, FlagFilled, HandRightRegular, InfoSparkleRegular, LocalLanguageFilled, Location16Filled, ThumbDislikeFilled, ThumbDislikeRegular, ThumbLikeFilled, TranslateFilled } from "@fluentui/react-icons"
 import { ThumbLikeRegular } from "@fluentui/react-icons/svg/thumb-like"
 import { useAtomValue, useSetAtom } from "jotai"
 import { useTranslations } from 'next-intl'
+import Image from "next/image"
 import { useState } from "react"
 
 interface FeedsProps {
@@ -303,8 +304,8 @@ const PostCard = ({ post }: { post: PostData }) => {
         key={post.post_id}
         className={`w-full shadow-sm hover:shadow-md transition-shadow duration-200 ${(isUpvoted || isDownvoted) ? 'bg-blue-50 border-blue-200' : ''}`}
       >
-        <div className="p-4">
-          <div className="flex items-center justify-between">
+        <div className="p-3">
+          <div className="flex items-center justify-between p-1">
             <div className="flex-1">
               <h3 className="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 cursor-pointer"
                 onClick={() => setDialogOpen(true)}>
@@ -332,47 +333,51 @@ const PostCard = ({ post }: { post: PostData }) => {
               </Button>
             </div>
           </div>
-        </div>
-        <Tree onOpenChange={handleOpenChange}>
-          <TreeItem itemType="branch">
-            <TreeItemLayout>Explain</TreeItemLayout>
-            <Tree>
-              <TreeItem itemType="leaf">
-                <TreeItemLayout>
-                  {isLoadingExplanation ? (
-                    <div className="w-full">
-                      <Skeleton>
-                        <SkeletonItem style={{ width: '60%', height: '10px' }} />
-                      </Skeleton>
-                    </div>
-                  ) : explainMessage.summary !== "" ? (
-                    <div className="space-y-2">
-                      <span className="text-sm text-gray-700">{explainMessage.summary}</span>
-                      {explainMessage.whats_in_it_for_me && (
-                        <div className="mt-2">
-                          <span className="text-xs text-gray-600 font-medium">Whats in it for me: </span>
-                          <span className="text-xs text-gray-600">{explainMessage.whats_in_it_for_me}</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ) : (
-                  <span className="text-sm text-gray-500">Click to load explanation...</span>
-                )}
+          <Tree onOpenChange={handleOpenChange} size="medium">
+            <TreeItem itemType="branch">
+              <TreeItemLayout
+                expandIcon={<DocumentOnePageSparkleRegular />}
+              >
+                Explain
               </TreeItemLayout>
+              <Tree size="medium">
+                <TreeItem itemType="leaf">
+                  <TreeItemLayout>
+                    {isLoadingExplanation ? (
+                      <div className="w-full">
+                        <p>Loading...</p>
+                      </div>
+                    ) : explainMessage.summary ? (
+                      <div className="space-y-2">
+                        <div>
+                          <span className="text-sm text-gray-700">{explainMessage.summary}</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <span className="text-sm text-gray-500">Click to load explanation...</span>
+                    )}
+                  </TreeItemLayout>
+                </TreeItem>
+                {explainMessage.whats_in_it_for_me && (
+                  <TreeItem itemType="branch">
+                    <TreeItemLayout
+                      expandIcon={<InfoSparkleRegular />}
+                    >
+                      Whats in it for me
+                    </TreeItemLayout>
+                    <Tree>
+                      <TreeItem itemType="leaf">
+                        <TreeItemLayout>
+                          <span className="text-sm text-gray-600">{explainMessage.whats_in_it_for_me}</span>
+                        </TreeItemLayout>
+                      </TreeItem>
+                    </Tree>
+                  </TreeItem>
+                )}
+              </Tree>
             </TreeItem>
-            {explainMessage.whats_in_it_for_me && (
-              <TreeItem itemType="branch"
-                size>
-                <TreeItemLayout
-                  expandIcon={<InfoSparkleRegular />}
-                >
-                  Whats in it for me
-                </TreeItemLayout>
-              </TreeItem>
-            </Tree>
-          </TreeItem>
-        </Tree>
+          </Tree>
+        </div>
       </Card>
 
       <PostDetailDialog
@@ -554,8 +559,6 @@ const IssueCard = ({ issue }: { issue: Issue }) => {
               >
                 {t('view')}
               </Button>
-              <Button>Hello</Button>
-
             </div>
           </div>
         </div>
@@ -595,7 +598,14 @@ export const Feeds = ({ posts, issues, showVoted }: FeedsProps) => {
   if (!hasAnyContent) {
     return (
       <div className="max-w-5xl mx-auto p-6">
-        <div className="text-center py-12">
+        <div className="text-center py-12 min-h-[50vh]">
+          <Image
+            src="/imgs/no_data.svg"
+            alt="No Data"
+            width={200}
+            height={200}
+            className="mx-auto mb-6"
+          />
           <Text size={400} className="text-gray-500">
             {showVoted ? t('noVotedContent') : t('nothingHere')}
           </Text>

@@ -6,7 +6,7 @@ const AppContainer = (
 ) => {
   return (
     <FluentProvider theme={webLightTheme}>
-      <div className="page-bg min-h-screen flex flex-col w-full mx-auto overflow-hidden">
+      <div className="bg-linear-to-b from-sky-200 to-white min-h-screen flex flex-col w-full mx-auto overflow-hidden">
         {children}
       </div>
     </FluentProvider>
