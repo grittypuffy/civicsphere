@@ -60,9 +60,9 @@
   },
   "chat": {
     "suggestions": {
-      "housing": "What's the current situation with housing prices and trends in New York City neighborhoods (e.g., Manhattan) and nearby suburbs?",
-      "elections": "When are my local elections, how do I cast a ballot, and who is contesting in my area?",
-      "judicial": "What is the role of a federal judge and how does it differ from other political or judicial positions?"
+      "pollsite": "Find my nearest pollsites",
+      "trending": "Trending discussions in my area",
+      "accessibility": "Accessibility options available at polling sites"
     },
     "labels": {
       "you": "You",

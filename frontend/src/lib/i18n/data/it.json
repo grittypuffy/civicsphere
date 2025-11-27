@@ -60,9 +60,9 @@
   },
   "chat": {
     "suggestions": {
-      "housing": "Qual è la situazione attuale dei prezzi e delle tendenze abitative nei quartieri di New York (ad es. Manhattan) e nei sobborghi vicini?",
-      "elections": "Quando si tengono le mie elezioni locali, come posso votare e chi si candida nella mia zona?",
-      "judicial": "Qual è il ruolo di un giudice federale e in cosa differisce dalle altre cariche politiche o giudiziarie?"
+      "pollsite": "Trova i miei seggi elettorali più vicini",
+      "trending": "Discussioni di tendenza nella mia zona",
+      "accessibility": "Opzioni di accessibilità disponibili ai seggi"
     },
     "labels": {
       "you": "Tu",

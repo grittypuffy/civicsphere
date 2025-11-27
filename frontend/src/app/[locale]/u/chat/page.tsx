@@ -10,7 +10,6 @@ import { ChatData } from '@/lib/types'
 
 type MessageWithId = ChatData & { id: number }
 
-// Jotai atom with Sample Messages for testing
 const messagesAtom = atom<MessageWithId[]>([
   //   {
   //     id: 1,
@@ -72,15 +71,13 @@ export default function ChatPage() {
   const { input, isRecording, isWaiting } = chatState
   const listRef = useRef<HTMLDivElement | null>(null)
   
-  // Default suggestion prompts to help users start conversations quickly
   const suggestions: string[] = [
-    t('suggestions.housing'),
-    t('suggestions.elections'),
-    t('suggestions.judicial')
+    t('suggestions.pollsite'),
+    t('suggestions.trending'),
+    t('suggestions.accessibility')
   ]
 
   useEffect(() => {
-    // scroll to bottom when messages change
     if (listRef.current) {
       listRef.current.scrollTop = listRef.current.scrollHeight
     }
@@ -134,7 +131,7 @@ export default function ChatPage() {
       })
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        throw new Error(`HTTP error. Status: ${response.status}`)
       }
 
       const reader = response.body?.getReader()
@@ -158,7 +155,6 @@ export default function ChatPage() {
       simulateTyping(accumulatedText, botMessageId)
     } catch (error) {
       console.error('Error sending message:', error)
-      // Update bot message with error
       simulateTyping(t('errors.generic'), botMessageId)
       setChatState(prev => ({ ...prev, isWaiting: false }))
     }
@@ -171,10 +167,8 @@ export default function ChatPage() {
     }
   }
 
-  // simple mic toggle (simulated) — in future wire to Web Speech or audio capture
   function toggleMic() {
     if (isRecording) {
-      // stop recording and simulate a captured phrase
       const captured = t('mic.captured')
       setChatState(prev => ({
         ...prev,
