@@ -11,7 +11,8 @@ from langchain_core.prompts import PromptTemplate
 from ..config import AppConfig, get_config
 from .post_comments import router as post_comments_router
 from ..models.api.post import TrendingResponse, PostResponse
-from ..models.api.post import CreatePostRequest,CreateVoicePostRequest
+from ..models.api.post import CreatePostRequest, CreateVoicePostRequest
+from ..models.api.post import CreatePostResponse
 from ..services.storage import upload_user_file
 from ..services.post_analyser import analyze_post_for_user
 from ..services.media_processors.audio import AudioProcessor
@@ -30,7 +31,10 @@ Transcription:
 """
 
 
-@router.post("/post")
+@router.post(
+    "/post",
+    response_model=CreatePostResponse
+)
 async def create_post(
     community_id: str,
     req: Request,
@@ -44,16 +48,21 @@ async def create_post(
         if not hasattr(req.state, 'user') or not req.state.user:
             return JSONResponse(
                 status_code=401,
-                content={"success": False, "message": "User not authenticated"}
+                content=CreatePostResponse(
+                    success=False,
+                    message="User not authenticated"
+                ).dict()
             )
 
         user_id = req.state.user.get("user_id")
         if not user_id:
             return JSONResponse(
                 status_code=401,
-                content={"success": False, "message": "User ID not found"}
+                content=CreatePostResponse(
+                    success=False,
+                    message="User ID not found"
+                ).dict()
             )
-
         
         if not files or isinstance(files, str):
             files = []
@@ -63,7 +72,10 @@ async def create_post(
         if not user_prefs or "language" not in user_prefs:
             return JSONResponse(
                 status_code=400,
-                content={"success": False, "message": "User preferences not found"}
+                content=CreatePostResponse(
+                    success=False,
+                    message="User preferences not found"
+                ).dict()
             )
         lang = user_prefs["language"]
 
@@ -72,7 +84,10 @@ async def create_post(
         if not community or "community_name" not in community:
             return JSONResponse(
                 status_code=404,
-                content={"success": False, "message": "Community not found"}
+                content=CreatePostResponse(
+                    success=False,
+                    message="Community not found"
+                ).dict()
             )
         location = community["community_name"]
 
@@ -98,11 +113,10 @@ async def create_post(
             if func_response.status_code != 200:
                 return JSONResponse(
                     status_code=500,
-                    content={
-                        "success": False,
-                        "message": "Moderation service error",
-                        "details": func_response.text
-                    }
+                    content=CreatePostResponse(
+                        success=False,
+                        message=f"Moderation service error. Details: {func_response.text}"
+                    ).dict()
                 )
 
             func_result = func_response.json()
@@ -113,7 +127,10 @@ async def create_post(
         except Exception as e:
             return JSONResponse(
                 status_code=500,
-                content={"success": False, "message": "Failed to validate content with moderation engine"}
+                content=CreatePostResponse(
+                    success=False,
+                    message="Failed to validate content with moderation engine"
+                ).dict()
             )
 
         # Insert post
@@ -134,43 +151,52 @@ async def create_post(
         }
         result = await config.db["posts"].insert_one(post_doc)
 
-        return JSONResponse(
-            status_code=200,
-            content={
-                "success": True,
-                "message": "Post created successfully",
-                "post_id": str(result.inserted_id)
-            }
-        )
+        return CreatePostResponse(
+                success=True,
+                message="Post created successfully",
+                post_id=str(result.inserted_id)
+            )
 
     except Exception as e:
         logging.error(f"Internal server error: {e}")
         return JSONResponse(
             status_code=500,
-            content={"success": False, "message": f"An internal error occurred: {str(e)}"}
+            content=CreatePostResponse(
+                success=False,
+                message=f"An internal error occurred: {str(e)}"
+            ).dict()
         )
 
 
-@router.post("/post/voice")
+@router.post(
+    "/post/voice",
+    response_model=CreatePostResponse
+)
 async def create_voice_post(
     community_id: str,
     req: Request,
     form: CreateVoicePostRequest = Depends(),
-    voice: UploadFile = File(None)
+    voice: UploadFile = File(...)
 ):
     try:
         # User authentication
         if not hasattr(req.state, 'user') or not req.state.user:
             return JSONResponse(
                 status_code=401,
-                content={"success": False, "message": "User not authenticated"}
+                content=CreatePostResponse(
+                    success=False,
+                    message="User not authenticated"
+                ).dict()
             )
 
         user_id = req.state.user.get("user_id")
         if not user_id:
             return JSONResponse(
                 status_code=401,
-                content={"success": False, "message": "User ID not found"}
+                content=CreatePostResponse(
+                    success=False,
+                    message="User ID not found"
+                ).dict()
             )
 
         # User preferences
@@ -178,19 +204,25 @@ async def create_voice_post(
         if not user_prefs or "language" not in user_prefs:
             return JSONResponse(
                 status_code=400,
-                content={"success": False, "message": "User preferences not found"}
+                content=CreatePostResponse(
+                    success=False,
+                    message="User preferences not found"
+                ).dict()
             )
-        lang = user_prefs["language"]
 
+        lang = user_prefs["language"]
         # Community information
         community = await config.db["communities"].find_one({"_id": ObjectId(community_id)})
         if not community or "community_name" not in community:
             return JSONResponse(
                 status_code=404,
-                content={"success": False, "message": "Community not found"}
+                content=CreatePostResponse(
+                    success=False,
+                    message="Community not found"
+                ).dict()
             )
-        location = community["community_name"]
 
+        location = community["community_name"]
         audio_processor: AudioProcessor = AudioProcessor()
         transcription = None
         try:
@@ -199,21 +231,21 @@ async def create_voice_post(
             if transcription is None:
                 return JSONResponse(
                     status_code=400,
-                    content={
-                        "success": False,
-                        "message": "No transcriptions found",
-                        "details": func_response.text
-                    }
+                    content=CreatePostResponse(
+                    success=False,
+                        message="No transcriptions found"
+                    ).dict()
                 )
+
         except Exception as e:
             return JSONResponse(
                 status_code=500,
-                content={
-                    "success": False,
-                    "message": "Error while transcripting text",
-                    "details": func_response.text
-                }
+                content=CreatePostResponse(
+                success=False,
+                    message=f"Error while transcripting text. Details: {str(e)}"
+                ).dict()
             )
+
         try:
             client = config.langchain_llm
             transcription = transcript.get("text", None)
@@ -241,11 +273,10 @@ async def create_voice_post(
             if func_response.status_code != 200:
                 return JSONResponse(
                     status_code=500,
-                    content={
-                        "success": False,
-                        "message": "Moderation service error",
-                        "details": func_response.text
-                    }
+                    content=CreatePostResponse(
+                        success=False,
+                        message=f"Moderation service error. Details: {func_response.text}"
+                    ).dict()
                 )
 
             func_result = func_response.json()
@@ -256,7 +287,10 @@ async def create_voice_post(
         except Exception as e:
             return JSONResponse(
                 status_code=500,
-                content={"success": False, "message": "Failed to validate content with moderation engine"}
+                content=CreatePostResponse(
+                    success=False,
+                    message=f"Moderation service error. Details: {func_response.text}"
+                ).dict()
             )
 
         # Insert post
@@ -277,20 +311,20 @@ async def create_voice_post(
         }
         result = await config.db["posts"].insert_one(post_doc)
 
-        return JSONResponse(
-            status_code=200,
-            content={
-                "success": True,
-                "message": "Post created successfully",
-                "post_id": str(result.inserted_id)
-            }
-        )
+        return CreatePostResponse(
+                success=True,
+                message="Post created successfully",
+                post_id=str(result.inserted_id)
+            )
 
     except Exception as e:
         logging.error(f"Internal server error: {e}")
         return JSONResponse(
             status_code=500,
-            content={"success": False, "message": f"An internal error occurred: {str(e)}"}
+            content=CreatePostResponse(
+                success=False,
+                message=f"An internal error occurred: {str(e)}"
+            ).dict()
         )
 
 

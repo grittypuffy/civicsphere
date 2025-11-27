@@ -246,6 +246,7 @@ export const LanguageSchema = v.object({
   code: langCodeValidator,
   name: v.string(),
 });
+
 export const CommunitySchema = v.object({
   _id: v.string(),
   community_name: v.string(),

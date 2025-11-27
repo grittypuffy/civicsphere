@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 from ..config import AppConfig, get_config
 import logging
 from ..models.db.comments import Comment, CommentReply
-from ..models.api.comments import CommentType, CommentResponse
+from ..models.api.comments import CommentType, CommentResponse, CreateCommentResponse
 import httpx
 from bson import ObjectId
 
@@ -92,7 +92,10 @@ async def add_comment(
             content={"success": False, "message": "Internal server error during authentication"}
         )
 
-@router.post("/{comment_id}/reply")
+@router.post(
+    "/{comment_id}/reply",
+    response_model=CreateCommentResponse
+)
 async def add_comment_reply(
     community_id: str,
     post_id: str,
@@ -105,25 +108,33 @@ async def add_comment_reply(
         if not hasattr(req.state, 'user') or not req.state.user:
             return JSONResponse(
                 status_code=401,
-                content={"success": False, "message": "User not authenticated"}
+                content=CreateCommentResponse(
+                    message="User not authenticated"
+                ).dict()
             )
 
         user_id = req.state.user.get("user_id")
         if not user_id:
             return JSONResponse(
                 status_code=401,
-                content={"success": False, "message": "User ID not found"}
+                content=CreateCommentResponse(
+                    message="User ID not found"
+                ).dict()
             )
         comment_cursor = await config.db["comments"].find_one({"_id": ObjectId(comment_id)})
         if not comment_cursor:
             return JSONResponse(
                 status_code=404,
-                content={"success": False, "message": "Comment not found"}
+                content=CreateCommentResponse(
+                    message="Comment not found"
+                ).dict()
             )
         if comment_cursor["post_id"] != post_id:
             return JSONResponse(
                 status_code=400,
-                content={"success": False, "message": "Comment does not belong to the specified post"}
+                content=CreateCommentResponse(
+                    message="Comment does not belong to the specified post"
+                ).dict()
             )
         try:
             func_payload = {
@@ -140,11 +151,9 @@ async def add_comment_reply(
             if func_response.status_code != 200:
                 return JSONResponse(
                     status_code=500,
-                    content={
-                        "success": False,
-                        "message": "Moderation service error",
-                        "details": func_response.text
-                    }
+                    content=CreateCommentResponse(
+                        message=f"Moderation service error. Details: {func_response.text}"
+                    ).dict()
                 )
 
             func_result = func_response.json()
@@ -153,26 +162,35 @@ async def add_comment_reply(
         except Exception as e:
             return JSONResponse(
                 status_code=500,
-                content={"success": False, "message": "Failed to validate content with moderation engine"}
+                content=CreateCommentResponse(
+                    message="Failed to validate content with moderation engine"
+                ).dict()
             )
-        commet= CommentReply(
-             user_id=user_id,
+        comment= CommentReply(
+            user_id=user_id,
             description=description,
             flagged=flagged
         )
         result = await config.db["comments"].update_one(
             {"_id": ObjectId(comment_id)},
-            {"$push": {"comments": commet.dict()}}
+            {"$push": {"comments": comment.dict()}}
         )
         return JSONResponse(
-            status_code=201,
-            content={"success": True, "message": "Reply added successfully"}
+            status_code=200,
+            content=CreateCommentResponse(
+                success=True,
+                message="Reply added successfully",
+                comment_id=str(result.inserted_id)
+            ).dict()
         )
+
     except Exception as e:
         logging.error(f"Error in user authentication: {e}")
         return JSONResponse(
             status_code=500,
-            content={"success": False, "message": "Internal server error during authentication"}
+            content=CreateCommentResponse(
+                message="Internal server error during authentication"
+            ).dict()
         )
 
 @router.get("")

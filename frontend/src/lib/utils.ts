@@ -259,16 +259,15 @@ export const getUserDetails = async (username: string) => {
 }
 
 // Community Posts API
-export const createPost = async (communityId: string, title: string, description: string, formData: FormData) => {
-  const url = new URL(`/api/v1/c/${communityId}/post`, window.location.origin);
-  url.searchParams.append('title', title);
-  url.searchParams.append('description', description);
-
-  const res = await fetch(url.toString(), {
+export const createPost = async (communityId: string, formData: FormData) => {
+  const res = await fetch(`/api/v1/c/${communityId}/post`, {
     method: 'POST',
     body: formData,
     signal: AbortSignal.timeout(30000),
     credentials: 'include',
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
   });
   if (!res.ok) {
     throw new Error('Failed to create post');
