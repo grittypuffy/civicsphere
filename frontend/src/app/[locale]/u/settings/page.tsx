@@ -19,13 +19,13 @@ import {
 import { CheckmarkRegular, EditRegular, SearchRegular } from '@fluentui/react-icons'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { useTranslations } from 'next-intl'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function SettingsPage() {
   const t = useTranslations('settings')
   const username = useAtomValue(userNameAtom)
-  const userPrefs = useAtomValue(userPrefsAtom_loadable)
   const setUserPrefs = useSetAtom(userPrefsAtom)
+  const userPrefs = useAtomValue(userPrefsAtom_loadable)
   const [editing, setEditing] = useState({ location: false, address: false, language: false, interests: false })
   const [filter, setFilter] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -86,6 +86,10 @@ export default function SettingsPage() {
       : [...localInterests, tag]
     setLocalInterests(updated)
   }
+
+  useEffect(() => {
+    setUserPrefs(getUserPreferences())
+  }, [])
 
   return (
     <main className="flex items-center justify-center px-4 py-8">
