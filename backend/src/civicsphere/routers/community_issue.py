@@ -12,7 +12,7 @@ from ..models.api.issue import (
 )
 
 
-router = APIRouter(tags=["Community Issue"])
+router = APIRouter()
 config: AppConfig = get_config()
 
 

@@ -7,7 +7,7 @@ from ..models.api.post import UserPostsResponse
 from ..models.api.issue import Issue, UserIssuesResponse
 
 
-router = APIRouter(tags=["User-Issue"])
+router = APIRouter(tags=["User Issue"])
 
 config: AppConfig = get_config()
 
