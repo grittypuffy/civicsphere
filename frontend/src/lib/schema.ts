@@ -257,3 +257,16 @@ export const CommunitiesResponseSchema = v.object({
   message: v.string(),
   data: v.optional(v.nullable(v.array(CommunitySchema))),
 });
+
+export const TranslationResponseSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
+  data: v.optional(
+    v.nullable(
+      v.object({
+        title: v.string(),
+        description: v.string()
+      })
+    )
+  ),
+})

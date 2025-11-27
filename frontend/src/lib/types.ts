@@ -24,6 +24,7 @@ import {
   TagAnalyticsSchema,
   TagCountSchema,
   TagResponseSchema,
+  TranslationResponseSchema,
   TrendingResponseSchema,
   UserDataModelSchema,
   UserDataResponseSchema,
@@ -99,3 +100,4 @@ export type TrendingResponse = v.InferOutput<typeof TrendingResponseSchema>;
 export type PostData = NonNullable<TrendingResponse["data"]>[number];
 export type Community = v.InferOutput<typeof CommunitySchema>;
 export type CommunitiesResponse = v.InferOutput<typeof CommunitiesResponseSchema>;
+export type TranslationResponse = v.InferOutput<typeof TranslationResponseSchema>;
