@@ -355,9 +355,19 @@ const PostCard = ({ post }: { post: PostData }) => {
                         </div>
                       )}
                     </div>
-                  ) : (
-                    <span className="text-sm text-gray-500">Click to load explanation...</span>
-                  )}
+                  </div>
+                ) : (
+                  <span className="text-sm text-gray-500">Click to load explanation...</span>
+                )}
+              </TreeItemLayout>
+            </TreeItem>
+            {explainMessage.whats_in_it_for_me && (
+              <TreeItem itemType="branch"
+                size>
+                <TreeItemLayout
+                  expandIcon={<InfoSparkleRegular />}
+                >
+                  Whats in it for me
                 </TreeItemLayout>
               </TreeItem>
             </Tree>
