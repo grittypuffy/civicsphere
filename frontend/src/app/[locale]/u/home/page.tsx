@@ -64,7 +64,7 @@ export default function Page() {
                   return (
                     <div className='flex flex-col items-center justify-center p-4 min-h-[50vh]'>
                       <Image
-                        src='/imgs/loading.png'
+                        src='/images/loading.png'
                         alt='Loading'
                         width={200}
                         height={200}
