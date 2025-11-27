@@ -222,7 +222,7 @@ async def create_voice_post(
         transcription = None
         try:
             transcript = await audio_processor.process_voice(lang, voice)
-            transcription = transcript.get("text", None)
+            transcription = transcript.get("data", None)
             if transcription is None:
                 return JSONResponse(
                     status_code=400,
@@ -242,7 +242,7 @@ async def create_voice_post(
 
         try:
             client = config.langchain_llm
-            transcription = transcript.get("text", None)
+            transcription = transcript.get("data", None)
             chatbot_prompt = PromptTemplate(
                 input_variables=["transcription"], template=chatbot_template
             )
