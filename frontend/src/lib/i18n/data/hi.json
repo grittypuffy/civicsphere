@@ -163,6 +163,7 @@
     "invalidDataDesc": "कृपया अपनी जानकारी जाँचें और पुनः प्रयास करें।",
     "onboardingFailedGenericTitle": "ऑनबोर्डिंग असफल",
     "onboardingFailedGenericDesc": "कृपया बाद में पुनः प्रयास करें।",
+    "addressGuidance": "अपना पता दर्ज करें, सुनिश्चित करें कि यह सही पता है। उदाहरण: [सड़क नंबर], [सड़क का नाम], [Apt/Suite/Unit (यदि हो)], [शहर], [राज्य], [ज़िप कोड], [देश]",
     "ariaFormLabel": "यूज़र ऑनबोर्डिंग फॉर्म",
     "ariaLocation": "स्थान",
     "ariaAddress": "पता",

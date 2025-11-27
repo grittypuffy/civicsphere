@@ -163,6 +163,7 @@
     "invalidDataDesc": "请检查信息并重试。",
     "onboardingFailedGenericTitle": "Onboarding 失败",
     "onboardingFailedGenericDesc": "请稍后再试。",
+    "addressGuidance": "请输入您的地址，确保它是正确的地址。例如: [街道号码], [街道名称], [公寓/套房/单元 (如有)], [城市], [州], [邮政编码], [国家]",
     "ariaFormLabel": "用户 Onboarding 表单",
     "ariaLocation": "位置",
     "ariaAddress": "地址",

@@ -255,6 +255,7 @@ declare const messages: {
     "invalidDataDesc": "Please check your information and try again.",
     "onboardingFailedGenericTitle": "Onboarding Failed",
     "onboardingFailedGenericDesc": "Please try again later.",
+    "addressGuidance": "Enter your address, make sure it's proper address. Eg: [Street Number], [Street Name], [Apt/Suite/Unit (if any)], [City], [State], [ZIP Code], [Country]",
     "ariaFormLabel": "User onboarding form",
     "ariaLocation": "Location",
     "ariaAddress": "Address",

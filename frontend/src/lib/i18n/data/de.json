@@ -163,6 +163,7 @@
     "invalidDataDesc": "Bitte überprüfen Sie Ihre Angaben und versuchen Sie es erneut.",
     "onboardingFailedGenericTitle": "Onboarding fehlgeschlagen",
     "onboardingFailedGenericDesc": "Bitte versuchen Sie es später erneut.",
+    "addressGuidance": "Enter your address, make sure it's proper address. Eg: [Street Number], [Street Name], [Apt/Suite/Unit (if any)], [City], [State], [ZIP Code], [Country]",
     "ariaFormLabel": "Benutzer-Onboarding-Formular",
     "ariaLocation": "Standort",
     "ariaAddress": "Adresse",

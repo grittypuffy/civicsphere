@@ -163,6 +163,7 @@
     "invalidDataDesc": "정보를 확인하고 다시 시도하세요.",
     "onboardingFailedGenericTitle": "온보딩 실패",
     "onboardingFailedGenericDesc": "잠시 후 다시 시도해주세요.",
+      "addressGuidance": "주소를 입력하세요. 올바른 주소인지 확인하세요. 예: [거리 번호], [거리 이름], [아파트/스위트/유닛(있는 경우)], [도시], [주], [우편번호], [국가]",
     "ariaFormLabel": "사용자 온보딩 폼",
     "ariaLocation": "위치",
     "ariaAddress": "주소",

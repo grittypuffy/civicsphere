@@ -467,7 +467,6 @@ export const Feeds = ({ posts, issues, showVoted }: FeedsProps) => {
   const upvotedPosts = useAtomValue(userPostUpvotesAtom_loadable)
   const downvotedPosts = useAtomValue(userPostDownvotesAtom_loadable)
   const upvotedIssues = useAtomValue(userIssueUpvotesAtom_loadable)
-
   const upvotedPostIds = upvotedPosts.state === 'hasData' ? new Set(upvotedPosts.data as string[]) : new Set()
   const downvotedPostIds = downvotedPosts.state === 'hasData' ? new Set(downvotedPosts.data as string[]) : new Set()
   const upvotedIssueIds = upvotedIssues.state === 'hasData' ? new Set(upvotedIssues.data as string[]) : new Set()
@@ -480,9 +479,10 @@ export const Feeds = ({ posts, issues, showVoted }: FeedsProps) => {
 
   const filteredIssues = issues?.filter(issue =>
     showVoted ? upvotedIssueIds.has(issue.issue_id) : !upvotedIssueIds.has(issue.issue_id)
-  ) || []
+  ) || [] 
 
-  const hasAnyContent = filteredPosts.length > 0 || filteredIssues.length > 0
+  // Use the filtered arrays for content presence checks to avoid reading properties of undefined
+  const hasAnyContent = (filteredPosts.length > 0) || (filteredIssues.length > 0)
 
   if (!hasAnyContent) {
     return (

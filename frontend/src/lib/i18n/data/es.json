@@ -163,6 +163,7 @@
     "invalidDataDesc": "Compruebe la información e inténtelo de nuevo.",
     "onboardingFailedGenericTitle": "Error en el onboarding",
     "onboardingFailedGenericDesc": "Por favor, inténtelo más tarde.",
+      "addressGuidance": "Ingresa tu dirección, asegúrate de que sea una dirección correcta. Ej: [Número de Calle], [Nombre de Calle], [Apt/Suite/Unidad (si corresponde)], [Ciudad], [Estado], [Código Postal], [País]",
     "ariaFormLabel": "Formulario de onboarding de usuario",
     "ariaLocation": "Ubicación",
     "ariaAddress": "Dirección",
