@@ -1,5 +1,6 @@
 from azure.storage.blob.aio import BlobServiceClient, ContainerClient
 from azure.ai.textanalytics.aio import TextAnalyticsClient
+from azure.ai.translation.text.aio import TextTranslationClient
 from azure.ai.vision.imageanalysis.aio import ImageAnalysisClient
 from azure.ai.formrecognizer import DocumentAnalysisClient
 from azure.search.documents import SearchClient
@@ -52,6 +53,13 @@ def get_search(index_name: str, key: str, endpoint: str) -> SearchClient:
     client = SearchClient(
         endpoint=endpoint, index_name=index_name, credential=AzureKeyCredential(key))
     return client
+
+
+def text_translator_client(endpoint: str, key: str) -> TextTranslationClient:
+    client = TextTranslationClient(
+        endpoint=endpoint,
+        credential=AzureKeyCredential(key)
+    )
 
 
 def get_text_analysis_client(endpoint: str, key: str) -> TextAnalyticsClient:

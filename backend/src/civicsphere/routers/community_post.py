@@ -365,6 +365,69 @@ async def get_post(
             content={"success": False, "message": f"Internal error: {e}"}
         )
 
+
+@router.get("/{post_id}/translate")
+async def translate_post(
+    req: Request
+):
+    try:
+        # Auth check
+        if not hasattr(req.state, 'user') or not req.state.user:
+            return JSONResponse(
+                status_code=401,
+                content={"success": False, "message": "User not authenticated"}
+            )
+
+        post = await config.db["posts"].find_one({"_id": ObjectId(post_id)})
+
+        if not post:
+            return JSONResponse(
+                status_code=404,
+                content={"success": False, "message": "Post not found"}
+            )
+
+        user = await config.db["userPreferences"].find_one({"user_id": req.state.user.get("user_id")})
+        user_lang = user.get("language") or "en"
+
+        title = post.get("title"),
+        description = post.get("description"),
+
+        if user_lang != post.get("lang"):
+            response = await config.text_translator_client.translate(content=[title, description], to=[user_lang])
+            translated_content = dict()
+            translated_content["title"] = response[0].translations[0].text
+            translated_content["description"] = response[1].translations[0].text
+
+            return JSONResponse(
+                status_code=200,
+                content={
+                    "success": True,
+                    "message": "Post translated successfully",
+                    "data": translated_content
+                }
+            )
+        else:
+            return JSONResponse(
+                status_code=200,
+                content={
+                    "success": False,
+                    "message": f"Internal error: {e}",
+                    "data": {
+                        "title": title,
+                        "description": description
+                    }
+                }
+            )
+
+
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"success": False, "message": f"Internal error: {e}"}
+        )
+
+
+
 @router.get("/{post_id}/explain")
 async def explain_post(
     post_id: str,
@@ -386,10 +449,13 @@ async def explain_post(
                 content={"success": False, "message": "Post not found"}
             )
         user = await config.db["userPreferences"].find_one({"user_id": req.state.user.get("user_id")})
-        analysis = await analyze_post_for_user( user.get("profession"),
+        analysis = await analyze_post_for_user(
+            user.get("profession"),
             user.get("location"),
             post["title"],
-            post["description"])
+            post["description"],
+            user.get("language")
+        )
         return JSONResponse(
             status_code=200,
             content={

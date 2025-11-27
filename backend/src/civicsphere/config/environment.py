@@ -29,6 +29,8 @@ class EnvVarConfig(BaseSettings):
     ai_search_index_name: str
     document_intelligence_endpoint: str
     document_intelligence_key: str
+    text_translation_endpoint: str
+    text_translation_key: str
 
     # Azure subscription details
     azure_subscription_id: str
