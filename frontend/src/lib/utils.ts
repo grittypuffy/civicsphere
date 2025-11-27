@@ -19,7 +19,7 @@ import {
   UserPreferencesUpdateRequestSchema,
   UserReactionsResponseSchema,
 } from "./schema";
-import { CreateIssueRequest, UserPreferencesUpdateRequest } from "./types";
+import { CreateIssueRequest, CreateReplyResponse, UserPreferencesUpdateRequest } from "./types";
 
 const sessionCache = new SessionCache<boolean>({
   ttl: 5 * 60 * 1000,
@@ -276,9 +276,6 @@ export const createPost = async (communityId: string, formData: FormData) => {
 export const createVoicePost = async (communityId: string, formData: FormData) => {
   const res = await fetch(`/api/v1/c/${communityId}/post/voice`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    },
     body: formData,
     signal: AbortSignal.timeout(30000),
     credentials: 'include',
@@ -340,8 +337,55 @@ export const translatePost = async (communityId: string, postId: string) => {
   if (!json.success) {
     throw new Error('Failed to fetch translation');
   }
-  return json.data || {};
+  return json.data || {title: '', description: ''};
 }
+
+// Comments API
+export const postComment = async (communityId: string, postId: string, body: string) => {
+  const res = await fetch(`/api/v1/c/${communityId}/posts/${postId}/comments`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    signal: AbortSignal.timeout(30000),
+    credentials: 'include',
+    body: body
+  });
+  if (!res.ok) {
+    throw new Error('Failed to upvote post');
+  }
+  return await res.json() as CreateReplyResponse;
+}
+
+export const getComments = async (communityId: string, postId: string) => {
+  const res = await fetch(`/api/v1/c/${communityId}/posts/${postId}/comments`, {
+    method: 'GET',
+    signal: AbortSignal.timeout(30000),
+    credentials: 'include',
+  });
+  if (!res.ok) {
+    throw new Error('Failed to upvote post');
+  }
+  return await res.json();
+}
+
+
+export const replyComment = async (communityId: string, postId: string, commentId: string, body: string) => {
+  const res = await fetch(`/api/v1/c/${communityId}/posts/${postId}/comments/${commentId}/reply`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    signal: AbortSignal.timeout(30000),
+    credentials: 'include',
+    body: body
+  });
+  if (!res.ok) {
+    throw new Error('Failed to upvote post');
+  }
+  return await res.json() as CreateReplyResponse;
+}
+
 
 // Post Reaction
 export const upvotePost = async (communityId: string, postId: string) => {

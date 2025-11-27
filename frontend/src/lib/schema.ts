@@ -272,3 +272,13 @@ export const TranslationResponseSchema = v.object({
     )
   ),
 })
+
+export const CreateReplyRequestSchema = v.object({
+  description: v.string()
+})
+
+export const CreateReplyResponseSchema = v.object({
+  success: v.boolean(),
+  message: v.optional(v.nullable(v.string())),
+  comment_id: v.optional(v.nullable(v.string()))
+})

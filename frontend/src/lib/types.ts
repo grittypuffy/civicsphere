@@ -9,6 +9,8 @@ import {
   CommunitySchema,
   CreateIssueRequestSchema,
   CreatePostRequestSchema,
+  CreateReplyRequestSchema,
+  CreateReplyResponseSchema,
   GetPreferencesResponseSchema,
   HTTPValidationErrorSchema,
   IssueResponseMultipleSchema,
@@ -101,3 +103,5 @@ export type PostData = NonNullable<TrendingResponse["data"]>[number];
 export type Community = v.InferOutput<typeof CommunitySchema>;
 export type CommunitiesResponse = v.InferOutput<typeof CommunitiesResponseSchema>;
 export type TranslationResponse = v.InferOutput<typeof TranslationResponseSchema>;
+export type CreateReplyRequest = v.InferOutput<typeof CreateReplyRequestSchema>;
+export type CreateReplyResponse = v.InferOutput<typeof CreateReplyResponseSchema>;

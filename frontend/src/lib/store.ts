@@ -18,13 +18,20 @@ export const userIssueUpvotesAtom_loadable = loadable(userIssueUpvotesAtom);
 export const userIssueDownvotesAtom = atom();
 export const userIssueDownvotesAtom_loadable = loadable(userIssueDownvotesAtom);
 
-// Post atom
+// Post creation atom
 export const postSelectedTagsAtom = atom<string[]>([]);
 export const postTitleAtom = atom<string>("");
 export const postDescriptionAtom = atom<string>("");
 export const postFilesAtom = atom<File[]>([]);
 export const postIsLoadingAtom = atom<boolean>(false);
 export const postErrorAtom = atom<string | null>(null);
+
+// Post view atom
+export const communityPostTitleAtom = atom<string>("");
+export const communityPostDescriptionAtom = atom<string>("");
+export const communityPostTitleAtom_loadable = loadable(communityPostTitleAtom);
+export const communityPostDescriptionAtom_loadable = loadable(communityPostDescriptionAtom);
+
 
 // Issue atom
 export const issueTitleAtom = atom<string>("");

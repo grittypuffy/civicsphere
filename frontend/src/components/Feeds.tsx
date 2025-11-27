@@ -1,9 +1,9 @@
-import { userIssueUpvotesAtom, userIssueUpvotesAtom_loadable, userPostDownvotesAtom, userPostDownvotesAtom_loadable, userPostUpvotesAtom, userPostUpvotesAtom_loadable } from "@/lib/store"
+import { communityPostDescriptionAtom, communityPostDescriptionAtom_loadable, communityPostTitleAtom, communityPostTitleAtom_loadable, userIssueUpvotesAtom, userIssueUpvotesAtom_loadable, userPostDownvotesAtom, userPostDownvotesAtom_loadable, userPostUpvotesAtom, userPostUpvotesAtom_loadable } from "@/lib/store"
 import { Issue, PostData } from "@/lib/types"
 import TTSButton from "@/components/TTSButton"
-import { downvotePost, getUserIssueUpvotes, getUserPostDownvotes, getUserPostUpvotes, removeDownvotePost, removeUpvoteIssue, removeUpvotePost, upvoteIssue, upvotePost } from "@/lib/utils"
-import { Badge, Button, Card, CardFooter, CardHeader, Dialog, DialogActions, DialogBody, DialogSurface, DialogTitle, Text } from "@fluentui/react-components"
-import { CheckmarkCircleColor, CheckmarkRegular, ClockRegular, EyeRegular, FlagFilled, HandRightRegular, LocalLanguageFilled, Location16Filled, ThumbDislikeFilled, ThumbDislikeRegular, ThumbLikeFilled } from "@fluentui/react-icons"
+import { downvotePost, getUserIssueUpvotes, getUserPostDownvotes, getUserPostUpvotes, removeDownvotePost, removeUpvoteIssue, removeUpvotePost, translatePost, upvoteIssue, upvotePost } from "@/lib/utils"
+import { Badge, Button, Card, CardFooter, CardHeader, Dialog, DialogActions, DialogBody, DialogSurface, DialogTitle, Spinner, Text } from "@fluentui/react-components"
+import { CheckmarkCircleColor, CheckmarkRegular, ClockRegular, EyeRegular, FlagFilled, HandRightRegular, LocalLanguageFilled, Location16Filled, ThumbDislikeFilled, ThumbDislikeRegular, ThumbLikeFilled, Translate24Filled } from "@fluentui/react-icons"
 import { ThumbLikeRegular } from "@fluentui/react-icons/svg/thumb-like"
 import { useAtomValue, useSetAtom } from "jotai"
 import { useState } from "react"
@@ -21,11 +21,16 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
   const downvotedPosts = useAtomValue(userPostDownvotesAtom_loadable)
   const setPostUpvotes = useSetAtom(userPostUpvotesAtom)
   const setPostDownvotes = useSetAtom(userPostDownvotesAtom)
+  const postTitle = useAtomValue(communityPostTitleAtom_loadable)
+  const postDescription = useAtomValue(communityPostDescriptionAtom_loadable)
+  const setPostTitle = useSetAtom(communityPostTitleAtom)
+  const setPostDescription = useSetAtom(communityPostDescriptionAtom)
   const [loading, setLoading] = useState(false)
-
+  const [translating, setTranslating] = useState(false)
   const upvotedPostIds = upvotedPosts.state === 'hasData' ? upvotedPosts.data as string[] : []
   const downvotedPostIds = downvotedPosts.state === 'hasData' ? downvotedPosts.data as string[] : []
-
+  const postTitleData = postTitle.state === 'hasData' ? postTitle.data as string : post.title
+  const postDescriptionData = postDescription.state === 'hasData' ? postDescription.data as string : post.description
   const isUpvoted = upvotedPostIds?.includes(post.post_id)
   const isDownvoted = downvotedPostIds?.includes(post.post_id)
 
@@ -64,6 +69,21 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
       console.error('Failed to handle downvote:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleTranslate = async () => {
+    if (translating) return
+    setTranslating(true)
+    try {
+      const response = await translatePost(post.community_id, post.post_id);
+      setPostTitle(response?.title || postTitleData);
+      setPostDescription(response?.description || postDescriptionData);
+      
+    } catch (error) {
+      console.error('Failed to translate post:', error)
+    } finally {
+      setTranslating(false)
     }
   }
 
@@ -201,6 +221,21 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
           </Card>
         </DialogBody>
         <DialogActions>
+          <Button
+            onClick={handleTranslate}
+            disabled={translating}
+            appearance="primary"
+            icon={<Translate24Filled aria-hidden="true" />}
+            aria-label="Translate post"
+          >
+            {translating ? (
+              <>
+                <Spinner size={"small"} /> Translating
+              </>
+              ) : (
+                "Translate"
+              )}
+          </Button>
           <TTSButton text={`Title: ${post.title}. Description: ${post.description}`}></TTSButton>
           <Button appearance="secondary" onClick={() => setOpen(false)}>
             {t('close')}

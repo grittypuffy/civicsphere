@@ -44,7 +44,7 @@ export default function TTSButton({ text }: SpeakButtonProps) {
     >
       {isLoading ? (
         <>
-          <Spinner size={"small"} /> Generating...
+          <Spinner size={"small"} /> Generating
         </>
       ) : (
         "Speak"
