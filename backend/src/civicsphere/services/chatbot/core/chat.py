@@ -56,7 +56,7 @@ Guidelines:
             # Set up Bing grounding tool
             bing = BingGroundingTool(
                 connection_id=bing_connection_id,
-                market=config.market_codes.get(language, "en-US"),
+                market=language or "en-US",
                 set_lang=user_language,
                 count=3,
             )
@@ -79,7 +79,7 @@ Guidelines:
                 name="civicsphere-agent-bot",
                 instructions=instructions,
                 tools=definition,
-                tool_resources=[bing.resources, ai_search.resources],
+                tool_resources=bing.resources,
             )
 
             # Create a new thread and process the query

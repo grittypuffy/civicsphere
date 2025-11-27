@@ -76,7 +76,6 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
     setTranslating(true);
     try {
       const response = await translatePost(post.community_id, post.post_id);
-      console.log('Translation response:', response);
       setPostTitle(response?.title);
       setPostDescription(response?.description);
     } catch (error) {
@@ -600,7 +599,7 @@ export const Feeds = ({ posts, issues, showVoted }: FeedsProps) => {
       <div className="max-w-5xl mx-auto p-6">
         <div className="text-center py-12 min-h-[50vh]">
           <Image
-            src="/imgs/no_data.svg"
+            src="/images/no_data.svg"
             alt="No Data"
             width={200}
             height={200}

@@ -40,22 +40,27 @@ export default function CreatePost({ communityId }: { communityId: string }) {
   const [error, setError] = useAtom(postErrorAtom);
   const [postType, setPostType] = useAtom(postTypeAtom);
   const [voiceBlob, setVoiceBlob] = useState<Blob | null>(null);
+  const [audioURL, setAudioURL] = useState('');
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setFiles(Array.from(event.target.files));
     }
   };
+
   const handleVoiceSubmit = (audioBlob: Blob) => {
-    // console.log("Received audio blob:", audioBlob);
     setVoiceBlob(audioBlob);
+    const audioBlobUrl = URL.createObjectURL(audioBlob);
+    setAudioURL(audioBlobUrl);
+
   };
   const handleVoicePost = async () => {
+    if (!selectedTags || !voiceBlob) return;
     const formData = new FormData();
     selectedTags.forEach((tag) => {
       formData.append("tags", tag);
     });
-    formData.append("voice", voiceBlob as Blob);
+    formData.append("voice", voiceBlob);
 
     try {
       const response = await fetch(`/api/v1/c/${communityId}/post/voice`, {
@@ -64,11 +69,14 @@ export default function CreatePost({ communityId }: { communityId: string }) {
         credentials: "include",
       });
 
+      setVoiceBlob(null);
+      setAudioURL('');
+
       if (!response.ok) {
         throw new Error("Voice post creation failed");
       }
 
-      const data = await response.json();
+      const data: any = await response.json();
       console.log("Post created successfully", data);
     } catch (error) {
       setError("Failed to create voice post. Please try again.");
@@ -76,10 +84,6 @@ export default function CreatePost({ communityId }: { communityId: string }) {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleVoiceRecording = () => {
-    console.log("Voice recording started");
   };
 
   const handleSubmit = async (event: React.FormEvent) => {

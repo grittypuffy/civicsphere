@@ -3,8 +3,6 @@
 import { Avatar, Button, Textarea, Tooltip } from "@fluentui/react-components";
 import {
   DeleteFilled,
-  MicFilled,
-  MicRegular,
   SendFilled,
 } from "@fluentui/react-icons";
 import { useTranslations } from "next-intl";
@@ -16,53 +14,7 @@ import { ChatData } from "@/lib/types";
 
 type MessageWithId = ChatData & { id: number };
 
-const messagesAtom = atom<MessageWithId[]>([
-  //   {
-  //     id: 1,
-  //     role: 'bot',
-  //     content: 'Hello! I\'m your AI assistant. How can I help you today?'
-  //   },
-  //   {
-  //     id: 2,
-  //     role: 'user',
-  //     content: 'Hi there! Can you help me understand how machine learning works?'
-  //   },
-  //   {
-  //     id: 3,
-  //     role: 'bot',
-  //     content: 'Of course! Machine learning is a subset of artificial intelligence where computers learn to make predictions or decisions by finding patterns in data, rather than being explicitly programmed for every scenario.\n\nThink of it like teaching a child to recognize animals - instead of describing every detail of what makes a cat a cat, you show them many pictures of cats until they learn to identify the patterns themselves.'
-  //   },
-  //   {
-  //     id: 4,
-  //     role: 'user',
-  //     content: 'That\'s a great analogy! What are the main types of machine learning?'
-  //   },
-  //   {
-  //     id: 5,
-  //     role: 'bot',
-  //     content: 'There are three main types:\n\n1. **Supervised Learning**: Learning with examples and correct answers (like studying for a test with an answer key)\n\n2. **Unsupervised Learning**: Finding hidden patterns in data without knowing the "right" answer (like grouping customers by shopping habits)\n\n3. **Reinforcement Learning**: Learning through trial and error with rewards and penalties (like training a game-playing AI)\n\nEach type is useful for different kinds of problems!'
-  //   },
-  //   {
-  //     id: 6,
-  //     role: 'user',
-  //     content: 'This is really helpful! Can you give me a practical example of how supervised learning is used in real life?'
-  //   },
-  //   {
-  //     id: 7,
-  //     role: 'bot',
-  //     content: 'Absolutely! One great example is email spam detection. The system is trained on thousands of emails that are already labeled as "spam" or "not spam" by humans.\n\nThe algorithm learns to identify patterns like:\n- Certain keywords ("FREE", "URGENT", etc.)\n- Sender reputation\n- Email formatting\n- Links and attachments\n\nOnce trained, it can automatically classify new emails with high accuracy. Gmail, Outlook, and other email services use this technology to protect your inbox!'
-  //   },
-  //   {
-  //     id: 8,
-  //     role: 'user',
-  //     content: 'That makes sense! What about unsupervised learning? Do you have a good example for that too?'
-  //   },
-  //   {
-  //     id: 9,
-  //     role: 'bot',
-  //     content: 'Perfect question! A classic example is customer segmentation for marketing.\n\nImagine an online retailer with millions of customers. They feed the algorithm purchase history, browsing behavior, and demographics - but WITHOUT telling it what groups to look for.\n\nThe algorithm might discover patterns like:\n- "Budget-conscious families" who buy in bulk during sales\n- "Tech enthusiasts" who purchase the latest gadgets\n- "Eco-conscious shoppers" who prefer sustainable products\n\nThe company never defined these segments - the algorithm found these hidden patterns on its own! This helps them create targeted marketing campaigns and personalized recommendations.'
-  //   }
-]);
+const messagesAtom = atom<MessageWithId[]>([]);
 
 const chatStateAtom = atom({
   input: "",
@@ -77,7 +29,7 @@ export default function ChatPage() {
   const { input, isRecording, isWaiting } = chatState;
   const listRef = useRef<HTMLDivElement | null>(null);
   const [voiceBlob, setVoiceBlob] = useState<Blob | null>(null);
-
+  const [audioURL, setAudioURL] = useState('');
   const suggestions: string[] = [
     t("suggestions.pollsite"),
     t("suggestions.trending"),
@@ -116,19 +68,21 @@ export default function ChatPage() {
 
     typeNextChar();
   }
+
   const handleVoiceSubmit = (audioBlob: Blob) => {
-    // console.log("Received audio blob:", audioBlob);
     setVoiceBlob(audioBlob);
+    const audioBlobUrl = URL.createObjectURL(audioBlob);
+    setAudioURL(audioBlobUrl);
   };
 
   async function handleSend() {
     const text = input.trim();
-    if (!text) return;
+    if (!text && !voiceBlob) return;
     setChatState((prev) => ({ ...prev, isWaiting: true, input: "" }));
     const userMessage: MessageWithId = {
       id: Date.now(),
       role: "user",
-      content: "",
+      content: voiceBlob? "[Voice Message]" : "",
     };
     setMessages((m: MessageWithId[]) => [...m, userMessage]);
 
@@ -143,37 +97,28 @@ export default function ChatPage() {
     setMessages((m: MessageWithId[]) => [...m, botMessage]);
 
     try {
-      const response = await fetch("/api/v1/chat/new", {
+      let response;
+      const formData = new FormData();
+      if (voiceBlob) {
+        formData.append('voice', voiceBlob);
+      } else if (text) {
+        formData.append('prompt', text);
+      }
+
+      response = await fetch("/api/v1/chat/new", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ prompt: text }),
+        credentials: 'include',
+        body: formData,
       });
+
+      setVoiceBlob(null);
+      setAudioURL('');
 
       if (!response.ok) {
         throw new Error(`HTTP error. Status: ${response.status}`);
       }
-
-      const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
-
-      if (!reader) {
-        throw new Error("Response body is not readable");
-      }
-
-      let accumulatedText = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-
-        if (done) break;
-
-        const chunk = decoder.decode(value, { stream: true });
-        accumulatedText += chunk;
-      }
-
-      simulateTyping(accumulatedText, botMessageId);
+      const content: any = await response.json();
+      simulateTyping(content.data.content, botMessageId);
     } catch (error) {
       console.error("Error sending message:", error);
       simulateTyping(t("errors.generic"), botMessageId);
@@ -185,19 +130,6 @@ export default function ChatPage() {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSend();
-    }
-  }
-
-  function toggleMic() {
-    if (isRecording) {
-      const captured = t("mic.captured");
-      setChatState((prev) => ({
-        ...prev,
-        isRecording: false,
-        input: prev.input ? prev.input + " " + captured : captured,
-      }));
-    } else {
-      setChatState((prev) => ({ ...prev, isRecording: true }));
     }
   }
 
@@ -266,15 +198,6 @@ export default function ChatPage() {
                 rows={2}
               />
               <div className="flex justify-between">
-                {/* <Button
-                  appearance={isRecording ? 'primary' : 'subtle'}
-                  onClick={toggleMic}
-                  shape='circular'
-                  icon={isRecording ?
-                    (<MicFilled />) :
-                    (<MicRegular />)
-                  }
-                /> */}
                 <SpeakButton onVoiceSubmit={handleVoiceSubmit} />
 
                 <div className="flex gap-2 items-center">
@@ -294,7 +217,7 @@ export default function ChatPage() {
                   <Button
                     appearance="subtle"
                     onClick={handleSend}
-                    disabled={isWaiting || !input.trim()}
+                    disabled={isWaiting || (!input.trim() && !voiceBlob)}
                     shape="circular"
                     icon={<SendFilled />}
                   />
@@ -303,6 +226,7 @@ export default function ChatPage() {
             </div>
           </form>
         </div>
+        <p className="text-sm mb-4 opacity-60">Responses are generated by AI and may not be accurate.</p>
       </div>
     </div>
   );

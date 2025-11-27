@@ -40,7 +40,7 @@ export default function TTSButton({ text }: SpeakButtonProps) {
       disabled={isLoading}
       appearance="primary"
       icon={<Speaker024Filled aria-hidden="true" />}
-      aria-label="Speak post content"
+      aria-label="Speak content from post or issue"
     >
       {isLoading ? (
         <>

@@ -1,5 +1,5 @@
+import logging
 from fastapi import UploadFile
-
 from ....config import AppConfig
 from ....models.api.post import PostResponse
 from ..scraper.web.nyc import (
@@ -8,7 +8,6 @@ from ..scraper.web.nyc import (
     summarize_pollsite,
     summarize_accessibility,
 )
-
 from ....services.media_processors.audio import AudioProcessor
 
 config: AppConfig = AppConfig()
@@ -23,10 +22,10 @@ async def process_voice_prompt(voice: UploadFile, language: str) -> str:
             except Exception as e:
                 raise RuntimeError(f"Error while transcribing voice: {e}") from e
 
-            if not transcript or "text" not in transcript:
-                raise ValueError("Transcription failed: No 'text' in response.")
+            if transcript is None or transcript.get("data") is None:
+                raise ValueError("Transcription failed: No 'data' in response.")
 
-            return transcript.get("text")
+            return transcript.get("data")
 
         case _:
             raise ValueError(f"Unsupported voice format: {voice_content_type}")
