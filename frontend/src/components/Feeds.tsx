@@ -1,5 +1,6 @@
 import { userIssueUpvotesAtom, userIssueUpvotesAtom_loadable, userPostDownvotesAtom, userPostDownvotesAtom_loadable, userPostUpvotesAtom, userPostUpvotesAtom_loadable } from "@/lib/store"
 import { Issue, PostData } from "@/lib/types"
+import TTSButton from "@/components/TTSButton"
 import { downvotePost, getUserIssueUpvotes, getUserPostDownvotes, getUserPostUpvotes, removeDownvotePost, removeUpvoteIssue, removeUpvotePost, upvoteIssue, upvotePost } from "@/lib/utils"
 import { Badge, Button, Card, CardFooter, CardHeader, Dialog, DialogActions, DialogBody, DialogSurface, DialogTitle, Text } from "@fluentui/react-components"
 import { CheckmarkCircleColor, CheckmarkRegular, ClockRegular, EyeRegular, FlagFilled, HandRightRegular, LocalLanguageFilled, Location16Filled, ThumbDislikeFilled, ThumbDislikeRegular, ThumbLikeFilled } from "@fluentui/react-icons"
@@ -200,6 +201,7 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
           </Card>
         </DialogBody>
         <DialogActions>
+          <TTSButton text={`Title: ${post.title}. Description: ${post.description}`}></TTSButton>
           <Button appearance="secondary" onClick={() => setOpen(false)}>
             {t('close')}
           </Button>
