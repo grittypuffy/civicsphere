@@ -263,9 +263,6 @@ export const getUserDetails = async (username: string) => {
 export const createPost = async (communityId: string, formData: FormData) => {
   const res = await fetch(`/api/v1/c/${communityId}/post`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    },
     body: formData,
     signal: AbortSignal.timeout(30000),
     credentials: 'include',

@@ -64,6 +64,7 @@ class EnvVarConfig(BaseSettings):
     
     # Function App
     azure_function_app_url: str
+    azure_function_app_key: str
 
     # Azure Foundry Project
     azure_foundry_project_endpoint: str

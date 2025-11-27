@@ -103,13 +103,17 @@ async def create_post(
                 "title": title,
                 "description": description
             }
-
+            func_response = None
             async with httpx.AsyncClient(timeout=20) as client:
+                headers = {
+                   "x-functions-key": config.env.azure_function_app_key
+                }
                 func_response = await client.post(
                     config.env.azure_function_app_url,
-                    json=func_payload
+                    json=func_payload,
+                    headers=headers
                 )
-
+            logging.error(func_response)
             if func_response.status_code != 200:
                 return JSONResponse(
                     status_code=500,
@@ -265,9 +269,13 @@ async def create_voice_post(
             }
 
             async with httpx.AsyncClient(timeout=20) as client:
+                headers = {
+                   "x-functions-key": config.env.azure_function_app_key
+                }
                 func_response = await client.post(
                     config.env.azure_function_app_url,
-                    json=func_payload
+                    json=func_payload,
+                    headers=headers
                 )
 
             if func_response.status_code != 200:

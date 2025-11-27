@@ -48,9 +48,13 @@ async def add_comment(
             }
 
             async with httpx.AsyncClient(timeout=20) as client:
+                headers = {
+                   "x-functions-key": config.env.azure_function_app_key
+                }
                 func_response = await client.post(
                     config.env.azure_function_app_url,
-                    json=func_payload
+                    json=func_payload,
+                    headers=headers
                 )
 
             if func_response.status_code != 200:
@@ -143,9 +147,13 @@ async def add_comment_reply(
             }
 
             async with httpx.AsyncClient(timeout=20) as client:
+                headers = {
+                   "x-functions-key": config.env.azure_function_app_key
+                }
                 func_response = await client.post(
                     config.env.azure_function_app_url,
-                    json=func_payload
+                    json=func_payload,
+                    headers=headers
                 )
 
             if func_response.status_code != 200:

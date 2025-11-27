@@ -17,3 +17,11 @@ export const userIssueUpvotesAtom = atom();
 export const userIssueUpvotesAtom_loadable = loadable(userIssueUpvotesAtom);
 export const userIssueDownvotesAtom = atom();
 export const userIssueDownvotesAtom_loadable = loadable(userIssueDownvotesAtom);
+
+// Post atom
+export const postSelectedTagsAtom = atom<string[]>([]);
+export const postTitleAtom = atom<string>("");
+export const postdescriptionAtom = atom<string>("");
+export const postFilesAtom = atom<File[]>([]);
+export const postIsLoadingAtom = atom<boolean>(false);
+export const postErrorAtom = atom<string | null>(null);

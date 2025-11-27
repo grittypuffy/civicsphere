@@ -1,21 +1,90 @@
 import { TAGS } from "@/lib/consts";
-import { Button, DialogActions, DialogSurface, DialogTitle, DialogTrigger, Dropdown, Field, Input, Option, Textarea } from "@fluentui/react-components";
-import { useState } from "react";
+import {
+  Button,
+  DialogActions,
+  DialogSurface,
+  DialogTitle,
+  DialogTrigger,
+  Dropdown,
+  Field,
+  Input,
+  Option,
+  Textarea,
+  Spinner,
+} from "@fluentui/react-components";
+import { useAtom } from "jotai";
+import { createPost } from "@/lib/utils";
 
-export default function CreatePost() {
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+// Import the renamed atoms
+import {
+  postSelectedTagsAtom,
+  postTitleAtom,
+  postdescriptionAtom,
+  postFilesAtom,
+  postIsLoadingAtom,
+  postErrorAtom,
+} from "@/lib/store";
+
+export default function CreatePost({ communityId }: { communityId: string }) {
+  // Use the renamed atoms
+  const [selectedTags, setSelectedTags] = useAtom(postSelectedTagsAtom);
+  const [title, setTitle] = useAtom(postTitleAtom);
+  const [description, setDescription] = useAtom(postdescriptionAtom);
+  const [files, setFiles] = useAtom(postFilesAtom);
+  const [isLoading, setIsLoading] = useAtom(postIsLoadingAtom);
+  const [error, setError] = useAtom(postErrorAtom);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setFiles(Array.from(event.target.files));
+    }
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("tags", selectedTags.join(","));
+
+    files.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    try {
+      console.log(communityId);
+      const response = await createPost(communityId, formData);
+      console.log(response);
+    } catch (error) {
+      setError("Failed to create post. Please try again.");
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
       <DialogSurface>
         <DialogTitle>Create Post</DialogTitle>
-        <form>
+        <form onSubmit={handleSubmit}>
           <Field label="Title">
-            <Input />
+            <Input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
           </Field>
 
-          <Field label="Body">
-            <Textarea />
+          <Field label="Description">
+            <Textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
           </Field>
 
           <Field label="Tags">
@@ -37,16 +106,23 @@ export default function CreatePost() {
             </Dropdown>
           </Field>
 
-          <Field>
-            <Button>Add Files</Button>
+          <Field label="Add Files">
+            <input type="file" multiple onChange={handleFileChange} />
           </Field>
+
+          {error && <div style={{ color: "red" }}>{error}</div>}
+
+          <DialogActions>
+            <DialogTrigger disableButtonEnhancement>
+              <Button appearance="secondary">Cancel</Button>
+            </DialogTrigger>
+
+            <Button type="submit" appearance="primary" disabled={isLoading}>
+              {isLoading ? <Spinner size="small" /> : "Create Post"}
+            </Button>
+          </DialogActions>
         </form>
-        <DialogActions>
-          <DialogTrigger disableButtonEnhancement>
-            <Button appearance="secondary">Cancel</Button>
-          </DialogTrigger>
-        </DialogActions>
       </DialogSurface>
     </>
-  )
+  );
 }

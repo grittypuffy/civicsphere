@@ -194,7 +194,7 @@ export default function CommunitiesPage() {
                                   aria-label="Create new post"
                                 />
                               </DialogTrigger>
-                              <CreatePost />
+                              <CreatePost communityId={selectedCommunityId} />
                             </Dialog>
                           </div>
                           <Feeds posts={filteredPosts} />
