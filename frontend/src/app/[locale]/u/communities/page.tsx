@@ -165,9 +165,11 @@ export default function CommunitiesPage() {
                     icon={<AddSquareRegular />}
                     shape='circular'
                     size='medium'
-                    aria-label="Create new post"
+                    aria-label="Create new post or issue in a community"
                     disabled={!selectedCommunityId}
-                  />
+                  >
+                    Create
+                  </Button>
                 </DialogTrigger>
                 {tab === 'posts' ?
                   <CreatePost communityId={selectedCommunityId} /> :
