@@ -1,41 +1,38 @@
 from typing import Optional, List
 import logging
-from fastapi import APIRouter, Request, Depends, File, UploadFile, Form
+from fastapi import (
+    APIRouter,
+    Request,
+    Depends,
+    File,
+    UploadFile,
+    Form
+)
 from fastapi.responses import JSONResponse
 from langchain_core.prompts import PromptTemplate
-from ..config import AppConfig
-from ..models.db.user import UserPreferences
-from ..models.api.chat import Chat, ChatData, ChatRequest, ChatResponse
-from ..models.api.post import PostResponse
-from ..services.chatbot.rag import search_documents
-from ..services.chatbot.core.chat import execute_agent_query
-from ..services.chatbot.scraper.web.nyc import parse_address, get_pollsite_info, summarize_pollsite, summarize_accessibility
-from ..services.chatbot.external.nyc import process_voice_prompt
-from ..services.chatbot.external.nyc import get_accessibility_summary, get_pollsite_summary, get_trending_posts
+from src.civicsphere.config import AppConfig
+from src.civicsphere.models.db.user import UserPreferences
+from src.civicsphere.models.api.chat import (
+    Chat,
+    ChatData,
+    ChatRequest,
+    ChatResponse
+)
+from src.civicsphere.models.api.post import PostResponse
+from src.civicsphere.services.chatbot.rag import search_documents
+from src.civicsphere.services.chatbot.core.chat import execute_agent_query
+from src.civicsphere.services.chatbot.scraper.web.nyc import (
+    parse_address,
+    get_pollsite_info,
+    summarize_pollsite,
+    summarize_accessibility
+)
+from src.civicsphere.services.chatbot.external.nyc import process_voice_prompt
+from src.civicsphere.services.chatbot.external.nyc import get_accessibility_summary, get_pollsite_summary, get_trending_posts
 
 
 config: AppConfig = AppConfig()
 router = APIRouter(tags=["Chatbot"])
-
-
-async def get_user_preferences(user_id: str):
-    """Fetch user preferences from the database."""
-    prefs = await config.db["userPreferences"].find_one(
-        {"user_id": user_id},
-        {
-            "location": 1,
-            "address": 1,
-            "profession": 1,
-            "interests": 1,
-            "language": 1,
-            "_id": 0,
-        },
-    )
-
-    if not prefs:
-        raise ValueError("Preferences not found. User may not have completed onboarding.")
-    return UserPreferences(**prefs)
-
 
 @router.post(
     "/new",
@@ -68,7 +65,23 @@ async def chat(
     logging.info(user_id)
     # Get preferences
     try:
-        prefs_data = await get_user_preferences(user_id)
+        prefs = await config.db["userPreferences"].find_one(
+            {"user_id": user_id},
+            {
+                "location": 1,
+                "address": 1,
+                "profession": 1,
+                "interests": 1,
+                "language": 1,
+                "_id": 0,
+            },
+        )
+
+        if not prefs:
+            raise ValueError("Preferences not found. User may not have completed onboarding.")
+        language = prefs.get("language", "en")
+        address = prefs.get("address")
+        location = prefs.get("location")
         language = prefs_data.language or "en"
         # Process voice prompt        
         if voice:
@@ -78,17 +91,17 @@ async def chat(
 
         match prompt_text:
             case "Find my nearest pollsites":
-                summary = await get_pollsite_summary(prefs_data.address)
+                summary = await get_pollsite_summary(address)
                 return ChatResponse(success=True, message="Fetched pollsite summary", data=ChatData(role="assistant", content=summary))
 
             case "Trending discussions in my area":
                 if not prefs_data.location:
                     return JSONResponse(status_code=400, content=ChatResponse(success=False, message="User location not set").dict())
-                summary = await get_trending_posts(prefs_data.location)
+                summary = await get_trending_posts(location)
                 return ChatResponse(success=True, message="Successfully fetched trending posts", data=ChatData(role="assistant", content=summary))
 
             case "Accessibility options available at my nearest polling sites":
-                summary = await get_accessibility_summary(prefs_data.address)
+                summary = await get_accessibility_summary(address)
                 return ChatResponse(success=True, message="Fetched pollsite accessibility summary", data=ChatData(role="assistant", content=summary))
             case _:
                 response = await execute_agent_query(prompt_text, language, prefs_data)

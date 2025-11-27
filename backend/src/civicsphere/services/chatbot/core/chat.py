@@ -1,14 +1,22 @@
+import logging
 from typing import Optional
 from azure.identity.aio import DefaultAzureCredential
 from azure.ai.projects.aio import AIProjectClient
 from azure.ai.agents.aio import AgentsClient
-from azure.ai.agents.models import AgentThreadCreationOptions, ThreadMessageOptions, MessageTextContent
-from azure.ai.agents.models import ListSortOrder, AsyncToolSet, BingGroundingTool, AzureAISearchTool, AzureAISearchQueryType
-from ....config import AppConfig
-from ....models.api.chat import ChatData
-from ....models.api.user import UserPreferences
-from ....models.api.chat import ChatResponse
-import logging
+from azure.ai.agents.models import (
+    AgentThreadCreationOptions,
+    ThreadMessageOptions,
+    MessageTextContent,
+)
+from azure.ai.agents.models import (
+    ListSortOrder,
+    AsyncToolSet,
+    BingGroundingTool,
+    AzureAISearchTool,
+    AzureAISearchQueryType,
+)
+from src.civicsphere.config import AppConfig
+from src.civicsphere.models.api.chat import ChatData, ChatResponse
 
 config = AppConfig()
 
@@ -27,23 +35,31 @@ Guidelines:
 """
 
 
-async def execute_agent_query(prompt: str, language: str, prefs_data: UserPreferences) -> str:
+async def execute_agent_query(
+    prompt: str, language: str, user_language: UserPreferences
+) -> str:
     """Create an AI agent, run the query, and return the response."""
     credential = DefaultAzureCredential()
     async with credential:
-        project_client = AIProjectClient(endpoint=config.env.azure_foundry_project_endpoint, credential=credential)
+        project_client = AIProjectClient(
+            endpoint=config.env.azure_foundry_project_endpoint, credential=credential
+        )
         async with project_client:
             agents_client: AgentsClient = project_client.agents
 
             # Get the Bing tool connection ID
-            bing_connection_id = (await project_client.connections.get(config.env.bing_tool_connection_name)).id
+            bing_connection_id = (
+                await project_client.connections.get(
+                    config.env.bing_tool_connection_name
+                )
+            ).id
 
             # Set up Bing grounding tool
             bing = BingGroundingTool(
                 connection_id=bing_connection_id,
                 market=config.market_codes.get(language, "en-US"),
-                set_lang=prefs_data.language,
-                count=3
+                set_lang=user_language,
+                count=3,
             )
 
             # Set up Azure AI search tool
@@ -52,7 +68,7 @@ async def execute_agent_query(prompt: str, language: str, prefs_data: UserPrefer
                 index_name=config.env.ai_search_index_name,
                 query_type=AzureAISearchQueryType.SIMPLE,
                 top_k=2,
-                filter=""
+                filter="",
             )
             bing_search_def = bing.definitions
             definition = [*bing_search_def]
@@ -63,8 +79,8 @@ async def execute_agent_query(prompt: str, language: str, prefs_data: UserPrefer
                 model=config.env.ai_agent_model_name,
                 name="civicsphere-agent-bot",
                 instructions=instructions,
-                tools=bing.definitions,
-                tool_resources=[bing.resources, ai_search.resources]
+                tools=definition,
+                tool_resources=[bing.resources, ai_search.resources],
             )
 
             # Create a new thread and process the query
@@ -81,7 +97,9 @@ async def execute_agent_query(prompt: str, language: str, prefs_data: UserPrefer
                 raise Exception(error_message)
 
             # Retrieve the response from the agent
-            messages = agents_client.messages.list(thread_id=run.thread_id, order=ListSortOrder.ASCENDING)
+            messages = agents_client.messages.list(
+                thread_id=run.thread_id, order=ListSortOrder.ASCENDING
+            )
             last_message = None
             # Collect all the messages (or find the last one directly)
             async for msg in messages:
@@ -90,10 +108,20 @@ async def execute_agent_query(prompt: str, language: str, prefs_data: UserPrefer
                 last_part = last_message.content[-1]
                 if isinstance(last_part, MessageTextContent):
                     # Format the response text with citations
-                    response = " ".join([text_message.text.value for text_message in last_message.content])
+                    response = " ".join(
+                        [
+                            text_message.text.value
+                            for text_message in last_message.content
+                        ]
+                    )
                     for annotation in msg.url_citation_annotations:
-                        response = response.replace(annotation.text, f" [{annotation.url_citation.title}]({annotation.url_citation.url})")
-                    await agents_client.delete_agent(agent.id)  # Clean up the agent after use
+                        response = response.replace(
+                            annotation.text,
+                            f" [{annotation.url_citation.title}]({annotation.url_citation.url})",
+                        )
+                    await agents_client.delete_agent(
+                        agent.id
+                    )  # Clean up the agent after use
                     return response
 
             # Fallback if no response found
