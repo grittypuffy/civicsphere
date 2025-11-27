@@ -1,9 +1,18 @@
-import { Button, DialogActions, DialogSurface, DialogTitle, DialogTrigger, Field, Input, Textarea } from "@fluentui/react-components";
+import {
+  Button,
+  DialogActions,
+  DialogSurface,
+  DialogTitle,
+  DialogTrigger,
+  Field,
+  Input,
+  Textarea,
+} from "@fluentui/react-components";
 
 export default function CreateIssue() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  }
+  };
   return (
     <>
       <DialogSurface>
@@ -25,5 +34,5 @@ export default function CreateIssue() {
         </DialogActions>
       </DialogSurface>
     </>
-  )
+  );
 }

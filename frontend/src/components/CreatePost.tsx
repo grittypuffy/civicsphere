@@ -48,8 +48,9 @@ export default function CreatePost({ communityId }: { communityId: string }) {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
-    formData.append("tags", selectedTags.join(","));
-
+    selectedTags.forEach(tag => {
+        formData.append('tags', tag);
+    });
     files.forEach((file) => {
       formData.append("files", file);
     });
