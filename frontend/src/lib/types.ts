@@ -11,6 +11,7 @@ import {
   CreatePostRequestSchema,
   CreateReplyRequestSchema,
   CreateReplyResponseSchema,
+  ExplainPostResponseSchema,
   GetPreferencesResponseSchema,
   HTTPValidationErrorSchema,
   IssueResponseMultipleSchema,
@@ -105,3 +106,5 @@ export type CommunitiesResponse = v.InferOutput<typeof CommunitiesResponseSchema
 export type TranslationResponse = v.InferOutput<typeof TranslationResponseSchema>;
 export type CreateReplyRequest = v.InferOutput<typeof CreateReplyRequestSchema>;
 export type CreateReplyResponse = v.InferOutput<typeof CreateReplyResponseSchema>;
+export type ExplainPostResponse = v.InferOutput<typeof ExplainPostResponseSchema>;
+export type ExplainPostData = NonNullable<ExplainPostResponse["data"]>;

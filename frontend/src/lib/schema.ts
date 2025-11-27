@@ -282,3 +282,14 @@ export const CreateReplyResponseSchema = v.object({
   message: v.optional(v.nullable(v.string())),
   comment_id: v.optional(v.nullable(v.string()))
 })
+
+export const ExplainPostResponseSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
+  data: v.optional(v.nullable(
+    v.object({
+      summary: v.string(),
+      whats_in_it_for_me: v.string(),
+    })
+  )),
+});

@@ -4,6 +4,7 @@ import { SessionCache } from "./cache";
 import {
   CommunitiesResponseSchema,
   CreateIssueRequestSchema,
+  ExplainPostResponseSchema,
   GetPreferencesResponseSchema,
   IssueResponseMultipleSchema,
   IssueResponseSingleSchema,
@@ -320,7 +321,11 @@ export const explainPost = async (communityId: string, postId: string) => {
   if (!res.ok) {
     throw new Error('Failed to explain post');
   }
-  return await res.json();
+  const json = v.parse(ExplainPostResponseSchema, await res.json());
+  if (!json.success) {
+    throw new Error('Failed to explain post');
+  }
+  return json.data;
 }
 
 // Translate API
@@ -337,7 +342,7 @@ export const translatePost = async (communityId: string, postId: string) => {
   if (!json.success) {
     throw new Error('Failed to fetch translation');
   }
-  return json.data || {title: '', description: ''};
+  return json.data || { title: '', description: '' };
 }
 
 // Comments API
@@ -559,4 +564,3 @@ export const getTags = async () => {
   }
   return json.tags || {};
 }
-
