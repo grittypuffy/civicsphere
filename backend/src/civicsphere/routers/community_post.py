@@ -417,16 +417,25 @@ async def translate_post(community_id: str, post_id: str, req: Request):
         )
         user_lang = user.get("language") or "en"
 
-        title = (post.get("title"),)
-        description = (post.get("description"),)
+        title = post.get("title")
+        description = post.get("description")
 
         if user_lang != post.get("lang"):
             response = await config.text_translation_client.translate(
-                content=[title, description], to=[user_lang]
+                body=[title, description], to_language=[user_lang]
             )
+            translation = response[0] if response else None
+            translation_desc = response[1] if response else None
+            if translation is None:
+                return JSONResponse(
+                    status_code=500,
+                    content={"success": False, "message": "No translation found"},
+                )
+
+            logging.error("Response", response)
             translated_content = dict()
-            translated_content["title"] = response[0].translations[0].text
-            translated_content["description"] = response[1].translations[0].text
+            translated_content["title"] = translation.translations[0].text
+            translated_content["description"] = translation_desc.translations[0].text
 
             return JSONResponse(
                 status_code=200,

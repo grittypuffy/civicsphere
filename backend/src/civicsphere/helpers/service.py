@@ -60,6 +60,7 @@ def get_text_translation_client(endpoint: str, key: str) -> TextTranslationClien
         endpoint=endpoint,
         credential=AzureKeyCredential(key)
     )
+    return client
 
 
 def get_text_analysis_client(endpoint: str, key: str) -> TextAnalyticsClient:
