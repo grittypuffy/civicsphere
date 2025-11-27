@@ -1,4 +1,5 @@
 import { TAGS } from "@/lib/consts";
+import { createPost } from "@/lib/utils";
 import {
   Button,
   DialogActions,
@@ -9,21 +10,24 @@ import {
   Field,
   Input,
   Option,
-  Textarea,
   Spinner,
+  Textarea,
 } from "@fluentui/react-components";
 import { useAtom } from "jotai";
-import { createPost } from "@/lib/utils";
 
 // Import the renamed atoms
 import {
-  postSelectedTagsAtom,
-  postTitleAtom,
   postDescriptionAtom,
+  postErrorAtom,
   postFilesAtom,
   postIsLoadingAtom,
-  postErrorAtom,
+  postSelectedTagsAtom,
+  postTitleAtom,
 } from "@/lib/store";
+import { EditRegular, MicRegular } from "@fluentui/react-icons";
+import { atom } from "jotai";
+
+const postTypeAtom = atom<'normal' | 'voice'>('normal')
 
 export default function CreatePost({ communityId }: { communityId: string }) {
   const [selectedTags, setSelectedTags] = useAtom(postSelectedTagsAtom);
@@ -32,6 +36,7 @@ export default function CreatePost({ communityId }: { communityId: string }) {
   const [files, setFiles] = useAtom(postFilesAtom);
   const [isLoading, setIsLoading] = useAtom(postIsLoadingAtom);
   const [error, setError] = useAtom(postErrorAtom);
+  const [postType, setPostType] = useAtom(postTypeAtom);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -39,16 +44,31 @@ export default function CreatePost({ communityId }: { communityId: string }) {
     }
   };
 
+  const handleVoicePost = () => {
+    // Logic to handle voice post creation
+    console.log("Voice post creation triggered");
+  }
+
+  const handleVoiceRecording = () => {
+    // Logic to handle voice recording
+    console.log("Voice recording started");
+  }
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
     setError(null);
 
+    if (postType === 'voice') {
+      handleVoicePost();
+      return;
+    }
+
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
     selectedTags.forEach(tag => {
-        formData.append('tags', tag);
+      formData.append('tags', tag);
     });
     files.forEach((file) => {
       formData.append("files", file);
@@ -67,24 +87,70 @@ export default function CreatePost({ communityId }: { communityId: string }) {
   return (
     <>
       <DialogSurface>
-        <DialogTitle>Create Post</DialogTitle>
+        <DialogTitle>
+          <div className="flex justify-between">
+            <p>
+              Create Post
+            </p>
+            {postType === 'normal' ?
+              <Button
+                icon={<MicRegular />}
+                appearance="secondary"
+                shape="circular"
+                size="small"
+                onClick={() => setPostType('voice')}
+              >
+                Create Voice Post
+              </Button>
+              :
+              <Button
+                icon={<EditRegular />}
+                appearance="secondary"
+                shape="circular"
+                size="small"
+                onClick={() => setPostType('normal')}
+              >
+                Normal Post
+              </Button>
+            }
+          </div>
+        </DialogTitle>
         <form onSubmit={handleSubmit}>
-          <Field label="Title">
-            <Input
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
-          </Field>
+          {postType === 'normal' ? (
+            <>
+              <Field label="Title">
+                <Input
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  required
+                />
+              </Field>
 
-          <Field label="Description">
-            <Textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              required
-            />
-          </Field>
-
+              <Field label="Description">
+                <Textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  required
+                />
+              </Field>
+              <Field label="Add Files">
+                <input type="file" multiple onChange={handleFileChange} />
+              </Field>
+            </>
+          ) : (
+            <>
+              <Field label="Voice Recording">
+                <Button
+                  icon={<MicRegular />}
+                  appearance="secondary"
+                  onClick={handleVoiceRecording}
+                  type="button"
+                >
+                  Record
+                </Button>
+              </Field>
+            </>
+          )}
           <Field label="Tags">
             <Dropdown
               multiselect
@@ -104,22 +170,18 @@ export default function CreatePost({ communityId }: { communityId: string }) {
             </Dropdown>
           </Field>
 
-          <Field label="Add Files">
-            <input type="file" multiple onChange={handleFileChange} />
-          </Field>
-
           {error && <div style={{ color: "red" }}>{error}</div>}
-
-          <DialogActions>
-            <DialogTrigger disableButtonEnhancement>
-              <Button appearance="secondary">Cancel</Button>
-            </DialogTrigger>
-
-            <Button type="submit" appearance="primary" disabled={isLoading}>
-              {isLoading ? <Spinner size="small" /> : "Create Post"}
-            </Button>
-          </DialogActions>
         </form>
+
+        <DialogActions>
+          <DialogTrigger disableButtonEnhancement>
+            <Button appearance="secondary">Cancel</Button>
+          </DialogTrigger>
+
+          <Button type="submit" appearance="primary" disabled={isLoading}>
+            {isLoading ? <Spinner size="small" /> : "Create Post"}
+          </Button>
+        </DialogActions>
       </DialogSurface>
     </>
   );
