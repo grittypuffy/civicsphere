@@ -14,6 +14,8 @@ import {
   Textarea,
 } from "@fluentui/react-components";
 import { useAtom } from "jotai";
+import SpeakButton from "@/components/SpeakButton";
+import { useState } from "react";
 
 // Import the renamed atoms
 import {
@@ -27,7 +29,7 @@ import {
 import { EditRegular, MicRegular } from "@fluentui/react-icons";
 import { atom } from "jotai";
 
-const postTypeAtom = atom<'normal' | 'voice'>('normal')
+const postTypeAtom = atom<"normal" | "voice">("normal");
 
 export default function CreatePost({ communityId }: { communityId: string }) {
   const [selectedTags, setSelectedTags] = useAtom(postSelectedTagsAtom);
@@ -37,25 +39,29 @@ export default function CreatePost({ communityId }: { communityId: string }) {
   const [isLoading, setIsLoading] = useAtom(postIsLoadingAtom);
   const [error, setError] = useAtom(postErrorAtom);
   const [postType, setPostType] = useAtom(postTypeAtom);
+  const [voiceBlob, setVoiceBlob] = useState<Blob | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setFiles(Array.from(event.target.files));
     }
   };
-
+  const handleVoiceSubmit = (audioBlob: Blob) => {
+    // console.log("Received audio blob:", audioBlob);
+    setVoiceBlob(audioBlob);
+  };
   const handleVoicePost = async () => {
     const formData = new FormData();
-    selectedTags.forEach(tag => {
-      formData.append('tags', tag);
+    selectedTags.forEach((tag) => {
+      formData.append("tags", tag);
     });
-    formData.append("voice", files[0]);
+    formData.append("voice", voiceBlob as Blob);
 
     try {
       const response = await fetch(`/api/v1/c/${communityId}/post/voice`, {
         method: "POST",
         body: formData,
-        credentials: "include"
+        credentials: "include",
       });
 
       if (!response.ok) {
@@ -71,18 +77,17 @@ export default function CreatePost({ communityId }: { communityId: string }) {
       setIsLoading(false);
     }
   };
-  
 
   const handleVoiceRecording = () => {
     console.log("Voice recording started");
-  }
+  };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
     setError(null);
 
-    if (postType === 'voice') {
+    if (postType === "voice") {
       handleVoicePost();
       return;
     }
@@ -90,8 +95,8 @@ export default function CreatePost({ communityId }: { communityId: string }) {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
-    selectedTags.forEach(tag => {
-      formData.append('tags', tag);
+    selectedTags.forEach((tag) => {
+      formData.append("tags", tag);
     });
     files.forEach((file) => {
       formData.append("files", file);
@@ -112,34 +117,32 @@ export default function CreatePost({ communityId }: { communityId: string }) {
       <DialogSurface>
         <DialogTitle>
           <div className="flex justify-between">
-            <p>
-              Create Post
-            </p>
-            {postType === 'normal' ?
+            <p>Create Post</p>
+            {postType === "normal" ? (
               <Button
                 icon={<MicRegular />}
                 appearance="secondary"
                 shape="circular"
                 size="small"
-                onClick={() => setPostType('voice')}
+                onClick={() => setPostType("voice")}
               >
                 Create Voice Post
               </Button>
-              :
+            ) : (
               <Button
                 icon={<EditRegular />}
                 appearance="secondary"
                 shape="circular"
                 size="small"
-                onClick={() => setPostType('normal')}
+                onClick={() => setPostType("normal")}
               >
                 Normal Post
               </Button>
-            }
+            )}
           </div>
         </DialogTitle>
         <form onSubmit={handleSubmit}>
-          {postType === 'normal' ? (
+          {postType === "normal" ? (
             <>
               <Field label="Title">
                 <Input
@@ -163,14 +166,7 @@ export default function CreatePost({ communityId }: { communityId: string }) {
           ) : (
             <>
               <Field label="Voice Recording">
-                <Button
-                  icon={<MicRegular />}
-                  appearance="secondary"
-                  onClick={handleVoiceRecording}
-                  type="button"
-                >
-                  Record
-                </Button>
+                <SpeakButton onVoiceSubmit={handleVoiceSubmit} />
               </Field>
             </>
           )}

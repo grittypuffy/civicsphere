@@ -3,6 +3,7 @@ import CreateIssue from '@/components/CreateIssue'
 import CreatePost from '@/components/CreatePost'
 import { Feeds } from '@/components/Feeds'
 import { Community, Issue, PostData } from '@/lib/types'
+
 import {
   getCommunities,
   getCommunityIssues,
