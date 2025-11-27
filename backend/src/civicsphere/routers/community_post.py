@@ -137,6 +137,12 @@ async def create_post(
                 ).dict()
             )
 
+        detected_lang = await config.text_analytics_client.detect_language(["\n".join([title, description])])
+        if not detected_lang:
+            detected_lang = lang
+        else:
+            detected_lang = detected_lang[0].primary_language.iso6391_name
+
         # Insert post
         post_doc = {
             "community_id": community_id,
@@ -147,7 +153,7 @@ async def create_post(
             "title": title,
             "description": description,
             "url": uploaded_urls,
-            "lang": lang,
+            "lang": detected_lang,
             "location": location,
             "verified": validation,
             "flagged": flagged,
@@ -301,6 +307,15 @@ async def create_voice_post(
                 ).dict()
             )
 
+        title = func_payload.get("title")
+        description = func_payload.get("description")
+        detected_lang = await config.text_analytics_client.detect_language(["\n".join([title, description])])
+
+        if not detected_lang:
+            detected_lang = lang
+        else:
+            detected_lang = detected_lang[0].primary_language.iso6391_name
+
         # Insert post
         post_doc = {
             "community_id": community_id,
@@ -311,7 +326,7 @@ async def create_voice_post(
             "title": func_payload.get("title"),
             "description": func_payload.get("description"),
             "url": [],
-            "lang": lang,
+            "lang": detected_lang,
             "location": location,
             "verified": validation,
             "flagged": flagged,
@@ -418,7 +433,6 @@ async def translate_post(
     req: Request
 ):
     try:
-        # Auth check
         if not hasattr(req.state, 'user') or not req.state.user:
             return JSONResponse(
                 status_code=401,
@@ -474,7 +488,6 @@ async def translate_post(
         )
 
 
-
 @router.get("/posts/{post_id}/explain")
 async def explain_post(
     community_id: str,
@@ -513,7 +526,6 @@ async def explain_post(
             }
         )
 
-        
 
     except Exception as e:
         return JSONResponse(
