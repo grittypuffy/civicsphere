@@ -7,7 +7,7 @@ from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 from ..config import AppConfig, get_config
 from ..services.chatbot.scraper.web.nyc import parse_address
-from ..models.db.user import UserPreferencesModel, User, UserDataModel,UserPreferences
+from ..models.db.user import UserPreferencesModel, User, UserDataModel, UserPreferences
 from ..models.api.user import UserPreferencesRequest, UserPreferencesUpdateRequest, UserPreferencesResponse, UserDataResponse, GetPreferencesResponse
 
 router = APIRouter(tags=["User Management"])

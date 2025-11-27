@@ -1,7 +1,6 @@
 from fastapi import UploadFile
 
 from ....config import AppConfig
-from ....models.api.user import UserPreferences
 from ....models.api.post import PostResponse
 from ..scraper.web.nyc import (
     parse_address,

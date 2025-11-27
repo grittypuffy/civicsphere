@@ -13,8 +13,10 @@ services:
           target: /backend
         - action: rebuild
           path: ./backend/poetry.lock
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     environment:
-      - MONGODB_URI=mongodb://root:root@mongodb:27017/civicsphere?authSource=admin 
       - TMP_UPLOADS_DIR=/backend/uploads
     env_file:
       - ./backend/.env
