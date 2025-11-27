@@ -111,29 +111,31 @@ export default function CommunitiesPage() {
                 })()}
               </Dropdown>
 
-              <Dropdown
-                value={selectedTag}
-                onOptionSelect={(_, data) => setSelectedTag(data.optionValue || '')}
-                placeholder="Filter by tag"
-                multiselect={true}
-                positioning={'below'}
-                className='w-full lg:w-auto'
-              >
-                {(() => {
-                  switch (tags.state) {
-                    case 'loading':
-                      return <Option key="loading" disabled>Loading...</Option>
-                    case 'hasError':
-                      return <Option key="error">Error loading tags</Option>
-                    case 'hasData':
-                      return Object.entries(tags.data).map(([key, value]) => (
-                        <Option key={key} value={key}>
-                          {value}
-                        </Option>
-                      ))
-                  }
-                })()}
-              </Dropdown>
+              {tab === 'posts' && (
+                <Dropdown
+                  value={selectedTag}
+                  onOptionSelect={(_, data) => setSelectedTag(data.optionValue || '')}
+                  placeholder="Filter by tag"
+                  multiselect={true}
+                  positioning={'below'}
+                  className='w-full lg:w-auto'
+                >
+                  {(() => {
+                    switch (tags.state) {
+                      case 'loading':
+                        return <Option key="loading" disabled>Loading...</Option>
+                      case 'hasError':
+                        return <Option key="error">Error loading tags</Option>
+                      case 'hasData':
+                        return Object.entries(tags.data).map(([key, value]) => (
+                          <Option key={key} value={key}>
+                            {value}
+                          </Option>
+                        ))
+                    }
+                  })()}
+                </Dropdown>
+              )}
 
               <div className='flex items-center gap-3'>
                 <Button
@@ -143,6 +145,7 @@ export default function CommunitiesPage() {
                   onClick={handleRefresh}
                   aria-label="Refresh community content"
                   icon={<ArrowClockwiseFilled />}
+                  disabled={!selectedCommunityId}
                 />
                 <p className='text-sm'>Want fresh community updates?</p>
               </div>
@@ -163,6 +166,7 @@ export default function CommunitiesPage() {
                     shape='circular'
                     size='medium'
                     aria-label="Create new post"
+                    disabled={!selectedCommunityId}
                   />
                 </DialogTrigger>
                 {tab === 'posts' ?
@@ -180,6 +184,18 @@ export default function CommunitiesPage() {
             {tab === 'posts' && (
               <>
                 {(() => {
+                  if (selectedCommunity === '') {
+                    return (
+                      <div className='p-4'>
+                        <img
+                          src='/choose.png'
+                          alt='Choose a community'
+                          className='mx-auto mb-4 w-36 h-36'
+                        />
+                        <p>Please select a community to view posts.</p>
+                      </div>
+                    )
+                  }
                   switch (posts.state) {
                     case 'loading':
                       return <div className='p-4'>{t('loadingPosts')}</div>
