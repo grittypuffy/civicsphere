@@ -144,7 +144,20 @@ declare const messages: {
     "view": "View",
     "issueId": "Issue ID:",
     "noVotedContent": "No voted content found",
-    "nothingHere": "Nothing here"
+    "nothingHere": "Nothing here",
+    "explain": "Explain",
+    "loadingExplanation": "Loading...",
+    "clickToLoadExplanation": "Click to load explanation...",
+    "whatsInItForMe": "What's in it for me",
+    "noExplanation": "No explanation available",
+    "failedExplanation": "Failed to load explanation",
+    "translate": "Translate",
+    "translating": "Translating",
+    "showMore": "Show more",
+    "showLess": "Show less",
+    "noDataAlt": "No Data",
+    "ttsPost": "Title: {title}. Description: {description}",
+    "ttsIssue": "Issue title: {title}. Issue description: {description}"
   },
   "tags": {
     "affordable-housing": "Affordable Housing",

@@ -5,7 +5,7 @@ import Accordian from "@/components/Accordian"
 import { userIssueUpvotesAtom, userIssueUpvotesAtom_loadable, userPostDownvotesAtom, userPostDownvotesAtom_loadable, userPostUpvotesAtom, userPostUpvotesAtom_loadable } from "@/lib/store"
 import { ExplainPostData, Issue, PostData } from "@/lib/types"
 import { downvotePost, explainPost, removeDownvotePost, removeUpvoteIssue, removeUpvotePost, translatePost, upvoteIssue, upvotePost } from "@/lib/utils"
-import { Badge, Button, Card, CardFooter, CardHeader, Spinner, Text, Tree, TreeItem, TreeItemLayout, TreeOpenChangeData, TreeOpenChangeEvent } from "@fluentui/react-components"
+import { Badge, Button, Card, Spinner, Text, Tree, TreeItem, TreeItemLayout, TreeOpenChangeData, TreeOpenChangeEvent } from "@fluentui/react-components"
 import { CheckmarkCircleColor, CheckmarkRegular, ChevronDownRegular, ChevronUpRegular, ClockRegular, DocumentOnePageSparkleRegular, FlagFilled, HandRightRegular, InfoSparkleRegular, LocalLanguageFilled, Location16Filled, ThumbDislikeFilled, ThumbDislikeRegular, ThumbLikeFilled, TranslateFilled } from "@fluentui/react-icons"
 import { ThumbLikeRegular } from "@fluentui/react-icons/svg/thumb-like"
 import { useAtomValue, useSetAtom } from "jotai"
@@ -146,7 +146,7 @@ const PostCard = ({ post }: { post: PostData }) => {
         const res = await explainPost(post.community_id, post.post_id)
         if (!res) {
           setExplainMessage({
-            summary: "No explanation available",
+            summary: t('noExplanation'),
             whats_in_it_for_me: "",
           })
           return
@@ -155,7 +155,7 @@ const PostCard = ({ post }: { post: PostData }) => {
       } catch (error) {
         console.error('Error in Tree onOpenChange:', error);
         setExplainMessage({
-          summary: "Failed to load explanation",
+          summary: t('failedExplanation'),
           whats_in_it_for_me: "",
         })
       } finally {
@@ -269,14 +269,14 @@ const PostCard = ({ post }: { post: PostData }) => {
                   <TreeItemLayout
                     expandIcon={<DocumentOnePageSparkleRegular />}
                   >
-                    Explain
+                    {t('explain')}
                   </TreeItemLayout>
                   <Tree size="medium">
                     <TreeItem itemType="leaf">
                       <TreeItemLayout>
                         {isLoadingExplanation ? (
                           <div className="w-full">
-                            <p>Loading...</p>
+                            <p>{t('loadingExplanation')}</p>
                           </div>
                         ) : explainMessage.summary ? (
                           <div className="space-y-2">
@@ -285,7 +285,7 @@ const PostCard = ({ post }: { post: PostData }) => {
                             </div>
                           </div>
                         ) : (
-                          <span className="text-sm text-gray-500">Click to load explanation...</span>
+                          <span className="text-sm text-gray-500">{t('clickToLoadExplanation')}</span>
                         )}
                       </TreeItemLayout>
                     </TreeItem>
@@ -294,7 +294,7 @@ const PostCard = ({ post }: { post: PostData }) => {
                         <TreeItemLayout
                           expandIcon={<InfoSparkleRegular />}
                         >
-                          Whats in it for me
+                          {t('whatsInItForMe')}
                         </TreeItemLayout>
                         <Tree>
                           <TreeItem itemType="leaf">
@@ -320,13 +320,13 @@ const PostCard = ({ post }: { post: PostData }) => {
                 >
                   {translating ? (
                     <>
-                      <Spinner size={"tiny"} /> Translating
+                      <Spinner size={"tiny"} /> {t('translating')}
                     </>
                   ) : (
-                    "Translate"
+                    t('translate')
                   )}
                 </Button>
-                <TTSButton text={`Title: ${postTitle}. Description: ${postDescription}`}></TTSButton>
+                <TTSButton text={t('ttsPost', { title: postTitle, description: postDescription })}></TTSButton>
               </div>
 
                 {/* Comments Accordion */}
@@ -344,7 +344,7 @@ const PostCard = ({ post }: { post: PostData }) => {
               icon={isExpanded ? <ChevronUpRegular /> : <ChevronDownRegular />}
               onClick={() => setIsExpanded(!isExpanded)}
             >
-              {isExpanded ? 'Show less' : 'Show more'}
+              {isExpanded ? t('showLess') : t('showMore')}
             </Button>
             
             <div className="flex items-center space-x-2">
@@ -487,7 +487,7 @@ const IssueCard = ({ issue }: { issue: Issue }) => {
           {/* Expanded Content */}
           {isExpanded && (
             <div className="space-y-3 border-t pt-3">
-              <TTSButton text={`Issue title: ${issue.title}. Issue description: ${issue.description}`}></TTSButton>
+              <TTSButton text={t('ttsIssue', { title: issue.title, description: issue.description })}></TTSButton>
             </div>
           )}
 
@@ -499,7 +499,7 @@ const IssueCard = ({ issue }: { issue: Issue }) => {
               icon={isExpanded ? <ChevronUpRegular /> : <ChevronDownRegular />}
               onClick={() => setIsExpanded(!isExpanded)}
             >
-              {isExpanded ? 'Show less' : 'Show more'}
+              {isExpanded ? t('showLess') : t('showMore')}
             </Button>
             
             <Button
@@ -529,7 +529,7 @@ export const Feeds = ({ posts, issues }: FeedsProps) => {
         <div className="text-center py-12 min-h-[50vh]">
           <Image
             src="/images/no_data.svg"
-            alt="No Data"
+            alt={t('noDataAlt')}
             width={200}
             height={200}
             className="mx-auto mb-6"

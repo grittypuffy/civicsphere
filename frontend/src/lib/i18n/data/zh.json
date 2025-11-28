@@ -140,8 +140,21 @@
     "close": "关闭",
     "view": "查看",
     "issueId": "问题ID：",
-    "noVotedContent": "未找到已投票的内容",
-    "nothingHere": "这里什么都没有"
+    "noVotedContent": "未找到投票内容",
+    "nothingHere": "这里什么都没有",
+    "explain": "解释",
+    "loadingExplanation": "加载中...",
+    "clickToLoadExplanation": "点击加载解释...",
+    "whatsInItForMe": "这对我有什么好处？",
+    "noExplanation": "没有可用的解释",
+    "failedExplanation": "解释加载失败",
+    "translate": "翻译",
+    "translating": "翻译中...",
+    "showMore": "显示更多",
+    "showLess": "显示更少",
+    "noDataAlt": "无数据",
+    "ttsPost": "标题：{title}。描述：{description}",
+    "ttsIssue": "问题标题：{title}。问题描述：{description}"
   },
   "onboard": {
     "locationLabel": "位置",
