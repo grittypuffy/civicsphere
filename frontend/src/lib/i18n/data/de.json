@@ -133,7 +133,7 @@
   },
   "feeds": {
     "verified": "Verifiziert",
-    "unverified": "Unverifiziert",
+    "unverified": "Nicht verifiziert",
     "pending": "Ausstehend",
     "flagged": "Markiert",
     "links": "Links:",
@@ -141,7 +141,20 @@
     "view": "Ansehen",
     "issueId": "Problem-ID:",
     "noVotedContent": "Keine bewerteten Inhalte gefunden",
-    "nothingHere": "Nichts hier"
+    "nothingHere": "Nichts hier",
+    "explain": "Erklären",
+    "loadingExplanation": "Wird geladen...",
+    "clickToLoadExplanation": "Klicken, um die Erklärung zu laden...",
+    "whatsInItForMe": "Was habe ich davon?",
+    "noExplanation": "Keine Erklärung verfügbar",
+    "failedExplanation": "Erklärung konnte nicht geladen werden",
+    "translate": "Übersetzen",
+    "translating": "Übersetzen...",
+    "showMore": "Mehr anzeigen",
+    "showLess": "Weniger anzeigen",
+    "noDataAlt": "Keine Daten",
+    "ttsPost": "Titel: {title}. Beschreibung: {description}",
+    "ttsIssue": "Problemtitel: {title}. Problembeschreibung: {description}"
   },
   "onboard": {
     "locationLabel": "Standort",
