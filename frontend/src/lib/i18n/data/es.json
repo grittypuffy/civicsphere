@@ -133,17 +133,6 @@
     "trendingTopic": "Tema en tendencia",
     "mentions": "menciones"
   },
-  "createPost": {
-    "title": "Crear una publicación",
-    "close": "Cerrar",
-    "placeholder": "Comparte algo sobre política local o temas comunitarios...",
-    "addMedia": "Agregar medios",
-    "uploadHint": "Puedes subir imágenes, videos o documentos.",
-    "selectTags": "Seleccionar etiquetas",
-    "filterPlaceholder": "Filtrar etiquetas",
-    "cancel": "Cancelar",
-    "post": "Publicar"
-  },
   "feeds": {
     "verified": "Verificado",
     "unverified": "No verificado",
@@ -381,5 +370,40 @@
     "errorMessage": "No se pudo crear la incidencia. Inténtalo de nuevo.",
     "cancel": "Cancelar",
     "submit": "Crear incidencia"
+  },
+  "createPost": {
+    "title": "Crear publicación",
+    "close": "Cerrar",
+    "placeholder": "Comparte algo sobre política local o problemas comunitarios...",
+    "addMedia": "Agregar medios",
+    "uploadHint": "Puedes subir imágenes, videos o documentos.",
+    "selectTags": "Seleccionar etiquetas",
+    "filterPlaceholder": "Filtrar etiquetas",
+    "cancel": "Cancelar",
+    "post": "Publicar",
+    "dialogTitle": "Crear publicación",
+    "postTypeAria": "Tipo de publicación",
+    "normalPost": "Publicación normal",
+    "voicePost": "Publicación de voz",
+    "normalPostTitleAttr": "Crear una publicación de texto",
+    "voicePostTitleAttr": "Crear una publicación de voz",
+    "titleLabel": "Título",
+    "titlePlaceholder": "Título corto y descriptivo",
+    "titleRequired": "El título es obligatorio.",
+    "descriptionLabel": "Descripción",
+    "descriptionPlaceholder": "Agrega detalles, pasos para reproducir, enlaces, etc.",
+    "descriptionRequired": "La descripción es obligatoria.",
+    "addFilesLabel": "Agregar archivos",
+    "browse": "Examinar",
+    "filesSelected": "{count} archivo(s) seleccionado(s)",
+    "noFilesSelected": "No se seleccionaron archivos",
+    "voiceRecordingLabel": "Grabación de voz",
+    "tagsLabel": "Etiquetas",
+    "selectTagsPlaceholder": "Selecciona etiquetas",
+    "selectTagsVoiceError": "Selecciona etiquetas y graba audio antes de enviar.",
+    "voicePostFailed": "Error al crear la publicación de voz. Inténtalo de nuevo.",
+    "postCreatedSuccessfully": "Publicación creada con éxito.",
+    "createPostFailed": "Error al crear la publicación. Inténtalo de nuevo.",
+    "submit": "Crear publicación"
   }
 }

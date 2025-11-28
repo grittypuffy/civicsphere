@@ -133,17 +133,6 @@
     "trendingTopic": "Trend-Thema",
     "mentions": "Erwähnungen"
   },
-  "createPost": {
-    "title": "Beitrag erstellen",
-    "close": "Schließen",
-    "placeholder": "Teilen Sie etwas über lokale Politik oder Gemeinschaftsthemen...",
-    "addMedia": "Medien hinzufügen",
-    "uploadHint": "Sie können Bilder, Videos oder Dokumente hochladen.",
-    "selectTags": "Tags auswählen",
-    "filterPlaceholder": "Tags filtern",
-    "cancel": "Abbrechen",
-    "post": "Posten"
-  },
   "feeds": {
     "verified": "Verifiziert",
     "unverified": "Nicht verifiziert",
@@ -381,5 +370,40 @@
     "errorMessage": "Problem konnte nicht erstellt werden. Bitte versuchen Sie es erneut.",
     "cancel": "Abbrechen",
     "submit": "Problem erstellen"
+  },
+  "createPost": {
+    "title": "Beitrag erstellen",
+    "close": "Schließen",
+    "placeholder": "Teilen Sie etwas über lokale Politik oder Themen der Gemeinschaft...",
+    "addMedia": "Medien hinzufügen",
+    "uploadHint": "Sie können Bilder, Videos oder Dokumente hochladen.",
+    "selectTags": "Tags auswählen",
+    "filterPlaceholder": "Tags filtern",
+    "cancel": "Abbrechen",
+    "post": "Posten",
+    "dialogTitle": "Beitrag erstellen",
+    "postTypeAria": "Beitragstyp",
+    "normalPost": "Normaler Beitrag",
+    "voicePost": "Sprachbeitrag",
+    "normalPostTitleAttr": "Einen normalen Textbeitrag erstellen",
+    "voicePostTitleAttr": "Einen Sprachbeitrag erstellen",
+    "titleLabel": "Titel",
+    "titlePlaceholder": "Kurzer, beschreibender Titel",
+    "titleRequired": "Titel ist erforderlich.",
+    "descriptionLabel": "Beschreibung",
+    "descriptionPlaceholder": "Fügen Sie Details, Schritte zur Reproduktion, Links usw. hinzu.",
+    "descriptionRequired": "Beschreibung ist erforderlich.",
+    "addFilesLabel": "Dateien hinzufügen",
+    "browse": "Durchsuchen",
+    "filesSelected": "{count} Datei(en) ausgewählt",
+    "noFilesSelected": "Keine Dateien ausgewählt",
+    "voiceRecordingLabel": "Sprachaufnahme",
+    "tagsLabel": "Tags",
+    "selectTagsPlaceholder": "Tags auswählen",
+    "selectTagsVoiceError": "Bitte wählen Sie Tags aus und nehmen Sie eine Sprachaufnahme auf, bevor Sie senden.",
+    "voicePostFailed": "Sprachbeitrag konnte nicht erstellt werden. Bitte erneut versuchen.",
+    "postCreatedSuccessfully": "Beitrag erfolgreich erstellt.",
+    "createPostFailed": "Beitrag konnte nicht erstellt werden. Bitte erneut versuchen.",
+    "submit": "Beitrag erstellen"
   }
 }

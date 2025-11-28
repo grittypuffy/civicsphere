@@ -133,17 +133,6 @@
     "trendingTopic": "トレンドトピック",
     "mentions": "件の言及"
   },
-  "createPost": {
-    "title": "投稿を作成",
-    "close": "閉じる",
-    "placeholder": "地域政治やコミュニティの問題について何か共有してください...",
-    "addMedia": "メディアを追加",
-    "uploadHint": "画像、動画、またはドキュメントをアップロードできます。",
-    "selectTags": "タグを選択",
-    "filterPlaceholder": "タグを絞り込む",
-    "cancel": "キャンセル",
-    "post": "投稿する"
-  },
   "feeds": {
     "verified": "確認済み",
     "unverified": "未確認",
@@ -381,5 +370,40 @@
     "errorMessage": "問題の作成に失敗しました。もう一度お試しください。",
     "cancel": "キャンセル",
     "submit": "問題を作成"
+  },
+  "createPost": {
+    "title": "投稿を作成",
+    "close": "閉じる",
+    "placeholder": "地域の政治やコミュニティの問題について共有しましょう...",
+    "addMedia": "メディアを追加",
+    "uploadHint": "画像・動画・ドキュメントをアップロードできます。",
+    "selectTags": "タグを選択",
+    "filterPlaceholder": "タグを検索",
+    "cancel": "キャンセル",
+    "post": "投稿",
+    "dialogTitle": "投稿を作成",
+    "postTypeAria": "投稿タイプ",
+    "normalPost": "通常の投稿",
+    "voicePost": "音声投稿",
+    "normalPostTitleAttr": "通常のテキスト投稿を作成",
+    "voicePostTitleAttr": "音声投稿を作成",
+    "titleLabel": "タイトル",
+    "titlePlaceholder": "短くて分かりやすいタイトル",
+    "titleRequired": "タイトルは必須です。",
+    "descriptionLabel": "説明",
+    "descriptionPlaceholder": "詳細、再現手順、リンクなどを追加してください。",
+    "descriptionRequired": "説明は必須です。",
+    "addFilesLabel": "ファイルを追加",
+    "browse": "参照",
+    "filesSelected": "{count} 個のファイルが選択されました",
+    "noFilesSelected": "ファイルが選択されていません",
+    "voiceRecordingLabel": "音声録音",
+    "tagsLabel": "タグ",
+    "selectTagsPlaceholder": "タグを選択",
+    "selectTagsVoiceError": "投稿前にタグを選択し、音声を録音してください。",
+    "voicePostFailed": "音声投稿の作成に失敗しました。再試行してください。",
+    "postCreatedSuccessfully": "投稿が正常に作成されました。",
+    "createPostFailed": "投稿の作成に失敗しました。再試行してください。",
+    "submit": "投稿を作成"
   }
 }

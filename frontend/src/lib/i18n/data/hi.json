@@ -133,17 +133,6 @@
     "trendingTopic": "ट्रेंडिंग विषय",
     "mentions": "उल्लेख"
   },
-  "createPost": {
-    "title": "एक पोस्ट बनाएं",
-    "close": "बंद करें",
-    "placeholder": "स्थानीय राजनीति या सामुदायिक मुद्दों के बारे में कुछ साझा करें...",
-    "addMedia": "मीडिया जोड़ें",
-    "uploadHint": "आप छवियां, वीडियो या दस्तावेज़ अपलोड कर सकते हैं।",
-    "selectTags": "टैग चुनें",
-    "filterPlaceholder": "टैग फ़िल्टर करें",
-    "cancel": "रद्द करें",
-    "post": "पोस्ट करें"
-  },
   "feeds": {
     "verified": "सत्यापित",
     "unverified": "असत्यापित",
@@ -381,5 +370,40 @@
     "errorMessage": "समस्या बनाई नहीं जा सकी। कृपया पुनः प्रयास करें.",
     "cancel": "रद्द करें",
     "submit": "समस्या बनाएँ"
+  },
+  "createPost": {
+    "title": "पोस्ट बनाएँ",
+    "close": "बंद करें",
+    "placeholder": "स्थानीय राजनीति या सामुदायिक मुद्दों के बारे में कुछ साझा करें...",
+    "addMedia": "मीडिया जोड़ें",
+    "uploadHint": "आप चित्र, वीडियो या दस्तावेज़ अपलोड कर सकते हैं।",
+    "selectTags": "टैग चुनें",
+    "filterPlaceholder": "टैग फ़िल्टर करें",
+    "cancel": "रद्द करें",
+    "post": "पोस्ट करें",
+    "dialogTitle": "पोस्ट बनाएँ",
+    "postTypeAria": "पोस्ट प्रकार",
+    "normalPost": "सामान्य पोस्ट",
+    "voicePost": "वॉइस पोस्ट",
+    "normalPostTitleAttr": "सामान्य टेक्स्ट पोस्ट बनाएँ",
+    "voicePostTitleAttr": "वॉइस पोस्ट बनाएँ",
+    "titleLabel": "शीर्षक",
+    "titlePlaceholder": "संक्षिप्त, वर्णनात्मक शीर्षक",
+    "titleRequired": "शीर्षक आवश्यक है।",
+    "descriptionLabel": "विवरण",
+    "descriptionPlaceholder": "विवरण, पुनरुत्पादन के चरण, लिंक आदि जोड़ें।",
+    "descriptionRequired": "विवरण आवश्यक है।",
+    "addFilesLabel": "फ़ाइलें जोड़ें",
+    "browse": "ब्राउज़ करें",
+    "filesSelected": "{count} फ़ाइल(ें) चुनी गई",
+    "noFilesSelected": "कोई फ़ाइल नहीं चुनी गई",
+    "voiceRecordingLabel": "वॉइस रिकॉर्डिंग",
+    "tagsLabel": "टैग्स",
+    "selectTagsPlaceholder": "टैग चुनें",
+    "selectTagsVoiceError": "कृपया टैग चुनें और सबमिट करने से पहले वॉइस रिकॉर्ड करें।",
+    "voicePostFailed": "वॉइस पोस्ट बनाने में विफल। कृपया पुनः प्रयास करें।",
+    "postCreatedSuccessfully": "पोस्ट सफलतापूर्वक बनाई गई।",
+    "createPostFailed": "पोस्ट बनाने में विफल। कृपया पुनः प्रयास करें।",
+    "submit": "पोस्ट बनाएँ"
   }
 }

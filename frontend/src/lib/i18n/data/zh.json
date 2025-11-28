@@ -133,17 +133,6 @@
     "trendingTopic": "热门话题",
     "mentions": "提及"
   },
-  "createPost": {
-    "title": "创建帖子",
-    "close": "关闭",
-    "placeholder": "分享一些关于当地政治或社区问题的内容...",
-    "addMedia": "添加媒体",
-    "uploadHint": "您可以上传图片、视频或文档。",
-    "selectTags": "选择标签",
-    "filterPlaceholder": "筛选标签",
-    "cancel": "取消",
-    "post": "发布"
-  },
   "feeds": {
     "verified": "已验证",
     "unverified": "未验证",
@@ -381,5 +370,40 @@
     "errorMessage": "创建问题失败，请重试。",
     "cancel": "取消",
     "submit": "创建问题"
+  },
+  "createPost": {
+    "title": "创建帖子",
+    "close": "关闭",
+    "placeholder": "分享一些关于当地政治或社区问题的内容...",
+    "addMedia": "添加媒体",
+    "uploadHint": "你可以上传图片、视频或文档。",
+    "selectTags": "选择标签",
+    "filterPlaceholder": "筛选标签",
+    "cancel": "取消",
+    "post": "发布",
+    "dialogTitle": "创建帖子",
+    "postTypeAria": "帖子类型",
+    "normalPost": "文字帖子",
+    "voicePost": "语音帖子",
+    "normalPostTitleAttr": "创建一个普通文字帖子",
+    "voicePostTitleAttr": "创建一个语音帖子",
+    "titleLabel": "标题",
+    "titlePlaceholder": "简短且描述性的标题",
+    "titleRequired": "标题为必填项。",
+    "descriptionLabel": "描述",
+    "descriptionPlaceholder": "添加细节、复现步骤、链接等内容。",
+    "descriptionRequired": "描述为必填项。",
+    "addFilesLabel": "添加文件",
+    "browse": "浏览",
+    "filesSelected": "已选择 {count} 个文件",
+    "noFilesSelected": "未选择文件",
+    "voiceRecordingLabel": "语音录制",
+    "tagsLabel": "标签",
+    "selectTagsPlaceholder": "选择标签",
+    "selectTagsVoiceError": "发布前请先选择标签并录制语音。",
+    "voicePostFailed": "创建语音帖子失败，请重试。",
+    "postCreatedSuccessfully": "帖子创建成功。",
+    "createPostFailed": "帖子创建失败，请重试。",
+    "submit": "创建帖子"
   }
 }

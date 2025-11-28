@@ -133,17 +133,6 @@
     "trendingTopic": "Argomento di tendenza",
     "mentions": "menzioni"
   },
-  "createPost": {
-    "title": "Crea un post",
-    "close": "Chiudi",
-    "placeholder": "Condividi qualcosa sulla politica locale o sui problemi della comunità...",
-    "addMedia": "Aggiungi media",
-    "uploadHint": "Puoi caricare immagini, video o documenti.",
-    "selectTags": "Seleziona tag",
-    "filterPlaceholder": "Filtra i tag",
-    "cancel": "Annulla",
-    "post": "Pubblica"
-  },
   "feeds": {
     "verified": "Verificato",
     "unverified": "Non verificato",
@@ -380,5 +369,40 @@
     "errorMessage": "Impossibile creare la segnalazione. Riprova.",
     "cancel": "Annulla",
     "submit": "Crea segnalazione"
+  },
+  "createPost": {
+    "title": "Crea un post",
+    "close": "Chiudi",
+    "placeholder": "Condividi qualcosa sulla politica locale o su problemi della comunità...",
+    "addMedia": "Aggiungi media",
+    "uploadHint": "Puoi caricare immagini, video o documenti.",
+    "selectTags": "Seleziona tag",
+    "filterPlaceholder": "Filtra tag",
+    "cancel": "Annulla",
+    "post": "Pubblica",
+    "dialogTitle": "Crea un post",
+    "postTypeAria": "Tipo di post",
+    "normalPost": "Post normale",
+    "voicePost": "Post vocale",
+    "normalPostTitleAttr": "Crea un post di testo",
+    "voicePostTitleAttr": "Crea un post vocale",
+    "titleLabel": "Titolo",
+    "titlePlaceholder": "Titolo breve e descrittivo",
+    "titleRequired": "Il titolo è obbligatorio.",
+    "descriptionLabel": "Descrizione",
+    "descriptionPlaceholder": "Aggiungi dettagli, passi per riprodurre, link, ecc.",
+    "descriptionRequired": "La descrizione è obbligatoria.",
+    "addFilesLabel": "Aggiungi file",
+    "browse": "Sfoglia",
+    "filesSelected": "{count} file selezionati",
+    "noFilesSelected": "Nessun file selezionato",
+    "voiceRecordingLabel": "Registrazione vocale",
+    "tagsLabel": "Tag",
+    "selectTagsPlaceholder": "Seleziona tag",
+    "selectTagsVoiceError": "Seleziona i tag e registra la voce prima di inviare.",
+    "voicePostFailed": "Creazione del post vocale non riuscita. Riprova.",
+    "postCreatedSuccessfully": "Post creato con successo.",
+    "createPostFailed": "Creazione del post non riuscita. Riprova.",
+    "submit": "Crea post"
   }
 }

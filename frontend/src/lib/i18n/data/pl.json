@@ -133,17 +133,6 @@
     "trendingTopic": "Popularny temat",
     "mentions": "wzmianek"
   },
-  "createPost": {
-    "title": "Utwórz post",
-    "close": "Zamknij",
-    "placeholder": "Podziel się czymś o lokalnej polityce lub sprawach społeczności...",
-    "addMedia": "Dodaj media",
-    "uploadHint": "Możesz przesłać zdjęcia, filmy lub dokumenty.",
-    "selectTags": "Wybierz tagi",
-    "filterPlaceholder": "Filtruj tagi",
-    "cancel": "Anuluj",
-    "post": "Opublikuj"
-  },
   "feeds": {
     "verified": "Zweryfikowane",
     "unverified": "Niezweryfikowane",
@@ -381,5 +370,40 @@
     "errorMessage": "Nie udało się utworzyć zgłoszenia. Spróbuj ponownie.",
     "cancel": "Anuluj",
     "submit": "Utwórz zgłoszenie"
+  },
+  "createPost": {
+    "title": "Utwórz post",
+    "close": "Zamknij",
+    "placeholder": "Podziel się czymś o lokalnej polityce lub problemach społeczności...",
+    "addMedia": "Dodaj media",
+    "uploadHint": "Możesz przesłać zdjęcia, filmy lub dokumenty.",
+    "selectTags": "Wybierz tagi",
+    "filterPlaceholder": "Filtruj tagi",
+    "cancel": "Anuluj",
+    "post": "Opublikuj",
+    "dialogTitle": "Utwórz post",
+    "postTypeAria": "Typ posta",
+    "normalPost": "Zwykły post",
+    "voicePost": "Post głosowy",
+    "normalPostTitleAttr": "Utwórz zwykły post tekstowy",
+    "voicePostTitleAttr": "Utwórz post głosowy",
+    "titleLabel": "Tytuł",
+    "titlePlaceholder": "Krótki, opisowy tytuł",
+    "titleRequired": "Tytuł jest wymagany.",
+    "descriptionLabel": "Opis",
+    "descriptionPlaceholder": "Dodaj szczegóły, kroki odtworzenia, linki itp.",
+    "descriptionRequired": "Opis jest wymagany.",
+    "addFilesLabel": "Dodaj pliki",
+    "browse": "Przeglądaj",
+    "filesSelected": "Wybrano {count} plik(ów)",
+    "noFilesSelected": "Nie wybrano żadnych plików",
+    "voiceRecordingLabel": "Nagranie głosowe",
+    "tagsLabel": "Tagi",
+    "selectTagsPlaceholder": "Wybierz tagi",
+    "selectTagsVoiceError": "Wybierz tagi i nagraj głos przed wysłaniem.",
+    "voicePostFailed": "Nie udało się utworzyć posta głosowego. Spróbuj ponownie.",
+    "postCreatedSuccessfully": "Post został pomyślnie utworzony.",
+    "createPostFailed": "Nie udało się utworzyć posta. Spróbuj ponownie.",
+    "submit": "Utwórz post"
   }
 }

@@ -133,17 +133,6 @@
     "trendingTopic": "Tópico em alta",
     "mentions": "menções"
   },
-  "createPost": {
-    "title": "Criar uma publicação",
-    "close": "Fechar",
-    "placeholder": "Compartilhe algo sobre política local ou questões da comunidade...",
-    "addMedia": "Adicionar mídia",
-    "uploadHint": "Você pode carregar imagens, vídeos ou documentos.",
-    "selectTags": "Selecionar tags",
-    "filterPlaceholder": "Filtrar tags",
-    "cancel": "Cancelar",
-    "post": "Publicar"
-  },
   "feeds": {
     "verified": "Verificado",
     "unverified": "Não verificado",
@@ -381,5 +370,40 @@
     "errorMessage": "Falha ao criar o problema. Tente novamente.",
     "cancel": "Cancelar",
     "submit": "Criar problema"
+  },
+  "createPost": {
+    "title": "Criar publicação",
+    "close": "Fechar",
+    "placeholder": "Compartilhe algo sobre política local ou questões da comunidade...",
+    "addMedia": "Adicionar mídia",
+    "uploadHint": "Você pode enviar imagens, vídeos ou documentos.",
+    "selectTags": "Selecionar tags",
+    "filterPlaceholder": "Filtrar tags",
+    "cancel": "Cancelar",
+    "post": "Publicar",
+    "dialogTitle": "Criar publicação",
+    "postTypeAria": "Tipo de publicação",
+    "normalPost": "Publicação normal",
+    "voicePost": "Publicação de voz",
+    "normalPostTitleAttr": "Criar uma publicação de texto normal",
+    "voicePostTitleAttr": "Criar uma publicação de voz",
+    "titleLabel": "Título",
+    "titlePlaceholder": "Título curto e descritivo",
+    "titleRequired": "O título é obrigatório.",
+    "descriptionLabel": "Descrição",
+    "descriptionPlaceholder": "Adicione detalhes, etapas de reprodução, links, etc.",
+    "descriptionRequired": "A descrição é obrigatória.",
+    "addFilesLabel": "Adicionar arquivos",
+    "browse": "Procurar",
+    "filesSelected": "{count} arquivo(s) selecionado(s)",
+    "noFilesSelected": "Nenhum arquivo selecionado",
+    "voiceRecordingLabel": "Gravação de voz",
+    "tagsLabel": "Tags",
+    "selectTagsPlaceholder": "Selecionar tags",
+    "selectTagsVoiceError": "Selecione tags e grave sua voz antes de enviar.",
+    "voicePostFailed": "Falha ao criar publicação de voz. Tente novamente.",
+    "postCreatedSuccessfully": "Publicação criada com sucesso.",
+    "createPostFailed": "Falha ao criar publicação. Tente novamente.",
+    "submit": "Criar publicação"
   }
 }

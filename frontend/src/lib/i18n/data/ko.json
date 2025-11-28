@@ -133,17 +133,6 @@
     "trendingTopic": "인기 주제",
     "mentions": "언급"
   },
-  "createPost": {
-    "title": "게시물 작성",
-    "close": "닫기",
-    "placeholder": "지역 정치나 커뮤니티 문제에 대해 공유하세요...",
-    "addMedia": "미디어 추가",
-    "uploadHint": "이미지, 동영상 또는 문서를 업로드할 수 있습니다.",
-    "selectTags": "태그 선택",
-    "filterPlaceholder": "태그 필터",
-    "cancel": "취소",
-    "post": "게시"
-  },
   "feeds": {
     "verified": "검증됨",
     "unverified": "검증되지 않음",
@@ -381,5 +370,40 @@
     "errorMessage": "이슈 생성에 실패했습니다. 다시 시도해주세요.",
     "cancel": "취소",
     "submit": "이슈 생성"
+  },
+  "createPost": {
+    "title": "게시물 생성",
+    "close": "닫기",
+    "placeholder": "지역 정치 또는 커뮤니티 문제에 대해 공유해보세요...",
+    "addMedia": "미디어 추가",
+    "uploadHint": "이미지, 비디오 또는 문서를 업로드할 수 있습니다.",
+    "selectTags": "태그 선택",
+    "filterPlaceholder": "태그 검색",
+    "cancel": "취소",
+    "post": "게시",
+    "dialogTitle": "게시물 생성",
+    "postTypeAria": "게시물 유형",
+    "normalPost": "일반 게시물",
+    "voicePost": "음성 게시물",
+    "normalPostTitleAttr": "일반 텍스트 게시물 생성",
+    "voicePostTitleAttr": "음성 게시물 생성",
+    "titleLabel": "제목",
+    "titlePlaceholder": "짧고 설명적인 제목",
+    "titleRequired": "제목은 필수입니다.",
+    "descriptionLabel": "설명",
+    "descriptionPlaceholder": "세부 정보, 재현 단계, 링크 등을 추가하세요.",
+    "descriptionRequired": "설명은 필수입니다.",
+    "addFilesLabel": "파일 추가",
+    "browse": "찾아보기",
+    "filesSelected": "{count}개의 파일 선택됨",
+    "noFilesSelected": "선택된 파일 없음",
+    "voiceRecordingLabel": "음성 녹음",
+    "tagsLabel": "태그",
+    "selectTagsPlaceholder": "태그 선택",
+    "selectTagsVoiceError": "제출하기 전에 태그를 선택하고 음성을 녹음하세요.",
+    "voicePostFailed": "음성 게시물 생성 실패. 다시 시도하세요.",
+    "postCreatedSuccessfully": "게시물이 성공적으로 생성되었습니다.",
+    "createPostFailed": "게시물 생성 실패. 다시 시도하세요.",
+    "submit": "게시물 생성"
   }
 }

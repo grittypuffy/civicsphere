@@ -133,17 +133,6 @@
     "trendingTopic": "Популярная тема",
     "mentions": "упоминаний"
   },
-  "createPost": {
-    "title": "Создать пост",
-    "close": "Закрыть",
-    "placeholder": "Поделитесь чем-то о местной политике или общественных вопросах...",
-    "addMedia": "Добавить медиа",
-    "uploadHint": "Вы можете загрузить изображения, видео или документы.",
-    "selectTags": "Выбрать теги",
-    "filterPlaceholder": "Фильтровать теги",
-    "cancel": "Отмена",
-    "post": "Опубликовать"
-  },
   "feeds": {
     "verified": "Подтверждено",
     "unverified": "Не подтверждено",
@@ -381,5 +370,40 @@
     "errorMessage": "Не удалось создать проблему. Попробуйте снова.",
     "cancel": "Отмена",
     "submit": "Создать проблему"
+  },
+  "createPost": {
+    "title": "Создать публикацию",
+    "close": "Закрыть",
+    "placeholder": "Поделитесь чем-нибудь о местной политике или проблемах сообщества...",
+    "addMedia": "Добавить медиа",
+    "uploadHint": "Вы можете загрузить изображения, видео или документы.",
+    "selectTags": "Выбор тегов",
+    "filterPlaceholder": "Фильтр тегов",
+    "cancel": "Отмена",
+    "post": "Опубликовать",
+    "dialogTitle": "Создать публикацию",
+    "postTypeAria": "Тип публикации",
+    "normalPost": "Обычная публикация",
+    "voicePost": "Голосовая публикация",
+    "normalPostTitleAttr": "Создать обычную текстовую публикацию",
+    "voicePostTitleAttr": "Создать голосовую публикацию",
+    "titleLabel": "Заголовок",
+    "titlePlaceholder": "Короткий, описательный заголовок",
+    "titleRequired": "Заголовок обязателен.",
+    "descriptionLabel": "Описание",
+    "descriptionPlaceholder": "Добавьте детали, шаги воспроизведения, ссылки и т.п.",
+    "descriptionRequired": "Описание обязательно.",
+    "addFilesLabel": "Добавить файлы",
+    "browse": "Обзор",
+    "filesSelected": "Выбрано файлов: {count}",
+    "noFilesSelected": "Файлы не выбраны",
+    "voiceRecordingLabel": "Голосовая запись",
+    "tagsLabel": "Теги",
+    "selectTagsPlaceholder": "Выберите теги",
+    "selectTagsVoiceError": "Выберите теги и запишите голос перед отправкой.",
+    "voicePostFailed": "Не удалось создать голосовую публикацию. Попробуйте снова.",
+    "postCreatedSuccessfully": "Публикация успешно создана.",
+    "createPostFailed": "Не удалось создать публикацию. Попробуйте снова.",
+    "submit": "Создать публикацию"
   }
 }
