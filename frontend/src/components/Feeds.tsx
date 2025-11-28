@@ -3,35 +3,41 @@
 import TTSButton from "@/components/TTSButton"
 import { userIssueUpvotesAtom, userIssueUpvotesAtom_loadable, userPostDownvotesAtom, userPostDownvotesAtom_loadable, userPostUpvotesAtom, userPostUpvotesAtom_loadable } from "@/lib/store"
 import { ExplainPostData, Issue, PostData } from "@/lib/types"
-import { downvotePost, explainPost, getUserIssueUpvotes, getUserPostDownvotes, getUserPostUpvotes, removeDownvotePost, removeUpvoteIssue, removeUpvotePost, translatePost, upvoteIssue, upvotePost } from "@/lib/utils"
+import { downvotePost, explainPost, removeDownvotePost, removeUpvoteIssue, removeUpvotePost, translatePost, upvoteIssue, upvotePost } from "@/lib/utils"
 import { Badge, Button, Card, CardFooter, CardHeader, Dialog, DialogActions, DialogBody, DialogSurface, DialogTitle, Spinner, Text, Tree, TreeItem, TreeItemLayout, TreeOpenChangeData, TreeOpenChangeEvent } from "@fluentui/react-components"
 import { CheckmarkCircleColor, CheckmarkRegular, ClockRegular, DocumentOnePageSparkleRegular, EyeRegular, FlagFilled, HandRightRegular, InfoSparkleRegular, LocalLanguageFilled, Location16Filled, ThumbDislikeFilled, ThumbDislikeRegular, ThumbLikeFilled, TranslateFilled } from "@fluentui/react-icons"
 import { ThumbLikeRegular } from "@fluentui/react-icons/svg/thumb-like"
 import { useAtomValue, useSetAtom } from "jotai"
 import { useTranslations } from 'next-intl'
 import Image from "next/image"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 interface FeedsProps {
   posts?: PostData[]
   issues?: Issue[]
-  showVoted?: boolean
 }
 
 const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boolean, setOpen: (open: boolean) => void }) => {
   const t = useTranslations('feeds');
-  const upvotedPosts = useAtomValue(userPostUpvotesAtom_loadable)
-  const downvotedPosts = useAtomValue(userPostDownvotesAtom_loadable)
-  const setPostUpvotes = useSetAtom(userPostUpvotesAtom)
-  const setPostDownvotes = useSetAtom(userPostDownvotesAtom)
   const [postTitle, setPostTitle] = useState(post.title)
   const [postDescription, setPostDescription] = useState(post.description)
   const [loading, setLoading] = useState(false)
   const [translating, setTranslating] = useState(false)
-  const upvotedPostIds = upvotedPosts.state === 'hasData' ? upvotedPosts.data as string[] : []
-  const downvotedPostIds = downvotedPosts.state === 'hasData' ? downvotedPosts.data as string[] : []
-  const isUpvoted = upvotedPostIds?.includes(post.post_id)
-  const isDownvoted = downvotedPostIds?.includes(post.post_id)
+  const [isUpvoted, setIsUpvoted] = useState(false)
+  const [isDownvoted, setIsDownvoted] = useState(false)
+  const upvotedPosts = useAtomValue(userPostUpvotesAtom_loadable)
+  const downvotedPosts = useAtomValue(userPostDownvotesAtom_loadable)
+  const setUpvotedPosts = useSetAtom(userPostUpvotesAtom)
+  const setDownvotedPosts = useSetAtom(userPostDownvotesAtom)
+
+  useEffect(() => {
+    if (upvotedPosts.state === 'hasData') {
+      setIsUpvoted(upvotedPosts.data.includes(post.post_id))
+    }
+    if (downvotedPosts.state === 'hasData') {
+      setIsDownvoted(downvotedPosts.data.includes(post.post_id))
+    }
+  }, [post.post_id, upvotedPosts, downvotedPosts])
 
   const handleUpvote = async () => {
     if (loading) return
@@ -40,11 +46,22 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
     try {
       if (isUpvoted) {
         await removeUpvotePost(post.community_id, post.post_id)
+        setIsUpvoted(false)
+        post.upvote = Math.max(0, post.upvote - 1)
+        setUpvotedPosts(async (prev) => {
+          const arr = await prev
+          return [...arr.filter(id => id !== post.post_id)]
+        })
       } else {
         await upvotePost(post.community_id, post.post_id)
+        setIsUpvoted(true)
+        setIsDownvoted(false)
+        post.upvote = post.upvote + 1
+        setUpvotedPosts(async (prev) => {
+          const arr = await prev
+          return [...arr, post.post_id]
+        })
       }
-      setPostUpvotes(getUserPostUpvotes())
-      setPostDownvotes(getUserPostDownvotes())
     } catch (error) {
       console.error('Failed to handle upvote:', error)
     } finally {
@@ -59,11 +76,22 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
     try {
       if (isDownvoted) {
         await removeDownvotePost(post.community_id, post.post_id)
+        setIsDownvoted(false)
+        post.downvote = Math.max(0, post.downvote - 1)
+        setDownvotedPosts(async (prev) => {
+          const arr = await prev
+          return [...arr.filter(id => id !== post.post_id)]
+        })
       } else {
         await downvotePost(post.community_id, post.post_id)
+        setIsDownvoted(true)
+        setIsUpvoted(false)
+        post.downvote = post.downvote + 1
+        setDownvotedPosts(async (prev) => {
+          const arr = await prev
+          return [...arr, post.post_id]
+        })
       }
-      setPostUpvotes(getUserPostUpvotes())
-      setPostDownvotes(getUserPostDownvotes())
     } catch (error) {
       console.error('Failed to handle downvote:', error)
     } finally {
@@ -103,7 +131,7 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
   }
 
   return (
-    <Dialog open={open} onOpenChange={(event, data) => setOpen(data.open)}>
+    <Dialog open={open} onOpenChange={(_, data) => setOpen(data.open)}>
       <DialogSurface className="max-w-4xl">
         <DialogTitle>{post.title}</DialogTitle>
         <DialogBody>
@@ -193,21 +221,19 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
                 </div>
                 <div className="flex items-center space-x-4">
                   <Button
-                    appearance={isUpvoted ? "primary" : "subtle"}
+                    appearance={isUpvoted ? "primary" : "secondary"}
                     size="medium"
                     icon={isUpvoted ? <ThumbLikeFilled /> : <ThumbLikeRegular />}
-                    className={isUpvoted ? "text-green-700" : "text-green-600 hover:text-green-700"}
-                    disabled={loading}
+                    disabled={loading || isDownvoted}
                     onClick={handleUpvote}
                   >
                     {post.upvote}
                   </Button>
                   <Button
-                    appearance={isDownvoted ? "primary" : "subtle"}
+                    appearance={isDownvoted ? "primary" : "secondary"}
                     size="medium"
                     icon={isDownvoted ? <ThumbDislikeFilled /> : <ThumbDislikeRegular />}
-                    className={isDownvoted ? "text-red-700" : "text-red-600 hover:text-red-700"}
-                    disabled={loading}
+                    disabled={loading || isUpvoted}
                     onClick={handleDownvote}
                   >
                     {post.downvote}
@@ -246,15 +272,7 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
 
 const PostCard = ({ post }: { post: PostData }) => {
   const t = useTranslations('feeds');
-  const upvotedPosts = useAtomValue(userPostUpvotesAtom_loadable)
-  const downvotedPosts = useAtomValue(userPostDownvotesAtom_loadable)
   const [dialogOpen, setDialogOpen] = useState(false)
-
-  const upvotedPostIds = upvotedPosts.state === 'hasData' ? upvotedPosts.data as string[] : []
-  const downvotedPostIds = downvotedPosts.state === 'hasData' ? downvotedPosts.data as string[] : []
-
-  const isUpvoted = upvotedPostIds?.includes(post.post_id)
-  const isDownvoted = downvotedPostIds?.includes(post.post_id)
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -301,7 +319,7 @@ const PostCard = ({ post }: { post: PostData }) => {
     <>
       <Card
         key={post.post_id}
-        className={`w-full shadow-sm hover:shadow-md transition-shadow duration-200 ${(isUpvoted || isDownvoted) ? 'bg-blue-50 border-blue-200' : ''}`}
+        className={`w-full shadow-sm hover:shadow-md transition-shadow duration-200`}
       >
         <div className="p-3">
           <div className="flex items-center justify-between p-1">
@@ -390,12 +408,16 @@ const PostCard = ({ post }: { post: PostData }) => {
 
 const IssueDetailDialog = ({ issue, open, setOpen }: { issue: Issue, open: boolean, setOpen: (open: boolean) => void }) => {
   const t = useTranslations('feeds');
-  const upvotedIssues = useAtomValue(userIssueUpvotesAtom_loadable)
-  const setIssueUpvotes = useSetAtom(userIssueUpvotesAtom)
   const [loading, setLoading] = useState(false)
+  const [isUpvoted, setIsUpvoted] = useState(false)
+  const upvotedIssues = useAtomValue(userIssueUpvotesAtom_loadable)
+  const setUpvotedIssues = useSetAtom(userIssueUpvotesAtom)
 
-  const upvotedIssueIds = upvotedIssues.state === 'hasData' ? upvotedIssues.data as string[] : []
-  const isUpvoted = upvotedIssueIds?.includes(issue.issue_id)
+  useEffect(() => {
+    if (upvotedIssues.state === 'hasData') {
+      setIsUpvoted(upvotedIssues.data?.includes(issue.issue_id))
+    }
+  }, [issue.issue_id, upvotedIssues])
 
   const handleUpvote = async () => {
     if (loading) return
@@ -404,10 +426,21 @@ const IssueDetailDialog = ({ issue, open, setOpen }: { issue: Issue, open: boole
     try {
       if (isUpvoted) {
         await removeUpvoteIssue(issue.community_id, issue.issue_id)
+        setIsUpvoted(false)
+        issue.upvote = Math.max(0, issue.upvote - 1)
+        setUpvotedIssues(async (prev) => {
+          const arr = await prev
+          return [...arr.filter(id => id !== issue.issue_id)]
+        })
       } else {
         await upvoteIssue(issue.community_id, issue.issue_id)
+        setIsUpvoted(true)
+        issue.upvote = issue.upvote + 1
+        setUpvotedIssues(async (prev) => {
+          const arr = await prev
+          return [...arr, issue.issue_id]
+        })
       }
-      setIssueUpvotes(getUserIssueUpvotes())
     } catch (error) {
       console.error('Failed to handle issue upvote:', error)
     } finally {
@@ -435,7 +468,7 @@ const IssueDetailDialog = ({ issue, open, setOpen }: { issue: Issue, open: boole
   }
 
   return (
-    <Dialog open={open} onOpenChange={(event, data) => setOpen(data.open)}>
+    <Dialog open={open} onOpenChange={(_, data) => setOpen(data.open)}>
       <DialogSurface className="max-w-4xl">
         <DialogTitle>{issue.title}</DialogTitle>
         <DialogBody>
@@ -484,10 +517,9 @@ const IssueDetailDialog = ({ issue, open, setOpen }: { issue: Issue, open: boole
                 </div>
                 <div className="flex items-center space-x-4">
                   <Button
-                    appearance={isUpvoted ? "primary" : "subtle"}
+                    appearance={isUpvoted ? "primary" : "secondary"}
                     size="medium"
                     icon={isUpvoted ? <ThumbLikeFilled /> : <ThumbLikeRegular />}
-                    className={isUpvoted ? "text-green-700" : "text-green-600 hover:text-green-700"}
                     disabled={loading}
                     onClick={handleUpvote}
                   >
@@ -511,12 +543,7 @@ const IssueDetailDialog = ({ issue, open, setOpen }: { issue: Issue, open: boole
 
 const IssueCard = ({ issue }: { issue: Issue }) => {
   const t = useTranslations('feeds');
-  const upvotedIssues = useAtomValue(userIssueUpvotesAtom_loadable)
   const [dialogOpen, setDialogOpen] = useState(false)
-
-  const upvotedIssueIds = upvotedIssues.state === 'hasData' ? upvotedIssues.data as string[] : []
-  const isUpvoted = upvotedIssueIds?.includes(issue.issue_id)
-
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -531,7 +558,7 @@ const IssueCard = ({ issue }: { issue: Issue }) => {
     <>
       <Card
         key={issue.issue_id}
-        className={`w-full shadow-sm hover:shadow-md transition-shadow duration-200 ${isUpvoted ? 'bg-orange-50 border-orange-200' : ''}`}
+        className={`w-full shadow-sm hover:shadow-md transition-shadow duration-200`}
       >
         <div className="p-4">
           <div className="flex items-center justify-between">
@@ -573,27 +600,10 @@ const IssueCard = ({ issue }: { issue: Issue }) => {
   )
 }
 
-export const Feeds = ({ posts, issues, showVoted }: FeedsProps) => {
+export const Feeds = ({ posts, issues }: FeedsProps) => {
   const t = useTranslations('feeds');
-  const upvotedPosts = useAtomValue(userPostUpvotesAtom_loadable)
-  const downvotedPosts = useAtomValue(userPostDownvotesAtom_loadable)
-  const upvotedIssues = useAtomValue(userIssueUpvotesAtom_loadable)
-  const upvotedPostIds = upvotedPosts.state === 'hasData' ? new Set(upvotedPosts.data as string[]) : new Set()
-  const downvotedPostIds = downvotedPosts.state === 'hasData' ? new Set(downvotedPosts.data as string[]) : new Set()
-  const upvotedIssueIds = upvotedIssues.state === 'hasData' ? new Set(upvotedIssues.data as string[]) : new Set()
 
-  const votedPostIds = new Set([...upvotedPostIds, ...downvotedPostIds])
-
-  const filteredPosts = posts?.filter(post =>
-    showVoted ? votedPostIds.has(post.post_id) : !votedPostIds.has(post.post_id)
-  ) || []
-
-  const filteredIssues = issues?.filter(issue =>
-    showVoted ? upvotedIssueIds.has(issue.issue_id) : !upvotedIssueIds.has(issue.issue_id)
-  ) || []
-
-  // Use the filtered arrays for content presence checks to avoid reading properties of undefined
-  const hasAnyContent = (filteredPosts.length > 0) || (filteredIssues.length > 0)
+  const hasAnyContent = (posts && posts.length > 0) || (issues && issues.length > 0)
 
   if (!hasAnyContent) {
     return (
@@ -607,7 +617,7 @@ export const Feeds = ({ posts, issues, showVoted }: FeedsProps) => {
             className="mx-auto mb-6"
           />
           <Text size={400} className="text-gray-500">
-            {showVoted ? t('noVotedContent') : t('nothingHere')}
+            {t('nothingHere')}
           </Text>
         </div>
       </div>
@@ -617,14 +627,14 @@ export const Feeds = ({ posts, issues, showVoted }: FeedsProps) => {
   return (
     <div className="max-w-5xl mx-auto p-6">
       <div className="grid gap-4">
-        {filteredPosts.map((post) => (
+        {posts?.map((post) => (
           <PostCard
             key={post.post_id}
             post={post}
           />
         ))}
 
-        {filteredIssues.map((issue) => (
+        {issues?.map((issue) => (
           <IssueCard
             key={issue.issue_id}
             issue={issue}
