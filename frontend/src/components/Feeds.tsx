@@ -499,6 +499,7 @@ const IssueDetailDialog = ({ issue, open, setOpen }: { issue: Issue, open: boole
           </Card>
         </DialogBody>
         <DialogActions>
+          <TTSButton text={`Issue title: ${issue.title}. Issue description: ${issue.description}`}></TTSButton>
           <Button appearance="secondary" onClick={() => setOpen(false)}>
             {t('close')}
           </Button>
