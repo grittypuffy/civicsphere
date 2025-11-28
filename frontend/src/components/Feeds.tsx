@@ -270,8 +270,9 @@ const PostCard = ({ post }: { post: PostData }) => {
                 <div className="flex flex-col gap-2">
                   <Text size={300} className="text-gray-600 font-medium">{t('links')}</Text>
                   <div className="flex flex-wrap gap-2">
-                    {post.url.map((link, index) => (
-                      <Button
+                    {post.url.map((link, index) => {
+                      const lastPart = new URL(link).pathname.split('/').filter(Boolean).pop();
+                      return (<Button
                         key={index}
                         as="a"
                         href={link}
@@ -281,9 +282,9 @@ const PostCard = ({ post }: { post: PostData }) => {
                         size="small"
                         icon={<Document16Regular />}
                       >
-                        {new URL(link).hostname}
-                      </Button>
-                    ))}
+                        {lastPart || ''}
+                      </Button>)
+                    })}
                   </div>
                 </div>
               )}
