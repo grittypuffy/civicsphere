@@ -18,13 +18,14 @@ import {
   issueTitleAtom,
 } from "@/lib/store";
 import { CreateIssueRequest } from "@/lib/types";
+import type { FormEvent } from "react";
 
 export default function CreateIssue({ communityId }: { communityId: string }) {
   const [title, setTitle] = useAtom(issueTitleAtom);
   const [description, setDescription] = useAtom(issueDescriptionAtom);
   const [isLoading, setIsLoading] = useAtom(issueIsLoadingAtom);
   const [error, setError] = useAtom(issueErrorAtom);
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
     setError(null);
