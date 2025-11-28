@@ -369,5 +369,17 @@
       "signUpForm": "Formulario de registro",
       "creatingAccount": "Creando cuenta"
     }
+  },
+  "createIssue": {
+    "dialogTitle": "Crear incidencia",
+    "titleLabel": "Título",
+    "titlePlaceholder": "Título corto y descriptivo",
+    "titleRequired": "El título es obligatorio.",
+    "descriptionLabel": "Descripción",
+    "descriptionPlaceholder": "Añade detalles, pasos, capturas de pantalla...",
+    "descriptionRequired": "La descripción es obligatoria.",
+    "errorMessage": "No se pudo crear la incidencia. Inténtalo de nuevo.",
+    "cancel": "Cancelar",
+    "submit": "Crear incidencia"
   }
 }

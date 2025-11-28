@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Button,
   DialogActions,
@@ -21,8 +23,10 @@ import {
 import { CreateIssueRequest } from "@/lib/types";
 import type { FormEvent } from "react";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 export default function CreateIssue({ communityId }: { communityId: string }) {
+  const t = useTranslations("createIssue");
   const [title, setTitle] = useAtom(issueTitleAtom);
   const [description, setDescription] = useAtom(issueDescriptionAtom);
   const [isLoading, setIsLoading] = useAtom(issueIsLoadingAtom);
@@ -39,14 +43,13 @@ export default function CreateIssue({ communityId }: { communityId: string }) {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    // Mark fields as touched so we show validation messages
     setTouched({
       title: true,
       description: true,
     });
 
     if (!title.trim() || !description.trim()) {
-      return; // prevent submit
+      return;
     }
 
     setIsLoading(true);
@@ -60,7 +63,7 @@ export default function CreateIssue({ communityId }: { communityId: string }) {
     try {
       await createIssue(communityId, issuePayload);
     } catch (error) {
-      setError("Failed to create issue. Please try again.");
+      setError(t("errorMessage"));
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -83,7 +86,7 @@ export default function CreateIssue({ communityId }: { communityId: string }) {
           fontWeight: 600,
         }}
       >
-        Create Issue
+        {t("dialogTitle")}
       </DialogTitle>
 
       <form
@@ -91,30 +94,30 @@ export default function CreateIssue({ communityId }: { communityId: string }) {
         className="flex flex-col gap-5"
         style={{ paddingTop: 8 }}
       >
-        <Field label="Title" required>
+        <Field label={t("titleLabel")} required>
           <Input
             value={title}
             required
-            onBlur={() => setTouched((t) => ({ ...t, title: true }))}
+            onBlur={() => setTouched((tch) => ({ ...tch, title: true }))}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Short, descriptive title"
+            placeholder={t("titlePlaceholder")}
             style={{
               borderRadius: tokens.borderRadiusMedium,
               padding: "10px",
             }}
           />
           {titleError && (
-            <p className="text-red-500 text-xs mt-1">Title is required.</p>
+            <p className="text-red-500 text-xs mt-1">{t("titleRequired")}</p>
           )}
         </Field>
 
-        <Field label="Description" required>
+        <Field label={t("descriptionLabel")} required>
           <Textarea
             value={description}
             required
-            onBlur={() => setTouched((t) => ({ ...t, description: true }))}
+            onBlur={() => setTouched((tch) => ({ ...tch, description: true }))}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Add details, steps, screenshots..."
+            placeholder={t("descriptionPlaceholder")}
             style={{
               borderRadius: tokens.borderRadiusMedium,
               padding: "10px",
@@ -123,7 +126,7 @@ export default function CreateIssue({ communityId }: { communityId: string }) {
           />
           {descriptionError && (
             <p className="text-red-500 text-xs mt-1">
-              Description is required.
+              {t("descriptionRequired")}
             </p>
           )}
         </Field>
@@ -140,7 +143,7 @@ export default function CreateIssue({ communityId }: { communityId: string }) {
           }}
         >
           <DialogTrigger disableButtonEnhancement>
-            <Button appearance="secondary">Cancel</Button>
+            <Button appearance="secondary">{t("cancel")}</Button>
           </DialogTrigger>
 
           <Button
@@ -149,7 +152,7 @@ export default function CreateIssue({ communityId }: { communityId: string }) {
             disabled={isLoading}
             style={{ minWidth: "120px" }}
           >
-            {isLoading ? <Spinner size="small" /> : "Create Issue"}
+            {isLoading ? <Spinner size="small" /> : t("submit")}
           </Button>
         </DialogActions>
       </form>

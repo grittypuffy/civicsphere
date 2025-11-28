@@ -369,5 +369,17 @@
       "signUpForm": "注册表单",
       "creatingAccount": "正在创建账户"
     }
+  },
+  "createIssue": {
+    "dialogTitle": "创建问题",
+    "titleLabel": "标题",
+    "titlePlaceholder": "简短且具有描述性的标题",
+    "titleRequired": "标题为必填项。",
+    "descriptionLabel": "描述",
+    "descriptionPlaceholder": "添加细节、步骤、截图...",
+    "descriptionRequired": "描述为必填项。",
+    "errorMessage": "创建问题失败，请重试。",
+    "cancel": "取消",
+    "submit": "创建问题"
   }
 }

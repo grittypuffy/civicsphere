@@ -369,5 +369,17 @@
       "signUpForm": "Φόρμα εγγραφής",
       "creatingAccount": "Δημιουργία λογαριασμού"
     }
+  },
+  "createIssue": {
+    "dialogTitle": "Δημιουργία ζητήματος",
+    "titleLabel": "Τίτλος",
+    "titlePlaceholder": "Σύντομος, περιγραφικός τίτλος",
+    "titleRequired": "Απαιτείται τίτλος.",
+    "descriptionLabel": "Περιγραφή",
+    "descriptionPlaceholder": "Προσθέστε λεπτομέρειες, βήματα, στιγμιότυπα οθόνης...",
+    "descriptionRequired": "Απαιτείται περιγραφή.",
+    "errorMessage": "Αποτυχία δημιουργίας ζητήματος. Παρακαλώ δοκιμάστε ξανά.",
+    "cancel": "Ακύρωση",
+    "submit": "Δημιουργία ζητήματος"
   }
 }

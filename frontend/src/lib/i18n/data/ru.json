@@ -369,5 +369,17 @@
       "signUpForm": "Форма регистрации",
       "creatingAccount": "Создание аккаунта"
     }
+  },
+  "createIssue": {
+    "dialogTitle": "Создать проблему",
+    "titleLabel": "Заголовок",
+    "titlePlaceholder": "Краткий, описательный заголовок",
+    "titleRequired": "Требуется заголовок.",
+    "descriptionLabel": "Описание",
+    "descriptionPlaceholder": "Добавьте детали, шаги, скриншоты...",
+    "descriptionRequired": "Требуется описание.",
+    "errorMessage": "Не удалось создать проблему. Попробуйте снова.",
+    "cancel": "Отмена",
+    "submit": "Создать проблему"
   }
 }

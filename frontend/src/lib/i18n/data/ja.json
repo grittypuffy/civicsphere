@@ -369,5 +369,17 @@
       "signUpForm": "サインアップフォーム",
       "creatingAccount": "アカウント作成中"
     }
+  },
+  "createIssue": {
+    "dialogTitle": "問題を作成",
+    "titleLabel": "タイトル",
+    "titlePlaceholder": "短く分かりやすいタイトル",
+    "titleRequired": "タイトルは必須です。",
+    "descriptionLabel": "説明",
+    "descriptionPlaceholder": "詳細、手順、スクリーンショットを追加...",
+    "descriptionRequired": "説明は必須です。",
+    "errorMessage": "問題の作成に失敗しました。もう一度お試しください。",
+    "cancel": "キャンセル",
+    "submit": "問題を作成"
   }
 }

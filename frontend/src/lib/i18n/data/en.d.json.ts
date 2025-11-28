@@ -372,6 +372,18 @@ declare const messages: {
       "signUpForm": "Sign up form",
       "creatingAccount": "Creating account"
     }
+  },
+  "createIssue": {
+    "dialogTitle": "Create Issue",
+    "titleLabel": "Title",
+    "titlePlaceholder": "Short, descriptive title",
+    "titleRequired": "Title is required.",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Add details, steps, screenshots...",
+    "descriptionRequired": "Description is required.",
+    "errorMessage": "Failed to create issue. Please try again.",
+    "cancel": "Cancel",
+    "submit": "Create Issue"
   }
 };
 export default messages;

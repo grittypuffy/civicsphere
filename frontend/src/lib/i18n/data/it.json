@@ -368,5 +368,17 @@
       "signUpForm": "Modulo di registrazione",
       "creatingAccount": "Creazione dell’account"
     }
+  },
+  "createIssue": {
+    "dialogTitle": "Crea segnalazione",
+    "titleLabel": "Titolo",
+    "titlePlaceholder": "Titolo breve e descrittivo",
+    "titleRequired": "Il titolo è obbligatorio.",
+    "descriptionLabel": "Descrizione",
+    "descriptionPlaceholder": "Aggiungi dettagli, passaggi, screenshot...",
+    "descriptionRequired": "La descrizione è obbligatoria.",
+    "errorMessage": "Impossibile creare la segnalazione. Riprova.",
+    "cancel": "Annulla",
+    "submit": "Crea segnalazione"
   }
 }

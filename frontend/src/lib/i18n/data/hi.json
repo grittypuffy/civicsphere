@@ -369,5 +369,17 @@
       "signUpForm": "साइन अप फ़ॉर्म",
       "creatingAccount": "खाता बनाया जा रहा है"
     }
+  },
+  "createIssue": {
+    "dialogTitle": "समस्या बनाएँ",
+    "titleLabel": "शीर्षक",
+    "titlePlaceholder": "संक्षिप्त, वर्णनात्मक शीर्षक",
+    "titleRequired": "शीर्षक आवश्यक है.",
+    "descriptionLabel": "विवरण",
+    "descriptionPlaceholder": "विवरण, चरण, स्क्रीनशॉट जोड़ें...",
+    "descriptionRequired": "विवरण आवश्यक है.",
+    "errorMessage": "समस्या बनाई नहीं जा सकी। कृपया पुनः प्रयास करें.",
+    "cancel": "रद्द करें",
+    "submit": "समस्या बनाएँ"
   }
 }

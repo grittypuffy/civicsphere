@@ -369,5 +369,17 @@
       "signUpForm": "Formularz rejestracji",
       "creatingAccount": "Tworzenie konta"
     }
+  },
+  "createIssue": {
+    "dialogTitle": "Utwórz zgłoszenie",
+    "titleLabel": "Tytuł",
+    "titlePlaceholder": "Krótki, opisowy tytuł",
+    "titleRequired": "Tytuł jest wymagany.",
+    "descriptionLabel": "Opis",
+    "descriptionPlaceholder": "Dodaj szczegóły, kroki, zrzuty ekranu...",
+    "descriptionRequired": "Opis jest wymagany.",
+    "errorMessage": "Nie udało się utworzyć zgłoszenia. Spróbuj ponownie.",
+    "cancel": "Anuluj",
+    "submit": "Utwórz zgłoszenie"
   }
 }

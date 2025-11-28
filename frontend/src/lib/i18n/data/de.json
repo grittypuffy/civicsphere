@@ -369,5 +369,17 @@
       "signUpForm": "Registrierungsformular",
       "creatingAccount": "Konto wird erstellt"
     }
+  },
+  "createIssue": {
+    "dialogTitle": "Problem erstellen",
+    "titleLabel": "Titel",
+    "titlePlaceholder": "Kurzer, beschreibender Titel",
+    "titleRequired": "Titel ist erforderlich.",
+    "descriptionLabel": "Beschreibung",
+    "descriptionPlaceholder": "Fügen Sie Details, Schritte, Screenshots hinzu...",
+    "descriptionRequired": "Beschreibung ist erforderlich.",
+    "errorMessage": "Problem konnte nicht erstellt werden. Bitte versuchen Sie es erneut.",
+    "cancel": "Abbrechen",
+    "submit": "Problem erstellen"
   }
 }

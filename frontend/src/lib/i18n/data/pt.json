@@ -369,5 +369,17 @@
       "signUpForm": "Formulário de cadastro",
       "creatingAccount": "Criando conta"
     }
+  },
+  "createIssue": {
+    "dialogTitle": "Criar problema",
+    "titleLabel": "Título",
+    "titlePlaceholder": "Título curto e descritivo",
+    "titleRequired": "O título é obrigatório.",
+    "descriptionLabel": "Descrição",
+    "descriptionPlaceholder": "Adicione detalhes, etapas, capturas de tela...",
+    "descriptionRequired": "A descrição é obrigatória.",
+    "errorMessage": "Falha ao criar o problema. Tente novamente.",
+    "cancel": "Cancelar",
+    "submit": "Criar problema"
   }
 }
