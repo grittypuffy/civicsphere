@@ -19,11 +19,12 @@ const Accordion: React.FC<AccordionProps> = ({ post_id, community_id }) => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `${backend}/api/v1/c/${community_id}/posts/${post_id}/comments`
+        `${backend}/api/v1/c/${community_id}/posts/${post_id}/comments`,
+        { withCredentials: true }
       );
       setComments(res.data.comments || []);
     } catch (err) {
-      console.error(err);
+      console.error('Failed to fetch comments (may require auth):', err);
     } finally {
       setLoading(false);
     }
@@ -40,7 +41,8 @@ const Accordion: React.FC<AccordionProps> = ({ post_id, community_id }) => {
     try {
       await axios.post(
         `${backend}/api/v1/c/${community_id}/posts/${post_id}/comments/`,
-        { description: newComment }
+        { description: newComment },
+        { withCredentials: true }
       );
 
       setNewComment("");

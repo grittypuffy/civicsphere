@@ -1,6 +1,7 @@
 'use client'
 
 import TTSButton from "@/components/TTSButton"
+import Accordian from "@/components/Accordian"
 import { userIssueUpvotesAtom, userIssueUpvotesAtom_loadable, userPostDownvotesAtom, userPostDownvotesAtom_loadable, userPostUpvotesAtom, userPostUpvotesAtom_loadable } from "@/lib/store"
 import { ExplainPostData, Issue, PostData } from "@/lib/types"
 import { downvotePost, explainPost, removeDownvotePost, removeUpvoteIssue, removeUpvotePost, translatePost, upvoteIssue, upvotePost } from "@/lib/utils"
@@ -327,6 +328,11 @@ const PostCard = ({ post }: { post: PostData }) => {
                 </Button>
                 <TTSButton text={`Title: ${postTitle}. Description: ${postDescription}`}></TTSButton>
               </div>
+
+                {/* Comments Accordion */}
+                <div className="pt-4">
+                  <Accordian post_id={post.post_id} community_id={post.community_id} />
+                </div>
             </div>
           )}
 
