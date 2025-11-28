@@ -12,6 +12,7 @@ import {
   Option,
   Spinner,
   Textarea,
+  tokens,
 } from "@fluentui/react-components";
 import { useAtom } from "jotai";
 import SpeakButton from "@/components/SpeakButton";
@@ -40,7 +41,13 @@ export default function CreatePost({ communityId }: { communityId: string }) {
   const [error, setError] = useAtom(postErrorAtom);
   const [postType, setPostType] = useAtom(postTypeAtom);
   const [voiceBlob, setVoiceBlob] = useState<Blob | null>(null);
-  const [audioURL, setAudioURL] = useState('');
+  const [audioURL, setAudioURL] = useState("");
+
+  const [touched, setTouched] = useState({ title: false, description: false });
+
+  const titleError = touched.title && postType === "normal" && !title.trim();
+  const descriptionError =
+    touched.description && postType === "normal" && !description.trim();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -52,10 +59,14 @@ export default function CreatePost({ communityId }: { communityId: string }) {
     setVoiceBlob(audioBlob);
     const audioBlobUrl = URL.createObjectURL(audioBlob);
     setAudioURL(audioBlobUrl);
-
   };
+
   const handleVoicePost = async () => {
-    if (!selectedTags || !voiceBlob) return;
+    if (!selectedTags || !voiceBlob) {
+      setError("Select tags and record voice before submitting.");
+      return;
+    }
+    setIsLoading(true);
     const formData = new FormData();
     selectedTags.forEach((tag) => {
       formData.append("tags", tag);
@@ -70,7 +81,7 @@ export default function CreatePost({ communityId }: { communityId: string }) {
       });
 
       setVoiceBlob(null);
-      setAudioURL('');
+      setAudioURL("");
 
       if (!response.ok) {
         throw new Error("Voice post creation failed");
@@ -78,9 +89,9 @@ export default function CreatePost({ communityId }: { communityId: string }) {
 
       const data: any = await response.json();
       console.log("Post created successfully", data);
-    } catch (error) {
+    } catch (err) {
       setError("Failed to create voice post. Please try again.");
-      console.error(error);
+      console.error(err);
     } finally {
       setIsLoading(false);
     }
@@ -88,124 +99,292 @@ export default function CreatePost({ communityId }: { communityId: string }) {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    setIsLoading(true);
+    // mark touched to show inline errors
+    setTouched({ title: true, description: true });
     setError(null);
 
     if (postType === "voice") {
-      handleVoicePost();
+      await handleVoicePost();
       return;
     }
+
+    // validation for normal posts
+    if (!title.trim() || !description.trim()) {
+      return;
+    }
+
+    setIsLoading(true);
 
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
-    selectedTags.forEach((tag) => {
-      formData.append("tags", tag);
-    });
-    files.forEach((file) => {
-      formData.append("files", file);
-    });
+    selectedTags.forEach((tag) => formData.append("tags", tag));
+    files.forEach((file) => formData.append("files", file));
 
     try {
-      const response = await createPost(communityId, formData);
-    } catch (error) {
+      await createPost(communityId, formData);
+    } catch (err) {
       setError("Failed to create post. Please try again.");
-      console.error(error);
+      console.error(err);
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Styling helpers for the segmented toggle pills
+  const pillBase: React.CSSProperties = {
+    display: "inline-flex",
+    gap: 8,
+    alignItems: "center",
+    padding: "8px 12px",
+    borderRadius: 999,
+    cursor: "pointer",
+    userSelect: "none",
+    fontSize: 13,
+    lineHeight: 1,
+    border: `1px solid ${tokens.colorNeutralStrokeAccessible}`,
+    background: tokens.colorNeutralBackground1,
+  };
+
+  const activePill: React.CSSProperties = {
+    background: tokens.colorBrandBackground,
+    color: tokens.colorNeutralForegroundOnBrand,
+    border: `1px solid ${tokens.colorBrandForeground1}`,
+    boxShadow: `0 2px 6px rgba(13, 110, 253, 0.12)`,
+  };
+
+  const inactivePill: React.CSSProperties = {
+    background: tokens.colorNeutralBackground1,
+    color: tokens.colorNeutralForeground1,
+  };
+
   return (
-    <>
-      <DialogSurface>
-        <DialogTitle>
-          <div className="flex justify-between">
-            <p>Create Post</p>
-            {postType === "normal" ? (
-              <Button
-                icon={<MicRegular />}
-                appearance="secondary"
-                shape="circular"
-                size="small"
-                onClick={() => setPostType("voice")}
-              >
-                Create Voice Post
-              </Button>
-            ) : (
-              <Button
-                icon={<EditRegular />}
-                appearance="secondary"
-                shape="circular"
-                size="small"
-                onClick={() => setPostType("normal")}
-              >
-                Normal Post
-              </Button>
-            )}
-          </div>
-        </DialogTitle>
-        <form onSubmit={handleSubmit}>
-          {postType === "normal" ? (
-            <>
-              <Field label="Title">
-                <Input
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  required
-                />
-              </Field>
+    <DialogSurface
+      style={{
+        padding: 20,
+        borderRadius: tokens.borderRadiusXLarge,
+        boxShadow: tokens.shadow64,
+        maxWidth: 760,
+        width: "min(92vw, 760px)",
+      }}
+    >
+      <DialogTitle
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 8,
+          fontSize: "1.25rem",
+          fontWeight: 600,
+        }}
+      >
+        <span>Create Post</span>
 
-              <Field label="Description">
-                <Textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  required
-                />
-              </Field>
-              <Field label="Add Files">
-                <input type="file" multiple onChange={handleFileChange} />
-              </Field>
-            </>
-          ) : (
-            <>
-              <Field label="Voice Recording">
-                <SpeakButton onVoiceSubmit={handleVoiceSubmit} />
-              </Field>
-            </>
-          )}
-          <Field label="Tags">
-            <Dropdown
-              multiselect
-              value={selectedTags.join(", ")}
-              selectedOptions={selectedTags}
-              onOptionSelect={(event, data) => {
-                if (data.selectedOptions) {
-                  setSelectedTags(data.selectedOptions);
-                }
+        {/* Segmented pill toggle */}
+        <div
+          role="tablist"
+          aria-label="Post type"
+          style={{ display: "flex", gap: 8, alignItems: "center" }}
+        >
+          <button
+            type="button"
+            aria-pressed={postType === "normal"}
+            onClick={() => setPostType("normal")}
+            style={{
+              ...pillBase,
+              ...(postType === "normal" ? activePill : inactivePill),
+            }}
+            title="Create a normal text post"
+          >
+            <EditRegular
+              style={{
+                width: 16,
+                height: 16,
+                opacity: postType === "normal" ? 1 : 0.85,
               }}
+            />
+            <span style={{ fontWeight: 600 }}>Normal Post</span>
+          </button>
+
+          <button
+            type="button"
+            aria-pressed={postType === "voice"}
+            onClick={() => setPostType("voice")}
+            style={{
+              ...pillBase,
+              ...(postType === "voice" ? activePill : inactivePill),
+            }}
+            title="Create a voice post"
+          >
+            <MicRegular
+              style={{
+                width: 16,
+                height: 16,
+                opacity: postType === "voice" ? 1 : 0.85,
+              }}
+            />
+            <span style={{ fontWeight: 600 }}>Voice Post</span>
+          </button>
+        </div>
+      </DialogTitle>
+
+      <form
+        onSubmit={handleSubmit}
+        style={{ display: "flex", flexDirection: "column", gap: 14 }}
+      >
+        {postType === "normal" ? (
+          <>
+            <Field
+              label="Title"
+              required
+              validationState={titleError ? "error" : "none"}
             >
-              {TAGS.map((tag, id) => (
-                <Option key={id} value={tag} text={tag}>
-                  {tag}
-                </Option>
-              ))}
-            </Dropdown>
-          </Field>
+              <Input
+                value={title}
+                onChange={(e: any) => setTitle(e.target.value)}
+                onBlur={() => setTouched((t) => ({ ...t, title: true }))}
+                placeholder="Short, descriptive title"
+                style={{
+                  borderRadius: tokens.borderRadiusMedium,
+                  padding: "10px",
+                }}
+              />
+              {titleError && (
+                <div style={{ color: "#b02a37", fontSize: 12, marginTop: 6 }}>
+                  Title is required.
+                </div>
+              )}
+            </Field>
 
-          {error && <div style={{ color: "red" }}>{error}</div>}
-        </form>
+            <Field
+              label="Description"
+              required
+              validationState={descriptionError ? "error" : "none"}
+            >
+              <Textarea
+                value={description}
+                onChange={(e: any) => setDescription(e.target.value)}
+                onBlur={() => setTouched((t) => ({ ...t, description: true }))}
+                placeholder="Add details, steps to reproduce, links, etc."
+                style={{
+                  borderRadius: tokens.borderRadiusMedium,
+                  padding: "10px",
+                  minHeight: 120,
+                }}
+              />
+              {descriptionError && (
+                <div style={{ color: "#b02a37", fontSize: 12, marginTop: 6 }}>
+                  Description is required.
+                </div>
+              )}
+            </Field>
 
-        <DialogActions>
-          <DialogTrigger disableButtonEnhancement>
-            <Button appearance="secondary">Cancel</Button>
-          </DialogTrigger>
+            <Field label="Add Files">
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                }}
+              >
+                <label
+                  style={{
+                    border: `1px dashed ${tokens.colorNeutralStrokeAccessible}`,
+                    padding: "8px 12px",
+                    borderRadius: tokens.borderRadiusMedium,
+                    cursor: "pointer",
+                    fontSize: 13,
+                  }}
+                >
+                  Browse
+                  <input
+                    type="file"
+                    multiple
+                    onChange={handleFileChange}
+                    style={{ display: "none" }}
+                    aria-hidden
+                  />
+                </label>
+                <div
+                  style={{
+                    fontSize: 13,
+                    color: tokens.colorNeutralForeground3,
+                  }}
+                >
+                  {files && files.length > 0
+                    ? `${files.length} file(s) selected`
+                    : "No files selected"}
+                </div>
+              </div>
+            </Field>
+          </>
+        ) : (
+          <>
+            <Field label="Voice Recording">
+              <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                <SpeakButton onVoiceSubmit={handleVoiceSubmit} />
+                {audioURL && (
+                  <audio controls src={audioURL} style={{ maxWidth: 300 }} />
+                )}
+              </div>
+            </Field>
+          </>
+        )}
 
-          <Button type="submit" appearance="primary" disabled={isLoading}>
-            {isLoading ? <Spinner size="small" /> : "Create Post"}
-          </Button>
+        <Field label="Tags">
+          <Dropdown
+            multiselect
+            selectedOptions={selectedTags}
+            onOptionSelect={(e, data) => {
+              if (data.selectedOptions) setSelectedTags(data.selectedOptions);
+            }}
+            placeholder="Select tags"
+            style={{
+              borderRadius: tokens.borderRadiusMedium,
+              padding: "2px 6px",
+            }}
+          >
+            {TAGS.map((tag, i) => (
+              <Option key={i} value={tag} text={tag}>
+                {tag}
+              </Option>
+            ))}
+          </Dropdown>
+        </Field>
+
+        {error && (
+          <div style={{ color: "#b02a37", fontSize: 13, marginTop: -6 }}>
+            {error}
+          </div>
+        )}
+
+        <DialogActions
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: 6,
+          }}
+        >
+          <div>
+            <DialogTrigger disableButtonEnhancement>
+              <Button appearance="secondary" disabled={isLoading}>
+                Cancel
+              </Button>
+            </DialogTrigger>
+          </div>
+
+          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+            <Button
+              type="submit"
+              appearance="primary"
+              disabled={isLoading}
+              style={{ minWidth: 140 }}
+            >
+              {isLoading ? <Spinner size="small" /> : "Create Post"}
+            </Button>
+          </div>
         </DialogActions>
-      </DialogSurface>
-    </>
+      </form>
+    </DialogSurface>
   );
 }
