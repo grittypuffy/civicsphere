@@ -85,38 +85,33 @@ const SideBar = () => {
         aria-label={t("aria.mainNavigation")}
         role="navigation"
       >
-        <NavDrawerHeader className="border-b border-b-sky-100 bg-navbar text-white">
-          <div className="py-3 flex items-center gap-3 px-2">
-            <Tooltip
-              content={t("tooltip.close")}
-              relationship="label"
-              positioning="after"
-            >
+        <NavDrawerHeader className="border-b shadow-xl bg-sky-200 text-black">
+          <div className="py-3 px-3 flex items-center gap-3">
+            <Tooltip content={t("tooltip.close")} relationship="label" positioning="after">
               <Hamburger
                 onClick={() => setNavOpen(false)}
                 aria-label={t("aria.closeNavigation")}
-                className="text-white fill-white"
-                style={{ color: 'white' }}
+                style={{ color: 'black' }}
               />
             </Tooltip>
-            <div className="font-semibold">{t("appName")}</div>
+            <div className="font-semibold text-lg">{t("appName")}</div>
           </div>
         </NavDrawerHeader>
 
-        <NavDrawerBody className="flex flex-col justify-start">
-          <div className="py-3 px-2">
+        <NavDrawerBody className="flex flex-col justify-start p-3">
+          <div className="space-y-2">
             {PAGES.map((item, idx) => (
               <NavItem
                 key={idx}
                 icon={
-                  <span className="text-2xl text-sky-600" aria-hidden="true">
+                  <span className="text-xl text-black" aria-hidden="true">
                     {item.icon}
                   </span>
                 }
                 onClick={changeRouter(item.href)}
                 value={`${idx + 1}`}
                 aria-label={t("aria.navigateTo", { page: item.label })}
-                className="hover:bg-light-brand rounded-md"
+                className="hover:bg-light-brand rounded-md px-2 py-2"
               >
                 <span className="py-1 font-semibold text-lg text-ui-heading">
                   {item.label}
@@ -126,14 +121,14 @@ const SideBar = () => {
 
             <NavItem
               icon={
-                <span className="text-2xl text-sky-600" aria-hidden="true">
+                <span className="text-xl text-black" aria-hidden="true">
                   {<SignOutRegular />}
                 </span>
               }
               value={`6`}
               onClick={handleSignout}
               aria-label={t("aria.signOut")}
-              className="hover:bg-light-brand rounded-md"
+              className="hover:bg-light-brand rounded-md px-2 py-2"
             >
               <span className="py-1 font-semibold text-lg text-ui-heading text-red-500">
                 {t("signout")}
@@ -142,7 +137,7 @@ const SideBar = () => {
           </div>
         </NavDrawerBody>
 
-        <NavDrawerFooter className="border-t border-t-sky-100 bg-brand/5">
+        <NavDrawerFooter className="border-t bg-sky-200">
           <div className="text-sm italic p-3 text-ui-muted" role="contentinfo">
             {t("copyright", {
               year: String(new Date().getFullYear()),

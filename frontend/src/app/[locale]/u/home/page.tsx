@@ -88,7 +88,7 @@ export default function Page() {
                   )
                 case 'hasData':
                   return (
-                    <Feeds posts={feeds.data} showVoted={true} />
+                    <Feeds posts={feeds.data}/>
                   )
               }
             })()}
