@@ -103,7 +103,20 @@ declare const messages: {
     "submitIssueButton": "Raise",
     "loadingIssues": "Loading issues...",
     "errorIssues": "Error loading issues: {message}",
-    "youLabel": "You"
+    "youLabel": "You",
+    "exploreThe": "Explore the",
+    "pageHeadline": "Communities!",
+    "chooseCommunity": "Choose a community",
+    "loadingOption": "Loading...",
+    "errorLoadingCommunities": "Error loading communities",
+    "filterByTag": "Filter by tag",
+    "errorLoadingTags": "Error loading tags",
+    "refreshAriaLabel": "Refresh community content",
+    "refreshPrompt": "Want fresh community updates?",
+    "createAriaLabel": "Create new post or issue in a community",
+    "createButton": "Create",
+    "selectCommunityPrompt": "Please select a community to view posts.",
+    "showingFallback": "Showing fallback data instead."
   },
   "trending": {
     "discoverWhat": "Discover what's",
@@ -132,7 +145,31 @@ declare const messages: {
     "selectTags": "Select tags",
     "filterPlaceholder": "Filter tags",
     "cancel": "Cancel",
-    "post": "Post"
+    "post": "Post",
+    "dialogTitle": "Create Post",
+    "postTypeAria": "Post type",
+    "normalPost": "Normal Post",
+    "voicePost": "Voice Post",
+    "normalPostTitleAttr": "Create a normal text post",
+    "voicePostTitleAttr": "Create a voice post",
+    "titleLabel": "Title",
+    "titlePlaceholder": "Short, descriptive title",
+    "titleRequired": "Title is required.",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Add details, steps to reproduce, links, etc.",
+    "descriptionRequired": "Description is required.",
+    "addFilesLabel": "Add Files",
+    "browse": "Browse",
+    "filesSelected": "{count} file(s) selected",
+    "noFilesSelected": "No files selected",
+    "voiceRecordingLabel": "Voice Recording",
+    "tagsLabel": "Tags",
+    "selectTagsPlaceholder": "Select tags",
+    "selectTagsVoiceError": "Select tags and record voice before submitting.",
+    "voicePostFailed": "Failed to create voice post. Please try again.",
+    "postCreatedSuccessfully": "Post created successfully.",
+    "createPostFailed": "Failed to create post. Please try again.",
+    "submit": "Create Post"
   },
   "feeds": {
     "verified": "Verified",
@@ -144,7 +181,20 @@ declare const messages: {
     "view": "View",
     "issueId": "Issue ID:",
     "noVotedContent": "No voted content found",
-    "nothingHere": "Nothing here"
+    "nothingHere": "Nothing here",
+    "explain": "Explain",
+    "loadingExplanation": "Loading...",
+    "clickToLoadExplanation": "Click to load explanation...",
+    "whatsInItForMe": "What's in it for me",
+    "noExplanation": "No explanation available",
+    "failedExplanation": "Failed to load explanation",
+    "translate": "Translate",
+    "translating": "Translating",
+    "showMore": "Show more",
+    "showLess": "Show less",
+    "noDataAlt": "No Data",
+    "ttsPost": "Title: {title}. Description: {description}",
+    "ttsIssue": "Issue title: {title}. Issue description: {description}"
   },
   "tags": {
     "affordable-housing": "Affordable Housing",
@@ -346,6 +396,18 @@ declare const messages: {
       "signUpForm": "Sign up form",
       "creatingAccount": "Creating account"
     }
+  },
+  "createIssue": {
+    "dialogTitle": "Create Issue",
+    "titleLabel": "Title",
+    "titlePlaceholder": "Short, descriptive title",
+    "titleRequired": "Title is required.",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Add details, steps, screenshots...",
+    "descriptionRequired": "Description is required.",
+    "errorMessage": "Failed to create issue. Please try again.",
+    "cancel": "Cancel",
+    "submit": "Create Issue"
   }
 };
 export default messages;

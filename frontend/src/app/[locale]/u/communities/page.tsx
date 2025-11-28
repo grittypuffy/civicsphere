@@ -28,6 +28,7 @@ import {
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { loadable } from 'jotai/utils'
 import { useTranslations } from 'next-intl'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 // Atoms for state management
@@ -81,26 +82,26 @@ export default function CommunitiesPage() {
       <div className='flex flex-col items-center justify-between'>
         <div className='min-w-dvw lg:min-w-5xl'>
           <div className='mx-auto p-5 md:p-8 lg:px-12 flex flex-col'>
-            <p className='text-lg lg:text-xl'>Explore the </p>
+            <p className='text-lg lg:text-xl'>{t('exploreThe')}</p>
             <h1 className='text-4xl lg:text-5xl font-bold'>
-              Communities!
+              {t('pageHeadline')}
             </h1>
             <div className='flex flex-col lg:flex-row items-start lg:items-center gap-3 mt-4'>
               <Dropdown
-                value={selectedCommunity}
+                value={selectedCommunity ?? ''}
                 onOptionSelect={(_, data) => {
                   setSelectedCommunity(data.optionText || '')
                   setSelectedCommunityId(data.optionValue || '')
                 }}
-                placeholder="Choose a community"
+                placeholder={t('chooseCommunity')}
                 className="w-full lg:w-auto"
               >
                 {(() => {
                   switch (communities.state) {
                     case 'loading':
-                      return <Option key="loading" disabled>Loading...</Option>
+                      return <Option key="loading" disabled>{t('loadingOption')}</Option>
                     case 'hasError':
-                      return <Option key="error">Error loading communities</Option>
+                      return <Option key="error">{t('errorLoadingCommunities')}</Option>
                     case 'hasData':
                       return communities.data.map((community: Community) => (
                         <Option key={community._id} value={community._id} text={community.community_name}>
@@ -113,9 +114,9 @@ export default function CommunitiesPage() {
 
               {tab === 'posts' && (
                 <Dropdown
-                  value={selectedTag}
+                  value={selectedTag ?? ''}
                   onOptionSelect={(_, data) => setSelectedTag(data.optionValue || '')}
-                  placeholder="Filter by tag"
+                  placeholder={t('filterByTag')}
                   multiselect={true}
                   positioning={'below'}
                   className='w-full lg:w-auto'
@@ -123,9 +124,9 @@ export default function CommunitiesPage() {
                   {(() => {
                     switch (tags.state) {
                       case 'loading':
-                        return <Option key="loading" disabled>Loading...</Option>
+                        return <Option key="loading" disabled>{t('loadingOption')}</Option>
                       case 'hasError':
-                        return <Option key="error">Error loading tags</Option>
+                        return <Option key="error">{t('errorLoadingTags')}</Option>
                       case 'hasData':
                         return Object.entries(tags.data).map(([key, value]) => (
                           <Option key={key} value={key}>
@@ -143,11 +144,11 @@ export default function CommunitiesPage() {
                   shape='circular'
                   size='small'
                   onClick={handleRefresh}
-                  aria-label="Refresh community content"
+                  aria-label={t('refreshAriaLabel')}
                   icon={<ArrowClockwiseFilled />}
                   disabled={!selectedCommunityId}
                 />
-                <p className='text-sm'>Want fresh community updates?</p>
+                <p className='text-sm'>{t('refreshPrompt')}</p>
               </div>
             </div>
           </div>
@@ -165,10 +166,10 @@ export default function CommunitiesPage() {
                     icon={<AddSquareRegular />}
                     shape='circular'
                     size='medium'
-                    aria-label="Create new post or issue in a community"
+                    aria-label={t('createAriaLabel')}
                     disabled={!selectedCommunityId}
                   >
-                    Create
+                    {t('createButton')}
                   </Button>
                 </DialogTrigger>
                 {tab === 'posts' ?
@@ -188,15 +189,16 @@ export default function CommunitiesPage() {
                 {(() => {
                   if (selectedCommunity === '') {
                     return (
-                      <div className='p-4'>
-                        <img
+                      <div className='p-8 flex flex-col items-center justify-center text-center min-h-[50vh] gap-3'>
+                        <Image
                           src='/images/choose.svg'
-                          alt='Choose a community'
-                          className='mx-auto mb-4 w-36 h-36'
+                          alt={t('chooseCommunity')}
+                          width={300}
+                          height={300}
+                          className='mx-auto mb-4'
                         />
-                        <p>Please select a community to view posts.</p>
-                      </div>
-                    )
+                        <p className='text-gray-600 text-sm lg:text-lg'>{t('selectCommunityPrompt')}</p>
+                      </div>)
                   }
                   switch (posts.state) {
                     case 'loading':
@@ -208,7 +210,7 @@ export default function CommunitiesPage() {
                             <span>
                               {t('errorPosts', { message: String(posts.error) })}
                             </span>
-                            <span> Showing fallback data instead.</span>
+                            <span> {t('showingFallback')}</span>
                           </div>
                           <Feeds />
                         </div>
@@ -227,6 +229,20 @@ export default function CommunitiesPage() {
             {tab === 'issues' && (
               <>
                 {(() => {
+                  if (selectedCommunity === '') {
+                    return (
+                      <div className='p-8 flex flex-col items-center justify-center text-center min-h-[50vh] gap-3'>
+                        <Image
+                          src='/images/choose.svg'
+                          alt='Choose a community'
+                          width={300}
+                          height={300}
+                          className='mx-auto mb-4'
+                        />
+                        <p className='text-gray-600 text-sm lg:text-lg'>Please select a community to view posts.</p>
+                      </div>
+                    )
+                  }
                   switch (issues.state) {
                     case 'loading':
                       return <div className='p-4'>{t('loadingIssues')}</div>
@@ -237,7 +253,7 @@ export default function CommunitiesPage() {
                             <span>
                               {t('errorIssues', { message: String(issues.error) })}
                             </span>
-                            <span> Showing fallback data instead.</span>
+                            <span> {t('showingFallback')}</span>
                           </div>
                           <Feeds />
                         </div>

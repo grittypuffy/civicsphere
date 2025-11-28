@@ -204,7 +204,8 @@ async def create_voice_post(
                 ).dict(),
             )
 
-        lang = user_prefs["language"]
+        lang = user_prefs["language"] or "en"
+        lang_code = config.market_codes.get(lang, "en-US")
         # Community information
         community = await config.db["communities"].find_one(
             {"_id": ObjectId(community_id)}
@@ -221,7 +222,7 @@ async def create_voice_post(
         audio_processor: AudioProcessor = AudioProcessor()
         transcription = None
         try:
-            transcript = await audio_processor.process_voice(lang, voice)
+            transcript = await audio_processor.process_voice_post(lang_code, voice)
             transcription = transcript.get("data", None)
             if transcription is None:
                 return JSONResponse(
@@ -252,9 +253,8 @@ async def create_voice_post(
                 await chain.ainvoke({"transcription": transcription})
                 or "Community post"
             )
-
             func_payload = {"title": title, "description": transcription}
-
+            """
             async with httpx.AsyncClient(timeout=20) as client:
                 headers = {"x-functions-key": config.env.azure_function_app_key}
                 func_response = await client.post(
@@ -276,7 +276,7 @@ async def create_voice_post(
             # Extract results safely
             validation = func_result.get("validation", "Uncertain")
             flagged = func_result.get("flagged", False)
-
+            """
         except Exception as e:
             return JSONResponse(
                 status_code=500,
@@ -309,8 +309,8 @@ async def create_voice_post(
             "url": [],
             "lang": detected_lang,
             "location": location,
-            "verified": validation,
-            "flagged": flagged,
+            "verified": "Uncertain",
+            "flagged": False,
             "created_at": datetime.utcnow().isoformat(),
         }
         result = await config.db["posts"].insert_one(post_doc)

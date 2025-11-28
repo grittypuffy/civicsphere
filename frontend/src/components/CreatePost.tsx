@@ -1,3 +1,5 @@
+"use client";
+
 import { TAGS } from "@/lib/consts";
 import { createPost } from "@/lib/utils";
 import {
@@ -27,10 +29,13 @@ import {
 } from "@/lib/store";
 import { EditRegular, MicRegular } from "@fluentui/react-icons";
 import { atom } from "jotai";
+import { useTranslations } from "next-intl";
 
 const postTypeAtom = atom<"normal" | "voice">("normal");
 
 export default function CreatePost({ communityId }: { communityId: string }) {
+  const t = useTranslations("createPost");
+
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [title, setTitle] = useAtom(issueTitleAtom);
   const [description, setDescription] = useAtom(issueDescriptionAtom);
@@ -60,8 +65,8 @@ export default function CreatePost({ communityId }: { communityId: string }) {
   };
 
   const handleVoicePost = async () => {
-    if (!selectedTags || !voiceBlob) {
-      setError("Select tags and record voice before submitting.");
+    if (!selectedTags || selectedTags.length === 0 || !voiceBlob) {
+      setError(t("selectTagsVoiceError"));
       return;
     }
     setIsLoading(true);
@@ -86,9 +91,9 @@ export default function CreatePost({ communityId }: { communityId: string }) {
       }
 
       const data: any = await response.json();
-      console.log("Post created successfully", data);
+      console.log(t("postCreatedSuccessfully"), data);
     } catch (err) {
-      setError("Failed to create voice post. Please try again.");
+      setError(t("voicePostFailed"));
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -121,8 +126,9 @@ export default function CreatePost({ communityId }: { communityId: string }) {
 
     try {
       await createPost(communityId, formData);
+      console.log(t("postCreatedSuccessfully"));
     } catch (err) {
-      setError("Failed to create post. Please try again.");
+      setError(t("createPostFailed"));
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -176,12 +182,12 @@ export default function CreatePost({ communityId }: { communityId: string }) {
           fontWeight: 600,
         }}
       >
-        <span>Create Post</span>
+        <span>{t("dialogTitle")}</span>
 
         {/* Segmented pill toggle */}
         <div
           role="tablist"
-          aria-label="Post type"
+          aria-label={t("postTypeAria")}
           style={{ display: "flex", gap: 8, alignItems: "center" }}
         >
           <button
@@ -192,7 +198,7 @@ export default function CreatePost({ communityId }: { communityId: string }) {
               ...pillBase,
               ...(postType === "normal" ? activePill : inactivePill),
             }}
-            title="Create a normal text post"
+            title={t("normalPostTitleAttr")}
           >
             <EditRegular
               style={{
@@ -201,7 +207,7 @@ export default function CreatePost({ communityId }: { communityId: string }) {
                 opacity: postType === "normal" ? 1 : 0.85,
               }}
             />
-            <span style={{ fontWeight: 600 }}>Normal Post</span>
+            <span style={{ fontWeight: 600 }}>{t("normalPost")}</span>
           </button>
 
           <button
@@ -212,7 +218,7 @@ export default function CreatePost({ communityId }: { communityId: string }) {
               ...pillBase,
               ...(postType === "voice" ? activePill : inactivePill),
             }}
-            title="Create a voice post"
+            title={t("voicePostTitleAttr")}
           >
             <MicRegular
               style={{
@@ -221,7 +227,7 @@ export default function CreatePost({ communityId }: { communityId: string }) {
                 opacity: postType === "voice" ? 1 : 0.85,
               }}
             />
-            <span style={{ fontWeight: 600 }}>Voice Post</span>
+            <span style={{ fontWeight: 600 }}>{t("voicePost")}</span>
           </button>
         </div>
       </DialogTitle>
@@ -233,7 +239,7 @@ export default function CreatePost({ communityId }: { communityId: string }) {
         {postType === "normal" ? (
           <>
             <Field
-              label="Title"
+              label={t("titleLabel")}
               required
               validationState={titleError ? "error" : "none"}
             >
@@ -241,7 +247,7 @@ export default function CreatePost({ communityId }: { communityId: string }) {
                 value={title}
                 onChange={(e: any) => setTitle(e.target.value)}
                 onBlur={() => setTouched((t) => ({ ...t, title: true }))}
-                placeholder="Short, descriptive title"
+                placeholder={t("titlePlaceholder")}
                 style={{
                   borderRadius: tokens.borderRadiusMedium,
                   padding: "10px",
@@ -249,13 +255,13 @@ export default function CreatePost({ communityId }: { communityId: string }) {
               />
               {titleError && (
                 <div style={{ color: "#b02a37", fontSize: 12, marginTop: 6 }}>
-                  Title is required.
+                  {t("titleRequired")}
                 </div>
               )}
             </Field>
 
             <Field
-              label="Description"
+              label={t("descriptionLabel")}
               required
               validationState={descriptionError ? "error" : "none"}
             >
@@ -263,7 +269,7 @@ export default function CreatePost({ communityId }: { communityId: string }) {
                 value={description}
                 onChange={(e: any) => setDescription(e.target.value)}
                 onBlur={() => setTouched((t) => ({ ...t, description: true }))}
-                placeholder="Add details, steps to reproduce, links, etc."
+                placeholder={t("descriptionPlaceholder")}
                 style={{
                   borderRadius: tokens.borderRadiusMedium,
                   padding: "10px",
@@ -272,12 +278,12 @@ export default function CreatePost({ communityId }: { communityId: string }) {
               />
               {descriptionError && (
                 <div style={{ color: "#b02a37", fontSize: 12, marginTop: 6 }}>
-                  Description is required.
+                  {t("descriptionRequired")}
                 </div>
               )}
             </Field>
 
-            <Field label="Add Files">
+            <Field label={t("addFilesLabel")}>
               <div
                 style={{
                   display: "flex",
@@ -294,7 +300,7 @@ export default function CreatePost({ communityId }: { communityId: string }) {
                     fontSize: 13,
                   }}
                 >
-                  Browse
+                  {t("browse")}
                   <input
                     type="file"
                     multiple
@@ -310,15 +316,15 @@ export default function CreatePost({ communityId }: { communityId: string }) {
                   }}
                 >
                   {files && files.length > 0
-                    ? `${files.length} file(s) selected`
-                    : "No files selected"}
+                    ? t("filesSelected", { count: String(files.length) })
+                    : t("noFilesSelected")}
                 </div>
               </div>
             </Field>
           </>
         ) : (
           <>
-            <Field label="Voice Recording">
+            <Field label={t("voiceRecordingLabel")}>
               <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
                 <SpeakButton onVoiceSubmit={handleVoiceSubmit} />
                 {audioURL && (
@@ -329,14 +335,14 @@ export default function CreatePost({ communityId }: { communityId: string }) {
           </>
         )}
 
-        <Field label="Tags">
+        <Field label={t("tagsLabel")}>
           <Dropdown
             multiselect
             selectedOptions={selectedTags}
             onOptionSelect={(e, data) => {
               if (data.selectedOptions) setSelectedTags(data.selectedOptions);
             }}
-            placeholder="Select tags"
+            placeholder={t("selectTagsPlaceholder")}
             style={{
               borderRadius: tokens.borderRadiusMedium,
               padding: "2px 6px",
@@ -366,7 +372,7 @@ export default function CreatePost({ communityId }: { communityId: string }) {
           <div>
             <DialogTrigger disableButtonEnhancement>
               <Button appearance="secondary" disabled={isLoading}>
-                Cancel
+                {t("cancel")}
               </Button>
             </DialogTrigger>
           </div>
@@ -378,7 +384,7 @@ export default function CreatePost({ communityId }: { communityId: string }) {
               disabled={isLoading}
               style={{ minWidth: 140 }}
             >
-              {isLoading ? <Spinner size="small" /> : "Create Post"}
+              {isLoading ? <Spinner size="small" /> : t("submit")}
             </Button>
           </div>
         </DialogActions>

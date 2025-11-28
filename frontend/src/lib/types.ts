@@ -108,3 +108,10 @@ export type CreateReplyRequest = v.InferOutput<typeof CreateReplyRequestSchema>;
 export type CreateReplyResponse = v.InferOutput<typeof CreateReplyResponseSchema>;
 export type ExplainPostResponse = v.InferOutput<typeof ExplainPostResponseSchema>;
 export type ExplainPostData = NonNullable<ExplainPostResponse["data"]>;
+export type CommentData = {
+  id?: string;
+  user_id: string;
+  description: string;
+  flagged?: boolean;
+  comments?: CommentData[];
+}

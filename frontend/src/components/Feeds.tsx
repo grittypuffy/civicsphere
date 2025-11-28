@@ -1,12 +1,12 @@
 'use client'
 
+import Comments from "@/components/Comments"
 import TTSButton from "@/components/TTSButton"
-import Accordian from "@/components/Accordian"
 import { userIssueUpvotesAtom, userIssueUpvotesAtom_loadable, userPostDownvotesAtom, userPostDownvotesAtom_loadable, userPostUpvotesAtom, userPostUpvotesAtom_loadable } from "@/lib/store"
 import { ExplainPostData, Issue, PostData } from "@/lib/types"
 import { downvotePost, explainPost, removeDownvotePost, removeUpvoteIssue, removeUpvotePost, translatePost, upvoteIssue, upvotePost } from "@/lib/utils"
-import { Badge, Button, Card, CardFooter, CardHeader, Spinner, Text, Tree, TreeItem, TreeItemLayout, TreeOpenChangeData, TreeOpenChangeEvent } from "@fluentui/react-components"
-import { CheckmarkCircleColor, CheckmarkRegular, ChevronDownRegular, ChevronUpRegular, ClockRegular, DocumentOnePageSparkleRegular, FlagFilled, HandRightRegular, InfoSparkleRegular, LocalLanguageFilled, Location16Filled, ThumbDislikeFilled, ThumbDislikeRegular, ThumbLikeFilled, TranslateFilled } from "@fluentui/react-icons"
+import { Badge, Button, Card, Spinner, Text, Tree, TreeItem, TreeItemLayout, TreeOpenChangeData, TreeOpenChangeEvent } from "@fluentui/react-components"
+import { CheckmarkCircleColor, CheckmarkRegular, ChevronDownRegular, ChevronUpRegular, ClockRegular, Document16Regular, DocumentOnePageSparkleRegular, FlagFilled, HandRightRegular, InfoSparkleRegular, LocalLanguageFilled, Location16Filled, ThumbDislikeFilled, ThumbDislikeRegular, ThumbLikeFilled, TranslateFilled } from "@fluentui/react-icons"
 import { ThumbLikeRegular } from "@fluentui/react-icons/svg/thumb-like"
 import { useAtomValue, useSetAtom } from "jotai"
 import { useTranslations } from 'next-intl'
@@ -146,7 +146,7 @@ const PostCard = ({ post }: { post: PostData }) => {
         const res = await explainPost(post.community_id, post.post_id)
         if (!res) {
           setExplainMessage({
-            summary: "No explanation available",
+            summary: t('noExplanation'),
             whats_in_it_for_me: "",
           })
           return
@@ -155,7 +155,7 @@ const PostCard = ({ post }: { post: PostData }) => {
       } catch (error) {
         console.error('Error in Tree onOpenChange:', error);
         setExplainMessage({
-          summary: "Failed to load explanation",
+          summary: t('failedExplanation'),
           whats_in_it_for_me: "",
         })
       } finally {
@@ -178,7 +178,7 @@ const PostCard = ({ post }: { post: PostData }) => {
         <div className="space-y-2">
           {/* Header Section */}
           <div className="flex items-start justify-between">
-            <h3 
+            <h3
               className="text-lg font-semibold text-gray-900 flex-1 hover:text-blue-600 cursor-pointer"
               onClick={() => setIsExpanded(!isExpanded)}
             >
@@ -244,71 +244,7 @@ const PostCard = ({ post }: { post: PostData }) => {
 
           {/* Expanded Content */}
           {isExpanded && (
-            <div className="space-y-3 border-t pt-3">
-              {/* Links */}
-              {post.url.length > 0 && (
-                <div className="space-y-1">
-                  <Text size={200} className="text-gray-600 font-medium">{t('links')}</Text>
-                  {post.url.map((link, index) => (
-                    <a
-                      key={index}
-                      href={link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block text-blue-600 hover:text-blue-800 text-sm truncate underline"
-                    >
-                      {link}
-                    </a>
-                  ))}
-                </div>
-              )}
-
-              {/* Explanation Tree */}
-              <Tree onOpenChange={handleOpenChange} size="medium">
-                <TreeItem itemType="branch">
-                  <TreeItemLayout
-                    expandIcon={<DocumentOnePageSparkleRegular />}
-                  >
-                    Explain
-                  </TreeItemLayout>
-                  <Tree size="medium">
-                    <TreeItem itemType="leaf">
-                      <TreeItemLayout>
-                        {isLoadingExplanation ? (
-                          <div className="w-full">
-                            <p>Loading...</p>
-                          </div>
-                        ) : explainMessage.summary ? (
-                          <div className="space-y-2">
-                            <div>
-                              <span className="text-sm text-gray-700">{explainMessage.summary}</span>
-                            </div>
-                          </div>
-                        ) : (
-                          <span className="text-sm text-gray-500">Click to load explanation...</span>
-                        )}
-                      </TreeItemLayout>
-                    </TreeItem>
-                    {explainMessage.whats_in_it_for_me && (
-                      <TreeItem itemType="branch">
-                        <TreeItemLayout
-                          expandIcon={<InfoSparkleRegular />}
-                        >
-                          Whats in it for me
-                        </TreeItemLayout>
-                        <Tree>
-                          <TreeItem itemType="leaf">
-                            <TreeItemLayout>
-                              <span className="text-sm text-gray-600">{explainMessage.whats_in_it_for_me}</span>
-                            </TreeItemLayout>
-                          </TreeItem>
-                        </Tree>
-                      </TreeItem>
-                    )}
-                  </Tree>
-                </TreeItem>
-              </Tree>
-
+            <div className="space-y-3">
               {/* Action Buttons when expanded */}
               <div className="flex gap-2 pt-2">
                 <Button
@@ -329,10 +265,80 @@ const PostCard = ({ post }: { post: PostData }) => {
                 <TTSButton text={`Title: ${postTitle}. Description: ${postDescription}`}></TTSButton>
               </div>
 
-                {/* Comments Accordion */}
-                <div className="pt-4">
-                  <Accordian post_id={post.post_id} community_id={post.community_id} />
+              {/* Links */}
+              {post.url.length > 0 && (
+                <div className="flex flex-col gap-2">
+                  <Text size={300} className="text-gray-600 font-medium">{t('links')}</Text>
+                  <div className="flex flex-wrap gap-2">
+                    {post.url.map((link, index) => {
+                      const lastPart = new URL(link).pathname.split('/').filter(Boolean).pop();
+                      return (<Button
+                        key={index}
+                        as="a"
+                        href={link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        appearance="outline"
+                        size="small"
+                        icon={<Document16Regular />}
+                      >
+                        {lastPart || ''}
+                      </Button>)
+                    })}
+                  </div>
                 </div>
+              )}
+
+              {/* Explanation Tree */}
+              <Tree onOpenChange={handleOpenChange} size="medium">
+                <TreeItem itemType="branch">
+                  <TreeItemLayout
+                    expandIcon={<DocumentOnePageSparkleRegular />}
+                  >
+                    {t('explain')}
+                  </TreeItemLayout>
+                  <Tree size="medium">
+                    <TreeItem itemType="leaf">
+                      <TreeItemLayout>
+                        {isLoadingExplanation ? (
+                          <div className="w-full">
+                            <p>{t('loadingExplanation')}</p>
+                          </div>
+                        ) : explainMessage.summary ? (
+                          <div className="space-y-2">
+                            <div>
+                              <span className="text-sm text-gray-700">{explainMessage.summary}</span>
+                            </div>
+                          </div>
+                        ) : (
+                          <span className="text-sm text-gray-500">{t('clickToLoadExplanation')}</span>
+                        )}
+                      </TreeItemLayout>
+                    </TreeItem>
+                    {explainMessage.whats_in_it_for_me && (
+                      <TreeItem itemType="branch">
+                        <TreeItemLayout
+                          expandIcon={<InfoSparkleRegular />}
+                        >
+                          {t('whatsInItForMe')}
+                        </TreeItemLayout>
+                        <Tree>
+                          <TreeItem itemType="leaf">
+                            <TreeItemLayout>
+                              <span className="text-sm text-gray-600">{explainMessage.whats_in_it_for_me}</span>
+                            </TreeItemLayout>
+                          </TreeItem>
+                        </Tree>
+                      </TreeItem>
+                    )}
+                  </Tree>
+                </TreeItem>
+              </Tree>
+
+              {/* Comments Accordion */}
+              <div>
+                <Comments post_id={post.post_id} community_id={post.community_id} />
+              </div>
             </div>
           )}
 
@@ -344,9 +350,9 @@ const PostCard = ({ post }: { post: PostData }) => {
               icon={isExpanded ? <ChevronUpRegular /> : <ChevronDownRegular />}
               onClick={() => setIsExpanded(!isExpanded)}
             >
-              {isExpanded ? 'Show less' : 'Show more'}
+              {isExpanded ? t('showLess') : t('showMore')}
             </Button>
-            
+
             <div className="flex items-center space-x-2">
               <Button
                 appearance={isUpvoted ? "primary" : "secondary"}
@@ -450,7 +456,7 @@ const IssueCard = ({ issue }: { issue: Issue }) => {
         <div className="space-y-2">
           {/* Header */}
           <div className="flex items-start justify-between">
-            <h3 
+            <h3
               className="text-lg font-semibold text-gray-900 flex-1 hover:text-blue-600 cursor-pointer"
               onClick={() => setIsExpanded(!isExpanded)}
             >
@@ -487,7 +493,7 @@ const IssueCard = ({ issue }: { issue: Issue }) => {
           {/* Expanded Content */}
           {isExpanded && (
             <div className="space-y-3 border-t pt-3">
-              <TTSButton text={`Issue title: ${issue.title}. Issue description: ${issue.description}`}></TTSButton>
+              <TTSButton text={t('ttsIssue', { title: issue.title, description: issue.description })}></TTSButton>
             </div>
           )}
 
@@ -499,9 +505,9 @@ const IssueCard = ({ issue }: { issue: Issue }) => {
               icon={isExpanded ? <ChevronUpRegular /> : <ChevronDownRegular />}
               onClick={() => setIsExpanded(!isExpanded)}
             >
-              {isExpanded ? 'Show less' : 'Show more'}
+              {isExpanded ? t('showLess') : t('showMore')}
             </Button>
-            
+
             <Button
               appearance={isUpvoted ? "primary" : "secondary"}
               size="small"
@@ -529,7 +535,7 @@ export const Feeds = ({ posts, issues }: FeedsProps) => {
         <div className="text-center py-12 min-h-[50vh]">
           <Image
             src="/images/no_data.svg"
-            alt="No Data"
+            alt={t('noDataAlt')}
             width={200}
             height={200}
             className="mx-auto mb-6"

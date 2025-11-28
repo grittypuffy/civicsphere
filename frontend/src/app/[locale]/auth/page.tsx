@@ -100,7 +100,7 @@ const AuthForm = () => {
                         : t("signinTitle")}
                     </h3>
                     <TabList
-                      selectedValue={formType}
+                      selectedValue={formType ?? 'signup'}
                       onTabSelect={onTabHandler}
                       className="w-full"
                     >

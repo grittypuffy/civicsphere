@@ -1,4 +1,5 @@
 import * as v from 'valibot';
+import { CommentData } from './types';
 import {
   emailValidator,
   langCodeValidator,
@@ -292,4 +293,18 @@ export const ExplainPostResponseSchema = v.object({
       whats_in_it_for_me: v.string(),
     })
   )),
+});
+
+export const CommentSchema: v.GenericSchema<CommentData> = v.object({
+  id: v.optional(v.string()),
+  user_id: v.string(),
+  description: v.string(),
+  flagged: v.optional(v.boolean()),
+  comments: v.optional(v.array(v.lazy((): v.GenericSchema<CommentData> => CommentSchema))),
+});
+
+export const CommentResponseSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
+  comments: v.optional(v.nullable(v.array(v.lazy(() => CommentSchema)))),
 });

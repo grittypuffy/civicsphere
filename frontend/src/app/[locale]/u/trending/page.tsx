@@ -1,12 +1,13 @@
 'use client'
 import { Feeds } from '@/components/Feeds';
 import { getTrendingPosts, getTrendingTopics } from '@/lib/utils';
-import { Button, Tab, TabList, TabValue } from '@fluentui/react-components';
+import { Button, Tab, TabList, TabValue, Text } from '@fluentui/react-components';
 import { ArrowClockwiseFilled } from '@fluentui/react-icons';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { loadable } from 'jotai/utils';
-import { SetStateAction, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
+import { useState } from 'react';
 
 const trendingPostsAtom = atom(getTrendingPosts());
 const loadableTrendingPostsAtom = loadable(trendingPostsAtom);
@@ -18,6 +19,7 @@ export default function TrendingPage() {
   const trendingPosts = useAtomValue(loadableTrendingPostsAtom);
   const trendingTopics = useAtomValue(loadableTrendingTopicsAtom);
   const setTrendingPosts = useSetAtom(trendingPostsAtom);
+  const setTrendingTopics = useSetAtom(trendingTopicsAtom);
   const [selectedTab, setSelectedTab] = useState<TabValue>('trending-posts');
 
   const [sortBy, setSortBy] = useState<'rank' | 'score'>('rank')
@@ -37,7 +39,11 @@ export default function TrendingPage() {
                 shape='circular'
                 size='small'
                 onClick={() => {
-                  setTrendingPosts(getTrendingPosts())
+                  if (selectedTab === 'trending-posts') {
+                    setTrendingPosts(getTrendingPosts())
+                  } else {
+                    setTrendingTopics(getTrendingTopics())
+                  }
                 }}
                 aria-label={t('refreshAria')}
                 icon={
@@ -48,7 +54,7 @@ export default function TrendingPage() {
           </div>
 
           <div className='px-3 md:px-5 lg:px-8'>
-            <TabList selectedValue={selectedTab} onTabSelect={(_, data) => setSelectedTab(data.value)}>
+            <TabList selectedValue={selectedTab ?? 'rank'} onTabSelect={(_, data) => setSelectedTab(data.value)}>
               <Tab value="trending-posts">{t('tabPosts')}</Tab>
               <Tab value="trending-topics">{t('tabTopics')}</Tab>
             </TabList>
@@ -63,7 +69,19 @@ export default function TrendingPage() {
                 {(() => {
                   switch (trendingPosts.state) {
                     case 'loading':
-                      return <div className='p-4'>{t('loadingPosts')}</div>
+                      return (
+                        <div className='flex flex-col items-center justify-center gap-3 p-8 min-h-[50vh]'>
+                          <Image
+                            src='/images/trending.svg'
+                            alt='Loading'
+                            width={300}
+                            height={300}
+                          />
+                          <Text size={400} className="text-gray-600">
+                            {t('loadingPosts')}
+                          </Text>
+                        </div>
+                      )
                     case 'hasError':
                       return (
                         <div className='p-4'>
@@ -90,7 +108,19 @@ export default function TrendingPage() {
                 {(() => {
                   switch (trendingTopics.state) {
                     case 'loading':
-                      return <div className='p-4'>{t('loadingTopics')}</div>
+                      return (
+                        <div className='flex flex-col items-center justify-center gap-3 p-8 min-h-[50vh]'>
+                          <Image
+                            src='/images/trending_topic.svg'
+                            alt='Loading'
+                            width={300}
+                            height={300}
+                          />
+                          <Text size={400} className="text-gray-600">
+                            {t('loadingTopics')}
+                          </Text>
+                        </div>
+                      )
                     case 'hasError':
                       return (
                         <div className='p-4'>
@@ -99,38 +129,33 @@ export default function TrendingPage() {
                           </div>
                         </div>
                       )
-                    case 'hasData':
-                      const sortedTopics = [...trendingTopics.data].sort((a, b) =>
-                        sortBy === 'rank' ? a.count - b.count : b.count - a.count
-                      )
-                      return (
-                        <div className='p-4'>
-                          <div className='flex items-center justify-between mb-4'>
-                            <div className='flex items-center gap-3'>
-                              <label className='text-sm'>{t('sortLabel')}</label>
-                              <select value={sortBy} onChange={e => setSortBy(e.target.value as SetStateAction<'rank' | 'score'>)} className='p-2  rounded'>
-                                <option value='rank'>{t('sortByRank')}</option>
-                                <option value='score'>{t('sortByActivity')}</option>
-                              </select>
+                    case 'hasData': return (
+                      <div className='space-y-4 p-3 md:p-5 lg:p-8'>
+                        {trendingTopics.data.map((topic, i) => (
+                          <div key={i} className='bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow'>
+                            <div className='flex items-center justify-between'>
+                              <div className='flex items-center gap-4'>
+                                <div className='w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center'>
+                                  <span className='text-sm font-semibold text-blue-600'>#{i + 1}</span>
+                                </div>
+                                <div>
+                                  <a
+                                    href={`/tag/${encodeURIComponent(topic.tag.replace('#', ''))}`}
+                                    className='text-lg font-medium text-blue-600 hover:text-blue-800 hover:underline'
+                                  >
+                                    {topic.tag}
+                                  </a>
+                                  <div className='text-xs text-gray-500 mt-1'>{t('trendingTopic')}</div>
+                                </div>
+                              </div>
+                              <div className='text-sm font-medium text-gray-600'>
+                                {topic.count} {t('mentions')}
+                              </div>
                             </div>
                           </div>
-
-                          <section className='bg-white rounded shadow-sm divide-y'>
-                            {sortedTopics.map((topic, i) => (
-                              <div key={i} className='flex items-center justify-between p-4'>
-                                <div className='flex items-center gap-4'>
-                                  <div className='w-8 text-center font-semibold text-gray-700'>{i + 1}</div>
-                                  <div>
-                                    <a href={`/tag/${encodeURIComponent(topic.tag.replace('#', ''))}`} className='text-lg font-medium text-brand'>{topic.tag}</a>
-                                    <div className='text-xs text-gray-500'>{t('trendingTopic')}</div>
-                                  </div>
-                                </div>
-                                <div className='text-sm text-gray-600'>{topic.count} {t('mentions')}</div>
-                              </div>
-                            ))}
-                          </section>
-                        </div>
-                      )
+                        ))}
+                      </div>
+                    )
                   }
                 })()}
               </>
