@@ -190,7 +190,7 @@ export default function CommunitiesPage() {
                     return (
                       <div className='p-4'>
                         <img
-                          src='/images/choose.png'
+                          src='/images/choose.svg'
                           alt='Choose a community'
                           className='mx-auto mb-4 w-36 h-36'
                         />
