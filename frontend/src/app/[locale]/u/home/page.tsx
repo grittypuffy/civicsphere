@@ -62,14 +62,14 @@ export default function Page() {
               switch (feeds.state) {
                 case 'loading':
                   return (
-                    <div className='flex flex-col items-center justify-center p-4 min-h-[50vh]'>
+                    <div className='flex flex-col items-center justify-center gap-3 p-8 min-h-[50vh]'>
                       <Image
                         src='/images/loading.svg'
                         alt='Loading'
-                        width={200}
-                        height={200}
+                        width={300}
+                        height={300}
                       />
-                      <Text size={400} className="text-gray-500">
+                      <Text size={400} className="text-gray-600">
                         {t('loadingFeeds')}
                       </Text>
                     </div>
@@ -88,7 +88,7 @@ export default function Page() {
                   )
                 case 'hasData':
                   return (
-                    <Feeds posts={feeds.data}/>
+                    <Feeds posts={feeds.data} />
                   )
               }
             })()}

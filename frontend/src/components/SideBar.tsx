@@ -1,6 +1,6 @@
 "use client";
-import { navStateAtom } from "@/lib/store";
 import { useRouter } from "@/lib/i18n/navigation";
+import { navStateAtom } from "@/lib/store";
 import {
   Hamburger,
   NavDrawer,
@@ -99,7 +99,7 @@ const SideBar = () => {
         </NavDrawerHeader>
 
         <NavDrawerBody className="flex flex-col justify-start p-3">
-          <div className="space-y-2">
+          <div className="space-y-2 pt-8">
             {PAGES.map((item, idx) => (
               <NavItem
                 key={idx}

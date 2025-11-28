@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { textToSpeech } from "../app/lib/actions";
 
-import { Button, Spinner, tokens } from "@fluentui/react-components";
-import { Speaker024Filled } from "@fluentui/react-icons";
+import { Button, Spinner } from "@fluentui/react-components";
+import { ImmersiveReaderFilled } from "@fluentui/react-icons/svg/immersive-reader";
 
 interface SpeakButtonProps {
   text: string;
@@ -12,6 +12,7 @@ interface SpeakButtonProps {
 
 export default function TTSButton({ text }: SpeakButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   async function handleSpeak() {
     setIsLoading(true);
@@ -26,11 +27,12 @@ export default function TTSButton({ text }: SpeakButtonProps) {
       const audioUrl = URL.createObjectURL(audioBlob);
 
       const audio = new Audio(audioUrl);
+      setIsSpeaking(true);
       audio.play();
     } catch (err) {
       console.error("TTS failed:", err);
     }
-
+    setIsSpeaking(false);
     setIsLoading(false);
   }
 
@@ -38,13 +40,14 @@ export default function TTSButton({ text }: SpeakButtonProps) {
     <Button
       onClick={handleSpeak}
       disabled={isLoading}
-      appearance="primary"
-      icon={<Speaker024Filled aria-hidden="true" />}
+      appearance={isSpeaking ? "primary" : "secondary"}
+      icon={<ImmersiveReaderFilled aria-hidden="true" />}
       aria-label="Speak content from post or issue"
+      size="small"
     >
       {isLoading ? (
         <>
-          <Spinner size={"small"} /> Generating
+          <Spinner size={"tiny"} /> Generating
         </>
       ) : (
         "Speak"
