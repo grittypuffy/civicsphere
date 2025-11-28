@@ -143,7 +143,14 @@ export default function SettingsPage() {
                     <div className='flex items-center justify-between mb-4'>
                       <Body1 className="text-[#0369a1] font-semibold">{t('interestsTitle')}</Body1>
                       <div className='flex items-center gap-2'>
-                        <Input size="small" disabled placeholder={t('filterPlaceholder')} contentBefore={<SearchRegular />} />
+                        <Input
+                          size="small"
+                          disabled
+                          value={filter}
+                          onChange={(_, data) => setFilter(data.value)}
+                          placeholder={t('filterPlaceholder')}
+                          contentBefore={<SearchRegular />}
+                        />
                         <Button appearance="subtle" size="small" disabled icon={<EditRegular />} className="text-[#0369a1]">
                           {t('edit')}
                         </Button>

@@ -28,6 +28,7 @@ import {
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { loadable } from 'jotai/utils'
 import { useTranslations } from 'next-intl'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 // Atoms for state management
@@ -87,7 +88,7 @@ export default function CommunitiesPage() {
             </h1>
             <div className='flex flex-col lg:flex-row items-start lg:items-center gap-3 mt-4'>
               <Dropdown
-                value={selectedCommunity}
+                value={selectedCommunity ?? ''}
                 onOptionSelect={(_, data) => {
                   setSelectedCommunity(data.optionText || '')
                   setSelectedCommunityId(data.optionValue || '')
@@ -113,7 +114,7 @@ export default function CommunitiesPage() {
 
               {tab === 'posts' && (
                 <Dropdown
-                  value={selectedTag}
+                  value={selectedTag ?? ''}
                   onOptionSelect={(_, data) => setSelectedTag(data.optionValue || '')}
                   placeholder={t('filterByTag')}
                   multiselect={true}
@@ -188,15 +189,16 @@ export default function CommunitiesPage() {
                 {(() => {
                   if (selectedCommunity === '') {
                     return (
-                      <div className='p-4'>
-                        <img
+                      <div className='p-8 flex flex-col items-center justify-center text-center min-h-[50vh] gap-3'>
+                        <Image
                           src='/images/choose.svg'
                           alt={t('chooseCommunity')}
-                          className='mx-auto mb-4 w-36 h-36'
+                          width={300}
+                          height={300}
+                          className='mx-auto mb-4'
                         />
-                        <p>{t('selectCommunityPrompt')}</p>
-                      </div>
-                    )
+                        <p className='text-gray-600 text-sm lg:text-lg'>{t('selectCommunityPrompt')}</p>
+                      </div>)
                   }
                   switch (posts.state) {
                     case 'loading':
@@ -227,6 +229,20 @@ export default function CommunitiesPage() {
             {tab === 'issues' && (
               <>
                 {(() => {
+                  if (selectedCommunity === '') {
+                    return (
+                      <div className='p-8 flex flex-col items-center justify-center text-center min-h-[50vh] gap-3'>
+                        <Image
+                          src='/images/choose.svg'
+                          alt='Choose a community'
+                          width={300}
+                          height={300}
+                          className='mx-auto mb-4'
+                        />
+                        <p className='text-gray-600 text-sm lg:text-lg'>Please select a community to view posts.</p>
+                      </div>
+                    )
+                  }
                   switch (issues.state) {
                     case 'loading':
                       return <div className='p-4'>{t('loadingIssues')}</div>

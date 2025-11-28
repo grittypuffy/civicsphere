@@ -22,6 +22,7 @@ async def get_communities(
         async for community in communities_cursor:
             community["_id"] = str(community["_id"])
             communities.append(community)
+        communities.sort(key=lambda x: x.get('community_name', '').lower())
         return JSONResponse(
             status_code=200,
             content={"success": True, "message": "Successfully fetched communities", "data": communities}

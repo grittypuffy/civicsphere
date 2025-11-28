@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import * as v from 'valibot';
 import { SessionCache } from "./cache";
 import {
+  CommentResponseSchema,
   CommunitiesResponseSchema,
   CreateIssueRequestSchema,
   ExplainPostResponseSchema,
@@ -18,7 +19,7 @@ import {
   UserPostsResponseSchema,
   UserPreferencesResponseSchema,
   UserPreferencesUpdateRequestSchema,
-  UserReactionsResponseSchema,
+  UserReactionsResponseSchema
 } from "./schema";
 import { CreateIssueRequest, CreateReplyResponse, UserPreferencesUpdateRequest } from "./types";
 
@@ -338,11 +339,45 @@ export const translatePost = async (communityId: string, postId: string) => {
   if (!res.ok) {
     throw new Error('Failed to get translation');
   }
-  const json = v.parse(TranslationResponseSchema, await res.json());
-  if (!json.success) {
-    throw new Error('Failed to fetch translation');
+  // Read raw JSON and attempt schema-validated parse first. If that fails
+  // or doesn't contain expected data, attempt several fallback shapes so the
+  // UI doesn't break when backend returns slightly different payloads.
+  const raw = await res.json();
+  try {
+    const json = v.parse(TranslationResponseSchema, raw);
+    if (json && json.success) {
+      return json.data || { title: '', description: '' };
+    }
+    // If validation passed but success is false, fall through to fallbacks
+    console.warn('translatePost: validation returned success=false, falling back', raw);
+  } catch (err) {
+    console.warn('translatePost: schema validation failed, trying fallbacks', err, raw);
   }
-  return json.data || { title: '', description: '' };
+
+  // Fallbacks: accept responses shaped like { data: { title, description } }
+  if (raw && typeof raw === 'object') {
+    if (raw.data && typeof raw.data === 'object') {
+      const d = raw.data as any;
+      if (typeof d.title === 'string' || typeof d.description === 'string') {
+        return {
+          title: String(d.title || ''),
+          description: String(d.description || ''),
+        };
+      }
+    }
+
+    // Or accept responses shaped directly as { title, description }
+    if (typeof (raw as any).title === 'string' || typeof (raw as any).description === 'string') {
+      return {
+        title: String((raw as any).title || ''),
+        description: String((raw as any).description || ''),
+      };
+    }
+  }
+
+  // If nothing matched, return empty translation object but log for debugging
+  console.warn('translatePost: unexpected response shape, returning empty translation', raw);
+  return { title: '', description: '' };
 }
 
 // Comments API
@@ -371,7 +406,11 @@ export const getComments = async (communityId: string, postId: string) => {
   if (!res.ok) {
     throw new Error('Failed to upvote post');
   }
-  return await res.json();
+  const json = v.parse(CommentResponseSchema, await res.json());
+  if (!json.success) {
+    throw new Error('Failed to fetch comments');
+  }
+  return json.comments || [];
 }
 
 

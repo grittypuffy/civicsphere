@@ -1,12 +1,12 @@
 'use client'
 
+import Comments from "@/components/Comments"
 import TTSButton from "@/components/TTSButton"
-import Accordian from "@/components/Accordian"
 import { userIssueUpvotesAtom, userIssueUpvotesAtom_loadable, userPostDownvotesAtom, userPostDownvotesAtom_loadable, userPostUpvotesAtom, userPostUpvotesAtom_loadable } from "@/lib/store"
 import { ExplainPostData, Issue, PostData } from "@/lib/types"
 import { downvotePost, explainPost, removeDownvotePost, removeUpvoteIssue, removeUpvotePost, translatePost, upvoteIssue, upvotePost } from "@/lib/utils"
 import { Badge, Button, Card, Spinner, Text, Tree, TreeItem, TreeItemLayout, TreeOpenChangeData, TreeOpenChangeEvent } from "@fluentui/react-components"
-import { CheckmarkCircleColor, CheckmarkRegular, ChevronDownRegular, ChevronUpRegular, ClockRegular, DocumentOnePageSparkleRegular, FlagFilled, HandRightRegular, InfoSparkleRegular, LocalLanguageFilled, Location16Filled, ThumbDislikeFilled, ThumbDislikeRegular, ThumbLikeFilled, TranslateFilled } from "@fluentui/react-icons"
+import { CheckmarkCircleColor, CheckmarkRegular, ChevronDownRegular, ChevronUpRegular, ClockRegular, Document16Regular, DocumentOnePageSparkleRegular, FlagFilled, HandRightRegular, InfoSparkleRegular, LocalLanguageFilled, Location16Filled, ThumbDislikeFilled, ThumbDislikeRegular, ThumbLikeFilled, TranslateFilled } from "@fluentui/react-icons"
 import { ThumbLikeRegular } from "@fluentui/react-icons/svg/thumb-like"
 import { useAtomValue, useSetAtom } from "jotai"
 import { useTranslations } from 'next-intl'
@@ -178,7 +178,7 @@ const PostCard = ({ post }: { post: PostData }) => {
         <div className="space-y-2">
           {/* Header Section */}
           <div className="flex items-start justify-between">
-            <h3 
+            <h3
               className="text-lg font-semibold text-gray-900 flex-1 hover:text-blue-600 cursor-pointer"
               onClick={() => setIsExpanded(!isExpanded)}
             >
@@ -244,22 +244,48 @@ const PostCard = ({ post }: { post: PostData }) => {
 
           {/* Expanded Content */}
           {isExpanded && (
-            <div className="space-y-3 border-t pt-3">
+            <div className="space-y-3">
+              {/* Action Buttons when expanded */}
+              <div className="flex gap-2 pt-2">
+                <Button
+                  onClick={handleTranslate}
+                  disabled={translating}
+                  appearance="secondary"
+                  icon={<TranslateFilled aria-hidden="true" />}
+                  size="small"
+                >
+                  {translating ? (
+                    <>
+                      <Spinner size={"tiny"} /> Translating
+                    </>
+                  ) : (
+                    "Translate"
+                  )}
+                </Button>
+                <TTSButton text={`Title: ${postTitle}. Description: ${postDescription}`}></TTSButton>
+              </div>
+
               {/* Links */}
               {post.url.length > 0 && (
-                <div className="space-y-1">
-                  <Text size={200} className="text-gray-600 font-medium">{t('links')}</Text>
-                  {post.url.map((link, index) => (
-                    <a
-                      key={index}
-                      href={link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block text-blue-600 hover:text-blue-800 text-sm truncate underline"
-                    >
-                      {link}
-                    </a>
-                  ))}
+                <div className="flex flex-col gap-2">
+                  <Text size={300} className="text-gray-600 font-medium">{t('links')}</Text>
+                  <div className="flex flex-wrap gap-2">
+                    {post.url.map((link, index) => {
+                      const lastPart = new URL(link).pathname.split('/').filter(Boolean).pop();
+                      return (<Button
+                        key={index}
+                        as="a"
+                        href={link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        appearance="outline"
+                        size="small"
+                        icon={<Document16Regular />}
+                      >
+                        {lastPart || ''}
+                      </Button>)
+                    })}
+                  </div>
                 </div>
               )}
 
@@ -309,30 +335,10 @@ const PostCard = ({ post }: { post: PostData }) => {
                 </TreeItem>
               </Tree>
 
-              {/* Action Buttons when expanded */}
-              <div className="flex gap-2 pt-2">
-                <Button
-                  onClick={handleTranslate}
-                  disabled={translating}
-                  appearance="secondary"
-                  icon={<TranslateFilled aria-hidden="true" />}
-                  size="small"
-                >
-                  {translating ? (
-                    <>
-                      <Spinner size={"tiny"} /> {t('translating')}
-                    </>
-                  ) : (
-                    t('translate')
-                  )}
-                </Button>
-                <TTSButton text={t('ttsPost', { title: postTitle, description: postDescription })}></TTSButton>
+              {/* Comments Accordion */}
+              <div>
+                <Comments post_id={post.post_id} community_id={post.community_id} />
               </div>
-
-                {/* Comments Accordion */}
-                <div className="pt-4">
-                  <Accordian post_id={post.post_id} community_id={post.community_id} />
-                </div>
             </div>
           )}
 
@@ -346,7 +352,7 @@ const PostCard = ({ post }: { post: PostData }) => {
             >
               {isExpanded ? t('showLess') : t('showMore')}
             </Button>
-            
+
             <div className="flex items-center space-x-2">
               <Button
                 appearance={isUpvoted ? "primary" : "secondary"}
@@ -450,7 +456,7 @@ const IssueCard = ({ issue }: { issue: Issue }) => {
         <div className="space-y-2">
           {/* Header */}
           <div className="flex items-start justify-between">
-            <h3 
+            <h3
               className="text-lg font-semibold text-gray-900 flex-1 hover:text-blue-600 cursor-pointer"
               onClick={() => setIsExpanded(!isExpanded)}
             >
@@ -501,7 +507,7 @@ const IssueCard = ({ issue }: { issue: Issue }) => {
             >
               {isExpanded ? t('showLess') : t('showMore')}
             </Button>
-            
+
             <Button
               appearance={isUpvoted ? "primary" : "secondary"}
               size="small"
