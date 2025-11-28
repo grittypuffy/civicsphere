@@ -16,3 +16,9 @@ export const userPostDownvotesAtom = atom(getUserPostDownvotes());
 export const userPostDownvotesAtom_loadable = loadable(userPostDownvotesAtom);
 export const userIssueUpvotesAtom = atom(getUserIssueUpvotes());
 export const userIssueUpvotesAtom_loadable = loadable(userIssueUpvotesAtom);
+
+// Issue creation UI atoms
+export const issueTitleAtom = atom<string>('');
+export const issueDescriptionAtom = atom<string>('');
+export const issueIsLoadingAtom = atom<boolean>(false);
+export const issueErrorAtom = atom<string | null>(null);

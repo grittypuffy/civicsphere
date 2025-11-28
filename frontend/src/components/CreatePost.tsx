@@ -17,14 +17,12 @@ import { useAtom } from "jotai";
 import SpeakButton from "@/components/SpeakButton";
 import { useState } from "react";
 
-// Import the renamed atoms
+// Reuse issue atoms from the store for title/description/loading/error
 import {
-  postDescriptionAtom,
-  postErrorAtom,
-  postFilesAtom,
-  postIsLoadingAtom,
-  postSelectedTagsAtom,
-  postTitleAtom,
+  issueDescriptionAtom,
+  issueErrorAtom,
+  issueIsLoadingAtom,
+  issueTitleAtom,
 } from "@/lib/store";
 import { EditRegular, MicRegular } from "@fluentui/react-icons";
 import { atom } from "jotai";
@@ -32,12 +30,12 @@ import { atom } from "jotai";
 const postTypeAtom = atom<"normal" | "voice">("normal");
 
 export default function CreatePost({ communityId }: { communityId: string }) {
-  const [selectedTags, setSelectedTags] = useAtom(postSelectedTagsAtom);
-  const [title, setTitle] = useAtom(postTitleAtom);
-  const [description, setDescription] = useAtom(postDescriptionAtom);
-  const [files, setFiles] = useAtom(postFilesAtom);
-  const [isLoading, setIsLoading] = useAtom(postIsLoadingAtom);
-  const [error, setError] = useAtom(postErrorAtom);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [title, setTitle] = useAtom(issueTitleAtom);
+  const [description, setDescription] = useAtom(issueDescriptionAtom);
+  const [files, setFiles] = useState<File[]>([]);
+  const [isLoading, setIsLoading] = useAtom(issueIsLoadingAtom);
+  const [error, setError] = useAtom(issueErrorAtom);
   const [postType, setPostType] = useAtom(postTypeAtom);
   const [voiceBlob, setVoiceBlob] = useState<Blob | null>(null);
   const [audioURL, setAudioURL] = useState('');
