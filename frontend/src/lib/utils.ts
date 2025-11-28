@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import * as v from 'valibot';
 import { SessionCache } from "./cache";
 import {
+  CommentResponseSchema,
   CommunitiesResponseSchema,
   CreateIssueRequestSchema,
   ExplainPostResponseSchema,
@@ -18,7 +19,7 @@ import {
   UserPostsResponseSchema,
   UserPreferencesResponseSchema,
   UserPreferencesUpdateRequestSchema,
-  UserReactionsResponseSchema,
+  UserReactionsResponseSchema
 } from "./schema";
 import { CreateIssueRequest, CreateReplyResponse, UserPreferencesUpdateRequest } from "./types";
 
@@ -405,7 +406,11 @@ export const getComments = async (communityId: string, postId: string) => {
   if (!res.ok) {
     throw new Error('Failed to upvote post');
   }
-  return await res.json();
+  const json = v.parse(CommentResponseSchema, await res.json());
+  if (!json.success) {
+    throw new Error('Failed to fetch comments');
+  }
+  return json.comments || [];
 }
 
 
