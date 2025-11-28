@@ -201,7 +201,7 @@ export default function CreatePost({ communityId }: { communityId: string }) {
             <Button appearance="secondary">Cancel</Button>
           </DialogTrigger>
 
-          <Button type="submit" appearance="primary" disabled={isLoading}>
+          <Button type="submit" appearance="primary" disabled={isLoading} onClick={handleSubmit}>
             {isLoading ? <Spinner size="small" /> : "Create Post"}
           </Button>
         </DialogActions>
