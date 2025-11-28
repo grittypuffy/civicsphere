@@ -132,87 +132,81 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
 
   return (
     <Dialog open={open} onOpenChange={(_, data) => setOpen(data.open)}>
-      <DialogSurface className="max-w-4xl">
-        <DialogTitle>{post.title}</DialogTitle>
+      <DialogSurface>
         <DialogBody>
-          <Card className="w-full shadow-md">
-            <CardHeader
-              header={
-                <div className="space-y-2 w-full p-3">
-                  <div className="flex items-start justify-between">
-                    <h2 className="text-xl font-semibold text-gray-900 flex-1">{postTitle}</h2>
-                    <div className="flex items-center space-x-2 ml-4">
+          <div className="max-w-4xl">
+            <DialogTitle>
+              <div className="space-y-2 w-full p-3">
+                <div className="flex items-start justify-between">
+                  <h2 className="text-xl font-semibold text-gray-900 flex-1">{postTitle}</h2>
+                  <div className="flex items-center space-x-2 ml-4">
+                    <Badge
+                      appearance="filled"
+                      color={getVerifiedBadgeColor(post.verified)}
+                      size="medium"
+                      icon={post.verified === 'True' ? <CheckmarkCircleColor /> : <CheckmarkRegular />}
+                    >
+                      {post.verified === "True" ? t('verified') : post.verified === "False" ? t('unverified') : t('pending')}
+                    </Badge>
+                    {post.flagged && (
                       <Badge
                         appearance="filled"
-                        color={getVerifiedBadgeColor(post.verified)}
+                        color="danger"
                         size="medium"
-                        icon={post.verified === 'True' ? <CheckmarkCircleColor /> : <CheckmarkRegular />}
+                        icon={<FlagFilled />}
                       >
-                        {post.verified === "True" ? t('verified') : post.verified === "False" ? t('unverified') : t('pending')}
+                        {t('flagged')}
                       </Badge>
-                      {post.flagged && (
-                        <Badge
-                          appearance="filled"
-                          color="danger"
-                          size="medium"
-                          icon={<FlagFilled />}
-                        >
-                          {t('flagged')}
-                        </Badge>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2">
-                    {post.tags.map((tag, index) => (
-                      <Badge key={index} appearance="tint" size="medium">
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              }
-              description={
-                <div className="space-y-3 px-3 w-full">
-                  <div className="flex gap-2">
-                    <Badge appearance="ghost" size="small">
-                      <div className="flex items-center space-x-1 px-1">
-                        <LocalLanguageFilled />
-                        <span className="text-xs">{post.lang.toUpperCase()}</span>
-                      </div>
-                    </Badge>
-                    <Badge appearance="ghost" size="small">
-                      <div className="flex items-center space-x-1 px-1">
-                        <ClockRegular />
-                        <span className="text-xs">{formatDate(post.created_at)}</span>
-                      </div>
-                    </Badge>
-                  </div>
-                  <div className="py-1">
-                    <p className="text-gray-600 text-sm leading-relaxed">{postDescription}</p>
-                    {post.url.length > 0 && (
-                      <div className="space-y-1">
-                        <Text size={200} className="text-gray-600 font-medium">{t('links')}</Text>
-                        {post.url.map((link, index) => (
-                          <a
-                            key={index}
-                            href={link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block text-blue-600 hover:text-blue-800 text-sm truncate underline"
-                          >
-                            {link}
-                          </a>
-                        ))}
-                      </div>
                     )}
                   </div>
-                  <hr />
                 </div>
-              }
-            />
-            <CardFooter>
-              <div className="flex items-center justify-between w-full px-3">
+
+                <div className="flex flex-wrap gap-2">
+                  {post.tags.map((tag, index) => (
+                    <Badge key={index} appearance="tint" size="medium">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            </DialogTitle>
+            <div className="flex flex-col border w-full">
+              <div className="space-y-3 px-3 w-full">
+                <div className="flex gap-2">
+                  <Badge appearance="ghost" size="small">
+                    <div className="flex items-center space-x-1 px-1">
+                      <LocalLanguageFilled />
+                      <span className="text-xs">{post.lang.toUpperCase()}</span>
+                    </div>
+                  </Badge>
+                  <Badge appearance="ghost" size="small">
+                    <div className="flex items-center space-x-1 px-1">
+                      <ClockRegular />
+                      <span className="text-xs">{formatDate(post.created_at)}</span>
+                    </div>
+                  </Badge>
+                </div>
+                <div className="py-1">
+                  <p className="text-gray-600 text-sm leading-relaxed text-wrap">{postDescription}</p>
+                  {post.url.length > 0 && (
+                    <div className="space-y-1">
+                      <Text size={200} className="text-gray-600 font-medium">{t('links')}</Text>
+                      {post.url.map((link, index) => (
+                        <a
+                          key={index}
+                          href={link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block text-blue-600 hover:text-blue-800 text-sm truncate underline"
+                        >
+                          {link}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="flex items-center justify-between px-3 border">
                 <div className="flex items-center space-x-2">
                   <Location16Filled />
                   <span className="text-md text-gray-500">
@@ -240,30 +234,30 @@ const PostDetailDialog = ({ post, open, setOpen }: { post: PostData, open: boole
                   </Button>
                 </div>
               </div>
-            </CardFooter>
-          </Card>
+            </div>
+            <DialogActions>
+              <Button
+                onClick={handleTranslate}
+                disabled={translating}
+                appearance="primary"
+                icon={<TranslateFilled aria-hidden="true" />}
+                aria-label="Translate post"
+              >
+                {translating ? (
+                  <>
+                    <Spinner size={"small"} /> Translating
+                  </>
+                ) : (
+                  "Translate"
+                )}
+              </Button>
+              <TTSButton text={`Title: ${postTitle}. Description: ${postDescription}`}></TTSButton>
+              <Button appearance="secondary" onClick={() => setOpen(false)}>
+                {t('close')}
+              </Button>
+            </DialogActions>
+          </div>
         </DialogBody>
-        <DialogActions>
-          <Button
-            onClick={handleTranslate}
-            disabled={translating}
-            appearance="primary"
-            icon={<TranslateFilled aria-hidden="true" />}
-            aria-label="Translate post"
-          >
-            {translating ? (
-              <>
-                <Spinner size={"small"} /> Translating
-              </>
-            ) : (
-              "Translate"
-            )}
-          </Button>
-          <TTSButton text={`Title: ${postTitle}. Description: ${postDescription}`}></TTSButton>
-          <Button appearance="secondary" onClick={() => setOpen(false)}>
-            {t('close')}
-          </Button>
-        </DialogActions>
       </DialogSurface>
     </Dialog>
   )
