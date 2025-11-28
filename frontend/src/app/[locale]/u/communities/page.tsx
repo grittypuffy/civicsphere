@@ -87,7 +87,7 @@ export default function CommunitiesPage() {
             </h1>
             <div className='flex flex-col lg:flex-row items-start lg:items-center gap-3 mt-4'>
               <Dropdown
-                value={selectedCommunity}
+                value={selectedCommunity ?? ''}
                 onOptionSelect={(_, data) => {
                   setSelectedCommunity(data.optionText || '')
                   setSelectedCommunityId(data.optionValue || '')
@@ -113,7 +113,7 @@ export default function CommunitiesPage() {
 
               {tab === 'posts' && (
                 <Dropdown
-                  value={selectedTag}
+                  value={selectedTag ?? ''}
                   onOptionSelect={(_, data) => setSelectedTag(data.optionValue || '')}
                   placeholder="Filter by tag"
                   multiselect={true}

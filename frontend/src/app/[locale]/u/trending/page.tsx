@@ -48,7 +48,7 @@ export default function TrendingPage() {
           </div>
 
           <div className='px-3 md:px-5 lg:px-8'>
-            <TabList selectedValue={selectedTab} onTabSelect={(_, data) => setSelectedTab(data.value)}>
+            <TabList selectedValue={selectedTab ?? 'rank'} onTabSelect={(_, data) => setSelectedTab(data.value)}>
               <Tab value="trending-posts">{t('tabPosts')}</Tab>
               <Tab value="trending-topics">{t('tabTopics')}</Tab>
             </TabList>
