@@ -1,0 +1,14 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+
+    "AZURE_OPENAI_ENDPOINT": "https://gritt-mi0mmq5k-eastus2.openai.azure.com/",
+    "AZURE_OPENAI_API_KEY": "DUJGeP3ywM2EGUv0raqfO7SoK6i6nFrIPEatIFnMd3NqBE06zgsiJQQJ99BKACHYHv6XJ3w3AAAAACOG7bZS",
+    "AZURE_OPENAI_DEPLOYMENT": "civicsphere-prod-aim-eus2-gpt-5-nano-001",
+    "AZURE_OPENAI_API_VERSION": "2025-01-01-preview",
+    "AZURE_CONTENT_SAFETY_ENDPOINT": "https://civicsphere-prod-cs-eus-001.cognitiveservices.azure.com/",
+    "AZURE_CONTENT_SAFETY_KEY": "4y52XYX42jaW7JOWeSJI3uJy2HdEynS3Ji4xH2Dqvt6xp9OaljvsJQQJ99BKACYeBjFXJ3w3AAAHACOGOOaU"
+  }
+}

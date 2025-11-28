@@ -19,6 +19,7 @@ import {
   issueTitleAtom,
 } from "@/lib/store";
 import { CreateIssueRequest } from "@/lib/types";
+import type { FormEvent } from "react";
 import { useState } from "react";
 
 export default function CreateIssue({ communityId }: { communityId: string }) {
