@@ -103,7 +103,20 @@ declare const messages: {
     "submitIssueButton": "Raise",
     "loadingIssues": "Loading issues...",
     "errorIssues": "Error loading issues: {message}",
-    "youLabel": "You"
+    "youLabel": "You",
+    "exploreThe": "Explore the",
+    "pageHeadline": "Communities!",
+    "chooseCommunity": "Choose a community",
+    "loadingOption": "Loading...",
+    "errorLoadingCommunities": "Error loading communities",
+    "filterByTag": "Filter by tag",
+    "errorLoadingTags": "Error loading tags",
+    "refreshAriaLabel": "Refresh community content",
+    "refreshPrompt": "Want fresh community updates?",
+    "createAriaLabel": "Create new post or issue in a community",
+    "createButton": "Create",
+    "selectCommunityPrompt": "Please select a community to view posts.",
+    "showingFallback": "Showing fallback data instead."
   },
   "trending": {
     "discoverWhat": "Discover what's",
