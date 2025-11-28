@@ -63,7 +63,7 @@ export default function CreateIssue({ communityId }: { communityId: string }) {
               placeholder="Enter issue description"
             />
           </Field>
-          {error && <p style={{ color: "red" }}>{error}</p>}{" "}
+          {error && <p className="text-red-500">{error}</p>}{" "}
           <DialogActions>
             <DialogTrigger disableButtonEnhancement>
               <Button appearance="secondary">Cancel</Button>

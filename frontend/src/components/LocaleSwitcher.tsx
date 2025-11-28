@@ -45,7 +45,6 @@ export default function LocaleSwitcher({ variant = 'navbar' }: LocaleSwitcherPro
                 icon={<LocalLanguageRegular />}
                 disabled={isPending}
                 aria-label="Change language"
-                style={{ color: 'black' }}
               >
                 {currentLanguage?.name || 'Language'}
               </Button>

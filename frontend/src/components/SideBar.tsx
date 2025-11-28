@@ -95,7 +95,7 @@ const SideBar = () => {
               <Hamburger
                 onClick={() => setNavOpen(false)}
                 aria-label={t("aria.closeNavigation")}
-                className="text-white fill-white"
+                className="text-white fill-white bg-white"
                 style={{ color: 'white' }}
               />
             </Tooltip>
