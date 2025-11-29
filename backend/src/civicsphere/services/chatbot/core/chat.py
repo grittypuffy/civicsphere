@@ -118,6 +118,7 @@ Guidelines:
                             annotation.text,
                             f" [{annotation.url_citation.title}]({annotation.url_citation.url})",
                         )
+                    response += f"\nReference: Bing: https://www.bing.com/search?q={prompt}"
                     await agents_client.delete_agent(
                         agent.id
                     )  # Clean up the agent after use

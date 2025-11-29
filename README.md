@@ -165,6 +165,15 @@ For more information on how this works, check out [working of content moderation
 
 ![Chat Agent Working](./assets/archi_chatbot.png)
 
+### Knowledge Base and External Data Integration
+
+1. Azure CosmosDB is used for storing knowledge base data containing information from political websites (for now, we support NYC integrations and NYC related queries for quality control) such as [https://kingcounty.gov/en/dept/elections/how-to-vote/voters-pamphlet](King County Voters' pamphlet) for pamphlet data indexing and [NYC Votes](https://www.nycvotes.org/whats-on-the-ballot/2025-general-election/) for ballot information.
+2. The data is then indexed into Azure AI Search by indexer
+3. The data is used for grounding along with Grounding with Bing Search, thus returning reference URLs for verifiability
+4. In addition, services are written for extraction of information from polling sites such as Find My Poll Site NYC for extracting pollsite data, something that lot of chatbots fail to do and that civilians require it most during election periods.
+
+### User Interaction
+
 1. A user can prompt the chat agent (Azure AI Agent) using text or voice and prompt is processed by Cognitive Services for Speech for voice.
 2. Common prompts such as pollsite information invokes external services such as Find My Poll Site NYC for summarization of accessibility and details on polling to ensure smoother electoral process.
 3. The chat agent is created based on user language preference for relevant grounding by Bing using Grounding with Bing Search connection tool on Azure AI Foundry along with Azure AI Search with external knowledge base.
@@ -309,12 +318,13 @@ The architecture of CivicSphere is designed to support hybrid (server and server
 
 1. Implement accessibility support and performant content description services for multi-modal content to meet WCAG 2.1 AAA compliance with streamlined i18n and l10n for seamless UX.
 2. Modularize local political-information aggregation using an agentic architecture to support cities beyond NYC and regions outside the USA.
+3. Enable multi-modal support for documents and images with accessibility.
 3. Optimize performance for improved PWA user experience while ensuring privacy compliance through minimal logging and collection of minimal data for security.
 4. Integrate ActivityPub federation to enable decentralized discussions, ensure political neutrality, and align with free and open-source software principles.
 
 # Proposal
 
-We aim to develop CivicSphere as an open-source platform for aiding civic discussions and work on accessibility integration while adhering to responsible AI standards for ensuring political neutrality and safe expression of civilian opinions.
+Taking the vision and goals of https://civicchat.nyc as an inspiration, we aim to develop CivicSphere as an open-source platform for aiding civic discussions and work on accessibility integration while adhering to responsible AI standards for ensuring political neutrality and safe expression of civilian opinions and expanding it outside USA to benefit developing countries.
 
 # Contributing
 
