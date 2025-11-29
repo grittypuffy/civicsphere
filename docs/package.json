@@ -1,0 +1,12 @@
+{
+  "name": "civicsphere-docs",
+  "version": "1.0.0",
+  "description": "Documentation for CivicSphere",
+  "main": "index.js",
+  "repository": "https://github.com/grittypuffy/civicsphere",
+  "license": "MIT",
+  "devDependencies": {
+    "vitepress": "^2.0.0-alpha.15",
+    "vue": "^3.5.25"
+  }
+}
