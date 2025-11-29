@@ -319,8 +319,8 @@ The architecture of CivicSphere is designed to support hybrid (server and server
 1. Implement accessibility support and performant content description services for multi-modal content to meet WCAG 2.1 AAA compliance with streamlined i18n and l10n for seamless UX.
 2. Modularize local political-information aggregation using an agentic architecture to support cities beyond NYC and regions outside the USA.
 3. Enable multi-modal support for documents and images with accessibility.
-3. Optimize performance for improved PWA user experience while ensuring privacy compliance through minimal logging and collection of minimal data for security.
-4. Integrate ActivityPub federation to enable decentralized discussions, ensure political neutrality, and align with free and open-source software principles.
+4. Optimize performance for improved PWA user experience while ensuring privacy compliance through minimal logging and collection of minimal data for security.
+5. Integrate ActivityPub federation to enable decentralized discussions, ensure political neutrality, and align with free and open-source software principles.
 
 # Proposal
 
