@@ -20,29 +20,33 @@
 
 CivicSphere is an interest-based personalized platform for accessing local political information in an unified manner, focused on being inclusive, accessible and politically neutral for encouraging participation from the underrepresented communities. By leveraging tools and frameworks for ensuring accessibility in mobile-first and cloud-native manner without compromising on user privacy by adherence to responsible AI along with explainability of responses of LLM agents, the platform is grounded and compliant to privacy regulations, thus safeguarding the political interests of civilian users, enabling change in political landscape.
 
+> NOTE: Due to high costs in using Grounding with Bing Search and high computational requirements to ensure moderation and privacy, the production site will be unavailable till December 1, 2025
+> 
+> For testing production, please checkout https://civicsphere.inlibre.io and use these credentials for signing in as test user. Username: testuser Password: 123456789
+
 # Table Of Contents
 
 1. [**Why?**](#why)
 2. [**Design**](#design)
 3. [**Features**](#features)
-    - [Progressive Web Application](#progressive-web-application)
-    - [User Preferences](#user-preferences)
-    - [Chat Interface](#chat-interface)
-    - [Accessibility](#accessibility)
-    - [Personalized Feed](#personalized-feed)
-    - [Trending](#trending)
-    - [Simple and Tailored Explanation](#simple-and-tailored-explanation)
-    - [Community Interaction](#community-interaction)
-    - [Moderation](#moderation)
+   - [Progressive Web Application](#progressive-web-application)
+   - [User Preferences](#user-preferences)
+   - [Chat Interface](#chat-interface)
+   - [Accessibility](#accessibility)
+   - [Personalized Feed](#personalized-feed)
+   - [Trending](#trending)
+   - [Simple and Tailored Explanation](#simple-and-tailored-explanation)
+   - [Community Interaction](#community-interaction)
+   - [Moderation](#moderation)
 4. [**Working**](#working)
-    - [Chat Agent](#chat-agent)
-    - [Accessibility Features](#accessibility-features)
-    - [Privacy-friendly Personalization](#privacy-friendly-personalization)
-    - [Trending Content](#trending-content)
-    - [Post Explanation](#post-explanation)
-    - [Community Actions](#community-actions)
-    - [Content Moderation](#content-moderation)
-    - [Privacy and Security](#privacy-and-security)
+   - [Chat Agent](#chat-agent)
+   - [Accessibility Features](#accessibility-features)
+   - [Privacy-friendly Personalization](#privacy-friendly-personalization)
+   - [Trending Content](#trending-content)
+   - [Post Explanation](#post-explanation)
+   - [Community Actions](#community-actions)
+   - [Content Moderation](#content-moderation)
+   - [Privacy and Security](#privacy-and-security)
 5. [**Architecture**](#architecture)
 6. [**Technologies Used**](#technologies-used)
 7. [**Screenshots**](#screenshots)
@@ -108,6 +112,7 @@ For more information on how this works, check out the [working of chat agent](#c
 The application is developed to be accessible to cater people with different requirements in terms of language and content input and delivery for inclusion. CivicSphere supports text-to-speech, speech-to-text, translation to prefered language for community content interaction and creation by features such as voice posts and voice prompts which allows creation of a post via voice and prompt chat agent via voice respectively.
 
 The interface is internationalized (i18n) to 13 languages:
+
 1. German - de
 2. Greek - el
 3. English - en
@@ -157,6 +162,8 @@ For more information on how this works, check out [working of content moderation
 # Working
 
 ## Chat Agent
+
+![Chat Agent Working](./assets/archi_chatbot.png)
 
 1. A user can prompt the chat agent (Azure AI Agent) using text or voice and prompt is processed by Cognitive Services for Speech for voice.
 2. Common prompts such as pollsite information invokes external services such as Find My Poll Site NYC for summarization of accessibility and details on polling to ensure smoother electoral process.
@@ -233,7 +240,7 @@ for components, pages and interactive elements' properties and attributes such a
 
 1. The content moderation service is invoked by HTTP call when a post, issue, chat or comment has been made by an end-user.
 2. The content is analyzed using Azure Content Safety for moderation along with Azure OpenAI moderation and factual accuracy is ensured using Grounding with Bing Search.
-3.The content is flagged if harmful, toxic or misleading content is found and marked as not verified if the content is not factually accurate.
+   3.The content is flagged if harmful, toxic or misleading content is found and marked as not verified if the content is not factually accurate.
 
 ## Privacy and Security
 
@@ -247,27 +254,43 @@ The architecture of CivicSphere is designed to support hybrid (server and server
 
 # Technologies Used
 
--   **Frontend:**
-    -   **Next.js** for frontend SPA framework with PWA support using `next-pwa` library.
-    -   **Fluent UI React** for consistent and accessible user interface components with WCAG 2.1 AA rating.
-    -   **`next-intl`** for internationalization (i18n) of user interface
-    -   **`microsoft-cognitiveservices-speech-sdk`** for client-side text-to-speech to user prefered language.
+- **Frontend:**
 
--   **Backend:**
-    -   **FastAPI** for the API server with automatic OpenAPI integration, allowing integration with external knowledge base or usage via API management services like Azure Front Door for scalable access.
-    -   **LangChain** for contextual prompt evaluation using Azure OpenAI for structured and reliable prompt responses.
-    -   **Azure Functions** for serverless, independent and cost-effective computation and data cleaning to ensure privacy and moderate user generated content for accuracy and toxicity.
-    -   **Azure CosmosDB for MongoDB** for storage of unstructured data and knowledge base data, allowing processing with external data pipelines and vector storage such as Azure AI Search for automatic indexing and integration with Azure Synapse Analytics for compliant workload optimization for data-heavy operations.
-    -   **Azure SDK for Python** for interaction with several deployed Azure services for functionality of the application.
+  - **Next.js** for frontend SPA framework with PWA support using `next-pwa` library.
+  - **Fluent UI React** for consistent and accessible user interface components with WCAG 2.1 AA rating.
+  - **`next-intl`** for internationalization (i18n) of user interface
+  - **`microsoft-cognitiveservices-speech-sdk`** for client-side text-to-speech to user prefered language.
 
--   **Azure:**
-    -   **Azure AI Foundry** for management of Azure AI Services such as Azure OpenAI (GPT-4o-mini for Azure AI Agent and GPT-5o-nano for chat completions), Azure Cognitive Services and knowledge tool management
-    -   **Azure Cognitive Services** for language translation, text analytics, accessibility features such as text-to-speech and speech-to-text.
-    -   **Azure AI Search** for vector storage of local policy data and information  with embeddings for querying via the chatbot for grounded legal assistance with cases.
-    -   **Azure Container Registry** for storage of container images (Docker) for continuous deployment with GitHub Actions to Azure App Service.
-    -   **Azure App Service** for containerized, scalable and reliable deployment of web services and management of API server and function apps.
+- **Backend:**
+
+  - **FastAPI** for the API server with automatic OpenAPI integration, allowing integration with external knowledge base or usage via API management services like Azure Front Door for scalable access.
+  - **LangChain** for contextual prompt evaluation using Azure OpenAI for structured and reliable prompt responses.
+  - **Azure Functions** for serverless, independent and cost-effective computation and data cleaning to ensure privacy and moderate user generated content for accuracy and toxicity.
+  - **Azure CosmosDB for MongoDB** for storage of unstructured data and knowledge base data, allowing processing with external data pipelines and vector storage such as Azure AI Search for automatic indexing and integration with Azure Synapse Analytics for compliant workload optimization for data-heavy operations.
+  - **Azure SDK for Python** for interaction with several deployed Azure services for functionality of the application.
+
+- **Azure:**
+  - **Azure AI Foundry** for management of Azure AI Services such as Azure OpenAI (GPT-4o-mini for Azure AI Agent and GPT-5o-nano for chat completions), Azure Cognitive Services and knowledge tool management
+  - **Azure Cognitive Services** for language translation, text analytics, accessibility features such as text-to-speech and speech-to-text.
+  - **Azure AI Search** for vector storage of local policy data and information with embeddings for querying via the chat agent for grounded legal assistance with cases.
+  - **Azure Container Registry** for storage of container images (Docker) for continuous deployment with GitHub Actions to Azure App Service.
+  - **Azure App Service** for containerized, scalable and reliable deployment of web services and management of API server and function apps.
 
 # Screenshots
+
+| Home Page                                                                      | Home Page (with i18n to Korean)                                 |
+| ------------------------------------------------------------------------------ | --------------------------------------------------------------- |
+| ![Home Page](./assets/screenshots/0a-homepage.png)                             | ![Home Page in Korean](./assets/screenshots/0b-homepage-ko.png) |
+| User Sign Up                                                                   | User Onboarding                                                 |
+| ![User Sign Up](./assets/screenshots/01-onboarding.png)                        | ![User Onboarding](./assets/screenshots/02-prefs.png)           |
+| Original Post Translation in Feed                                              | Trending page                                                   |
+| ![Community Post and Translation](./assets/screenshots/03-post-translated.png) | ![Trending Page](./assets/screenshots/04-trending.png)          |
+| Chat Interface                                                                 | Community Post                                                  |
+| ![Chat Interface](./assets/screenshots/05-chatbot.png)                         | ![Community Post](./assets/screenshots/09-community-posts.png)  |
+| Community Post Creation                                                        | Community Issue                                                 |
+| ![Community Post Creation](./assets/screenshots/06-create-post.png)            | ![Community Issue](./assets/screenshots/07-community-post.png)  |
+| Community Issue Creation                                                       | Settings                                                        |
+| ![Community Issue Creation](./assets/screenshots/08-community-issue.png)       | ![Settings page](./assets/screenshots//10-settings.png)         |
 
 # Challenges
 
@@ -281,7 +304,6 @@ The architecture of CivicSphere is designed to support hybrid (server and server
 1. **Improved political understanding** through accessible, multi-modal, and localized information that helps communities grasp policies, civic processes, and political contexts.
 2. **Increased informed political engagement** as users gain clearer insights into local policies, candidates, issues, and local developments, resulting in active and equitable civic participation.
 3. **Impactful community-aided political changes** driven by decentralized participation, enabling residents to collectively identify issues and influence local governance.
-
 
 # Future Enhancements
 
@@ -304,7 +326,7 @@ By contributing or engaging with this project, you are expected to comply with o
 
 # Documentation
 
-Check out our comprehensive project documentation at https://docs.civicsphere.inlibre.io 
+Check out our comprehensive project documentation at https://docs.civicsphere.inlibre.io
 
 # Deployment
 
@@ -316,22 +338,21 @@ Check out the roadmap for CivicSphere at https://docs.civicsphere.inlibre.io/roa
 
 # Team
 
--   **Arun Pranav A T**:
-    -   [GitHub](https://github.com/arunpranav-at)
-    -   [LinkedIn](https://www.linkedin.com/in/arunpranavat/)
--   **Keerthana Rajesh Kumar**:
-    -   [GitHub](https://github.com/grittypuffy)
-    -   [LinkedIn](https://linkedin.com/in/keerthana304)
--   **R S Kierthana**:
-    -   [GitHub](https://github.com/KierthanaRS)
-    -   [LinkedIn](https://www.linkedin.com/in/kierthana-rajesh-8b8b42256/)
--   **Shalini Srinivasan**:
-    -   [GitHub](https://github.com/ShaliniSJ)
-    -   [LinkedIn](https://linkedin.com/in/sjshalinisrinivasan/)
--   **Vijay Ganesh S**:
-    -   [GitHub](https://github.com/vg006)
-    -   [LinkedIn](https://linkedin.com/in/vijayganeshs2006/)
-
+- **Arun Pranav A T**:
+  - [GitHub](https://github.com/arunpranav-at)
+  - [LinkedIn](https://www.linkedin.com/in/arunpranavat/)
+- **Keerthana Rajesh Kumar**:
+  - [GitHub](https://github.com/grittypuffy)
+  - [LinkedIn](https://linkedin.com/in/keerthana304)
+- **R S Kierthana**:
+  - [GitHub](https://github.com/KierthanaRS)
+  - [LinkedIn](https://www.linkedin.com/in/kierthana-rajesh-8b8b42256/)
+- **Shalini Srinivasan**:
+  - [GitHub](https://github.com/ShaliniSJ)
+  - [LinkedIn](https://linkedin.com/in/sjshalinisrinivasan/)
+- **Vijay Ganesh S**:
+  - [GitHub](https://github.com/vg006)
+  - [LinkedIn](https://linkedin.com/in/vijayganeshs2006/)
 
 # License
 
