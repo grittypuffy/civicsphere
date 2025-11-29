@@ -312,6 +312,7 @@ The architecture of CivicSphere is designed to support hybrid (server and server
 
 CivicSphere is tested with Android's Talkback and Orca on Linux to ensure the components are accessible and navigable using a screen reader to ensure verification along with insights from Lighthouse reports. The components are made accessible by ensuring internationalization for ARIA labels for components to prevent language barriers.
 
+**CivicSphere with Android Talkback enabled with internationalization to Chinese**
 ![Accessibility with Talkback in Chinese](./assets/screenshots/11-screenreader-access.png)
 
 # Challenges
