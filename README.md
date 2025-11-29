@@ -105,7 +105,7 @@ User preferences can be configured for accessing tailored, interest-based conten
 
 ## Chat Interface
 
-An unified chat interface is provided which allows users to access specific information or query their specific doubts regarding their local community using LLMs that are grounded with external knowledge sources such as Bing and Azure AI Search containing data on local political information without compromising user privacy by PII sanitization.
+An unified chat interface is provided which allows users to access specific information or query their specific doubts regarding their local community using LLMs that are grounded with external knowledge sources such as Bing and Azure AI Search containing data on local political information without compromising user privacy by PII sanitization using Azure AI Language.
 
 The feature also integrates common prompts for improved information access in summarized manner using external data service integration for accuracy. Some of the common prompts supported by CivicSphere include accessibility and pollsite summary, common among first time voters along with trends in the user's area.
 
