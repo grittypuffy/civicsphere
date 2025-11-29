@@ -167,7 +167,7 @@ For more information on how this works, check out [working of content moderation
 
 ### Knowledge Base and External Data Integration
 
-1. Azure CosmosDB is used for storing knowledge base data containing information from political websites (for now, we support NYC integrations and NYC related queries for quality control) such as [https://kingcounty.gov/en/dept/elections/how-to-vote/voters-pamphlet](King County Voters' pamphlet) for pamphlet data indexing and [NYC Votes](https://www.nycvotes.org/whats-on-the-ballot/2025-general-election/) for ballot information.
+1. Azure CosmosDB is used for storing knowledge base data containing information from political websites (for now, we support NYC integrations and NYC related queries for quality control) such as [King County Voters' pamphlet](https://kingcounty.gov/en/dept/elections/how-to-vote/voters-pamphlet) for pamphlet data indexing and [NYC Votes](https://www.nycvotes.org/whats-on-the-ballot/2025-general-election/) for ballot information.
 2. The data is then indexed into Azure AI Search by indexer
 3. The data is used for grounding along with Grounding with Bing Search, thus returning reference URLs for verifiability
 4. In addition, services are written for extraction of information from polling sites such as Find My Poll Site NYC for extracting pollsite data, something that lot of chatbots fail to do and that civilians require it most during election periods.
