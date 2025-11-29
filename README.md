@@ -20,6 +20,9 @@
     <a href="https://civicsphere.inlibre.io/">
         <img src="https://static.vecteezy.com/system/resources/previews/015/337/689/original/web-icon-web-sign-free-png.png" width=30  alt="Live Demo website of CivicSphere"/>
     </a>
+    <a href="https://docs.civicsphere.inlibre.io/">
+      <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn1.iconfinder.com%2Fdata%2Ficons%2Fhawcons%2F32%2F699327-icon-55-document-text-1024.png" width=30 alt="Documentation website of CivicSphere"/>
+  </a>
 </div>
 
 CivicSphere is an interest-based personalized platform for accessing local political information in an unified manner, focused on being inclusive, accessible and politically neutral for encouraging participation from the underrepresented communities. By leveraging tools and frameworks for ensuring accessibility in mobile-first and cloud-native manner without compromising on user privacy by adherence to responsible AI along with explainability of responses of LLM agents, the platform is grounded and compliant to privacy regulations, thus safeguarding the political interests of civilian users, enabling change in political landscape.
@@ -304,6 +307,12 @@ The architecture of CivicSphere is designed to support hybrid (server and server
 | ![Community Post Creation](./assets/screenshots/06-create-post.png)            | ![Community Issue](./assets/screenshots/07-community-post.png)  |
 | Community Issue Creation                                                       | Settings                                                        |
 | ![Community Issue Creation](./assets/screenshots/08-community-issue.png)       | ![Settings page](./assets/screenshots//10-settings.png)         |
+
+## Accessibility
+
+CivicSphere is tested with Android and Orca to ensure the components are accessible and navigable using a screen reader to ensure verification along with insights from Lighthouse reports. The components are made accessible by ensuring internationalization for ARIA labels for components to prevent language barriers.
+
+![Accessibility with Talkback in Chinese](./assets/screenshots/11-screenreader-access.png)
 
 # Challenges
 

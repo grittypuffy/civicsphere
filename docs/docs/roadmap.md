@@ -15,6 +15,7 @@ is tailored with our philosophy of inclusion and accessibility in mind.
 - Improve speech-to-text (STT) and text-to-speech (TTS) functionalities to support dialects and voice avatars for customized access.
 - Improve moderation to use semi-automated approach with RBAC for fairness, transparency and accountability to ensure safety of participants.
 - Modularization of the platform to support developing countries, expanding outside NYC and USA.
+- Develop mobile-native application using Expo for faster development
 
 ## Expand Language Support
 
