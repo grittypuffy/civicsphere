@@ -1,11 +1,12 @@
 ---
+title: Roadmap - CivicSphere
+description: Roadmap for CivicSphere
 outline: deep
 ---
 
 # Roadmap
 
-We aim to develop CivicSphere with the objectives framed in [documentation](/documentation). Currently, our roadmap
-is tailored with our philosophy of inclusion and accessibility in mind.
+We aim to develop CivicSphere with the objectives framed in [philosophy](/philosophy). Currently, our roadmap is tailored with our philosophy of inclusion and accessibility in mind.
 
 ## Enhance Accessibility
 
@@ -13,6 +14,8 @@ is tailored with our philosophy of inclusion and accessibility in mind.
 - Ensure WCAG 2.1 AAA compliance by migrating to Fluent UI React from TailwindCSS components for certain elements.
 - Integrate multimedia accessibility services such as image captioning and image summarization for screen reader users.
 - Improve speech-to-text (STT) and text-to-speech (TTS) functionalities to support dialects and voice avatars for customized access.
+- Improve accessibility for hard of speech and hearing population using sign language translations.
+- Include alternative fonts and theming for people with dyslexia and sensory processing disorders.
 - Improve moderation to use semi-automated approach with RBAC for fairness, transparency and accountability to ensure safety of participants.
 - Modularization of the platform to support developing countries, expanding outside NYC and USA.
 - Develop mobile-native application using Expo for faster development

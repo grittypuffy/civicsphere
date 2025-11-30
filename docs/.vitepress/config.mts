@@ -10,14 +10,14 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Documentation', link: '/documentation' }
+      { text: 'Roadmap', link: '/roadmap' }
     ],
 
     sidebar: [
       {
         text: 'CivicSphere',
         items: [
-          { text: 'Documentation', link: '/documentation' },
+          { text: 'Philosophy', link: '/philosophy' },
           { text: 'Roadmap', link: '/roadmap' }
         ]
       }
